@@ -1,4 +1,4 @@
-import type { RatingBreakdown } from './cafe';
+import type { RatingBreakdown, TranslatedText } from './cafe';
 
 export interface Review {
   id: string;
@@ -50,8 +50,7 @@ export interface ReviewUser {
 
 export interface ReviewCafe {
   id: string;
-  nameKo: string;
-  nameEn: string | null;
+  name: TranslatedText;
   slug: string;
 }
 

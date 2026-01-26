@@ -1,22 +1,23 @@
 'use client';
 
 import { CafeCard, CafeCardSkeleton } from '@/components/cafe-card';
+import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
 import { cn } from '@/lib/utils';
 
 interface CafeListProps {
   cafes: CafeSummary[];
   isLoading?: boolean;
-  emptyMessage?: string;
   className?: string;
 }
 
 export function CafeList({
   cafes,
   isLoading = false,
-  emptyMessage = '카페를 찾을 수 없습니다',
   className,
 }: CafeListProps) {
+  const { t } = useI18n();
+
   if (isLoading) {
     return (
       <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-3', className)}>
@@ -31,8 +32,8 @@ export function CafeList({
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <EmptyIcon className="h-16 w-16 text-zinc-300 dark:text-zinc-600" />
-        <p className="mt-4 text-lg font-medium text-muted-foreground">{emptyMessage}</p>
-        <p className="mt-1 text-sm text-muted-foreground">다른 검색어나 필터를 시도해보세요</p>
+        <p className="mt-4 text-lg font-medium text-muted-foreground">{t('cafes.noResults')}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t('cafes.tryAgain')}</p>
       </div>
     );
   }

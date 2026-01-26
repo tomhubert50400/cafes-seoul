@@ -3,17 +3,20 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { ROUTES } from '@/lib/constants/routes';
+import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { href: ROUTES.CAFES, label: '카페 찾기', labelEn: 'Cafes' },
-  { href: ROUTES.MAP, label: '지도', labelEn: 'Map' },
-  { href: ROUTES.DISTRICTS, label: '지역별', labelEn: 'Districts' },
+  { href: ROUTES.CAFES, labelKey: 'nav.cafes' },
+  { href: ROUTES.MAP, labelKey: 'nav.map' },
+  { href: ROUTES.DISTRICTS, labelKey: 'nav.districts' },
 ];
 
 export function Header() {
   const pathname = usePathname();
+  const { t } = useI18n();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -21,7 +24,7 @@ export function Header() {
         {/* Logo */}
         <Link href={ROUTES.HOME} className="flex items-center gap-2">
           <CoffeeIcon className="h-6 w-6" />
-          <span className="font-semibold">서울 카페</span>
+          <span className="font-semibold">{t('site.name')}</span>
         </Link>
 
         {/* Navigation */}
@@ -35,18 +38,19 @@ export function Header() {
                 pathname === item.href ? 'text-foreground' : 'text-muted-foreground'
               )}
             >
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           ))}
         </nav>
 
-        {/* Auth buttons */}
+        {/* Actions */}
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <Button variant="ghost" size="sm" asChild>
-            <Link href={ROUTES.LOGIN}>로그인</Link>
+            <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link href={ROUTES.SIGNUP}>회원가입</Link>
+            <Link href={ROUTES.SIGNUP}>{t('nav.signup')}</Link>
           </Button>
         </div>
       </div>

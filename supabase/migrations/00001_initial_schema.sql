@@ -130,6 +130,7 @@ CREATE INDEX idx_cafes_status ON public.cafes(status);
 CREATE INDEX idx_cafes_overall_rating ON public.cafes(overall_rating DESC);
 CREATE INDEX idx_cafes_slug ON public.cafes(slug);
 CREATE INDEX idx_cafes_cafe_type ON public.cafes(cafe_type);
+CREATE UNIQUE INDEX idx_cafes_kakao_place_id ON public.cafes(kakao_place_id) WHERE kakao_place_id IS NOT NULL;
 
 -- ============================================
 -- CAFE IMAGES

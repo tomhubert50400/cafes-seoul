@@ -36,7 +36,7 @@ export async function GET(
   // Fetch images separately
   const { data: images } = await supabase
     .from('cafe_images')
-    .select('id, storage_path, thumbnail_path, alt_text_ko, alt_text_en, is_primary')
+    .select('id, storage_path, thumbnail_path, alt_text, is_primary, created_at')
     .eq('cafe_id', cafe.id)
     .eq('is_approved', true)
     .order('is_primary', { ascending: false })
@@ -48,10 +48,9 @@ export async function GET(
     cafeId: cafe.id,
     storagePath: img.storage_path,
     thumbnailPath: img.thumbnail_path,
-    altTextKo: img.alt_text_ko,
-    altTextEn: img.alt_text_en,
+    altText: img.alt_text || {},
     isPrimary: img.is_primary,
-    createdAt: '',
+    createdAt: img.created_at,
   }));
 
   return NextResponse.json({

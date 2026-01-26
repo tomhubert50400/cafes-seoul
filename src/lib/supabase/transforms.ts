@@ -1,18 +1,25 @@
-import type { Cafe, CafeSummary, RatingBreakdown, OperatingHours, CafeType, CafeStatus } from '@/types/cafe';
+import type { Cafe, CafeSummary, RatingBreakdown, OperatingHours, CafeType, CafeStatus, TranslatedText } from '@/types/cafe';
 import type { Review, ReviewUser, ReviewCafe, VisitPurpose, ReviewStatus } from '@/types/review';
 import type { User, UserProfile } from '@/types/user';
+
+const CAFE_IMAGES_BUCKET = 'cafe-images';
+
+function getStorageUrl(path: string | null): string | null {
+  if (!path) return null;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) return null;
+  return `${supabaseUrl}/storage/v1/object/public/${CAFE_IMAGES_BUCKET}/${path}`;
+}
 
 // Transform database cafe row to Cafe type
 export function transformCafe(row: Record<string, unknown>): Cafe {
   return {
     id: row.id as string,
-    nameKo: row.name_ko as string,
-    nameEn: row.name_en as string | null,
+    name: (row.name || {}) as TranslatedText,
     slug: row.slug as string,
-    descriptionKo: row.description_ko as string | null,
-    descriptionEn: row.description_en as string | null,
-    addressKo: row.address_ko as string,
-    addressEn: row.address_en as string | null,
+    description: row.description as TranslatedText | null,
+    address: (row.address || {}) as TranslatedText,
     districtId: row.district_id as number,
     neighborhoodId: row.neighborhood_id as number | null,
     latitude: parseFloat(row.latitude as string),
@@ -61,10 +68,9 @@ export function transformCafe(row: Record<string, unknown>): Cafe {
 export function transformCafeSummary(row: Record<string, unknown>): CafeSummary {
   return {
     id: row.id as string,
-    nameKo: row.name_ko as string,
-    nameEn: row.name_en as string | null,
+    name: (row.name || {}) as TranslatedText,
     slug: row.slug as string,
-    addressKo: row.address_ko as string,
+    address: (row.address || {}) as TranslatedText,
     districtId: row.district_id as number,
     latitude: parseFloat(row.latitude as string),
     longitude: parseFloat(row.longitude as string),
@@ -76,7 +82,7 @@ export function transformCafeSummary(row: Record<string, unknown>): CafeSummary 
     hasPowerOutlets: row.has_power_outlets as boolean,
     isPetFriendly: row.is_pet_friendly as boolean,
     isLaptopFriendly: row.is_laptop_friendly as boolean,
-    primaryImageUrl: row.primary_image_url as string | null,
+    primaryImageUrl: getStorageUrl(row.primary_image_url as string | null),
     distance: row.distance_meters ? parseFloat(row.distance_meters as string) : undefined,
   };
 }
@@ -126,10 +132,10 @@ export function transformReviewUser(row: Record<string, unknown>): ReviewUser {
 }
 
 export function transformReviewCafe(row: Record<string, unknown>): ReviewCafe {
+  const name = row.name as TranslatedText | null;
   return {
     id: row.id as string,
-    nameKo: row.name_ko as string,
-    nameEn: row.name_en as string | null,
+    name: name || {},
     slug: row.slug as string,
   };
 }
@@ -142,7 +148,7 @@ export function transformUser(row: Record<string, unknown>): User {
     displayName: row.display_name as string | null,
     avatarUrl: row.avatar_url as string | null,
     bio: row.bio as string | null,
-    preferredLanguage: row.preferred_language as 'ko' | 'en',
+    preferredLanguage: row.preferred_language as string,
     isModerator: row.is_moderator as boolean,
     isVerified: row.is_verified as boolean,
     totalReviews: row.total_reviews as number,

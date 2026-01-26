@@ -1,14 +1,14 @@
+// Translated text stored as JSONB: { "en": "...", "ko": "...", "fr": "...", etc. }
+export type TranslatedText = Record<string, string>;
+
 export interface Cafe {
   id: string;
-  nameKo: string;
-  nameEn: string | null;
+  name: TranslatedText;
   slug: string;
-  descriptionKo: string | null;
-  descriptionEn: string | null;
+  description: TranslatedText | null;
 
   // Location
-  addressKo: string;
-  addressEn: string | null;
+  address: TranslatedText;
   districtId: number;
   neighborhoodId: number | null;
   latitude: number;
@@ -62,10 +62,9 @@ export interface Cafe {
 
 export interface CafeSummary {
   id: string;
-  nameKo: string;
-  nameEn: string | null;
+  name: TranslatedText;
   slug: string;
-  addressKo: string;
+  address: TranslatedText;
   districtId: number;
   latitude: number;
   longitude: number;
@@ -130,25 +129,32 @@ export interface CafeImage {
   cafeId: string;
   storagePath: string;
   thumbnailPath: string | null;
-  altTextKo: string | null;
-  altTextEn: string | null;
+  altText: TranslatedText | null;
   isPrimary: boolean;
   createdAt: string;
 }
 
 export interface District {
   id: number;
-  nameKo: string;
-  nameEn: string;
+  name: TranslatedText;
   slug: string;
 }
 
 export interface Neighborhood {
   id: number;
   districtId: number;
-  nameKo: string;
-  nameEn: string;
+  name: TranslatedText;
   slug: string;
+}
+
+// Helper function to get translated text with fallback
+export function getLocalizedText(
+  text: TranslatedText | null | undefined,
+  lang: string,
+  fallbackLang: string = 'en'
+): string {
+  if (!text) return '';
+  return text[lang] || text[fallbackLang] || text['ko'] || text['en'] || Object.values(text)[0] || '';
 }
 
 // Rating dimension labels for UI

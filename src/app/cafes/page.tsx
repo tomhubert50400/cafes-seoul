@@ -1,15 +1,16 @@
 import { Suspense } from 'react';
+import { headers } from 'next/headers';
 import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { SearchFilters } from '@/components/search-filters';
 import { CafeList } from '@/components/cafe-list';
 import { CafeCardSkeleton } from '@/components/cafe-card';
-import { Button } from '@/components/ui/button';
-import { createClient } from '@/lib/supabase/server';
-import { transformCafeSummary } from '@/lib/supabase/transforms';
-import { getDistrictBySlug } from '@/lib/constants/districts';
+import { CafesPageHeader } from '@/components/cafes/page-header';
+import { ResultsInfo } from '@/components/cafes/results-info';
+import { Pagination } from '@/components/cafes/pagination';
+import { fetchCafes } from '@/lib/api/cafes';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
-import Link from 'next/link';
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -21,125 +22,22 @@ async function getCafes(params: CafeListParams): Promise<{
   page: number;
   totalPages: number;
 }> {
-  const supabase = await createClient();
+  const headersList = await headers();
+  const host = headersList.get('host') || 'localhost:3000';
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
-  const page = params.page || 1;
-  const limit = Math.min(params.limit || 12, 50);
-  const offset = (page - 1) * limit;
-
-  let query = supabase
-    .from('cafes')
-    .select(
-      `
-      id,
-      name_ko,
-      name_en,
-      slug,
-      address_ko,
-      district_id,
-      latitude,
-      longitude,
-      overall_rating,
-      total_ratings,
-      price_range,
-      cafe_type,
-      has_wifi,
-      has_power_outlets,
-      is_pet_friendly,
-      is_laptop_friendly,
-      cafe_images(storage_path)
-    `,
-      { count: 'exact' }
-    )
-    .eq('status', 'active');
-
-  // Apply filters
-  if (params.district) {
-    const district = getDistrictBySlug(params.district);
-    if (district) {
-      query = query.eq('district_id', district.id);
-    }
-  }
-
-  if (params.minRating) {
-    query = query.gte('overall_rating', params.minRating);
-  }
-
-  if (params.priceRange) {
-    const ranges = params.priceRange.split(',').map(Number);
-    query = query.in('price_range', ranges);
-  }
-
-  if (params.cafeType) {
-    query = query.eq('cafe_type', params.cafeType);
-  }
-
-  if (params.hasWifi) {
-    query = query.eq('has_wifi', true);
-  }
-
-  if (params.hasOutlets) {
-    query = query.eq('has_power_outlets', true);
-  }
-
-  if (params.isPetFriendly) {
-    query = query.eq('is_pet_friendly', true);
-  }
-
-  if (params.isLaptopFriendly) {
-    query = query.eq('is_laptop_friendly', true);
-  }
-
-  if (params.hasParking) {
-    query = query.eq('has_parking', true);
-  }
-
-  if (params.hasOutdoorSeating) {
-    query = query.eq('has_outdoor_seating', true);
-  }
-
-  if (params.q) {
-    query = query.or(
-      `name_ko.ilike.%${params.q}%,name_en.ilike.%${params.q}%,address_ko.ilike.%${params.q}%`
-    );
-  }
-
-  // Apply sorting
-  switch (params.sortBy) {
-    case 'reviews':
-      query = query.order('total_ratings', { ascending: params.sortOrder === 'asc' });
-      break;
-    case 'newest':
-      query = query.order('created_at', { ascending: params.sortOrder === 'asc' });
-      break;
-    case 'rating':
-    default:
-      query = query.order('overall_rating', { ascending: params.sortOrder === 'asc' });
-  }
-
-  query = query.range(offset, offset + limit - 1);
-
-  const { data, error, count } = await query;
-
-  if (error) {
+  try {
+    const response = await fetchCafes(params, `${protocol}://${host}`);
+    return {
+      cafes: response.data,
+      total: response.meta.total,
+      page: response.meta.page,
+      totalPages: response.meta.totalPages,
+    };
+  } catch (error) {
     console.error('Error fetching cafes:', error);
-    return { cafes: [], total: 0, page, totalPages: 0 };
+    return { cafes: [], total: 0, page: params.page || 1, totalPages: 0 };
   }
-
-  const cafes = (data || []).map((row) => {
-    const images = row.cafe_images as { storage_path: string }[] | null;
-    return transformCafeSummary({
-      ...row,
-      primary_image_url: images?.[0]?.storage_path || null,
-    });
-  });
-
-  return {
-    cafes,
-    total: count || 0,
-    page,
-    totalPages: Math.ceil((count || 0) / limit),
-  };
 }
 
 function CafeListSkeleton() {
@@ -157,50 +55,9 @@ async function CafeListWithData({ searchParams }: { searchParams: CafeListParams
 
   return (
     <div className="space-y-8">
-      {/* Results count */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          총 <span className="font-medium text-foreground">{total}</span>개의 카페
-        </p>
-      </div>
-
-      {/* Cafe grid */}
-      <CafeList cafes={cafes} emptyMessage="조건에 맞는 카페가 없습니다" />
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
-          {page > 1 && (
-            <Button variant="outline" asChild>
-              <Link
-                href={{
-                  pathname: '/cafes',
-                  query: { ...searchParams, page: page - 1 },
-                }}
-              >
-                이전
-              </Link>
-            </Button>
-          )}
-
-          <span className="px-4 text-sm text-muted-foreground">
-            {page} / {totalPages}
-          </span>
-
-          {page < totalPages && (
-            <Button variant="outline" asChild>
-              <Link
-                href={{
-                  pathname: '/cafes',
-                  query: { ...searchParams, page: page + 1 },
-                }}
-              >
-                다음
-              </Link>
-            </Button>
-          )}
-        </div>
-      )}
+      <ResultsInfo total={total} />
+      <CafeList cafes={cafes} />
+      <Pagination page={page} totalPages={totalPages} searchParams={searchParams as Record<string, string | number | boolean | undefined>} />
     </div>
   );
 }
@@ -232,24 +89,18 @@ export default async function CafesPage({ searchParams }: PageProps) {
       <Header />
 
       <main className="mx-auto max-w-6xl px-4 py-8">
-        {/* Page header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">카페 찾기</h1>
-          <p className="mt-2 text-muted-foreground">
-            서울의 다양한 카페를 필터와 검색으로 찾아보세요
-          </p>
-        </div>
+        <CafesPageHeader />
 
-        {/* Filters */}
         <Suspense fallback={null}>
           <SearchFilters className="mb-8" />
         </Suspense>
 
-        {/* Cafe list */}
         <Suspense fallback={<CafeListSkeleton />}>
           <CafeListWithData searchParams={cafeListParams} />
         </Suspense>
       </main>
+
+      <Footer />
     </div>
   );
 }

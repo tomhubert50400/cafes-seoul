@@ -13,7 +13,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { SEOUL_DISTRICTS } from '@/lib/constants/districts';
-import { CAFE_TYPE_LABELS, type CafeType } from '@/types/cafe';
+import { CAFE_TYPE_LABELS, type CafeType, getLocalizedText } from '@/types/cafe';
+import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 interface SearchFiltersProps {
@@ -21,12 +22,12 @@ interface SearchFiltersProps {
 }
 
 const FEATURE_FILTERS = [
-  { key: 'hasWifi', label: 'WiFi', labelKo: '와이파이' },
-  { key: 'hasOutlets', label: 'Outlets', labelKo: '콘센트' },
-  { key: 'isPetFriendly', label: 'Pet', labelKo: '반려동물' },
-  { key: 'isLaptopFriendly', label: 'Laptop', labelKo: '노트북' },
-  { key: 'hasParking', label: 'Parking', labelKo: '주차' },
-  { key: 'hasOutdoorSeating', label: 'Outdoor', labelKo: '야외석' },
+  { key: 'hasWifi', labelKey: 'filter.wifi' },
+  { key: 'hasOutlets', labelKey: 'filter.outlets' },
+  { key: 'isPetFriendly', labelKey: 'filter.pet' },
+  { key: 'isLaptopFriendly', labelKey: 'filter.laptop' },
+  { key: 'hasParking', labelKey: 'filter.parking' },
+  { key: 'hasOutdoorSeating', labelKey: 'filter.outdoor' },
 ] as const;
 
 const PRICE_RANGES = [
@@ -36,15 +37,10 @@ const PRICE_RANGES = [
   { value: '4', label: '₩₩₩₩' },
 ] as const;
 
-const SORT_OPTIONS = [
-  { value: 'rating', label: '평점순' },
-  { value: 'reviews', label: '리뷰 많은순' },
-  { value: 'newest', label: '최신순' },
-] as const;
-
 export function SearchFilters({ className }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t, language } = useI18n();
 
   const updateParams = useCallback(
     (key: string, value: string | null) => {
@@ -54,7 +50,6 @@ export function SearchFilters({ className }: SearchFiltersProps) {
       } else {
         params.set(key, value);
       }
-      // Reset to page 1 when filters change
       params.delete('page');
       router.push(`?${params.toString()}`);
     },
@@ -85,11 +80,10 @@ export function SearchFilters({ className }: SearchFiltersProps) {
       <div className="flex gap-2">
         <Input
           type="search"
-          placeholder="카페 이름, 주소로 검색..."
+          placeholder={t('filter.searchPlaceholder')}
           defaultValue={searchParams.get('q') || ''}
           onChange={(e) => {
             const value = e.target.value;
-            // Debounce search
             const timeout = setTimeout(() => {
               updateParams('q', value || null);
             }, 300);
@@ -107,12 +101,12 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           onValueChange={(value) => updateParams('district', value || null)}
         >
           <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="지역" />
+            <SelectValue placeholder={t('filter.district')} />
           </SelectTrigger>
           <SelectContent>
             {SEOUL_DISTRICTS.map((district) => (
               <SelectItem key={district.slug} value={district.slug}>
-                {district.nameKo}
+                {getLocalizedText(district.name, language)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -124,7 +118,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           onValueChange={(value) => updateParams('cafeType', value || null)}
         >
           <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="카페 유형" />
+            <SelectValue placeholder={t('filter.cafeType')} />
           </SelectTrigger>
           <SelectContent>
             {Object.entries(CAFE_TYPE_LABELS).map(([key, label]) => (
@@ -140,22 +134,20 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           value={searchParams.get('sortBy') || 'rating'}
           onValueChange={(value) => updateParams('sortBy', value)}
         >
-          <SelectTrigger className="w-[120px]">
-            <SelectValue placeholder="정렬" />
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder={t('filter.sort')} />
           </SelectTrigger>
           <SelectContent>
-            {SORT_OPTIONS.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
+            <SelectItem value="rating">{t('sort.rating')}</SelectItem>
+            <SelectItem value="reviews">{t('sort.reviews')}</SelectItem>
+            <SelectItem value="newest">{t('sort.newest')}</SelectItem>
           </SelectContent>
         </Select>
 
         {/* Clear filters */}
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" onClick={clearFilters}>
-            필터 초기화
+            {t('filter.clearAll')}
           </Button>
         )}
       </div>
@@ -171,7 +163,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
               className="cursor-pointer"
               onClick={() => toggleFeature(feature.key)}
             >
-              {feature.labelKo}
+              {t(feature.labelKey)}
             </Badge>
           );
         })}

@@ -36,10 +36,9 @@ export async function GET(request: NextRequest) {
     .from('cafes')
     .select(`
       id,
-      name_ko,
-      name_en,
+      name,
       slug,
-      address_ko,
+      address,
       district_id,
       latitude,
       longitude,
@@ -51,7 +50,7 @@ export async function GET(request: NextRequest) {
       has_power_outlets,
       is_pet_friendly,
       is_laptop_friendly,
-      cafe_images!inner(storage_path)
+      cafe_images(storage_path)
     `, { count: 'exact' })
     .eq('status', 'active');
 
@@ -101,7 +100,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (params.q) {
-    query = query.or(`name_ko.ilike.%${params.q}%,name_en.ilike.%${params.q}%,address_ko.ilike.%${params.q}%`);
+    query = query.or(`name->ko.ilike.%${params.q}%,name->en.ilike.%${params.q}%,address->ko.ilike.%${params.q}%`);
   }
 
   // Apply sorting

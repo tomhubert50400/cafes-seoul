@@ -1,3 +1,7 @@
+import type { TranslatedText } from './cafe';
+
+export type SupportedLanguage = 'en' | 'ko' | 'fr' | 'zh' | 'vi';
+
 export interface User {
   id: string;
   email: string;
@@ -5,7 +9,7 @@ export interface User {
   displayName: string | null;
   avatarUrl: string | null;
   bio: string | null;
-  preferredLanguage: 'ko' | 'en';
+  preferredLanguage: string;
   isModerator: boolean;
   isVerified: boolean;
   totalReviews: number;
@@ -35,10 +39,9 @@ export interface Favorite {
   createdAt: string;
   cafe?: {
     id: string;
-    nameKo: string;
-    nameEn: string | null;
+    name: TranslatedText;
     slug: string;
-    addressKo: string;
+    address: TranslatedText;
     overallRating: number;
     primaryImageUrl: string | null;
   };
@@ -53,5 +56,5 @@ export interface UpdateProfileInput {
   username?: string;
   displayName?: string | null;
   bio?: string | null;
-  preferredLanguage?: 'ko' | 'en';
+  preferredLanguage?: SupportedLanguage;
 }
