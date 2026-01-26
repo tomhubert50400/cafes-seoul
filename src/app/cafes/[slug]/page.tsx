@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { transformCafe, transformReview } from '@/lib/supabase/transforms';
+import { transformCafe, transformReview, getStorageUrl } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import type { Cafe, CafeImage } from '@/types/cafe';
 import type { Review } from '@/types/review';
@@ -36,8 +36,8 @@ async function getCafe(slug: string): Promise<{ cafe: Cafe; images: CafeImage[] 
     images: (images || []).map((img) => ({
       id: img.id,
       cafeId: cafe.id,
-      storagePath: img.storage_path,
-      thumbnailPath: img.thumbnail_path,
+      storagePath: getStorageUrl(img.storage_path) || '',
+      thumbnailPath: getStorageUrl(img.thumbnail_path),
       altText: img.alt_text || {},
       isPrimary: img.is_primary,
       createdAt: img.created_at,

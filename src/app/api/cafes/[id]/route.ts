@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { transformCafe } from '@/lib/supabase/transforms';
+import { transformCafe, getStorageUrl } from '@/lib/supabase/transforms';
 import type { CafeImage } from '@/types/cafe';
 
 export async function GET(
@@ -46,8 +46,8 @@ export async function GET(
   const transformedImages: CafeImage[] = (images || []).map((img) => ({
     id: img.id,
     cafeId: cafe.id,
-    storagePath: img.storage_path,
-    thumbnailPath: img.thumbnail_path,
+    storagePath: getStorageUrl(img.storage_path) || '',
+    thumbnailPath: getStorageUrl(img.thumbnail_path),
     altText: img.alt_text || {},
     isPrimary: img.is_primary,
     createdAt: img.created_at,
