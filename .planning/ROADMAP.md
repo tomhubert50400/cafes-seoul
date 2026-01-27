@@ -45,10 +45,13 @@ Plans:
   4. User can log in with email and password after verification (AUTH-04)
   5. User can log out from any page (AUTH-07)
   6. Login and signup pages render correctly with i18n support (Korean/English)
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 02-01-PLAN.md — Install form handling deps, create Zod validation schemas
+- [ ] 02-02-PLAN.md — Create Server Actions (signup, login, logout) and email verification handler
+- [ ] 02-03-PLAN.md — Create auth UI (layout, login page, signup page with password strength)
+- [ ] 02-04-PLAN.md — Add i18n translations and verify complete auth flow
 
 ### Phase 3: OAuth Integration
 **Goal**: Users can log in with Google or Kakao accounts
@@ -103,7 +106,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
-| 2. Email/Password Authentication | 0/? | Not started | - |
+| 2. Email/Password Authentication | 0/4 | Planned | - |
 | 3. OAuth Integration | 0/? | Not started | - |
 | 4. Protected Routes & Session Management | 0/? | Not started | - |
 | 5. Auth UI/UX Polish | 0/? | Not started | - |
@@ -112,4 +115,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Roadmap created: 2026-01-27*
 *Phase 1 planned: 2026-01-27*
 *Phase 1 executed: 2026-01-27*
-*Next: `/gsd:plan-phase 2`*
+*Phase 2 planned: 2026-01-27*
+*Next: `/gsd:execute-phase 2`*
