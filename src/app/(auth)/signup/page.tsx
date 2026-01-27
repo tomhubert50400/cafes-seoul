@@ -1,20 +1,25 @@
+'use client'
+
 import Link from 'next/link'
 import { SignupForm } from '@/components/auth/signup-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ROUTES } from '@/lib/constants/routes'
+import { useI18n } from '@/lib/i18n'
 
 export default function SignupPage() {
+  const { t } = useI18n()
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Create account</CardTitle>
+        <CardTitle className="text-2xl">{t('auth.signup.title')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <SignupForm />
         <p className="text-sm text-center text-muted-foreground">
-          Already have an account?{' '}
+          {t('auth.signup.hasAccount')}{' '}
           <Link href={ROUTES.LOGIN} className="text-primary hover:underline">
-            Log in
+            {t('auth.signup.loginLink')}
           </Link>
         </p>
       </CardContent>

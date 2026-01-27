@@ -130,6 +130,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     // Common
     'common.loading': 'Loading...',
     'common.error': 'An error occurred',
+
+    // Auth pages
+    'auth.login.title': 'Log in',
+    'auth.login.submit': 'Log in',
+    'auth.login.submitting': 'Logging in...',
+    'auth.login.noAccount': "Don't have an account?",
+    'auth.login.signupLink': 'Sign up',
+    'auth.login.error.invalid': 'Invalid email or password',
+    'auth.login.error.unverified': 'Please verify your email first',
+    'auth.login.resend': 'Resend verification email',
+    'auth.login.resendSuccess': 'Verification email sent! Check your inbox.',
+
+    'auth.signup.title': 'Create account',
+    'auth.signup.submit': 'Create account',
+    'auth.signup.submitting': 'Creating account...',
+    'auth.signup.hasAccount': 'Already have an account?',
+    'auth.signup.loginLink': 'Log in',
+    'auth.signup.checkEmail': 'Check your email to confirm your account',
+
+    'auth.logout': 'Log out',
+
+    'auth.form.email': 'Email',
+    'auth.form.password': 'Password',
+    'auth.form.showPassword': 'Show password',
+    'auth.form.hidePassword': 'Hide password',
+
+    'auth.password.weak': 'Weak',
+    'auth.password.fair': 'Fair',
+    'auth.password.good': 'Good',
+    'auth.password.strong': 'Strong',
+
+    'auth.error.emailRequired': 'Email is required',
+    'auth.error.emailInvalid': 'Invalid email address',
+    'auth.error.passwordRequired': 'Password is required',
+    'auth.error.passwordMin': 'Password must be at least 8 characters',
+    'auth.error.verifyFailed': 'Unable to verify email',
   },
 
   ko: {
@@ -261,6 +297,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     // Common
     'common.loading': '로딩 중...',
     'common.error': '오류가 발생했습니다',
+
+    // Auth pages
+    'auth.login.title': '로그인',
+    'auth.login.submit': '로그인',
+    'auth.login.submitting': '로그인 중...',
+    'auth.login.noAccount': '계정이 없으신가요?',
+    'auth.login.signupLink': '회원가입',
+    'auth.login.error.invalid': '이메일 또는 비밀번호가 올바르지 않습니다',
+    'auth.login.error.unverified': '먼저 이메일을 인증해주세요',
+    'auth.login.resend': '인증 이메일 다시 보내기',
+    'auth.login.resendSuccess': '인증 이메일을 보냈습니다! 이메일을 확인해주세요.',
+
+    'auth.signup.title': '회원가입',
+    'auth.signup.submit': '계정 만들기',
+    'auth.signup.submitting': '계정 생성 중...',
+    'auth.signup.hasAccount': '이미 계정이 있으신가요?',
+    'auth.signup.loginLink': '로그인',
+    'auth.signup.checkEmail': '이메일을 확인하여 계정을 인증해주세요',
+
+    'auth.logout': '로그아웃',
+
+    'auth.form.email': '이메일',
+    'auth.form.password': '비밀번호',
+    'auth.form.showPassword': '비밀번호 표시',
+    'auth.form.hidePassword': '비밀번호 숨기기',
+
+    'auth.password.weak': '약함',
+    'auth.password.fair': '보통',
+    'auth.password.good': '좋음',
+    'auth.password.strong': '강함',
+
+    'auth.error.emailRequired': '이메일을 입력해주세요',
+    'auth.error.emailInvalid': '올바른 이메일 형식이 아닙니다',
+    'auth.error.passwordRequired': '비밀번호를 입력해주세요',
+    'auth.error.passwordMin': '비밀번호는 8자 이상이어야 합니다',
+    'auth.error.verifyFailed': '이메일 인증에 실패했습니다',
   },
 
   fr: {
@@ -392,6 +464,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     // Common
     'common.loading': 'Chargement...',
     'common.error': 'Une erreur est survenue',
+
+    // Auth pages
+    'auth.login.title': 'Connexion',
+    'auth.login.submit': 'Se connecter',
+    'auth.login.submitting': 'Connexion en cours...',
+    'auth.login.noAccount': "Pas encore de compte ?",
+    'auth.login.signupLink': "S'inscrire",
+    'auth.login.error.invalid': 'Email ou mot de passe invalide',
+    'auth.login.error.unverified': 'Veuillez d\'abord vérifier votre email',
+    'auth.login.resend': 'Renvoyer l\'email de vérification',
+    'auth.login.resendSuccess': 'Email de vérification envoyé ! Consultez votre boîte mail.',
+
+    'auth.signup.title': 'Créer un compte',
+    'auth.signup.submit': 'Créer un compte',
+    'auth.signup.submitting': 'Création du compte...',
+    'auth.signup.hasAccount': 'Vous avez déjà un compte ?',
+    'auth.signup.loginLink': 'Se connecter',
+    'auth.signup.checkEmail': 'Consultez votre email pour confirmer votre compte',
+
+    'auth.logout': 'Se déconnecter',
+
+    'auth.form.email': 'Email',
+    'auth.form.password': 'Mot de passe',
+    'auth.form.showPassword': 'Afficher le mot de passe',
+    'auth.form.hidePassword': 'Masquer le mot de passe',
+
+    'auth.password.weak': 'Faible',
+    'auth.password.fair': 'Moyen',
+    'auth.password.good': 'Bon',
+    'auth.password.strong': 'Fort',
+
+    'auth.error.emailRequired': 'L\'email est requis',
+    'auth.error.emailInvalid': 'Adresse email invalide',
+    'auth.error.passwordRequired': 'Le mot de passe est requis',
+    'auth.error.passwordMin': 'Le mot de passe doit contenir au moins 8 caractères',
+    'auth.error.verifyFailed': 'Impossible de vérifier l\'email',
   },
 
   zh: {
@@ -523,6 +631,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     // Common
     'common.loading': '加载中...',
     'common.error': '发生错误',
+
+    // Auth pages
+    'auth.login.title': '登录',
+    'auth.login.submit': '登录',
+    'auth.login.submitting': '登录中...',
+    'auth.login.noAccount': '还没有账户？',
+    'auth.login.signupLink': '注册',
+    'auth.login.error.invalid': '邮箱或密码无效',
+    'auth.login.error.unverified': '请先验证您的邮箱',
+    'auth.login.resend': '重新发送验证邮件',
+    'auth.login.resendSuccess': '验证邮件已发送！请查看您的邮箱。',
+
+    'auth.signup.title': '创建账户',
+    'auth.signup.submit': '创建账户',
+    'auth.signup.submitting': '创建账户中...',
+    'auth.signup.hasAccount': '已有账户？',
+    'auth.signup.loginLink': '登录',
+    'auth.signup.checkEmail': '请查看您的邮箱以确认账户',
+
+    'auth.logout': '登出',
+
+    'auth.form.email': '邮箱',
+    'auth.form.password': '密码',
+    'auth.form.showPassword': '显示密码',
+    'auth.form.hidePassword': '隐藏密码',
+
+    'auth.password.weak': '弱',
+    'auth.password.fair': '一般',
+    'auth.password.good': '好',
+    'auth.password.strong': '强',
+
+    'auth.error.emailRequired': '邮箱为必填项',
+    'auth.error.emailInvalid': '邮箱地址无效',
+    'auth.error.passwordRequired': '密码为必填项',
+    'auth.error.passwordMin': '密码必须至少8个字符',
+    'auth.error.verifyFailed': '无法验证邮箱',
   },
 
   vi: {
@@ -654,5 +798,41 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     // Common
     'common.loading': 'Đang tải...',
     'common.error': 'Đã xảy ra lỗi',
+
+    // Auth pages
+    'auth.login.title': 'Đăng nhập',
+    'auth.login.submit': 'Đăng nhập',
+    'auth.login.submitting': 'Đang đăng nhập...',
+    'auth.login.noAccount': 'Chưa có tài khoản?',
+    'auth.login.signupLink': 'Đăng ký',
+    'auth.login.error.invalid': 'Email hoặc mật khẩu không hợp lệ',
+    'auth.login.error.unverified': 'Vui lòng xác minh email của bạn trước',
+    'auth.login.resend': 'Gửi lại email xác minh',
+    'auth.login.resendSuccess': 'Email xác minh đã được gửi! Kiểm tra hộp thư của bạn.',
+
+    'auth.signup.title': 'Tạo tài khoản',
+    'auth.signup.submit': 'Tạo tài khoản',
+    'auth.signup.submitting': 'Đang tạo tài khoản...',
+    'auth.signup.hasAccount': 'Đã có tài khoản?',
+    'auth.signup.loginLink': 'Đăng nhập',
+    'auth.signup.checkEmail': 'Kiểm tra email của bạn để xác nhận tài khoản',
+
+    'auth.logout': 'Đăng xuất',
+
+    'auth.form.email': 'Email',
+    'auth.form.password': 'Mật khẩu',
+    'auth.form.showPassword': 'Hiện mật khẩu',
+    'auth.form.hidePassword': 'Ẩn mật khẩu',
+
+    'auth.password.weak': 'Yếu',
+    'auth.password.fair': 'Trung bình',
+    'auth.password.good': 'Tốt',
+    'auth.password.strong': 'Mạnh',
+
+    'auth.error.emailRequired': 'Email là bắt buộc',
+    'auth.error.emailInvalid': 'Địa chỉ email không hợp lệ',
+    'auth.error.passwordRequired': 'Mật khẩu là bắt buộc',
+    'auth.error.passwordMin': 'Mật khẩu phải có ít nhất 8 ký tự',
+    'auth.error.verifyFailed': 'Không thể xác minh email',
   },
 };

@@ -6,21 +6,24 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
 import { login, resendVerification } from '@/app/actions/auth'
-import { loginSchema, type LoginInput } from '@/lib/validations/auth'
+import { createLoginSchema, type LoginInput } from '@/lib/validations/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useI18n } from '@/lib/i18n'
 
 function SubmitButton({ isValid }: { isValid: boolean }) {
   const { pending } = useFormStatus()
+  const { t } = useI18n()
 
   return (
     <Button type="submit" className="w-full" disabled={pending || !isValid}>
-      {pending ? 'Logging in...' : 'Log in'}
+      {pending ? t('auth.login.submitting') : t('auth.login.submit')}
     </Button>
   )
 }
 
 export function LoginForm() {
+  const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
   const [state, formAction] = useFormState(login, null)
 
@@ -29,7 +32,7 @@ export function LoginForm() {
     formState: { errors, isValid },
     setError,
   } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(createLoginSchema(t)),
     mode: 'onBlur',
   })
 
@@ -43,12 +46,20 @@ export function LoginForm() {
     })
   }
 
+  // Map server error messages to translated versions
+  const translateServerMessage = (message?: string): string | undefined => {
+    if (!message) return message
+    if (message === 'Invalid email or password') return t('auth.login.error.invalid')
+    if (message === 'Please verify your email first') return t('auth.login.error.unverified')
+    return message
+  }
+
   const handleResendVerification = async () => {
     if (!state?.email) return
 
     const result = await resendVerification(state.email)
     if (result.success) {
-      alert('Verification email sent! Check your inbox.')
+      alert(t('auth.login.resendSuccess'))
     } else if (result.error) {
       alert(result.error)
     }
@@ -59,7 +70,7 @@ export function LoginForm() {
       {/* Email field */}
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium">
-          Email
+          {t('auth.form.email')}
         </label>
         <Input
           id="email"
@@ -76,7 +87,7 @@ export function LoginForm() {
       {/* Password field */}
       <div className="space-y-2">
         <label htmlFor="password" className="text-sm font-medium">
-          Password
+          {t('auth.form.password')}
         </label>
         <div className="relative">
           <Input
@@ -90,7 +101,7 @@ export function LoginForm() {
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-label={showPassword ? t('auth.form.hidePassword') : t('auth.form.showPassword')}
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
@@ -107,7 +118,7 @@ export function LoginForm() {
       {/* Server error message */}
       {state?.message && (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {state.message}
+          {translateServerMessage(state.message)}
         </div>
       )}
 
@@ -119,7 +130,7 @@ export function LoginForm() {
           className="w-full"
           onClick={handleResendVerification}
         >
-          Resend verification email
+          {t('auth.login.resend')}
         </Button>
       )}
 

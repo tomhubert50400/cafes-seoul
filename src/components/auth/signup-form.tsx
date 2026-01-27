@@ -6,22 +6,25 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
 import { signup } from '@/app/actions/auth'
-import { signupSchema, type SignupInput } from '@/lib/validations/auth'
+import { createSignupSchema, type SignupInput } from '@/lib/validations/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter'
+import { useI18n } from '@/lib/i18n'
 
 function SubmitButton({ isValid }: { isValid: boolean }) {
   const { pending } = useFormStatus()
+  const { t } = useI18n()
 
   return (
     <Button type="submit" className="w-full" disabled={pending || !isValid}>
-      {pending ? 'Creating account...' : 'Create account'}
+      {pending ? t('auth.signup.submitting') : t('auth.signup.submit')}
     </Button>
   )
 }
 
 export function SignupForm() {
+  const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
   const [state, formAction] = useFormState(signup, null)
 
@@ -31,7 +34,7 @@ export function SignupForm() {
     setError,
     watch,
   } = useForm<SignupInput>({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(createSignupSchema(t)),
     mode: 'onBlur',
   })
 
@@ -53,7 +56,7 @@ export function SignupForm() {
       {/* Email field */}
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium">
-          Email
+          {t('auth.form.email')}
         </label>
         <Input
           id="email"
@@ -70,7 +73,7 @@ export function SignupForm() {
       {/* Password field */}
       <div className="space-y-2">
         <label htmlFor="password" className="text-sm font-medium">
-          Password
+          {t('auth.form.password')}
         </label>
         <div className="relative">
           <Input
@@ -84,7 +87,7 @@ export function SignupForm() {
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-label={showPassword ? t('auth.form.hidePassword') : t('auth.form.showPassword')}
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
