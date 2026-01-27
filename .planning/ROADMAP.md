@@ -12,7 +12,7 @@ This milestone adds authentication to the existing cafe discovery application, e
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Auth Foundation** - Verify existing Supabase setup and update packages
+- [x] **Phase 1: Auth Foundation** - Verify existing Supabase setup and update packages
 - [ ] **Phase 2: Email/Password Authentication** - Signup, login, email verification, logout
 - [ ] **Phase 3: OAuth Integration** - Google and Kakao social login
 - [ ] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Audit auth infrastructure, fix browser client singleton, update packages
+- [x] 01-01-PLAN.md — Audit auth infrastructure, fix browser client singleton, update packages
 
 ### Phase 2: Email/Password Authentication
 **Goal**: Users can create accounts, verify email, and log in with password
@@ -102,7 +102,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth Foundation | 0/1 | Planned | - |
+| 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
 | 2. Email/Password Authentication | 0/? | Not started | - |
 | 3. OAuth Integration | 0/? | Not started | - |
 | 4. Protected Routes & Session Management | 0/? | Not started | - |
@@ -111,4 +111,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 ---
 *Roadmap created: 2026-01-27*
 *Phase 1 planned: 2026-01-27*
-*Next: `/gsd:execute-phase 1`*
+*Phase 1 executed: 2026-01-27*
+*Next: `/gsd:plan-phase 2`*
