@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { LogoutButton } from '@/components/auth/logout-button'
+import { LanguageSwitcher } from '@/components/language-switcher'
 import { ROUTES } from '@/lib/constants/routes'
 
 function CoffeeIcon({ className }: { className?: string }) {
@@ -34,6 +35,11 @@ export default async function AuthLayout({
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Redirect logged-in users away from auth pages
+  if (user) {
+    redirect(ROUTES.HOME)
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Minimal header */}
@@ -43,7 +49,7 @@ export default async function AuthLayout({
             <CoffeeIcon className="h-6 w-6" />
             <span className="font-semibold">Seoul Cafés</span>
           </Link>
-          {user && <LogoutButton />}
+          <LanguageSwitcher />
         </div>
       </header>
 

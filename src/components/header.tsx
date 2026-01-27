@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { LogoutButton } from '@/components/auth/logout-button';
 import { ROUTES } from '@/lib/constants/routes';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
@@ -14,7 +15,11 @@ const NAV_ITEMS = [
   { href: ROUTES.DISTRICTS, labelKey: 'nav.districts' },
 ];
 
-export function Header() {
+interface HeaderProps {
+  user?: { email?: string } | null;
+}
+
+export function Header({ user }: HeaderProps = {}) {
   const pathname = usePathname();
   const { t } = useI18n();
 
@@ -46,12 +51,18 @@ export function Header() {
         {/* Actions */}
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
-          <Button variant="ghost" size="sm" asChild>
-            <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link href={ROUTES.SIGNUP}>{t('nav.signup')}</Link>
-          </Button>
+          {user ? (
+            <LogoutButton />
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild>
+                <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link href={ROUTES.SIGNUP}>{t('nav.signup')}</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

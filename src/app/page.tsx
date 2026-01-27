@@ -7,6 +7,7 @@ import { DistrictsSection } from '@/components/home/districts-section';
 import { FeaturesSection } from '@/components/home/features-section';
 import { CtaSection } from '@/components/home/cta-section';
 import { fetchCafes } from '@/lib/api/cafes';
+import { createClient } from '@/lib/supabase/server';
 import type { CafeSummary } from '@/types/cafe';
 
 async function getFeaturedCafes(): Promise<CafeSummary[]> {
@@ -27,11 +28,15 @@ async function getFeaturedCafes(): Promise<CafeSummary[]> {
 }
 
 export default async function HomePage() {
-  const featuredCafes = await getFeaturedCafes();
+  const [featuredCafes, supabase] = await Promise.all([
+    getFeaturedCafes(),
+    createClient(),
+  ]);
+  const { data: { user } } = await supabase.auth.getUser();
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header user={user} />
       <HeroSection />
       <FeaturedSection cafes={featuredCafes} />
       <DistrictsSection />

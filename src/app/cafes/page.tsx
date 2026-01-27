@@ -9,6 +9,7 @@ import { CafesPageHeader } from '@/components/cafes/page-header';
 import { ResultsInfo } from '@/components/cafes/results-info';
 import { Pagination } from '@/components/cafes/pagination';
 import { fetchCafes } from '@/lib/api/cafes';
+import { createClient } from '@/lib/supabase/server';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
 
@@ -65,6 +66,9 @@ async function CafeListWithData({ searchParams }: { searchParams: CafeListParams
 export default async function CafesPage({ searchParams }: PageProps) {
   const params = await searchParams;
 
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   const cafeListParams: CafeListParams = {
     page: params.page ? parseInt(params.page as string) : 1,
     limit: 12,
@@ -86,7 +90,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header user={user} />
 
       <main className="mx-auto max-w-6xl px-4 py-8">
         <CafesPageHeader />
