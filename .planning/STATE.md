@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Phase 1 - Auth Foundation
+**Current focus:** Phase 2 - Email/Password Authentication
 
 ## Current Position
 
-Phase: 1 of 5 (Auth Foundation)
-Plan: 1 of 1 in phase (complete)
-Status: Phase 1 complete
-Last activity: 2026-01-27 — Completed 01-01-PLAN.md (Auth Foundation)
+Phase: 2 of 5 (Email/Password Authentication)
+Plan: 1 of 4 in phase (complete)
+Status: In progress
+Last activity: 2026-01-27 — Completed 02-01-PLAN.md (Form Validation Setup)
 
-Progress: [█░░░░░░░░░] 10% (Phase 1/5 complete)
+Progress: [██░░░░░░░░] 40% (2/5 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 7 min/plan
-- Total execution time: 0.12 hours
+- Total plans completed: 2
+- Average duration: 4.5 min/plan
+- Total execution time: 0.15 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Auth Foundation | 1/1 | 7 min | 7 min |
+| 2. Email/Password Auth | 1/4 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 3 plans: 7 min average
-- Trend: First plan completed
+- Last 2 plans: 4.5 min average
+- Trend: Improving velocity
 
 *Updated after each plan completion*
 
@@ -46,6 +47,11 @@ Recent decisions affecting current work:
 - Browser client singleton pattern: Prevents React re-render memory leaks by storing client in module-level variable
 - Package versions: Updated to @supabase/supabase-js@2.93.1 and @supabase/ssr@0.8.0 (no breaking changes)
 - No runtime env validation: Next.js fails fast on missing NEXT_PUBLIC_ vars, .env.example provides clear documentation
+
+**From Phase 2 (02-01):**
+- Password validation: 8-char minimum for signup (Supabase default), no length check for login
+- No complex password rules: Strength meter provides guidance, not enforcement
+- Validation pattern: Schemas in src/lib/validations/ with exported types via z.infer
 
 **From Roadmap:**
 - Auth milestone: Using Supabase Auth (already integrated), no package changes needed except minor update
@@ -65,12 +71,12 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-27 14:52:23 JST
-Stopped at: Completed 01-01-PLAN.md (Auth Foundation) - Phase 1 complete
+Last session: 2026-01-27 22:57:44 UTC
+Stopped at: Completed 02-01-PLAN.md (Form Validation Setup)
 Resume file: None
-Next action: Plan Phase 2 (Email/Password Authentication)
+Next action: Execute 02-02-PLAN.md (Server Actions)
 
 ---
 *State initialized: 2026-01-27*
 *Phase 1 complete: 2026-01-27*
-*Next: `/gsd:discuss-phase 2` or `/gsd:plan-phase 2`*
+*Phase 2 in progress: 2026-01-27*
