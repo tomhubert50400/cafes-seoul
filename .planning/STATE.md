@@ -5,34 +5,30 @@
 See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Phase 2 - Email/Password Authentication
+**Current focus:** Phase 2 complete, ready for Phase 3
 
 ## Current Position
 
 Phase: 2 of 5 (Email/Password Authentication)
-Plan: 3 of 4 in phase (complete)
-Status: In progress
-Last activity: 2026-01-28 — Completed 02-03-PLAN.md (Auth UI)
+Plan: 4 of 4 in phase (complete)
+Status: Phase 2 execution complete, user-verified
+Last activity: 2026-01-28 — Completed 02-04-PLAN.md (i18n + auth flow verified by user)
 
-Progress: [████░░░░░░] 80% (4/5 plans complete)
+Progress: [██░░░░░░░░] 40% (Phase 2/5 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 3.3 min/plan
-- Total execution time: 0.22 hours
+- Total plans completed: 5
+- Average duration: ~4 min/plan
+- Total execution time: ~0.35 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Auth Foundation | 1/1 | 7 min | 7 min |
-| 2. Email/Password Auth | 3/4 | 6 min | 2 min |
-
-**Recent Trend:**
-- Last 3 plans: 2 min average
-- Trend: Excellent velocity
+| 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
 
 *Updated after each plan completion*
 
@@ -40,59 +36,49 @@ Progress: [████░░░░░░] 80% (4/5 plans complete)
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+**From Phase 2 (02-04):**
+- Auth page redirect: Logged-in users auto-redirect from /login, /signup to home
+- Header auth state: Main Header accepts user prop, shows LogoutButton when logged in
+- Language switcher: Added to auth layout for i18n on auth pages
 
-**From Phase 1 (01-01):**
-- Browser client singleton pattern: Prevents React re-render memory leaks by storing client in module-level variable
-- Package versions: Updated to @supabase/supabase-js@2.93.1 and @supabase/ssr@0.8.0 (no breaking changes)
-- No runtime env validation: Next.js fails fast on missing NEXT_PUBLIC_ vars, .env.example provides clear documentation
-
-**From Phase 2 (02-01):**
-- Password validation: 8-char minimum for signup (Supabase default), no length check for login
-- No complex password rules: Strength meter provides guidance, not enforcement
-- Validation pattern: Schemas in src/lib/validations/ with exported types via z.infer
+**From Phase 2 (02-03):**
+- Password strength meter: Provides guidance only, does not enforce complexity rules
+- Auth layout pattern: Minimal header with logo, language switcher
+- Password strength debounce: 300ms delay prevents lag while typing
+- Resend verification: Button appears in login form when email not confirmed
 
 **From Phase 2 (02-02):**
 - Server Actions pattern: All auth operations use Server Actions (no API routes)
 - Error handling: Return error objects from actions instead of throwing for better UX
-- Error mapping: Supabase errors mapped to user-friendly messages
 - Email verification: PKCE flow via /auth/confirm route handler with auto-login
 
-**From Phase 2 (02-03):**
-- Password strength meter: Provides guidance only, does not enforce complexity rules
-- Auth layout pattern: Minimal header with logo, conditional logout button when logged in
-- Password strength debounce: 300ms delay prevents lag while typing
-- Resend verification: Button appears in login form when email not confirmed
+**From Phase 2 (02-01):**
+- Password validation: 8-char minimum for signup (Supabase default)
+- Validation pattern: Schemas in src/lib/validations/ with exported types via z.infer
 
-**From Roadmap:**
-- Auth milestone: Using Supabase Auth (already integrated), no package changes needed except minor update
-- Auth providers: Email/password + Google + Kakao (skip Naver in v1 - not natively supported)
-- v1 scope: No password reset, no 2FA (minimal viable authentication)
+**From Phase 1 (01-01):**
+- Browser client singleton pattern
+- Package versions: @supabase/supabase-js@2.93.1, @supabase/ssr@0.8.0
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-**From Phase 2 (02-02):**
-- Supabase email template requires manual configuration for PKCE flow (see 02-USER-SETUP.md)
-- Redirect URLs must be whitelisted in Supabase dashboard
-
-**Known risks from research:**
+**Known risks for Phase 3:**
 - Kakao email scope requires Business account - may need fallback to user ID
 - OAuth cookie sizes can exceed 4KB limit - monitor during Phase 3 testing
-- Must use getUser() not getSession() in server code (security)
 
 ## Session Continuity
 
-Last session: 2026-01-28 22:15:36 UTC
-Stopped at: Completed 02-03-PLAN.md (Auth UI)
+Last session: 2026-01-28
+Stopped at: Phase 2 complete (all 4 plans executed, auth flow verified by user)
 Resume file: None
-Next action: Execute 02-04-PLAN.md (i18n Integration)
+Next action: Run verifier then Phase 3 (OAuth Integration)
 
 ---
 *State initialized: 2026-01-27*
 *Phase 1 complete: 2026-01-27*
-*Phase 2 in progress: 2026-01-27*
+*Phase 2 complete: 2026-01-28*
+*Next: `/gsd:execute-phase 2` to run verifier, or `/gsd:plan-phase 3`*
