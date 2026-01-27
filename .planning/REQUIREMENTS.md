@@ -62,21 +62,28 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | TBD | Pending |
-| AUTH-02 | TBD | Pending |
-| AUTH-03 | TBD | Pending |
-| AUTH-04 | TBD | Pending |
-| AUTH-05 | TBD | Pending |
-| AUTH-06 | TBD | Pending |
-| AUTH-07 | TBD | Pending |
-| AUTH-08 | TBD | Pending |
-| AUTH-09 | TBD | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| AUTH-05 | Phase 3 | Pending |
+| AUTH-06 | Phase 3 | Pending |
+| AUTH-07 | Phase 2 | Pending |
+| AUTH-08 | Phase 4 | Pending |
+| AUTH-09 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 9 total
-- Mapped to phases: 0
-- Unmapped: 9 ⚠️
+- Mapped to phases: 9
+- Unmapped: 0 ✓
+
+**Phase breakdown:**
+- Phase 1 (Auth Foundation): 0 direct requirements (enables all phases)
+- Phase 2 (Email/Password Auth): 5 requirements (AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-07)
+- Phase 3 (OAuth Integration): 2 requirements (AUTH-05, AUTH-06)
+- Phase 4 (Protected Routes): 2 requirements (AUTH-08, AUTH-09)
+- Phase 5 (UX Polish): 0 new requirements (polish existing)
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-27 after initial definition*
+*Last updated: 2026-01-27 after roadmap creation*
