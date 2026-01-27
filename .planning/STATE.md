@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 2 of 5 (Email/Password Authentication)
-Plan: 1 of 4 in phase (complete)
+Plan: 2 of 4 in phase (complete)
 Status: In progress
-Last activity: 2026-01-27 — Completed 02-01-PLAN.md (Form Validation Setup)
+Last activity: 2026-01-27 — Completed 02-02-PLAN.md (Server Actions)
 
-Progress: [██░░░░░░░░] 40% (2/5 plans complete)
+Progress: [███░░░░░░░] 60% (3/5 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 4.5 min/plan
-- Total execution time: 0.15 hours
+- Total plans completed: 3
+- Average duration: 3.3 min/plan
+- Total execution time: 0.17 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Auth Foundation | 1/1 | 7 min | 7 min |
-| 2. Email/Password Auth | 1/4 | 2 min | 2 min |
+| 2. Email/Password Auth | 2/4 | 3 min | 1.5 min |
 
 **Recent Trend:**
-- Last 2 plans: 4.5 min average
-- Trend: Improving velocity
+- Last 2 plans: 1.5 min average
+- Trend: Excellent velocity
 
 *Updated after each plan completion*
 
@@ -53,6 +53,12 @@ Recent decisions affecting current work:
 - No complex password rules: Strength meter provides guidance, not enforcement
 - Validation pattern: Schemas in src/lib/validations/ with exported types via z.infer
 
+**From Phase 2 (02-02):**
+- Server Actions pattern: All auth operations use Server Actions (no API routes)
+- Error handling: Return error objects from actions instead of throwing for better UX
+- Error mapping: Supabase errors mapped to user-friendly messages
+- Email verification: PKCE flow via /auth/confirm route handler with auto-login
+
 **From Roadmap:**
 - Auth milestone: Using Supabase Auth (already integrated), no package changes needed except minor update
 - Auth providers: Email/password + Google + Kakao (skip Naver in v1 - not natively supported)
@@ -64,6 +70,10 @@ None yet.
 
 ### Blockers/Concerns
 
+**From Phase 2 (02-02):**
+- Supabase email template requires manual configuration for PKCE flow (see 02-USER-SETUP.md)
+- Redirect URLs must be whitelisted in Supabase dashboard
+
 **Known risks from research:**
 - Kakao email scope requires Business account - may need fallback to user ID
 - OAuth cookie sizes can exceed 4KB limit - monitor during Phase 3 testing
@@ -71,10 +81,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-27 22:57:44 UTC
-Stopped at: Completed 02-01-PLAN.md (Form Validation Setup)
+Last session: 2026-01-27 23:02:20 UTC
+Stopped at: Completed 02-02-PLAN.md (Server Actions)
 Resume file: None
-Next action: Execute 02-02-PLAN.md (Server Actions)
+Next action: Execute 02-03-PLAN.md (Form Components)
 
 ---
 *State initialized: 2026-01-27*
