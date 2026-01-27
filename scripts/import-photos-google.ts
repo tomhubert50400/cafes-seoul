@@ -10,7 +10,7 @@
  * npx tsx scripts/import-photos-google.ts [--dry-run] [--limit=100]
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { config } from "dotenv";
 import { resolve } from "path";
 
@@ -138,7 +138,7 @@ async function downloadPhoto(photoName: string): Promise<Buffer | null> {
 // ============================================
 
 async function ensureStorageBucket(
-  supabase: ReturnType<typeof createClient>
+  supabase: SupabaseClient
 ): Promise<boolean> {
   const { data: buckets } = await supabase.storage.listBuckets();
 
@@ -160,7 +160,7 @@ async function ensureStorageBucket(
 }
 
 async function uploadPhoto(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   cafeId: string,
   photoBuffer: Buffer
 ): Promise<string | null> {

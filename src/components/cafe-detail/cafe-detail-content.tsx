@@ -96,7 +96,7 @@ export function CafeDetailContent({ cafe, images, reviews }: CafeDetailContentPr
                   <h1 className="text-3xl font-bold">{cafeName}</h1>
                 </div>
                 <div className="flex gap-2">
-                  {typeLabel && <Badge variant="outline">{typeLabel[language] || typeLabel.en}</Badge>}
+                  {typeLabel && <Badge variant="outline">{typeLabel[language as keyof typeof typeLabel] || typeLabel.en}</Badge>}
                   {priceLabel && <Badge variant="outline">{priceLabel.symbol}</Badge>}
                 </div>
               </div>
