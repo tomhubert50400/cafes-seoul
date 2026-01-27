@@ -29,10 +29,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Server and browser Supabase clients exist and are properly configured
   3. Package dependencies are up-to-date (@supabase/supabase-js@latest)
   4. Environment variables are validated and documented
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] TBD during planning
+- [ ] 01-01-PLAN.md — Audit auth infrastructure, fix browser client singleton, update packages
 
 ### Phase 2: Email/Password Authentication
 **Goal**: Users can create accounts, verify email, and log in with password
@@ -98,11 +98,11 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth Foundation | 0/? | Not started | - |
+| 1. Auth Foundation | 0/1 | Planned | - |
 | 2. Email/Password Authentication | 0/? | Not started | - |
 | 3. OAuth Integration | 0/? | Not started | - |
 | 4. Protected Routes & Session Management | 0/? | Not started | - |
@@ -110,4 +110,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-27*
-*Next: `/gsd:plan-phase 1`*
+*Phase 1 planned: 2026-01-27*
+*Next: `/gsd:execute-phase 1`*
