@@ -1,3 +1,11 @@
+/**
+ * Session Persistence (AUTH-08):
+ * Supabase sessions persist until logout by default via secure HTTP-only cookies.
+ * The middleware automatically refreshes expired access tokens on cold starts.
+ * Sessions survive browser refresh, tab close/reopen, and device restart.
+ * The "Remember me" checkbox in the UI is for user expectation management only
+ * - actual session persistence is handled by Supabase by default.
+ */
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
