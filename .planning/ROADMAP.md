@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Auth Foundation** - Verify existing Supabase setup and update packages
 - [x] **Phase 2: Email/Password Authentication** - Signup, login, email verification, logout
-- [ ] **Phase 3: OAuth Integration** - Google and Kakao social login
+- [x] **Phase 3: OAuth Integration** - Google and Kakao social login
 - [ ] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
 - [ ] **Phase 5: Auth UI/UX Polish** - Validation, loading states, error handling, redirects
 
@@ -66,8 +66,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Create OAuth callback route, server action, and i18n translations
-- [ ] 03-02-PLAN.md — Create OAuth buttons component and integrate into auth forms
+- [x] 03-01-PLAN.md — Create OAuth callback route, server action, and i18n translations
+- [x] 03-02-PLAN.md — Create OAuth buttons component and integrate into auth forms
 
 ### Phase 4: Protected Routes & Session Management
 **Goal**: Users stay logged in across sessions and see auth-aware UI
@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
 | 2. Email/Password Authentication | 4/4 | ✓ Complete | 2026-01-28 |
-| 3. OAuth Integration | 0/2 | Planned | - |
+| 3. OAuth Integration | 2/2 | ✓ Complete | 2026-01-28 |
 | 4. Protected Routes & Session Management | 0/? | Not started | - |
 | 5. Auth UI/UX Polish | 0/? | Not started | - |
 
@@ -119,4 +119,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 2 planned: 2026-01-27*
 *Phase 2 executed: 2026-01-28*
 *Phase 3 planned: 2026-01-28*
-*Next: `/gsd:execute-phase 3`*
+*Phase 3 executed: 2026-01-28*
+*Next: `/gsd:discuss-phase 4` or `/gsd:plan-phase 4`*
