@@ -82,7 +82,7 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Update middleware redirect parameter ('redirect' → 'next') and verify session persistence
+- [x] 04-01-PLAN.md — Update middleware redirect parameter ('redirect' → 'next') and verify session persistence
 - [ ] 04-02-PLAN.md — Create auth-aware Header with UserMenu avatar dropdown
 - [ ] 04-03-PLAN.md — Create profile page with tab navigation and route protection
 - [ ] 04-04-PLAN.md — Add "Remember me" checkbox and sessionStorage next URL persistence
@@ -112,7 +112,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
 | 2. Email/Password Authentication | 4/4 | ✓ Complete | 2026-01-28 |
 | 3. OAuth Integration | 2/2 | ✓ Complete | 2026-01-28 |
-| 4. Protected Routes & Session Management | 0/? | Not started | - |
+| 4. Protected Routes & Session Management | 1/4 | In Progress | 2026-01-28 |
 | 5. Auth UI/UX Polish | 0/? | Not started | - |
 
 ---

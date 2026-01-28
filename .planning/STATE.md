@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 3 of 5 (OAuth Integration)
-Plan: 2 of 2 in phase (Complete)
-Status: Phase 3 verified ✓
-Last activity: 2026-01-28 — Phase 3 verification passed (10/10 must-haves)
+Phase: 4 of 5 (Protected Routes & Session Management)
+Plan: 1 of 4 in phase
+Status: In progress
+Last activity: 2026-01-28 — Completed 04-01-PLAN.md
 
-Progress: [████████░░] 60% (Phase 3/5 complete)
+Progress: [█████████░] 70% (7/10 plans complete)
 
 ## Performance Metrics
 
@@ -36,6 +36,11 @@ Progress: [████████░░] 60% (Phase 3/5 complete)
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 4 (04-01):**
+- Redirect parameter standardization: Using 'next' instead of 'redirect' for consistency with OAuth callback and Next.js conventions
+- AUTH-08 implementation: Sessions persist until logout by default via Supabase @supabase/ssr - no additional code needed
+- Remember me checkbox: UI-only for user expectation management, actual persistence handled automatically
 
 **From Phase 3 (03-02):**
 - Kakao-first button order: Kakao appears before Google in UI (Korean market preference)
@@ -86,9 +91,9 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Phase 3 verified complete
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
-Next action: Plan Phase 4 (Protected Routes & Session Management)
+Next action: Execute 04-02-PLAN.md (Auth-aware Header with UserMenu)
 
 ---
 *State initialized: 2026-01-27*
