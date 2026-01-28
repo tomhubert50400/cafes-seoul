@@ -79,12 +79,13 @@ Plans:
   3. Middleware redirects unauthenticated users from protected routes (e.g., /profile)
   4. Profile page displays user information correctly
   5. Redirect flow works - users land on intended page after login
-**Plans**: 3 plans
+**Plans**: 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Update middleware redirect parameter ('redirect' → 'next')
+- [ ] 04-01-PLAN.md — Update middleware redirect parameter ('redirect' → 'next') and verify session persistence
 - [ ] 04-02-PLAN.md — Create auth-aware Header with UserMenu avatar dropdown
-- [ ] 04-03-PLAN.md — Create profile page with navigation and add "Remember me" functionality
+- [ ] 04-03-PLAN.md — Create profile page with tab navigation and route protection
+- [ ] 04-04-PLAN.md — Add "Remember me" checkbox and sessionStorage next URL persistence
 
 ### Phase 5: Auth UI/UX Polish
 **Goal**: Production-ready auth experience with smooth interactions and error handling
