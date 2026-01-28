@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/language-switcher';
-import { LogoutButton } from '@/components/auth/logout-button';
+import { UserMenu } from '@/components/auth/user-menu';
 import { ROUTES } from '@/lib/constants/routes';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
@@ -16,7 +17,7 @@ const NAV_ITEMS = [
 ];
 
 interface HeaderProps {
-  user?: { email?: string } | null;
+  user?: SupabaseUser | null;
 }
 
 export function Header({ user }: HeaderProps = {}) {
@@ -52,7 +53,7 @@ export function Header({ user }: HeaderProps = {}) {
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           {user ? (
-            <LogoutButton />
+            <UserMenu user={user} />
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
