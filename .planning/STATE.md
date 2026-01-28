@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 2 of 5 (Email/Password Authentication)
-Plan: 4 of 4 in phase (complete)
-Status: Phase 2 verified ✓
-Last activity: 2026-01-28 — Phase 2 verification passed (6/6 must-haves)
+Phase: 3 of 5 (OAuth Integration)
+Plan: 1 of 4 in phase (In Progress)
+Status: OAuth infrastructure built ✓
+Last activity: 2026-01-28 — Completed 03-01 OAuth infrastructure plan
 
-Progress: [████░░░░░░] 40% (Phase 2/5 complete)
+Progress: [█████░░░░░] 50% (Phase 3 started, Plan 1 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: ~4 min/plan
-- Total execution time: ~0.35 hours
+- Total execution time: ~0.4 hours
 
 **By Phase:**
 
@@ -29,12 +29,19 @@ Progress: [████░░░░░░] 40% (Phase 2/5 complete)
 |-------|-------|-------|----------|
 | 1. Auth Foundation | 1/1 | 7 min | 7 min |
 | 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
+| 3. OAuth Integration | 1/4 | ~4 min | ~4 min |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 3 (03-01):**
+- OAuth URL return pattern: Server Actions cannot redirect to external URLs, so `loginWithOAuth` returns provider URL for client to handle via `window.location.href`
+- Open redirect prevention: Callback handler validates `next` param starts with `/` to prevent malicious redirects
+- OAuth error code mapping: Specific Supabase error codes (flow_state_expired, bad_oauth_state, provider_disabled) mapped to user-friendly messages
+- OAuth i18n namespacing: All OAuth keys under `auth.oauth.*` for consistency
 
 **From Phase 2 (02-04):**
 - Auth page redirect: Logged-in users auto-redirect from /login, /signup to home
@@ -73,12 +80,13 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Phase 2 verified
+Stopped at: Completed 03-01 OAuth infrastructure
 Resume file: None
-Next action: Plan Phase 3 (OAuth Integration)
+Next action: Plan 03-02 OAuth UI components
 
 ---
 *State initialized: 2026-01-27*
 *Phase 1 complete: 2026-01-27*
 *Phase 2 verified: 2026-01-28*
-*Next: `/gsd:discuss-phase 3` or `/gsd:plan-phase 3`*
+*Phase 3 in progress: 2026-01-28 — Plan 1 complete*
+*Next: Plan 03-02 (OAuth Buttons UI)*
