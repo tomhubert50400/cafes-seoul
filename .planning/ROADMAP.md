@@ -13,7 +13,7 @@ This milestone adds authentication to the existing cafe discovery application, e
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Auth Foundation** - Verify existing Supabase setup and update packages
-- [ ] **Phase 2: Email/Password Authentication** - Signup, login, email verification, logout
+- [x] **Phase 2: Email/Password Authentication** - Signup, login, email verification, logout
 - [ ] **Phase 3: OAuth Integration** - Google and Kakao social login
 - [ ] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
 - [ ] **Phase 5: Auth UI/UX Polish** - Validation, loading states, error handling, redirects
@@ -106,7 +106,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
-| 2. Email/Password Authentication | 0/4 | Planned | - |
+| 2. Email/Password Authentication | 4/4 | ✓ Complete | 2026-01-28 |
 | 3. OAuth Integration | 0/? | Not started | - |
 | 4. Protected Routes & Session Management | 0/? | Not started | - |
 | 5. Auth UI/UX Polish | 0/? | Not started | - |
@@ -116,4 +116,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 1 planned: 2026-01-27*
 *Phase 1 executed: 2026-01-27*
 *Phase 2 planned: 2026-01-27*
-*Next: `/gsd:execute-phase 2`*
+*Phase 2 executed: 2026-01-28*
+*Next: `/gsd:plan-phase 3`*

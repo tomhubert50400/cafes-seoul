@@ -9,13 +9,13 @@ Requirements for authentication milestone. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can create account with email and password
-- [ ] **AUTH-02**: User receives email verification after signup
-- [ ] **AUTH-03**: User can verify email via link and activate account
-- [ ] **AUTH-04**: User can log in with email and password
+- [x] **AUTH-01**: User can create account with email and password
+- [x] **AUTH-02**: User receives email verification after signup
+- [x] **AUTH-03**: User can verify email via link and activate account
+- [x] **AUTH-04**: User can log in with email and password
 - [ ] **AUTH-05**: User can log in with Google OAuth
 - [ ] **AUTH-06**: User can log in with Kakao OAuth
-- [ ] **AUTH-07**: User can log out from any page
+- [x] **AUTH-07**: User can log out from any page
 - [ ] **AUTH-08**: User session persists across browser refresh (cookie-based)
 - [ ] **AUTH-09**: User sees appropriate UI state (logged in vs logged out)
 
@@ -62,13 +62,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 2 | Pending |
-| AUTH-02 | Phase 2 | Pending |
-| AUTH-03 | Phase 2 | Pending |
-| AUTH-04 | Phase 2 | Pending |
+| AUTH-01 | Phase 2 | Complete |
+| AUTH-02 | Phase 2 | Complete |
+| AUTH-03 | Phase 2 | Complete |
+| AUTH-04 | Phase 2 | Complete |
 | AUTH-05 | Phase 3 | Pending |
 | AUTH-06 | Phase 3 | Pending |
-| AUTH-07 | Phase 2 | Pending |
+| AUTH-07 | Phase 2 | Complete |
 | AUTH-08 | Phase 4 | Pending |
 | AUTH-09 | Phase 4 | Pending |
 
@@ -86,4 +86,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-27 after roadmap creation*
+*Last updated: 2026-01-28 after Phase 2 verification*
