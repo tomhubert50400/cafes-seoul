@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider } from "@/lib/i18n";
+import { Header } from "@/components/header";
+import { createClient } from "@/lib/supabase/server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,17 +27,21 @@ export const metadata: Metadata = {
   description: "서울의 베스트 카페를 찾아보세요. Discover the best cafes in Seoul.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased`}
       >
         <I18nProvider>
+          <Header user={user} />
           {children}
           <Toaster />
         </I18nProvider>
