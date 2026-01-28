@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,6 +9,7 @@ import { login, resendVerification } from '@/app/actions/auth'
 import { createLoginSchema, type LoginInput } from '@/lib/validations/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Checkbox } from '@/components/ui/checkbox'
 import { useI18n } from '@/lib/i18n'
 import { OAuthButtons } from '@/components/auth/oauth-buttons'
 
@@ -30,7 +31,26 @@ interface LoginFormProps {
 export function LoginForm({ oauthError }: LoginFormProps) {
   const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(true)
   const [state, formAction] = useFormState(login, null)
+
+  // Load remember me preference from localStorage on mount
+  // Note: This is for UX only - Supabase sessions persist until logout by default via secure cookies
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('rememberMe')
+      // Default to true if not set, otherwise use stored value
+      setRememberMe(stored === null ? true : stored === 'true')
+    }
+  }, [])
+
+  // Handle remember me checkbox change
+  const handleRememberMeChange = (checked: boolean) => {
+    setRememberMe(checked)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('rememberMe', checked.toString())
+    }
+  }
 
   const {
     register,
@@ -125,6 +145,22 @@ export function LoginForm({ oauthError }: LoginFormProps) {
         {errors.password && (
           <p className="text-sm text-destructive">{errors.password.message}</p>
         )}
+      </div>
+
+      {/* Remember me checkbox */}
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="remember"
+          name="remember"
+          checked={rememberMe}
+          onCheckedChange={handleRememberMeChange}
+        />
+        <label
+          htmlFor="remember"
+          className="text-sm text-muted-foreground cursor-pointer select-none"
+        >
+          {t('auth.login.rememberMe')}
+        </label>
       </div>
 
       {/* Server error message */}
