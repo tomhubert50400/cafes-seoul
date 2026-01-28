@@ -384,6 +384,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.unavailable.kakao': '카카오 로그인이 일시적으로 사용 불가합니다',
     'auth.oauth.error.expired': '로그인 시간이 초과되었습니다. 다시 시도해주세요.',
     'auth.oauth.error.default': 'OAuth 인증에 실패했습니다',
+
+    // Profile Page
+    'profile.title': '프로필',
+    'profile.overview': '개요',
+    'profile.reviews': '내 리뷰',
+    'profile.favorites': '즐겨찾기',
+    'profile.settings': '설정',
+    'profile.accountInfo': '계정 정보',
+    'profile.activity': '활동',
+    'profile.memberSince': '가입일',
+    'profile.editProfile': '프로필 수정',
+    'profile.comingSoon': '준비 중',
+    'profile.featureSoon': '이 기능은 곧 제공될 예정입니다',
   },
 
   fr: {
@@ -566,6 +579,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.unavailable.kakao': 'La connexion Kakao est temporairement indisponible',
     'auth.oauth.error.expired': 'La connexion a pris trop de temps. Veuillez réessayer.',
     'auth.oauth.error.default': 'L\'authentification OAuth a échoué',
+
+    // Profile Page
+    'profile.title': 'Profil',
+    'profile.overview': 'Aperçu',
+    'profile.reviews': 'Mes avis',
+    'profile.favorites': 'Favoris',
+    'profile.settings': 'Paramètres',
+    'profile.accountInfo': 'Informations du compte',
+    'profile.activity': 'Activité',
+    'profile.memberSince': 'Membre depuis',
+    'profile.editProfile': 'Modifier le profil',
+    'profile.comingSoon': 'Bientôt disponible',
+    'profile.featureSoon': 'Cette fonctionnalité sera bientôt disponible',
   },
 
   zh: {
@@ -748,6 +774,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.unavailable.kakao': 'Kakao 登录暂时不可用',
     'auth.oauth.error.expired': '登录时间过长，请重试。',
     'auth.oauth.error.default': 'OAuth 认证失败',
+
+    // Profile Page
+    'profile.title': '个人资料',
+    'profile.overview': '概览',
+    'profile.reviews': '我的评论',
+    'profile.favorites': '收藏',
+    'profile.settings': '设置',
+    'profile.accountInfo': '账户信息',
+    'profile.activity': '活动',
+    'profile.memberSince': '加入时间',
+    'profile.editProfile': '编辑资料',
+    'profile.comingSoon': '即将推出',
+    'profile.featureSoon': '此功能即将推出',
   },
 
   vi: {
@@ -930,5 +969,18 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.unavailable.kakao': 'Đăng nhập Kakao tạm thờị không khả dụng',
     'auth.oauth.error.expired': 'Đăng nhập mất quá lâu. Vui lòng thử lại.',
     'auth.oauth.error.default': 'Xác thực OAuth thất bại',
+
+    // Profile Page
+    'profile.title': 'Hồ sơ',
+    'profile.overview': 'Tổng quan',
+    'profile.reviews': 'Đánh giá',
+    'profile.favorites': 'Yêu thích',
+    'profile.settings': 'Cài đặt',
+    'profile.accountInfo': 'Thông tin tài khoản',
+    'profile.activity': 'Hoạt động',
+    'profile.memberSince': 'Thành viên từ',
+    'profile.editProfile': 'Chỉnh sửa',
+    'profile.comingSoon': 'Sắp ra mắt',
+    'profile.featureSoon': 'Tính năng này sẽ sớm ra mắt',
   },
 };

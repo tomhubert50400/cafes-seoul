@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 4 of 5 (Protected Routes & Session Management)
-Plan: 2 of 4 in phase
-Status: In progress
-Last activity: 2026-01-28 — Completed 04-02-PLAN.md
+Plan: 4 of 4 in phase
+Status: Phase complete
+Last activity: 2026-01-28 — Completed 04-04-PLAN.md
 
-Progress: [██████████] 80% (8/10 plans complete)
+Progress: [██████████] 100% (10/10 plans complete)
 
 ## Performance Metrics
 
@@ -30,13 +30,24 @@ Progress: [██████████] 80% (8/10 plans complete)
 | 1. Auth Foundation | 1/1 | 7 min | 7 min |
 | 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
-| 4. Protected Routes | 2/4 | ~15 min | ~8 min |
+| 4. Protected Routes | 4/4 | ~25 min | ~6 min |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 4 (04-04):**
+- Remember me checkbox defaults to true: Better UX for users who want to stay logged in
+- LocalStorage for UX preferences: rememberMe preference stored in localStorage, SSR-safe with typeof window check
+- SessionStorage for ephemeral auth state: next URL stored in sessionStorage (clears when tab closes), authNextUrl key
+- 5-language i18n coverage: All auth translations maintained across EN, KO, FR, ZH, VI
+
+**From Phase 4 (04-03):**
+- Profile page structure: Tabbed navigation (Overview, Reviews, Favorites, Settings) with Reviews/Favorites as "Coming soon" placeholders
+- Route protection pattern: Middleware for page-level protection, server-side checks for additional security
+- Session expiry handling: Redirect to login with error message when session expires
 
 **From Phase 4 (04-02):**
 - Supabase User type for auth UI: Use Supabase Auth User type (with user_metadata) instead of internal User type for avatar dropdown - provides access to OAuth provider avatars and names
@@ -91,21 +102,30 @@ None.
 
 ### Blockers/Concerns
 
-**Known risks for Phase 3:**
-- Kakao email scope requires Business account - may need fallback to user ID
-- OAuth cookie sizes can exceed 4KB limit - monitor during Phase 3 testing
+**Phase 4 complete - no blockers.**
+
+All auth requirements (AUTH-01 through AUTH-09) are now implemented:
+- AUTH-01: Email/password signup ✓
+- AUTH-02: Email verification ✓
+- AUTH-03: Email verification link handling ✓
+- AUTH-04: Email/password login ✓
+- AUTH-05: Google OAuth ✓
+- AUTH-06: Kakao OAuth ✓
+- AUTH-07: Logout ✓
+- AUTH-08: Session persistence ✓
+- AUTH-09: Auth-aware UI ✓
 
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 04-02-PLAN.md
+Stopped at: Completed 04-04-PLAN.md
 Resume file: None
-Next action: Execute 04-03-PLAN.md (Profile page with tab navigation)
+Next action: Phase 5 planning (Auth UI/UX Polish)
 
 ---
 *State initialized: 2026-01-27*
 *Phase 1 complete: 2026-01-27*
 *Phase 2 verified: 2026-01-28*
 *Phase 3 verified: 2026-01-28*
-*Phase 4 in progress: 2/4 plans complete*
-*Next: Execute 04-03-PLAN.md*
+*Phase 4 complete: 2026-01-28 — All 4 plans finished*
+*Next: Plan Phase 5 (Auth UI/UX Polish)*
