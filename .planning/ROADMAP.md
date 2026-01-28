@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Auth Foundation** - Verify existing Supabase setup and update packages
 - [x] **Phase 2: Email/Password Authentication** - Signup, login, email verification, logout
 - [x] **Phase 3: OAuth Integration** - Google and Kakao social login
-- [ ] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
+- [x] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
 - [ ] **Phase 5: Auth UI/UX Polish** - Validation, loading states, error handling, redirects
 
 ## Phase Details
@@ -83,9 +83,9 @@ Plans:
 
 Plans:
 - [x] 04-01-PLAN.md — Update middleware redirect parameter ('redirect' → 'next') and verify session persistence
-- [ ] 04-02-PLAN.md — Create auth-aware Header with UserMenu avatar dropdown
-- [ ] 04-03-PLAN.md — Create profile page with tab navigation and route protection
-- [ ] 04-04-PLAN.md — Add "Remember me" checkbox and sessionStorage next URL persistence
+- [x] 04-02-PLAN.md — Create auth-aware Header with UserMenu avatar dropdown
+- [x] 04-03-PLAN.md — Create profile page with tab navigation and route protection
+- [x] 04-04-PLAN.md — Add "Remember me" checkbox and sessionStorage next URL persistence
 
 ### Phase 5: Auth UI/UX Polish
 **Goal**: Production-ready auth experience with smooth interactions and error handling
@@ -112,7 +112,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
 | 2. Email/Password Authentication | 4/4 | ✓ Complete | 2026-01-28 |
 | 3. OAuth Integration | 2/2 | ✓ Complete | 2026-01-28 |
-| 4. Protected Routes & Session Management | 1/4 | In Progress | 2026-01-28 |
+| 4. Protected Routes & Session Management | 4/4 | ✓ Complete | 2026-01-28 |
 | 5. Auth UI/UX Polish | 0/? | Not started | - |
 
 ---
@@ -123,4 +123,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 2 executed: 2026-01-28*
 *Phase 3 planned: 2026-01-28*
 *Phase 3 executed: 2026-01-28*
-*Next: `/gsd:discuss-phase 4` or `/gsd:plan-phase 4`*
+*Phase 4 planned: 2026-01-28*
+*Phase 4 executed: 2026-01-28*
+*Next: `/gsd-discuss-phase 5` or `/gsd-plan-phase 5`*

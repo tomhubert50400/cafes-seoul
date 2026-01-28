@@ -16,8 +16,8 @@ Requirements for authentication milestone. Each maps to roadmap phases.
 - [x] **AUTH-05**: User can log in with Google OAuth
 - [x] **AUTH-06**: User can log in with Kakao OAuth
 - [x] **AUTH-07**: User can log out from any page
-- [ ] **AUTH-08**: User session persists across browser refresh (cookie-based)
-- [ ] **AUTH-09**: User sees appropriate UI state (logged in vs logged out)
+- [x] **AUTH-08**: User session persists across browser refresh (cookie-based)
+- [x] **AUTH-09**: User sees appropriate UI state (logged in vs logged out)
 
 ## v2 Requirements
 
@@ -69,8 +69,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-05 | Phase 3 | Complete |
 | AUTH-06 | Phase 3 | Complete |
 | AUTH-07 | Phase 2 | Complete |
-| AUTH-08 | Phase 4 | Pending |
-| AUTH-09 | Phase 4 | Pending |
+| AUTH-08 | Phase 4 | Complete |
+| AUTH-09 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 9 total
@@ -86,4 +86,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-28 after Phase 3 verification*
+*Last updated: 2026-01-28 after Phase 4 verification*
