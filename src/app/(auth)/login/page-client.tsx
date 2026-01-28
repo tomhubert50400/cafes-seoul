@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { LoginForm } from '@/components/auth/login-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,6 +14,16 @@ interface LoginPageClientProps {
 
 export function LoginPageClient({ oauthError }: LoginPageClientProps) {
   const { t } = useI18n()
+  const searchParams = useSearchParams()
+
+  // Store next URL for redirect after successful login
+  // This survives page reloads and multiple login attempts (email -> error -> try again)
+  useEffect(() => {
+    const nextUrl = searchParams.get('next')
+    if (nextUrl && typeof window !== 'undefined') {
+      sessionStorage.setItem('authNextUrl', nextUrl)
+    }
+  }, [searchParams])
 
   return (
     <Card className="w-full max-w-md">
