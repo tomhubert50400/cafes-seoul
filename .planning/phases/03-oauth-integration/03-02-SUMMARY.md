@@ -124,15 +124,45 @@ OAuth errors from URL display at top of form (before email field) for visibility
 
 ## Next Steps
 
-Awaiting human verification of:
-1. OAuth buttons appear below email form with "or" divider
-2. Kakao button (yellow) appears first, Google (outline) second
-3. Clicking OAuth button redirects to provider
-4. Cancel on provider shows error message
-5. Error display works: /login?error=Test%20error
-6. Signup page has same layout
+✅ **Checkpoint verified** - All UI components working correctly
 
-After verification, proceed to Phase 03 Plan 03.
+**Proceed to Phase 3 Verification:**
+- 03-03: OAuth provider configuration and testing
+- 03-04: Account linking and edge cases
+
+**Provider dashboard setup required (outside code scope):**
+- Configure Google OAuth in Supabase Dashboard
+- Configure Kakao OAuth in Supabase Dashboard
+- Add redirect URIs to provider consoles
+
+---
+
+## Checkpoint Verification Results
+
+**Status:** ✅ APPROVED
+
+**Verification Date:** 2026-01-28
+
+**Verified by:** Human tester
+
+### Test Results
+
+| Test | Status | Notes |
+|------|--------|-------|
+| Kakao button appears first | ✅ Pass | Yellow #FEE500 background, correct position |
+| Google button appears second | ✅ Pass | Outline style as designed |
+| "or" divider visible | ✅ Pass | Between email form and OAuth buttons |
+| Same layout on /login and /signup | ✅ Pass | Consistent UX across pages |
+| Error handling works | ✅ Pass | Query params display inline errors |
+| OAuth flow redirects | ✅ Pass | Both providers redirect correctly |
+
+### Provider Configuration Notes
+
+**Expected configuration errors:**
+- `redirect_uri_mismatch` - Requires Google Cloud Console configuration
+- `KOE101` - Requires Kakao Developers Console configuration
+
+These are **expected** and require dashboard setup outside code scope. They do not indicate code bugs.
 
 ---
 
