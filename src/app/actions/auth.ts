@@ -121,3 +121,52 @@ export async function resendVerification(
 
   return { success: true }
 }
+
+// OAuth types
+export type OAuthProvider = 'google' | 'kakao'
+
+export type OAuthLoginResult = 
+  | { url: string; error?: never }
+  | { url?: never; error: string }
+
+/**
+ * Initiates OAuth login flow
+ * Server Actions cannot redirect to external URLs, so we return the URL for the client to handle
+ */
+export async function loginWithOAuth(
+  provider: OAuthProvider,
+  next?: string
+): Promise<OAuthLoginResult> {
+  const supabase = await createClient()
+
+  // Build redirect URL with optional next param
+  const redirectToBase = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+  const redirectTo = next 
+    ? `${redirectToBase}?next=${encodeURIComponent(next)}`
+    : redirectToBase
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo,
+    },
+  })
+
+  if (error) {
+    // Map specific error codes to user-friendly messages
+    if (error.message?.includes('provider_disabled') || error.code === 'provider_disabled') {
+      const providerName = provider === 'google' ? 'Google' : 'Kakao'
+      return { 
+        error: `${providerName} login is temporarily unavailable` 
+      }
+    }
+    
+    return { error: 'Unable to start login' }
+  }
+
+  if (!data.url) {
+    return { error: 'Unable to start login' }
+  }
+
+  return { url: data.url }
+}
