@@ -10,6 +10,7 @@ import { createLoginSchema, type LoginInput } from '@/lib/validations/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useI18n } from '@/lib/i18n'
+import { OAuthButtons } from '@/components/auth/oauth-buttons'
 
 function SubmitButton({ isValid }: { isValid: boolean }) {
   const { pending } = useFormStatus()
@@ -22,7 +23,11 @@ function SubmitButton({ isValid }: { isValid: boolean }) {
   )
 }
 
-export function LoginForm() {
+interface LoginFormProps {
+  oauthError?: string
+}
+
+export function LoginForm({ oauthError }: LoginFormProps) {
   const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
   const [state, formAction] = useFormState(login, null)
@@ -67,6 +72,13 @@ export function LoginForm() {
 
   return (
     <form action={formAction} className="space-y-4">
+      {/* OAuth error from URL */}
+      {oauthError && (
+        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+          {oauthError}
+        </div>
+      )}
+
       {/* Email field */}
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium">
@@ -136,6 +148,9 @@ export function LoginForm() {
 
       {/* Submit button */}
       <SubmitButton isValid={isValid} />
+
+      {/* OAuth buttons */}
+      <OAuthButtons />
     </form>
   )
 }
