@@ -48,10 +48,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Install form handling deps, create Zod validation schemas
-- [ ] 02-02-PLAN.md — Create Server Actions (signup, login, logout) and email verification handler
-- [ ] 02-03-PLAN.md — Create auth UI (layout, login page, signup page with password strength)
-- [ ] 02-04-PLAN.md — Add i18n translations and verify complete auth flow
+- [x] 02-01-PLAN.md — Install form handling deps, create Zod validation schemas
+- [x] 02-02-PLAN.md — Create Server Actions (signup, login, logout) and email verification handler
+- [x] 02-03-PLAN.md — Create auth UI (layout, login page, signup page with password strength)
+- [x] 02-04-PLAN.md — Add i18n translations and verify complete auth flow
 
 ### Phase 3: OAuth Integration
 **Goal**: Users can log in with Google or Kakao accounts
@@ -63,10 +63,11 @@ Plans:
   3. OAuth callback handler successfully exchanges codes for sessions
   4. Users with same email can link accounts across providers
   5. OAuth configuration is complete in Supabase Dashboard (providers enabled, callbacks whitelisted)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 03-01-PLAN.md — Create OAuth callback route, server action, and i18n translations
+- [ ] 03-02-PLAN.md — Create OAuth buttons component and integrate into auth forms
 
 ### Phase 4: Protected Routes & Session Management
 **Goal**: Users stay logged in across sessions and see auth-aware UI
@@ -107,7 +108,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation | 1/1 | ✓ Complete | 2026-01-27 |
 | 2. Email/Password Authentication | 4/4 | ✓ Complete | 2026-01-28 |
-| 3. OAuth Integration | 0/? | Not started | - |
+| 3. OAuth Integration | 0/2 | Planned | - |
 | 4. Protected Routes & Session Management | 0/? | Not started | - |
 | 5. Auth UI/UX Polish | 0/? | Not started | - |
 
@@ -117,4 +118,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 1 executed: 2026-01-27*
 *Phase 2 planned: 2026-01-27*
 *Phase 2 executed: 2026-01-28*
-*Next: `/gsd:plan-phase 3`*
+*Phase 3 planned: 2026-01-28*
+*Next: `/gsd:execute-phase 3`*
