@@ -1,5 +1,13 @@
 import { LanguageCode } from './languages';
 
+/**
+ * Get a translation string for a given language and key
+ * Falls back to English if the translation is not found
+ */
+export function getTranslation(lang: LanguageCode, key: string): string {
+  return translations[lang]?.[key] || translations['en']?.[key] || key;
+}
+
 export const translations: Record<LanguageCode, Record<string, string>> = {
   en: {
     // Header & Navigation
@@ -8,6 +16,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': 'Districts',
     'nav.login': 'Login',
     'nav.signup': 'Sign up',
+    'nav.profile': 'Profile',
+    'nav.myReviews': 'My Reviews',
+    'nav.settings': 'Settings',
     'site.name': 'Seoul Cafe',
 
     // Homepage - Hero
