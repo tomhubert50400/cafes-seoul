@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 3 of 5 (OAuth Integration)
-Plan: 1 of 4 in phase (In Progress)
-Status: OAuth infrastructure built ✓
-Last activity: 2026-01-28 — Completed 03-01 OAuth infrastructure plan
+Plan: 2 of 4 in phase (Awaiting Verification)
+Status: OAuth UI components built ✓
+Last activity: 2026-01-28 — Completed 03-02 OAuth UI components plan
 
-Progress: [█████░░░░░] 50% (Phase 3 started, Plan 1 complete)
+Progress: [██████░░░░] 60% (Phase 3, Plan 2 complete, awaiting human verification)
 
 ## Performance Metrics
 
@@ -36,6 +36,12 @@ Progress: [█████░░░░░] 50% (Phase 3 started, Plan 1 complete
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 3 (03-02):**
+- Kakao-first button order: Kakao appears before Google in UI (Korean market preference)
+- Server/Client split pattern: Next.js 15+ searchParams as Promise requires Server Component, but i18n needs Client Component - solved with wrapper pattern
+- OAuth error display: URL query param errors passed from page to form via props
+- Divider styling: "or" text divider between email form and OAuth buttons using relative positioning
 
 **From Phase 3 (03-01):**
 - OAuth URL return pattern: Server Actions cannot redirect to external URLs, so `loginWithOAuth` returns provider URL for client to handle via `window.location.href`
@@ -80,9 +86,9 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 03-01 OAuth infrastructure
+Stopped at: Completed 03-02 OAuth UI components, awaiting checkpoint verification
 Resume file: None
-Next action: Plan 03-02 OAuth UI components
+Next action: Human verification of OAuth flow, then Plan 03-03
 
 ---
 *State initialized: 2026-01-27*
