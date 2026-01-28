@@ -197,6 +197,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': '지역별',
     'nav.login': '로그인',
     'nav.signup': '회원가입',
+    'nav.profile': '프로필',
+    'nav.myReviews': '내 리뷰',
+    'nav.settings': '설정',
     'site.name': '서울 카페',
 
     // Homepage - Hero
@@ -375,6 +378,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': 'Quartiers',
     'nav.login': 'Connexion',
     'nav.signup': 'Inscription',
+    'nav.profile': 'Profil',
+    'nav.myReviews': 'Mes avis',
+    'nav.settings': 'Paramètres',
     'site.name': 'Cafés Séoul',
 
     // Homepage - Hero
@@ -553,6 +559,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': '地区',
     'nav.login': '登录',
     'nav.signup': '注册',
+    'nav.profile': '个人资料',
+    'nav.myReviews': '我的评论',
+    'nav.settings': '设置',
     'site.name': '首尔咖啡',
 
     // Homepage - Hero
@@ -731,6 +740,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': 'Khu vực',
     'nav.login': 'Đăng nhập',
     'nav.signup': 'Đăng ký',
+    'nav.profile': 'Hồ sơ',
+    'nav.myReviews': 'Đánh giá của tôi',
+    'nav.settings': 'Cài đặt',
     'site.name': 'Cà phê Seoul',
 
     // Homepage - Hero
