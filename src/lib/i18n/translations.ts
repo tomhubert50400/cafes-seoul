@@ -166,6 +166,17 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': 'Password is required',
     'auth.error.passwordMin': 'Password must be at least 8 characters',
     'auth.error.verifyFailed': 'Unable to verify email',
+
+    // OAuth
+    'auth.oauth.divider': 'or',
+    'auth.oauth.kakao': 'Continue with Kakao',
+    'auth.oauth.google': 'Continue with Google',
+    'auth.oauth.loading': 'Loading...',
+    'auth.oauth.cancelled': 'Login cancelled',
+    'auth.oauth.unavailable.google': 'Google login is temporarily unavailable',
+    'auth.oauth.unavailable.kakao': 'Kakao login is temporarily unavailable',
+    'auth.oauth.error.expired': 'Login took too long. Please try again.',
+    'auth.oauth.error.default': 'OAuth authentication failed',
   },
 
   ko: {
@@ -333,6 +344,17 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': '비밀번호를 입력해주세요',
     'auth.error.passwordMin': '비밀번호는 8자 이상이어야 합니다',
     'auth.error.verifyFailed': '이메일 인증에 실패했습니다',
+
+    // OAuth
+    'auth.oauth.divider': '또는',
+    'auth.oauth.kakao': '카카오로 계속하기',
+    'auth.oauth.google': 'Google로 계속하기',
+    'auth.oauth.loading': '로딩 중...',
+    'auth.oauth.cancelled': '로그인이 취소되었습니다',
+    'auth.oauth.unavailable.google': 'Google 로그인이 일시적으로 사용 불가합니다',
+    'auth.oauth.unavailable.kakao': '카카오 로그인이 일시적으로 사용 불가합니다',
+    'auth.oauth.error.expired': '로그인 시간이 초과되었습니다. 다시 시도해주세요.',
+    'auth.oauth.error.default': 'OAuth 인증에 실패했습니다',
   },
 
   fr: {
@@ -500,6 +522,17 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': 'Le mot de passe est requis',
     'auth.error.passwordMin': 'Le mot de passe doit contenir au moins 8 caractères',
     'auth.error.verifyFailed': 'Impossible de vérifier l\'email',
+
+    // OAuth
+    'auth.oauth.divider': 'ou',
+    'auth.oauth.kakao': 'Continuer avec Kakao',
+    'auth.oauth.google': 'Continuer avec Google',
+    'auth.oauth.loading': 'Chargement...',
+    'auth.oauth.cancelled': 'Connexion annulée',
+    'auth.oauth.unavailable.google': 'La connexion Google est temporairement indisponible',
+    'auth.oauth.unavailable.kakao': 'La connexion Kakao est temporairement indisponible',
+    'auth.oauth.error.expired': 'La connexion a pris trop de temps. Veuillez réessayer.',
+    'auth.oauth.error.default': 'L\'authentification OAuth a échoué',
   },
 
   zh: {
@@ -667,6 +700,17 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': '密码为必填项',
     'auth.error.passwordMin': '密码必须至少8个字符',
     'auth.error.verifyFailed': '无法验证邮箱',
+
+    // OAuth
+    'auth.oauth.divider': '或',
+    'auth.oauth.kakao': '使用 Kakao 继续',
+    'auth.oauth.google': '使用 Google 继续',
+    'auth.oauth.loading': '加载中...',
+    'auth.oauth.cancelled': '登录已取消',
+    'auth.oauth.unavailable.google': 'Google 登录暂时不可用',
+    'auth.oauth.unavailable.kakao': 'Kakao 登录暂时不可用',
+    'auth.oauth.error.expired': '登录时间过长，请重试。',
+    'auth.oauth.error.default': 'OAuth 认证失败',
   },
 
   vi: {
@@ -834,5 +878,16 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': 'Mật khẩu là bắt buộc',
     'auth.error.passwordMin': 'Mật khẩu phải có ít nhất 8 ký tự',
     'auth.error.verifyFailed': 'Không thể xác minh email',
+
+    // OAuth
+    'auth.oauth.divider': 'hoặc',
+    'auth.oauth.kakao': 'Tiếp tục với Kakao',
+    'auth.oauth.google': 'Tiếp tục với Google',
+    'auth.oauth.loading': 'Đang tải...',
+    'auth.oauth.cancelled': 'Đăng nhập đã bị hủy',
+    'auth.oauth.unavailable.google': 'Đăng nhập Google tạm thờị không khả dụng',
+    'auth.oauth.unavailable.kakao': 'Đăng nhập Kakao tạm thờị không khả dụng',
+    'auth.oauth.error.expired': 'Đăng nhập mất quá lâu. Vui lòng thử lại.',
+    'auth.oauth.error.default': 'Xác thực OAuth thất bại',
   },
 };
