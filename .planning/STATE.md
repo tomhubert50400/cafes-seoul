@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 4 of 5 (Protected Routes & Session Management)
-Plan: 1 of 4 in phase
+Plan: 2 of 4 in phase
 Status: In progress
-Last activity: 2026-01-28 — Completed 04-01-PLAN.md
+Last activity: 2026-01-28 — Completed 04-02-PLAN.md
 
-Progress: [█████████░] 70% (7/10 plans complete)
+Progress: [██████████] 80% (8/10 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 8
 - Average duration: ~4 min/plan
-- Total execution time: ~0.4 hours
+- Total execution time: ~0.5 hours
 
 **By Phase:**
 
@@ -30,12 +30,19 @@ Progress: [█████████░] 70% (7/10 plans complete)
 | 1. Auth Foundation | 1/1 | 7 min | 7 min |
 | 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
+| 4. Protected Routes | 2/4 | ~15 min | ~8 min |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 4 (04-02):**
+- Supabase User type for auth UI: Use Supabase Auth User type (with user_metadata) instead of internal User type for avatar dropdown - provides access to OAuth provider avatars and names
+- Avatar initials fallback: Show first 2 characters of email (uppercase) when no profile image exists
+- UserMenu structure: Mini-profile card (avatar + name + email) followed by navigation links (Profile, My Reviews, Settings) and Logout
+- Server-side user fetching: Layout fetches user via supabase.auth.getUser() for optimal performance and hydration consistency
 
 **From Phase 4 (04-01):**
 - Redirect parameter standardization: Using 'next' instead of 'redirect' for consistency with OAuth callback and Next.js conventions
@@ -91,13 +98,14 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 04-01-PLAN.md
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
-Next action: Execute 04-02-PLAN.md (Auth-aware Header with UserMenu)
+Next action: Execute 04-03-PLAN.md (Profile page with tab navigation)
 
 ---
 *State initialized: 2026-01-27*
 *Phase 1 complete: 2026-01-27*
 *Phase 2 verified: 2026-01-28*
-*Phase 3 verified: 2026-01-28 — All plans complete*
-*Next: `/gsd:discuss-phase 4` or `/gsd:plan-phase 4`*
+*Phase 3 verified: 2026-01-28*
+*Phase 4 in progress: 2/4 plans complete*
+*Next: Execute 04-03-PLAN.md*
