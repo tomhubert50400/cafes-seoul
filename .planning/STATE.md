@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Phase 3 verified, ready for Phase 4
+**Current focus:** Phase 5 complete - Authentication milestone finished
 
 ## Current Position
 
 Phase: 5 of 5 (Auth UI/UX Polish)
-Plan: 5 of 6 in phase
-Status: In progress
-Last activity: 2026-01-29 — Completed 05-05-PLAN.md
+Plan: 6 of 6 in phase
+Status: Phase complete
+Last activity: 2026-01-29 — Completed 05-06-PLAN.md
 
-Progress: [█████████████░░░░░░░] 73% (15/16 plans complete)
+Progress: [████████████████████] 100% (16/16 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
+- Total plans completed: 16
 - Average duration: ~6 min/plan
-- Total execution time: ~1.4 hours
+- Total execution time: ~1.5 hours
 
 **By Phase:**
 
@@ -31,13 +31,20 @@ Progress: [█████████████░░░░░░░] 73% (15
 | 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
 | 4. Protected Routes | 4/4 | ~25 min | ~6 min |
-| 5. Auth UI/UX Polish | 4/6 | ~42 min | ~11 min |
+| 5. Auth UI/UX Polish | 6/6 | ~57 min | ~10 min |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 5 (05-06):**
+- useAutofillDetection hook: Triple detection strategy (onInput + polling + CSS animation) for password manager compatibility
+- setFocus over manual refs: Use react-hook-form's setFocus instead of manual ref handling to avoid conflicts
+- AuthMotionWrapper pattern: Separate motion animations into Client Component, keep layout as Server Component
+- Error code translations: Use translation keys as error codes (verification_failed, user_not_found, etc.) for consistent messaging
+- Already-verified handling: Check if user verified before showing errors, show helpful "Try logging in" message
 
 **From Phase 5 (05-05):**
 - Custom scoring algorithm replaces zxcvbn: Finer control over password strength calculation and criteria
@@ -134,9 +141,9 @@ None.
 
 ### Blockers/Concerns
 
-**Phase 5 in progress - no blockers.**
+**Phase 5 complete - Authentication milestone finished.**
 
-All auth requirements (AUTH-01 through AUTH-09) are now implemented:
+All auth requirements (AUTH-01 through AUTH-09) are now implemented and polished:
 - AUTH-01: Email/password signup ✓
 - AUTH-02: Email verification ✓
 - AUTH-03: Email verification link handling ✓
@@ -150,14 +157,14 @@ All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-05-PLAN.md
+Stopped at: Completed 05-06-PLAN.md
 Resume file: None
-Next action: Continue with 05-06-PLAN.md in Phase 5
+Next action: Milestone completion and audit
 
 ---
 *State initialized: 2026-01-27*
 *Phase 1 complete: 2026-01-27*
 *Phase 2 verified: 2026-01-28*
 *Phase 3 verified: 2026-01-28*
-*Phase 4 complete: 2026-01-28 — All 4 plans finished*
-*Next: Plan Phase 5 (Auth UI/UX Polish)*
+*Phase 4 complete: 2026-01-28*
+*Phase 5 complete: 2026-01-29 — All 6 plans finished*
