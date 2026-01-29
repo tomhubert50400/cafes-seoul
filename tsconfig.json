@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "types": ["kakao.maps.d.ts"],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
