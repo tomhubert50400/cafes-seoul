@@ -36,7 +36,7 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
       <div className="md:hidden absolute top-4 left-4 z-10">
         <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
           <SheetTrigger asChild>
-            <Button variant="secondary" size="sm" className="shadow-md">
+            <Button variant="secondary" size="default" className="shadow-md min-h-[44px] min-w-[44px]">
               <SlidersHorizontal className="h-4 w-4 mr-2" />
               Filters
               {activeFilterCount > 0 && (
@@ -46,7 +46,7 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
               )}
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-80 p-0">
+          <SheetContent side="left" className="w-[300px] sm:w-80 p-0">
             <MapFiltersPanel
               filters={filters}
               onChange={(newFilters) => {

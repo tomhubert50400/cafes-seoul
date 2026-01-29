@@ -23,7 +23,7 @@ export function CafeInfoWindow({ cafe, onClose }: CafeInfoWindowProps) {
       yAnchor={1.2}
       zIndex={10}
     >
-      <div className="relative min-w-[240px] max-w-[280px] rounded-lg border bg-white p-4 shadow-lg">
+      <div className="relative min-w-[200px] max-w-[260px] sm:min-w-[240px] sm:max-w-[280px] rounded-lg border bg-white p-3 sm:p-4 shadow-lg">
         {/* Close button */}
         <button
           onClick={onClose}
