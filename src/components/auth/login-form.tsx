@@ -42,7 +42,6 @@ export function LoginForm({ oauthError }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
   const [touchedFields, setTouchedFields] = useState({ email: false, password: false })
-  const emailInputRef = useRef<HTMLInputElement>(null)
   
   // Loading state management
   const [isLoading, setIsLoading] = useState(false)
@@ -76,9 +75,14 @@ export function LoginForm({ oauthError }: LoginFormProps) {
     clearErrors,
     trigger,
     handleSubmit,
+    setFocus,
   } = useForm<LoginInput>({
     resolver: zodResolver(createLoginSchema(t)),
     mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   // Start loading with 200ms delay for overlay
@@ -167,8 +171,10 @@ export function LoginForm({ oauthError }: LoginFormProps) {
         
         // Focus the first invalid field
         setTimeout(() => {
-          if (result.errors?.email && emailInputRef.current) {
-            emailInputRef.current.focus()
+          if (result.errors?.email) {
+            setFocus('email')
+          } else if (result.errors?.password) {
+            setFocus('password')
           }
         }, 0)
       }
@@ -257,12 +263,6 @@ export function LoginForm({ oauthError }: LoginFormProps) {
               await trigger('email')
             },
           })}
-          ref={(el) => {
-            // Merge react-hook-form ref with our focus ref
-            if (el) {
-              emailInputRef.current = el
-            }
-          }}
           aria-invalid={errors.email ? 'true' : 'false'}
           aria-describedby={errors.email ? 'email-error' : undefined}
           className="transition-all duration-150"

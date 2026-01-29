@@ -41,7 +41,6 @@ export function SignupForm({ oauthError }: SignupFormProps) {
   const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
   const [touchedFields, setTouchedFields] = useState({ email: false, password: false })
-  const emailInputRef = useRef<HTMLInputElement>(null)
   
   // Loading state management
   const [isLoading, setIsLoading] = useState(false)
@@ -57,9 +56,14 @@ export function SignupForm({ oauthError }: SignupFormProps) {
     trigger,
     watch,
     handleSubmit,
+    setFocus,
   } = useForm<SignupInput>({
     resolver: zodResolver(createSignupSchema(t)),
     mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   // Watch password for strength meter
@@ -145,8 +149,10 @@ export function SignupForm({ oauthError }: SignupFormProps) {
         
         // Focus the first invalid field
         setTimeout(() => {
-          if (result.errors?.email && emailInputRef.current) {
-            emailInputRef.current.focus()
+          if (result.errors?.email) {
+            setFocus('email')
+          } else if (result.errors?.password) {
+            setFocus('password')
           }
         }, 0)
       }
@@ -210,12 +216,6 @@ export function SignupForm({ oauthError }: SignupFormProps) {
               await trigger('email')
             },
           })}
-          ref={(el) => {
-            // Merge react-hook-form ref with our focus ref
-            if (el) {
-              emailInputRef.current = el
-            }
-          }}
           aria-invalid={errors.email ? 'true' : 'false'}
           aria-describedby={errors.email ? 'email-error' : undefined}
           className="transition-all duration-150"
