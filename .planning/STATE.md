@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 5 of 5 (Auth UI/UX Polish)
-Plan: 2 of ? in phase
+Plan: 3 of ? in phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 05-02-PLAN.md
+Last activity: 2026-01-29 — Completed 05-03-PLAN.md
 
-Progress: [██████████] 100% (12/12 plans complete)
+Progress: [██████████] 100% (13/13 plans complete)
 
 ## Performance Metrics
 
@@ -38,6 +38,14 @@ Progress: [██████████] 100% (12/12 plans complete)
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 5 (05-03):**
+- Top-right toast positioning: Auth toasts positioned at top-right to avoid overlapping centered forms
+- Rich colors enabled: Better visual distinction between success (green), error (red), and loading states
+- Close button for accessibility: Users can manually dismiss toasts
+- Duration differentiation: Error toasts 6s (longer reading time), success toasts 4s
+- Translation function injection pattern: Auth toast utilities accept `t` function for consistent i18n support
+- Toast ID pattern: Loading toasts return IDs for programmatic dismissal/update
 
 **From Phase 5 (05-02):**
 - 200ms delay prevents flash: Loading overlay appears after 200ms delay to prevent visual flash on fast responses (sub-200ms operations)
@@ -130,7 +138,7 @@ All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-02-PLAN.md
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None
 Next action: Continue with next plan in Phase 5 or transition to Phase 6
 
