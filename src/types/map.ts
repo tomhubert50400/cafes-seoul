@@ -25,7 +25,7 @@ export interface MapFilters {
 }
 
 // Map viewport bounds
-export interface MapBounds {
+export interface ViewportBounds {
   north: number;
   south: number;
   east: number;
@@ -42,5 +42,5 @@ export interface MapPosition {
 export interface MapViewport {
   center: MapPosition;
   level: number; // zoom level 1-14
-  bounds?: MapBounds;
+  bounds?: ViewportBounds;
 }
