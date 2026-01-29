@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 5 of 5 (Auth UI/UX Polish)
-Plan: 3 of ? in phase
+Plan: 4 of 6 in phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 05-03-PLAN.md
+Last activity: 2026-01-29 — Completed 05-04-PLAN.md
 
-Progress: [██████████] 100% (13/13 plans complete)
+Progress: [████████████░░░░░░░░] 67% (14/15 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 14
 - Average duration: ~6 min/plan
-- Total execution time: ~1.0 hours
+- Total execution time: ~1.4 hours
 
 **By Phase:**
 
@@ -31,13 +31,19 @@ Progress: [██████████] 100% (13/13 plans complete)
 | 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
 | 4. Protected Routes | 4/4 | ~25 min | ~6 min |
-| 5. Auth UI/UX Polish | 2/2 | ~30 min | ~15 min |
+| 5. Auth UI/UX Polish | 4/6 | ~42 min | ~11 min |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 5 (05-04):**
+- OAuth errors remain inline: URL query param errors (OAuth failures) stay inline since user just landed
+- useTransition for logout toast: React's useTransition allows toast to render before server action redirect
+- Email from URL param: Verify page receives email via ?email= param, avoiding session/storage complexity
+- Remove unused error state: Signup form no longer needs error state since all errors shown as toasts
 
 **From Phase 5 (05-03):**
 - Top-right toast positioning: Auth toasts positioned at top-right to avoid overlapping centered forms
@@ -138,9 +144,9 @@ All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-03-PLAN.md
+Stopped at: Completed 05-04-PLAN.md
 Resume file: None
-Next action: Continue with next plan in Phase 5 or transition to Phase 6
+Next action: Continue with 05-05-PLAN.md in Phase 5
 
 ---
 *State initialized: 2026-01-27*
