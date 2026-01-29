@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 6 of 6 (Map Feature)
-Plan: 1 of 6 in phase
+Plan: 2 of 6 in phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 06-01-PLAN.md
+Last activity: 2026-01-29 — Completed 06-02-PLAN.md
 
-Progress: [█████████████████████░░░] 85% (17/20 plans complete, 3 planned)
+Progress: [██████████████████████░░] 90% (18/20 plans complete, 2 planned)
 
 ## Performance Metrics
 
@@ -32,13 +32,19 @@ Progress: [█████████████████████░░
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
 | 4. Protected Routes | 4/4 | ~25 min | ~6 min |
 | 5. Auth UI/UX Polish | 6/6 | ~57 min | ~10 min |
-| 6. Map Feature | 0/6 | - | ~25 min est |
+| 6. Map Feature | 2/6 | ~16 min | ~8 min est |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 6 (06-02):**
+- ViewportBounds naming: Renamed from MapBounds to avoid conflict with api.ts MapBounds (sw/ne format vs cardinal directions)
+- Filter architecture pattern: Separate pure filter functions (filter-cafes.ts) from React state (useMapFilters hook) for testability
+- Type-safe filter updates: Generic `updateFilter<K extends keyof MapFilters>` provides compile-time type safety
+- CafeSummary.hasParking: Added missing field to support parking filter in map
 
 **From Phase 6 (06-01):**
 - NEXT_PUBLIC_KAKAO_MAPS_API_KEY naming: Standardized on plural "MAPS" form for consistency with Kakao docs
@@ -166,9 +172,9 @@ Requirements for Phase 6:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 06-01-PLAN.md
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None
-Next action: Execute 06-02-PLAN.md (Map Infrastructure)
+Next action: Execute 06-03-PLAN.md (Map Components)
 
 ---
 *State initialized: 2026-01-27*
