@@ -34,10 +34,15 @@ export default async function MapPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ height: '100vh' }}>
       <Header user={user} />
-      <main className="flex-1 h-[calc(100vh-3.5rem)]">
-        <CafeMapWrapperDynamic cafes={cafes} />
+      <main 
+        className="flex-1 relative overflow-hidden"
+        style={{ height: 'calc(100vh - 56px)', minHeight: '500px' }}
+      >
+        <div className="absolute inset-0 w-full h-full">
+          <CafeMapWrapperDynamic cafes={cafes} />
+        </div>
       </main>
     </div>
   );

@@ -1,7 +1,6 @@
 'use client';
 
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
-import Link from 'next/link';
 import { X, Star, MapPin } from 'lucide-react';
 import type { CafeSummary } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
@@ -21,9 +20,15 @@ export function CafeInfoWindow({ cafe, onClose }: CafeInfoWindowProps) {
     <CustomOverlayMap
       position={{ lat: cafe.latitude, lng: cafe.longitude }}
       yAnchor={1.2}
-      zIndex={10}
+      zIndex={1000}
     >
-      <div className="relative min-w-[200px] max-w-[260px] sm:min-w-[240px] sm:max-w-[280px] rounded-lg border bg-white p-3 sm:p-4 shadow-lg">
+      <div
+        className="relative min-w-[200px] max-w-[260px] sm:min-w-[240px] sm:max-w-[280px] rounded-lg border bg-white p-3 sm:p-4 shadow-lg pointer-events-auto"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
         {/* Close button */}
         <button
           onClick={onClose}
@@ -53,13 +58,20 @@ export function CafeInfoWindow({ cafe, onClose }: CafeInfoWindowProps) {
           <span className="line-clamp-2">{cafeAddress}</span>
         </div>
 
-        {/* View details link */}
-        <Link
-          href={`/cafes/${cafe.slug}`}
-          className="mt-3 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+        {/* View details button - using window.location to bypass React Router/Next.js navigation issues */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            // Use setTimeout to escape CustomOverlayMap's event capturing
+            setTimeout(() => {
+              window.location.href = `/cafes/${cafe.slug}`;
+            }, 10);
+          }}
+          className="mt-3 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline bg-transparent border-none cursor-pointer pointer-events-auto"
         >
           View Details →
-        </Link>
+        </button>
       </div>
     </CustomOverlayMap>
   );
