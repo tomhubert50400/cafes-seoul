@@ -76,6 +76,7 @@ export interface CafeSummary {
   hasPowerOutlets: boolean;
   isPetFriendly: boolean;
   isLaptopFriendly: boolean;
+  hasParking: boolean;
   primaryImageUrl: string | null;
   distance?: number; // in meters, when searching by location
 
