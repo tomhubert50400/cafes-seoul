@@ -146,6 +146,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.login.title': 'Log in',
     'auth.login.submit': 'Log in',
     'auth.login.submitting': 'Logging in...',
+    'auth.login.loading': 'Signing in...',
     'auth.login.rememberMe': 'Remember me',
     'auth.login.noAccount': "Don't have an account?",
     'auth.login.signupLink': 'Sign up',
@@ -157,11 +158,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.signup.title': 'Create account',
     'auth.signup.submit': 'Create account',
     'auth.signup.submitting': 'Creating account...',
+    'auth.signup.loading': 'Creating account...',
     'auth.signup.hasAccount': 'Already have an account?',
     'auth.signup.loginLink': 'Log in',
     'auth.signup.checkEmail': 'Check your email to confirm your account',
 
     'auth.logout': 'Log out',
+
+    'auth.loading.cancel': 'Cancel',
 
     'auth.form.email': 'Email',
     'auth.form.password': 'Password',
@@ -344,6 +348,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.login.title': '로그인',
     'auth.login.submit': '로그인',
     'auth.login.submitting': '로그인 중...',
+    'auth.login.loading': '로그인 중...',
     'auth.login.rememberMe': '로그인 상태 유지',
     'auth.login.noAccount': '계정이 없으신가요?',
     'auth.login.signupLink': '회원가입',
@@ -355,11 +360,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.signup.title': '회원가입',
     'auth.signup.submit': '계정 만들기',
     'auth.signup.submitting': '계정 생성 중...',
+    'auth.signup.loading': '계정 생성 중...',
     'auth.signup.hasAccount': '이미 계정이 있으신가요?',
     'auth.signup.loginLink': '로그인',
     'auth.signup.checkEmail': '이메일을 확인하여 계정을 인증해주세요',
 
     'auth.logout': '로그아웃',
+
+    'auth.loading.cancel': '취소',
 
     'auth.form.email': '이메일',
     'auth.form.password': '비밀번호',
@@ -542,6 +550,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.login.title': 'Connexion',
     'auth.login.submit': 'Se connecter',
     'auth.login.submitting': 'Connexion en cours...',
+    'auth.login.loading': 'Connexion en cours...',
     'auth.login.rememberMe': 'Se souvenir de moi',
     'auth.login.noAccount': "Pas encore de compte ?",
     'auth.login.signupLink': "S'inscrire",
@@ -553,11 +562,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.signup.title': 'Créer un compte',
     'auth.signup.submit': 'Créer un compte',
     'auth.signup.submitting': 'Création du compte...',
+    'auth.signup.loading': 'Création du compte...',
     'auth.signup.hasAccount': 'Vous avez déjà un compte ?',
     'auth.signup.loginLink': 'Se connecter',
     'auth.signup.checkEmail': 'Consultez votre email pour confirmer votre compte',
 
     'auth.logout': 'Se déconnecter',
+
+    'auth.loading.cancel': 'Annuler',
 
     'auth.form.email': 'Email',
     'auth.form.password': 'Mot de passe',
@@ -740,6 +752,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.login.title': '登录',
     'auth.login.submit': '登录',
     'auth.login.submitting': '登录中...',
+    'auth.login.loading': '登录中...',
     'auth.login.rememberMe': '记住我',
     'auth.login.noAccount': '还没有账户？',
     'auth.login.signupLink': '注册',
@@ -751,11 +764,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.signup.title': '创建账户',
     'auth.signup.submit': '创建账户',
     'auth.signup.submitting': '创建账户中...',
+    'auth.signup.loading': '创建账户中...',
     'auth.signup.hasAccount': '已有账户？',
     'auth.signup.loginLink': '登录',
     'auth.signup.checkEmail': '请查看您的邮箱以确认账户',
 
     'auth.logout': '登出',
+
+    'auth.loading.cancel': '取消',
 
     'auth.form.email': '邮箱',
     'auth.form.password': '密码',
@@ -938,6 +954,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.login.title': 'Đăng nhập',
     'auth.login.submit': 'Đăng nhập',
     'auth.login.submitting': 'Đang đăng nhập...',
+    'auth.login.loading': 'Đang đăng nhập...',
     'auth.login.rememberMe': 'Ghi nhớ đăng nhập',
     'auth.login.noAccount': 'Chưa có tài khoản?',
     'auth.login.signupLink': 'Đăng ký',
@@ -949,11 +966,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.signup.title': 'Tạo tài khoản',
     'auth.signup.submit': 'Tạo tài khoản',
     'auth.signup.submitting': 'Đang tạo tài khoản...',
+    'auth.signup.loading': 'Đang tạo tài khoản...',
     'auth.signup.hasAccount': 'Đã có tài khoản?',
     'auth.signup.loginLink': 'Đăng nhập',
     'auth.signup.checkEmail': 'Kiểm tra email của bạn để xác nhận tài khoản',
 
     'auth.logout': 'Đăng xuất',
+
+    'auth.loading.cancel': 'Hủy',
 
     'auth.form.email': 'Email',
     'auth.form.password': 'Mật khẩu',
