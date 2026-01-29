@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 6 of 6 (Map Feature)
-Plan: 2 of 6 in phase
+Plan: 3 of 6 in phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 06-02-PLAN.md
+Last activity: 2026-01-29 — Completed 06-03-PLAN.md
 
-Progress: [██████████████████████░░] 90% (18/20 plans complete, 2 planned)
+Progress: [███████████████████████░] 95% (19/20 plans complete, 1 planned)
 
 ## Performance Metrics
 
@@ -39,6 +39,11 @@ Progress: [██████████████████████░
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 6 (06-03):**
+- MapFiltersPanel naming: Named component MapFiltersPanel to avoid conflict with MapFilters type from types/map.ts
+- RatingSlider display pattern: Shows 'Any' (translatable) for null/0, star icon with value for selected ratings
+- Component i18n pattern: Components receive translated strings via props rather than translation keys for better reusability
 
 **From Phase 6 (06-02):**
 - ViewportBounds naming: Renamed from MapBounds to avoid conflict with api.ts MapBounds (sw/ne format vs cardinal directions)
@@ -172,9 +177,9 @@ Requirements for Phase 6:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 06-02-PLAN.md
+Stopped at: Completed 06-03-PLAN.md
 Resume file: None
-Next action: Execute 06-03-PLAN.md (Map Components)
+Next action: Execute 06-04-PLAN.md (Map Page)
 
 ---
 *State initialized: 2026-01-27*
