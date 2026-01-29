@@ -47,8 +47,8 @@ export async function signup(
     }
   }
 
-  // 3. Redirect on success
-  redirect('/?message=Check your email to confirm your account')
+  // 3. Redirect on success to verify-email page with email param
+  redirect(`/verify-email?email=${encodeURIComponent(email)}`)
 }
 
 export async function login(
