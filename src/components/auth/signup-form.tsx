@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, useActionState, useRef } from 'react'
-import { useFormStatus } from 'react-dom'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
@@ -12,14 +11,19 @@ import { Input } from '@/components/ui/input'
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter'
 import { useI18n } from '@/lib/i18n'
 import { OAuthButtons } from '@/components/auth/oauth-buttons'
+import { FormLoadingOverlay } from '@/components/auth/form-loading-overlay'
 
-function SubmitButton({ isValid }: { isValid: boolean }) {
-  const { pending } = useFormStatus()
+interface SubmitButtonProps {
+  isValid: boolean
+  isLoading: boolean
+}
+
+function SubmitButton({ isValid, isLoading }: SubmitButtonProps) {
   const { t } = useI18n()
 
   return (
-    <Button type="submit" className="w-full" disabled={pending || !isValid}>
-      {pending ? t('auth.signup.submitting') : t('auth.signup.submit')}
+    <Button type="submit" className="w-full" disabled={isLoading || !isValid}>
+      {isLoading ? t('auth.signup.loading') : t('auth.signup.submit')}
     </Button>
   )
 }
@@ -31,17 +35,24 @@ interface SignupFormProps {
 export function SignupForm({ oauthError }: SignupFormProps) {
   const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
-  const [state, formAction] = useActionState(signup, null)
   const [touchedFields, setTouchedFields] = useState({ email: false, password: false })
   const emailInputRef = useRef<HTMLInputElement>(null)
+  
+  // Loading state management
+  const [isLoading, setIsLoading] = useState(false)
+  const [showOverlay, setShowOverlay] = useState(false)
+  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const {
     register,
     formState: { errors, isValid },
-    setError,
+    setError: setFormError,
     clearErrors,
     trigger,
     watch,
+    handleSubmit,
   } = useForm<SignupInput>({
     resolver: zodResolver(createSignupSchema(t)),
     mode: 'onBlur',
@@ -50,28 +61,104 @@ export function SignupForm({ oauthError }: SignupFormProps) {
   // Watch password for strength meter
   const password = watch('password', '')
 
-  // Handle server-side errors
-  useEffect(() => {
-    if (state?.errors) {
-      Object.entries(state.errors).forEach(([field, messages]) => {
-        const messageArray = messages as string[]
-        setError(field as keyof SignupInput, {
-          type: 'server',
-          message: messageArray[0],
-        })
-      })
-      
-      // Focus the first invalid field (email first, then password)
-      setTimeout(() => {
-        if (state.errors?.email && emailInputRef.current) {
-          emailInputRef.current.focus()
-        }
-      }, 0)
+  // Start loading with 200ms delay for overlay
+  const startLoading = useCallback(() => {
+    setIsLoading(true)
+    loadingTimeoutRef.current = setTimeout(() => {
+      setShowOverlay(true)
+    }, 200)
+  }, [])
+
+  // Stop loading and cleanup
+  const stopLoading = useCallback(() => {
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current)
+      loadingTimeoutRef.current = null
     }
-  }, [state?.errors, setError])
+    setIsLoading(false)
+    setShowOverlay(false)
+  }, [])
+
+  // Handle cancel button click
+  const handleCancel = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      abortControllerRef.current = null
+    }
+    stopLoading()
+  }, [stopLoading])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current)
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
+  }, [])
+
+  // Form submission handler
+  const onSubmit = useCallback(async (data: SignupInput) => {
+    setError(null)
+    clearErrors()
+    
+    // Create new abort controller for this request
+    abortControllerRef.current = new AbortController()
+    
+    startLoading()
+    
+    try {
+      const formData = new FormData()
+      formData.append('email', data.email)
+      formData.append('password', data.password)
+      
+      const result = await signup(null, formData)
+      
+      if (result?.errors) {
+        Object.entries(result.errors).forEach(([field, messages]) => {
+          const messageArray = messages as string[]
+          setFormError(field as keyof SignupInput, {
+            type: 'server',
+            message: messageArray[0],
+          })
+        })
+        
+        // Focus the first invalid field
+        setTimeout(() => {
+          if (result.errors?.email && emailInputRef.current) {
+            emailInputRef.current.focus()
+          }
+        }, 0)
+      }
+      
+      if (result?.message) {
+        setError(result.message)
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        // Request was cancelled - no error to show
+        return
+      }
+      setError(t('common.error'))
+    } finally {
+      stopLoading()
+      abortControllerRef.current = null
+    }
+  }, [clearErrors, setFormError, startLoading, stopLoading, t])
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-4">
+      {/* Loading overlay */}
+      <FormLoadingOverlay
+        isLoading={showOverlay}
+        message={t('auth.signup.loading')}
+        onCancel={handleCancel}
+        cancelLabel={t('auth.loading.cancel')}
+      />
+
       {/* OAuth error from URL */}
       {oauthError && (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
@@ -88,6 +175,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
           id="email"
           type="email"
           placeholder={t('auth.form.emailPlaceholder')}
+          disabled={isLoading}
           {...register('email', {
             onChange: () => {
               // Clear error immediately when user types, if field was touched
@@ -123,6 +211,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
             id="password"
             type={showPassword ? 'text' : 'password'}
             placeholder={t('auth.form.passwordCreatePlaceholder')}
+            disabled={isLoading}
             {...register('password', {
               onChange: () => {
                 // Clear error immediately when user types, if field was touched
@@ -140,7 +229,8 @@ export function SignupForm({ oauthError }: SignupFormProps) {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            disabled={isLoading}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground disabled:opacity-50"
             aria-label={showPassword ? t('auth.form.hidePassword') : t('auth.form.showPassword')}
           >
             {showPassword ? (
@@ -158,14 +248,14 @@ export function SignupForm({ oauthError }: SignupFormProps) {
       </div>
 
       {/* Server error message */}
-      {state?.message && (
+      {error && (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {state.message}
+          {error}
         </div>
       )}
 
       {/* Submit button */}
-      <SubmitButton isValid={isValid} />
+      <SubmitButton isValid={isValid} isLoading={isLoading} />
 
       {/* OAuth buttons */}
       <OAuthButtons />
