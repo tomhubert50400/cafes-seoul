@@ -249,14 +249,21 @@ export function LoginForm({ oauthError }: LoginFormProps) {
         cancelLabel={t('auth.loading.cancel')}
       />
 
-      {/* OAuth error from URL */}
+      {/* OAuth/Verification error from URL */}
       {oauthError && (
         <div
           className="rounded-md bg-destructive/10 p-3 text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200"
           role="alert"
           aria-live="assertive"
         >
-          {oauthError}
+          {/* Translate known error codes, otherwise show the error as-is */}
+          {oauthError === 'verification_failed' || oauthError === 'Unable to verify email'
+            ? t('auth.error.verification_failed')
+            : oauthError === 'missing_verification_params'
+              ? t('auth.error.missing_verification_params')
+              : oauthError === 'user_not_found'
+                ? t('auth.error.user_not_found')
+                : oauthError}
         </div>
       )}
 

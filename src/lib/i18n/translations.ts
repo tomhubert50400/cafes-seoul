@@ -197,6 +197,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': 'Password is required',
     'auth.error.passwordMin': 'Password must be at least 8 characters',
     'auth.error.verifyFailed': 'Unable to verify email',
+    'auth.error.verification_failed': 'Email verification failed. The link may have expired or already been used.',
+    'auth.error.missing_verification_params': 'Invalid verification link. Please request a new verification email.',
+    'auth.error.user_not_found': 'User not found. Please check your email or sign up again.',
 
     // OAuth
     'auth.oauth.divider': 'or',
@@ -236,6 +239,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.verify.instructions': 'Click the link in your email to activate your account',
     'auth.verify.resend': 'Resend email',
     'auth.verify.back': 'Back to sign up',
+    'auth.verify.already': 'Your email may already be verified. Try logging in.',
+    'auth.verify.verified_login': 'Email verified! Please log in.',
   },
 
   ko: {
@@ -426,6 +431,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': '비밀번호를 입력해주세요',
     'auth.error.passwordMin': '비밀번호는 8자 이상이어야 합니다',
     'auth.error.verifyFailed': '이메일 인증에 실패했습니다',
+    'auth.error.verification_failed': '이메일 인증에 실패했습니다. 링크가 만료되었거나 이미 사용되었을 수 있습니다.',
+    'auth.error.missing_verification_params': '잘못된 인증 링크입니다. 새 인증 이메일을 요청해주세요.',
+    'auth.error.user_not_found': '사용자를 찾을 수 없습니다. 이메일을 확인하거나 다시 가입해주세요.',
 
     // OAuth
     'auth.oauth.divider': '또는',
@@ -460,11 +468,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.toast.success.resend': '인증 이메일이 발송되었습니다',
 
     // Verify Email Page
-    'auth.verify.title': '이메일을 확인하세요',
-    'auth.verify.message': '인증 링크를 다음 주소로 볃냈습니다:',
+    'auth.verify.title': '이메일을 확인해주세요',
+    'auth.verify.message': '다음 주소로 인증 링크를 본냈습니다:',
     'auth.verify.instructions': '이메일의 링크를 클릭하여 계정을 활성화하세요',
-    'auth.verify.resend': '이메일 다시 볂기',
+    'auth.verify.resend': '이메일 다시 본내기',
     'auth.verify.back': '회원가입으로 돌아가기',
+    'auth.verify.already': '이메일이 이미 인증되었을 수 있습니다. 로그인을 시도핳세요.',
+    'auth.verify.verified_login': '이메일이 인증되었습니다! 로그인해주세요.',
   },
 
   fr: {
@@ -655,6 +665,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': 'Le mot de passe est requis',
     'auth.error.passwordMin': 'Le mot de passe doit contenir au moins 8 caractères',
     'auth.error.verifyFailed': 'Impossible de vérifier l\'email',
+    'auth.error.verification_failed': 'La vérification de l\'email a échoué. Le lien peut avoir expiré ou déjà été utilisé.',
+    'auth.error.missing_verification_params': 'Lien de vérification invalide. Veuillez demander un nouvel email de vérification.',
+    'auth.error.user_not_found': 'Utilisateur non trouvé. Veuillez vérifier votre email ou vous réinscrire.',
 
     // OAuth
     'auth.oauth.divider': 'ou',
@@ -694,6 +707,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.verify.instructions': 'Cliquez sur le lien dans votre email pour activer votre compte',
     'auth.verify.resend': 'Renvoyer l\'email',
     'auth.verify.back': 'Retour à l\'inscription',
+    'auth.verify.already': 'Votre email est peut-être déjà vérifié. Essayez de vous connecter.',
+    'auth.verify.verified_login': 'Email vérifié ! Veuillez vous connecter.',
   },
 
   zh: {
@@ -884,6 +899,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': '密码为必填项',
     'auth.error.passwordMin': '密码必须至少8个字符',
     'auth.error.verifyFailed': '无法验证邮箱',
+    'auth.error.verification_failed': '邮箱验证失败。链接可能已过期或已被使用。',
+    'auth.error.missing_verification_params': '无效的验证链接。请请求新的验证邮件。',
+    'auth.error.user_not_found': '未找到用户。请检查您的邮箱或重新注册。',
 
     // OAuth
     'auth.oauth.divider': '或',
@@ -923,6 +941,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.verify.instructions': '点击邮件中的链接以激活您的账户',
     'auth.verify.resend': '重新发送邮件',
     'auth.verify.back': '返回注册',
+    'auth.verify.already': '您的邮箱可能已验证。请尝试登录。',
+    'auth.verify.verified_login': '邮箱已验证！请登录。',
   },
 
   vi: {
@@ -1113,6 +1133,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.error.passwordRequired': 'Mật khẩu là bắt buộc',
     'auth.error.passwordMin': 'Mật khẩu phải có ít nhất 8 ký tự',
     'auth.error.verifyFailed': 'Không thể xác minh email',
+    'auth.error.verification_failed': 'Xác minh email thất bại. Liên kết có thể đã hết hạn hoặc đã được sử dụng.',
+    'auth.error.missing_verification_params': 'Liên kết xác minh không hợp lệ. Vui lòng yêu cầu email xác minh mới.',
+    'auth.error.user_not_found': 'Không tìm thấy ngườii dùng. Vui lòng kiểm tra email của bạn hoặc đăng ký lại.',
 
     // OAuth
     'auth.oauth.divider': 'hoặc',
@@ -1152,5 +1175,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.verify.instructions': 'Nhấp vào liên kết trong email để kích hoạt tài khoản',
     'auth.verify.resend': 'Gửi lại email',
     'auth.verify.back': 'Quay lại đăng ký',
+    'auth.verify.already': 'Email của bạn có thể đã được xác minh. Hãy thử đăng nhập.',
+    'auth.verify.verified_login': 'Email đã được xác minh! Vui lòng đăng nhập.',
   },
 };
