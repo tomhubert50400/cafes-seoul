@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: OAuth Integration** - Google and Kakao social login
 - [x] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
 - [x] **Phase 5: Auth UI/UX Polish** - Validation, loading states, error handling, redirects
-- [ ] **Phase 6: Map Feature** - Interactive map with custom ratings filtering, static maps for cafe profiles
+- [x] **Phase 6: Map Feature** - Interactive map with custom ratings filtering, static maps for cafe profiles
 
 ## Phase Details
 
@@ -123,12 +123,12 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Dependencies & Type Updates (react-kakao-maps-sdk, CafeSummary ratings field)
-- [ ] 06-02-PLAN.md — Map Infrastructure (MapProvider, types, filter utilities, hooks)
-- [ ] 06-03-PLAN.md — Filter System (rating sliders, feature toggles, i18n)
-- [ ] 06-04-PLAN.md — Interactive Map Page (clustering, markers, info windows, responsive layout)
-- [ ] 06-05-PLAN.md — Static Map Integration (cafe profile maps)
-- [ ] 06-06-PLAN.md — Polish & Testing (mobile, performance, error handling)
+- [x] 06-01-PLAN.md — Dependencies & Type Updates (react-kakao-maps-sdk, CafeSummary ratings field)
+- [x] 06-02-PLAN.md — Map Infrastructure (MapProvider, types, filter utilities, hooks)
+- [x] 06-03-PLAN.md — Filter System (rating sliders, feature toggles, i18n)
+- [x] 06-04-PLAN.md — Interactive Map Page (clustering, markers, info windows, responsive layout)
+- [x] 06-05-PLAN.md — Static Map Integration (cafe profile maps)
+- [x] 06-06-PLAN.md — Polish & Testing (mobile, performance, error handling)
 
 ## Progress
 
@@ -142,7 +142,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 3. OAuth Integration | 2/2 | ✓ Complete | 2026-01-28 |
 | 4. Protected Routes & Session Management | 4/4 | ✓ Complete | 2026-01-28 |
 | 5. Auth UI/UX Polish | 6/6 | ✓ Complete | 2026-01-29 |
-| 6. Map Feature | 0/6 | Planned | - |
+| 6. Map Feature | 6/6 | ✓ Complete | 2026-01-29 |
 
 ---
 *Roadmap created: 2026-01-27*
@@ -158,4 +158,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 5 executed: 2026-01-29*
 *Phase 5 complete: 2026-01-29 — All 6 plans finished*
 *Phase 6 planned: 2026-01-29*
-*Milestone: Authentication complete, Map Feature planned*
+*Phase 6 complete: 2026-01-29 — All 6 plans finished with known limitation on info window navigation*
+*Milestone: Authentication + Map Feature complete — Core platform ready*
