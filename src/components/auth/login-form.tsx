@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useState, useEffect, useActionState, useRef } from 'react'
+import { useFormStatus } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
@@ -32,7 +32,9 @@ export function LoginForm({ oauthError }: LoginFormProps) {
   const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
-  const [state, formAction] = useFormState(login, null)
+  const [state, formAction] = useActionState(login, null)
+  const [touchedFields, setTouchedFields] = useState({ email: false, password: false })
+  const emailInputRef = useRef<HTMLInputElement>(null)
 
   // Load remember me preference from localStorage on mount
   // Note: This is for UX only - Supabase sessions persist until logout by default via secure cookies
@@ -56,20 +58,32 @@ export function LoginForm({ oauthError }: LoginFormProps) {
     register,
     formState: { errors, isValid },
     setError,
+    clearErrors,
+    trigger,
   } = useForm<LoginInput>({
     resolver: zodResolver(createLoginSchema(t)),
     mode: 'onBlur',
   })
 
   // Handle server-side errors
-  if (state?.errors) {
-    Object.entries(state.errors).forEach(([field, messages]) => {
-      setError(field as keyof LoginInput, {
-        type: 'server',
-        message: messages[0],
+  useEffect(() => {
+    if (state?.errors) {
+      Object.entries(state.errors).forEach(([field, messages]) => {
+        const messageArray = messages as string[]
+        setError(field as keyof LoginInput, {
+          type: 'server',
+          message: messageArray[0],
+        })
       })
-    })
-  }
+      
+      // Focus the first invalid field (email first, then password)
+      setTimeout(() => {
+        if (state.errors?.email && emailInputRef.current) {
+          emailInputRef.current.focus()
+        }
+      }, 0)
+    }
+  }, [state?.errors, setError])
 
   // Map server error messages to translated versions
   const translateServerMessage = (message?: string): string | undefined => {
@@ -108,7 +122,24 @@ export function LoginForm({ oauthError }: LoginFormProps) {
           id="email"
           type="email"
           placeholder="you@example.com"
-          {...register('email')}
+          {...register('email', {
+            onChange: () => {
+              // Clear error immediately when user types, if field was touched
+              if (touchedFields.email && errors.email) {
+                clearErrors('email')
+              }
+            },
+            onBlur: async () => {
+              setTouchedFields(prev => ({ ...prev, email: true }))
+              await trigger('email')
+            },
+          })}
+          ref={(el) => {
+            // Merge react-hook-form ref with our focus ref
+            if (el) {
+              emailInputRef.current = el
+            }
+          }}
           aria-invalid={errors.email ? 'true' : 'false'}
         />
         {errors.email && (
@@ -126,7 +157,18 @@ export function LoginForm({ oauthError }: LoginFormProps) {
             id="password"
             type={showPassword ? 'text' : 'password'}
             placeholder="Enter your password"
-            {...register('password')}
+            {...register('password', {
+              onChange: () => {
+                // Clear error immediately when user types, if field was touched
+                if (touchedFields.password && errors.password) {
+                  clearErrors('password')
+                }
+              },
+              onBlur: async () => {
+                setTouchedFields(prev => ({ ...prev, password: true }))
+                await trigger('password')
+              },
+            })}
             aria-invalid={errors.password ? 'true' : 'false'}
           />
           <button
