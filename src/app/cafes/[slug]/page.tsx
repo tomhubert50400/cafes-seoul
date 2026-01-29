@@ -17,7 +17,7 @@ async function getCafe(slug: string): Promise<{ cafe: Cafe; images: CafeImage[] 
     .from('cafes')
     .select('*')
     .eq('slug', slug)
-    .neq('status', 'closed')
+    .eq('status', 'active')
     .single();
 
   if (error || !cafe) {

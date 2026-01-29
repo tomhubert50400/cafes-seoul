@@ -10,15 +10,16 @@ async function getCafes(): Promise<CafeSummary[]> {
   const { data, error } = await supabase
     .from('cafes')
     .select(`
-      id, name, slug, address, district_id, 
-      latitude, longitude, 
+      id, name, slug, address, district_id,
+      latitude, longitude,
       overall_rating, total_ratings,
-      ratings,
-      price_range, cafe_type, 
+      rating_food, rating_drinks, rating_temperature, rating_seating,
+      rating_ambiance, rating_wifi, rating_noise, rating_outlets, rating_value,
+      price_range, cafe_type,
       has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
       primary_image_url
     `)
-    .neq('status', 'closed');
+    .eq('status', 'active');
   
   if (error) {
     console.error('Error fetching cafes:', error);
