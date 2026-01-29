@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useI18n } from '@/lib/i18n'
 import { OAuthButtons } from '@/components/auth/oauth-buttons'
 import { FormLoadingOverlay } from '@/components/auth/form-loading-overlay'
+import { showAuthError, showAuthSuccess } from './auth-toast'
 
 interface SubmitButtonProps {
   isValid: boolean
@@ -155,7 +156,9 @@ export function LoginForm({ oauthError }: LoginFormProps) {
       }
       
       if (result?.message) {
-        setError(result.message)
+        // Show error as toast instead of inline
+        const translatedMessage = translateServerMessage(result.message) || result.message
+        showAuthError(translatedMessage, t)
       }
       
       // Store email from result if available (for resend verification)
@@ -187,9 +190,9 @@ export function LoginForm({ oauthError }: LoginFormProps) {
 
     const result = await resendVerification(lastEmail)
     if (result.success) {
-      alert(t('auth.login.resendSuccess'))
+      showAuthSuccess(t('auth.login.resendSuccess'), t)
     } else if (result.error) {
-      alert(result.error)
+      showAuthError(result.error, t)
     }
   }
 
@@ -306,14 +309,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
         </label>
       </div>
 
-      {/* Server error message */}
-      {error && (
-        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {translateServerMessage(error)}
-        </div>
-      )}
-
-      {/* Resend verification button */}
+      {/* Resend verification button - shown when server returns unverified error */}
       {error === 'Please verify your email first' && (
         <Button
           type="button"
