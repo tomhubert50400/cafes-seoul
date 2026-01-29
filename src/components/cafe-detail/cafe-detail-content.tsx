@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { RatingStars } from '@/components/rating-stars';
+import { CafeStaticMap } from '@/components/map/cafe-static-map';
+import { MapProvider } from '@/components/map/map-provider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -35,8 +36,6 @@ export function CafeDetailContent({ cafe, images, reviews }: CafeDetailContentPr
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       <main className="mx-auto max-w-6xl px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-4 text-sm text-muted-foreground">
@@ -270,11 +269,15 @@ export function CafeDetailContent({ cafe, images, reviews }: CafeDetailContentPr
               </div>
             </div>
 
-            {/* Static map placeholder */}
-            <div className="aspect-[4/3] overflow-hidden rounded-xl border bg-zinc-100 dark:bg-zinc-800">
-              <div className="flex h-full items-center justify-center">
-                <p className="text-sm text-muted-foreground">{t('cafe.map')}</p>
-              </div>
+            {/* Static map */}
+            <div className="space-y-3">
+              <h3 className="font-medium">{t('cafe.map')}</h3>
+              <MapProvider>
+                <CafeStaticMap cafe={cafe} height="200px" />
+              </MapProvider>
+              <p className="text-sm text-muted-foreground">
+                {cafeAddress}
+              </p>
             </div>
 
             {/* Price info */}
