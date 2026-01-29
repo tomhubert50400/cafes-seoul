@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { Header } from '@/components/header';
 import { transformCafe, transformReview, getStorageUrl } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import type { Cafe, CafeImage } from '@/types/cafe';
@@ -16,7 +17,7 @@ async function getCafe(slug: string): Promise<{ cafe: Cafe; images: CafeImage[] 
     .from('cafes')
     .select('*')
     .eq('slug', slug)
-    .eq('status', 'active')
+    .neq('status', 'closed')
     .single();
 
   if (error || !cafe) {
@@ -85,6 +86,14 @@ export default async function CafeDetailPage({ params }: PageProps) {
 
   const { cafe, images } = result;
   const reviews = await getCafeReviews(cafe.id);
+  
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  return <CafeDetailContent cafe={cafe} images={images} reviews={reviews} />;
+  return (
+    <>
+      <Header user={user} />
+      <CafeDetailContent cafe={cafe} images={images} reviews={reviews} />
+    </>
+  );
 }

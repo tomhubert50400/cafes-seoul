@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
       is_laptop_friendly,
       cafe_images(storage_path)
     `, { count: 'exact' })
-    .eq('status', 'active');
+    .neq('status', 'closed');
 
   // Apply filters
   if (params.district) {

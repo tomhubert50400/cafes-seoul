@@ -12,6 +12,18 @@ export async function GET(
   const searchParams = request.nextUrl.searchParams;
   const supabase = await createClient();
 
+  // First check if cafe exists and is not closed
+  const { data: cafe, error: cafeError } = await supabase
+    .from('cafes')
+    .select('id')
+    .eq('id', cafeId)
+    .neq('status', 'closed')
+    .single();
+
+  if (cafeError || !cafe) {
+    return NextResponse.json({ error: 'Cafe not found' }, { status: 404 });
+  }
+
   const queryParams: ReviewListParams = {
     page: parseInt(searchParams.get('page') || '1'),
     limit: Math.min(parseInt(searchParams.get('limit') || '10'), 50),
