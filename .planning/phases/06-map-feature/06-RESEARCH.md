@@ -10,11 +10,15 @@ This research covers the implementation of a dual-map system for the Cafes Seoul
 1. **Full Interactive Map** (`/map`) - A manipulable map showing all cafes with clustering, search, and navigation
 2. **Static Map** (cafe profile pages) - A non-interactive map focused on a single cafe location
 
+**CRITICAL REQUIREMENT:** The map must support filtering by **custom ratings** (seating, wifi, food, etc.) that live in YOUR database. When a user sets "seating rating ≥ 4/5", cafes below that threshold must disappear from the map immediately.
+
 **Primary Recommendation:** Use **Kakao Maps** via `react-kakao-maps-sdk` for both map types. Kakao Maps is the standard for Korean location-based services and provides the most accurate map data for Seoul. The project already uses Kakao OAuth, so the developer account infrastructure exists.
 
 **Key architectural decisions:**
 - Use `react-kakao-maps-sdk` v1.2.0 for React component wrappers
 - Load Kakao Maps script via `useKakaoLoader` hook with proper loading states
+- **Implement client-side filtering** for ratings (seating, wifi, etc.)
+- **Pass full rating data** to the map component (CafeSummary needs ratings field)
 - Implement marker clustering for the full map (100+ cafes)
 - Use `StaticMap` component for cafe profile pages
 - Store Kakao API key in environment variables
@@ -70,21 +74,27 @@ src/
 ├── components/
 │   └── map/
 │       ├── map-provider.tsx          # Script loader provider
-│       ├── cafe-map.tsx              # Full interactive map
+│       ├── cafe-map.tsx              # Full interactive map WITH FILTERS
+│       ├── map-with-filters.tsx      # Map + sidebar layout
+│       ├── map-filters.tsx           # Rating filter UI (sliders, checkboxes)
 │       ├── cafe-static-map.tsx       # Static map for profiles
 │       ├── cafe-marker.tsx           # Custom marker component
 │       ├── cafe-info-window.tsx      # Popup content for markers
 │       └── map-controls.tsx          # Zoom, locate, etc.
 ├── hooks/
-│   └── use-cafe-map.ts               # Map state management
+│   ├── use-cafe-map.ts               # Map state management
+│   └── use-map-filters.ts            # Filter state management
 ├── app/
 │   ├── map/
 │   │   └── page.tsx                  # /map route
 │   └── cafes/
 │       └── [slug]/
 │           └── page.tsx              # Already exists, add static map
-└── types/
-    └── map.ts                        # Map-specific types
+├── types/
+│   └── map.ts                        # Map-specific types
+└── lib/
+    └── utils/
+        └── filter-cafes.ts           # Filter logic utility
 ```
 
 ### Pattern 1: Script Loading with Provider
@@ -352,7 +362,15 @@ async function getCafes(): Promise<CafeSummary[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from('cafes')
-    .select('id, name, slug, address, district_id, latitude, longitude, overall_rating, total_ratings, price_range, cafe_type, has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, primary_image_url')
+    .select(`
+      id, name, slug, address, district_id, 
+      latitude, longitude, 
+      overall_rating, total_ratings,
+      ratings,
+      price_range, cafe_type, 
+      has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, 
+      primary_image_url
+    `)
     .eq('status', 'active');
   
   return (data || []).map(transformCafe);
@@ -410,6 +428,324 @@ import { MapProvider } from '@/components/map/map-provider';
 </MapProvider>
 ```
 
+### Map with Filter Sidebar
+```typescript
+// src/components/map/map-with-filters.tsx
+'use client';
+
+import { useState } from 'react';
+import { MapProvider } from './map-provider';
+import { CafeMap } from './cafe-map';
+import { MapFilters } from './map-filters';
+import type { CafeSummary } from '@/types/cafe';
+
+interface MapWithFiltersProps {
+  cafes: CafeSummary[];
+}
+
+export function MapWithFilters({ cafes }: MapWithFiltersProps) {
+  const [filters, setFilters] = useState({
+    seatingMin: null as number | null,
+    wifiMin: null as number | null,
+    hasWifi: false,
+    isPetFriendly: false,
+  });
+
+  return (
+    <div className="flex h-full">
+      {/* Filter Sidebar */}
+      <aside className="w-80 overflow-y-auto border-r bg-background p-4">
+        <MapFilters filters={filters} onChange={setFilters} />
+      </aside>
+
+      {/* Map */}
+      <main className="flex-1">
+        <MapProvider>
+          <CafeMap cafes={cafes} filters={filters} />
+        </MapProvider>
+      </main>
+    </div>
+  );
+}
+```
+
+### Filter Component with Ratings
+```typescript
+// src/components/map/map-filters.tsx
+'use client';
+
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+
+interface FilterState {
+  seatingMin: number | null;
+  wifiMin: number | null;
+  hasWifi: boolean;
+  isPetFriendly: boolean;
+}
+
+interface MapFiltersProps {
+  filters: FilterState;
+  onChange: (filters: FilterState) => void;
+}
+
+export function MapFilters({ filters, onChange }: MapFiltersProps) {
+  const updateFilter = <K extends keyof FilterState>(
+    key: K,
+    value: FilterState[K]
+  ) => {
+    onChange({ ...filters, [key]: value });
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-lg font-semibold">Filters</h2>
+
+      {/* Seating Rating Filter */}
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <Label>Seating Rating</Label>
+          <span className="text-sm text-muted-foreground">
+            {filters.seatingMin ? `${filters.seatingMin}+` : 'Any'}
+          </span>
+        </div>
+        <Slider
+          value={[filters.seatingMin || 0]}
+          onValueChange={([value]) => 
+            updateFilter('seatingMin', value > 0 ? value : null)
+          }
+          max={5}
+          step={1}
+          min={0}
+        />
+        <div className="flex justify-between text-xs text-muted-foreground">
+          <span>Any</span>
+          <span>5★</span>
+        </div>
+      </div>
+
+      {/* WiFi Rating Filter */}
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <Label>WiFi Rating</Label>
+          <span className="text-sm text-muted-foreground">
+            {filters.wifiMin ? `${filters.wifiMin}+` : 'Any'}
+          </span>
+        </div>
+        <Slider
+          value={[filters.wifiMin || 0]}
+          onValueChange={([value]) => 
+            updateFilter('wifiMin', value > 0 ? value : null)
+          }
+          max={5}
+          step={1}
+          min={0}
+        />
+      </div>
+
+      {/* Feature Toggles */}
+      <div className="space-y-3">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="hasWifi"
+            checked={filters.hasWifi}
+            onCheckedChange={(checked) => 
+              updateFilter('hasWifi', checked as boolean)
+            }
+          />
+          <Label htmlFor="hasWifi">Has WiFi</Label>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="petFriendly"
+            checked={filters.isPetFriendly}
+            onCheckedChange={(checked) => 
+              updateFilter('isPetFriendly', checked as boolean)
+            }
+          />
+          <Label htmlFor="petFriendly">Pet Friendly</Label>
+        </div>
+      </div>
+
+      {/* Active Filter Count */}
+      {Object.values(filters).some(Boolean) && (
+        <p className="text-sm text-muted-foreground">
+          {Object.values(filters).filter(Boolean).length} filter(s) active
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+### Filter Utility Function
+```typescript
+// src/lib/utils/filter-cafes.ts
+import type { CafeSummary } from '@/types/cafe';
+
+export interface CafeFilters {
+  seatingMin?: number | null;
+  wifiMin?: number | null;
+  foodMin?: number | null;
+  drinksMin?: number | null;
+  ambianceMin?: number | null;
+  outletsMin?: number | null;
+  noiseMin?: number | null;  // Note: higher = quieter (better)
+  valueMin?: number | null;
+  temperatureMin?: number | null;
+  hasWifi?: boolean;
+  hasPowerOutlets?: boolean;
+  isPetFriendly?: boolean;
+  isLaptopFriendly?: boolean;
+  hasParking?: boolean;
+  priceRange?: number[];
+  cafeTypes?: string[];
+  districts?: number[];
+}
+
+/**
+ * Filter cafes based on rating criteria and features
+ * Returns only cafes that match ALL active filters
+ */
+export function filterCafes(
+  cafes: CafeSummary[],
+  filters: CafeFilters
+): CafeSummary[] {
+  return cafes.filter((cafe) => {
+    // Rating filters - cafe must have rating AND meet minimum
+    if (filters.seatingMin != null) {
+      const rating = cafe.ratings?.seating;
+      if (rating == null || rating < filters.seatingMin) return false;
+    }
+    
+    if (filters.wifiMin != null) {
+      const rating = cafe.ratings?.wifi;
+      if (rating == null || rating < filters.wifiMin) return false;
+    }
+    
+    if (filters.foodMin != null) {
+      const rating = cafe.ratings?.food;
+      if (rating == null || rating < filters.foodMin) return false;
+    }
+    
+    if (filters.drinksMin != null) {
+      const rating = cafe.ratings?.drinks;
+      if (rating == null || rating < filters.drinksMin) return false;
+    }
+    
+    if (filters.ambianceMin != null) {
+      const rating = cafe.ratings?.ambiance;
+      if (rating == null || rating < filters.ambianceMin) return false;
+    }
+    
+    if (filters.outletsMin != null) {
+      const rating = cafe.ratings?.outlets;
+      if (rating == null || rating < filters.outletsMin) return false;
+    }
+    
+    if (filters.noiseMin != null) {
+      const rating = cafe.ratings?.noise;
+      if (rating == null || rating < filters.noiseMin) return false;
+    }
+    
+    if (filters.valueMin != null) {
+      const rating = cafe.ratings?.value;
+      if (rating == null || rating < filters.valueMin) return false;
+    }
+    
+    if (filters.temperatureMin != null) {
+      const rating = cafe.ratings?.temperature;
+      if (rating == null || rating < filters.temperatureMin) return false;
+    }
+    
+    // Boolean feature filters
+    if (filters.hasWifi && !cafe.hasWifi) return false;
+    if (filters.hasPowerOutlets && !cafe.hasPowerOutlets) return false;
+    if (filters.isPetFriendly && !cafe.isPetFriendly) return false;
+    if (filters.isLaptopFriendly && !cafe.isLaptopFriendly) return false;
+    if (filters.hasParking && !cafe.hasParking) return false;
+    
+    // Price range filter
+    if (filters.priceRange?.length) {
+      if (!filters.priceRange.includes(cafe.priceRange)) return false;
+    }
+    
+    // Cafe type filter
+    if (filters.cafeTypes?.length) {
+      if (!filters.cafeTypes.includes(cafe.cafeType)) return false;
+    }
+    
+    // District filter
+    if (filters.districts?.length) {
+      if (!filters.districts.includes(cafe.districtId)) return false;
+    }
+    
+    return true;
+  });
+}
+
+/**
+ * Check if any filters are active
+ */
+export function hasActiveFilters(filters: CafeFilters): boolean {
+  return Object.values(filters).some((value) => {
+    if (Array.isArray(value)) return value.length > 0;
+    return value != null && value !== false;
+  });
+}
+
+/**
+ * Get count of active filters
+ */
+export function getActiveFilterCount(filters: CafeFilters): number {
+  return Object.values(filters).filter((value) => {
+    if (Array.isArray(value)) return value.length > 0;
+    return value != null && value !== false;
+  }).length;
+}
+```
+
+### Updated CafeSummary Type
+```typescript
+// REQUIRED: Update src/types/cafe.ts
+
+// Add ratings to CafeSummary interface (around line 63)
+export interface CafeSummary {
+  id: string;
+  name: TranslatedText;
+  slug: string;
+  address: TranslatedText;
+  districtId: number;
+  latitude: number;
+  longitude: number;
+  overallRating: number;
+  totalRatings: number;
+  priceRange: 1 | 2 | 3 | 4;
+  cafeType: CafeType;
+  hasWifi: boolean;
+  hasPowerOutlets: boolean;
+  isPetFriendly: boolean;
+  isLaptopFriendly: boolean;
+  primaryImageUrl: string | null;
+  distance?: number;
+  
+  // ⭐ ADD THIS FIELD for map filtering
+  ratings: {
+    food: number | null;
+    drinks: number | null;
+    temperature: number | null;
+    seating: number | null;
+    ambiance: number | null;
+    wifi: number | null;
+    noise: number | null;
+    outlets: number | null;
+    value: number | null;
+  };
+}
+```
+
 ## State of the Art
 
 | Old Approach | Current Approach | When Changed | Impact |
@@ -424,17 +760,242 @@ import { MapProvider } from '@/components/map/map-provider';
 - **Custom clustering:** Use built-in MarkerClusterer
 - **Storing map instances in refs:** Use component state and props
 
+## Critical Requirement: Custom Ratings Filtering
+
+**This is a core project requirement that MUST be supported.**
+
+### The Use Case
+A user opens the map, sees nearby cafes, then filters by "seating rating ≥ 4/5". Cafes with seating ratings below 4 must **disappear from the map immediately**.
+
+### Why This Changes Architecture
+
+**The ratings live in YOUR database**, not Kakao's. This means:
+
+1. **Full cafe data with ratings must be available client-side** - Can't rely on Kakao's POI data
+2. **Filtering must happen client-side** (or via API with filter params)
+3. **Markers must be conditionally rendered** based on filter state
+4. **Clustering must re-calculate** when filters change
+
+### Rating Dimensions to Support
+
+Based on `src/types/cafe.ts` RatingBreakdown:
+- `food` - Food quality rating
+- `drinks` - Drink quality rating  
+- `temperature` - Indoor temperature comfort
+- `seating` - **Primary use case**
+- `ambiance` - Atmosphere/vibe
+- `wifi` - WiFi quality
+- `noise` - Noise level (quieter = higher rating)
+- `outlets` - Power outlet availability
+- `value` - Price/value ratio
+
+### Architecture Pattern: Client-Side Filtering
+
+**What:** Filter cafes client-side using React state, then render only visible markers
+**When to use:** <500 cafes (reasonable for initial dataset)
+**Example:**
+
+```typescript
+// src/components/map/cafe-map.tsx
+'use client';
+
+import { useState, useMemo } from 'react';
+import { Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk';
+import type { CafeSummary } from '@/types/cafe';
+import type { RatingDimension } from '@/types/cafe';
+
+interface MapFilters {
+  seating?: { min: number; max: number };
+  wifi?: { min: number; max: number };
+  // ... other dimensions
+}
+
+interface CafeMapProps {
+  cafes: CafeSummary[];
+  filters?: MapFilters;
+  onCafeSelect?: (cafe: CafeSummary) => void;
+}
+
+export function CafeMap({ cafes, filters, onCafeSelect }: CafeMapProps) {
+  // Filter cafes client-side based on ratings
+  const visibleCafes = useMemo(() => {
+    if (!filters) return cafes;
+    
+    return cafes.filter((cafe) => {
+      // Check each active filter
+      if (filters.seating) {
+        const rating = cafe.ratings.seating;
+        if (rating === null || rating < filters.seating.min) return false;
+      }
+      if (filters.wifi) {
+        const rating = cafe.ratings.wifi;
+        if (rating === null || rating < filters.wifi.min) return false;
+      }
+      // ... check other dimensions
+      return true;
+    });
+  }, [cafes, filters]);
+
+  return (
+    <Map
+      center={{ lat: 37.5665, lng: 126.9780 }}
+      style={{ width: '100%', height: '100vh' }}
+      level={7}
+    >
+      <MarkerClusterer averageCenter={true} minLevel={4}>
+        {visibleCafes.map((cafe) => (
+          <MapMarker
+            key={cafe.id}
+            position={{ lat: cafe.latitude, lng: cafe.longitude }}
+            onClick={() => onCafeSelect?.(cafe)}
+          />
+        ))}
+      </MarkerClusterer>
+    </Map>
+  );
+}
+```
+
+### Alternative: Server-Side Filtering (Scale >500 cafes)
+
+**What:** API endpoint accepts bounds + filter params, returns only matching cafes
+**When to use:** Large dataset (>500 cafes) where client-side filtering is slow
+**Tradeoff:** More API calls (on every pan/zoom/filter change), but less data transfer
+
+```typescript
+// API endpoint would accept:
+interface MapSearchParams {
+  north: number;      // Map bounds
+  south: number;
+  east: number;
+  west: number;
+  seatingMin?: number;
+  wifiMin?: number;
+  // ... other filters
+}
+```
+
+### Data Requirements
+
+**Current CafeSummary type is INSUFFICIENT.** It needs ratings:
+
+```typescript
+// Current (from src/types/cafe.ts line 63-81):
+export interface CafeSummary {
+  id: string;
+  name: TranslatedText;
+  slug: string;
+  // ...
+  overallRating: number;
+  totalRatings: number;
+  // MISSING: individual rating dimensions!
+}
+
+// REQUIRED for filtering:
+export interface CafeSummary {
+  id: string;
+  name: TranslatedText;
+  slug: string;
+  // ... existing fields ...
+  overallRating: number;
+  totalRatings: number;
+  ratings: {
+    food: number | null;
+    drinks: number | null;
+    temperature: number | null;
+    seating: number | null;  // ⭐ CRITICAL for filtering
+    ambiance: number | null;
+    wifi: number | null;
+    noise: number | null;
+    outlets: number | null;
+    value: number | null;
+  };
+}
+```
+
+### Filter UI Integration
+
+**Existing component:** `src/components/search-filters.tsx`
+
+**Recommendation:** Create a shared filter state that works on both `/cafes` and `/map`:
+
+```typescript
+// src/hooks/use-map-filters.ts
+'use client';
+
+import { useState } from 'react';
+
+export interface FilterState {
+  seatingMin: number | null;
+  wifiMin: number | null;
+  hasWifi: boolean;
+  isPetFriendly: boolean;
+  // ... other filters
+}
+
+export function useMapFilters() {
+  const [filters, setFilters] = useState<FilterState>({
+    seatingMin: null,
+    wifiMin: null,
+    hasWifi: false,
+    isPetFriendly: false,
+  });
+
+  const updateFilter = (key: keyof FilterState, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      seatingMin: null,
+      wifiMin: null,
+      hasWifi: false,
+      isPetFriendly: false,
+    });
+  };
+
+  return { filters, updateFilter, clearFilters };
+}
+```
+
+### Clustering with Filters
+
+**Challenge:** When filters change, clustering must re-calculate.
+**Solution:** React re-renders handle this automatically if `visibleCafes` is a dependency:
+
+```typescript
+// MarkerClusterer automatically re-clusters when children change
+<MarkerClusterer>
+  {visibleCafes.map(cafe => (
+    <MapMarker key={cafe.id} ... />
+  ))}
+</MarkerClusterer>
+```
+
+### Performance Considerations
+
+| Cafe Count | Strategy | Filter Latency |
+|------------|----------|----------------|
+| <100 | Client-side | Instant |
+| 100-500 | Client-side with useMemo | <50ms |
+| 500-2000 | Debounced client-side | 100-200ms |
+| >2000 | Server-side with bounds | 100-300ms (API call) |
+
+**Recommendation:** Start with client-side filtering. Most cafe discovery apps have <500 cafes per city.
+
 ## Open Questions
 
 1. **Cafe Data Volume**
    - What we know: Current schema has ~25 districts, unknown cafe count
    - What's unclear: How many active cafes? (affects clustering strategy)
+   - **What's NEW:** Need rating dimensions in CafeSummary type
    - Recommendation: Implement bounds-based fetching if >200 cafes
 
 2. **Map Filter Requirements**
-   - What we know: Existing filter component has district, type, features filters
-   - What's unclear: Should filters apply to map view?
-   - Recommendation: Yes, sync filters between /cafes and /map
+   - ✅ **RESOLVED:** Yes, filters must apply to map view
+   - **Specific requirement:** Filter by rating dimensions (seating, wifi, etc.)
+   - **Implementation:** Client-side filtering with useMemo
+   - Recommendation: Create shared filter component for /cafes and /map
 
 3. **Mobile Map UX**
    - What we know: Site is responsive, uses mobile-first approach
@@ -445,6 +1006,11 @@ import { MapProvider } from '@/components/map/map-provider';
    - What we know: Already have Kakao OAuth app
    - What's unclear: Same app for Maps API or separate?
    - Recommendation: Use same app, enable Maps API in console
+
+5. **Rating Data Availability**
+   - What we know: Full Cafe type has ratings object
+   - What's unclear: Is ratings data populated for all cafes?
+   - **CRITICAL:** CafeSummary must include ratings for map filtering
 
 ## Sources
 
