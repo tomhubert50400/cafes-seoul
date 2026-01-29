@@ -84,6 +84,17 @@ export function transformCafeSummary(row: Record<string, unknown>): CafeSummary 
     isLaptopFriendly: row.is_laptop_friendly as boolean,
     primaryImageUrl: getStorageUrl(row.primary_image_url as string | null),
     distance: row.distance_meters ? parseFloat(row.distance_meters as string) : undefined,
+    ratings: {
+      food: row.rating_food ? parseFloat(row.rating_food as string) : null,
+      drinks: row.rating_drinks ? parseFloat(row.rating_drinks as string) : null,
+      temperature: row.rating_temperature ? parseFloat(row.rating_temperature as string) : null,
+      seating: row.rating_seating ? parseFloat(row.rating_seating as string) : null,
+      ambiance: row.rating_ambiance ? parseFloat(row.rating_ambiance as string) : null,
+      wifi: row.rating_wifi ? parseFloat(row.rating_wifi as string) : null,
+      noise: row.rating_noise ? parseFloat(row.rating_noise as string) : null,
+      outlets: row.rating_outlets ? parseFloat(row.rating_outlets as string) : null,
+      value: row.rating_value ? parseFloat(row.rating_value as string) : null,
+    },
   };
 }
 
