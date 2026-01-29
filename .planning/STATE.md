@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 5 of 5 (Auth UI/UX Polish)
-Plan: 1 of ? in phase
+Plan: 2 of ? in phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 05-01-PLAN.md
+Last activity: 2026-01-29 — Completed 05-02-PLAN.md
 
-Progress: [██████████] 100% (11/11 plans complete)
+Progress: [██████████] 100% (12/12 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: ~4 min/plan
-- Total execution time: ~0.5 hours
+- Total plans completed: 10
+- Average duration: ~6 min/plan
+- Total execution time: ~1.0 hours
 
 **By Phase:**
 
@@ -31,12 +31,19 @@ Progress: [██████████] 100% (11/11 plans complete)
 | 2. Email/Password Auth | 4/4 | ~15 min | ~4 min |
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
 | 4. Protected Routes | 4/4 | ~25 min | ~6 min |
+| 5. Auth UI/UX Polish | 2/2 | ~30 min | ~15 min |
 
 *Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 5 (05-02):**
+- 200ms delay prevents flash: Loading overlay appears after 200ms delay to prevent visual flash on fast responses (sub-200ms operations)
+- Separate isLoading and showOverlay states: isLoading controls button state and form interactivity immediately, while showOverlay controls visual overlay with delay
+- AbortController for cancellation: Each form submission creates a new AbortController, enabling users to cancel in-flight requests via the cancel button
+- Consistent pattern across forms: Login and signup forms share identical loading state implementation for maintainability
 
 **From Phase 5 (05-01):**
 - Error clearing behavior: Errors only clear immediately when user types if the field was previously touched (not on initial load) - prevents clearing validation before user interaction
@@ -123,9 +130,9 @@ All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-01-PLAN.md
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
-Next action: Continue with 05-02-PLAN.md or next plan in Phase 5
+Next action: Continue with next plan in Phase 5 or transition to Phase 6
 
 ---
 *State initialized: 2026-01-27*
