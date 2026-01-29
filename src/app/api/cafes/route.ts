@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (params.q) {
-    query = query.or(`name->ko.ilike.%${params.q}%,name->en.ilike.%${params.q}%,address->ko.ilike.%${params.q}%`);
+    query = query.or(`name->>ko.ilike.%${params.q}%,name->>en.ilike.%${params.q}%,address->>ko.ilike.%${params.q}%`);
   }
 
   // Apply sorting
