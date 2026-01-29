@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/server'
 import { LanguageSwitcher } from '@/components/language-switcher'
+import { AuthMotionWrapper } from './auth-motion-wrapper'
 import { ROUTES } from '@/lib/constants/routes'
 
 function CoffeeIcon({ className }: { className?: string }) {
@@ -56,15 +56,9 @@ export default async function AuthLayout({
 
       {/* Centered content area with motion wrapper */}
       <main className="flex-1 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="w-full max-w-sm"
-        >
+        <AuthMotionWrapper>
           {children}
-        </motion.div>
+        </AuthMotionWrapper>
       </main>
     </div>
   )
