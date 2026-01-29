@@ -209,6 +209,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.editProfile': 'Edit Profile',
     'profile.comingSoon': 'Coming Soon',
     'profile.featureSoon': 'This feature will be available soon',
+
+    // Toast Notifications
+    'auth.toast.error.title': 'Error',
+    'auth.toast.error.multiple': '{count} errors found',
+    'auth.toast.success.login': 'Welcome back!',
+    'auth.toast.success.signup': 'Account created!',
+    'auth.toast.success.logout': 'Logged out successfully',
+    'auth.toast.success.resend': 'Verification email sent',
+
+    // Verify Email Page
+    'auth.verify.title': 'Check your email',
+    'auth.verify.message': 'We sent a verification link to:',
+    'auth.verify.instructions': 'Click the link in your email to activate your account',
+    'auth.verify.resend': 'Resend email',
+    'auth.verify.back': 'Back to sign up',
   },
 
   ko: {
@@ -411,6 +426,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.editProfile': '프로필 수정',
     'profile.comingSoon': '준비 중',
     'profile.featureSoon': '이 기능은 곧 제공될 예정입니다',
+
+    // Toast Notifications
+    'auth.toast.error.title': '오류',
+    'auth.toast.error.multiple': '오류 {count}개 발견',
+    'auth.toast.success.login': '다시 오신 것을 환영합니다!',
+    'auth.toast.success.signup': '계정이 생성되었습니다!',
+    'auth.toast.success.logout': '로그아웃되었습니다',
+    'auth.toast.success.resend': '인증 이메일이 발송되었습니다',
+
+    // Verify Email Page
+    'auth.verify.title': '이메일을 확인하세요',
+    'auth.verify.message': '인증 링크를 다음 주소로 볃냈습니다:',
+    'auth.verify.instructions': '이메일의 링크를 클릭하여 계정을 활성화하세요',
+    'auth.verify.resend': '이메일 다시 볂기',
+    'auth.verify.back': '회원가입으로 돌아가기',
   },
 
   fr: {
@@ -613,6 +643,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.editProfile': 'Modifier le profil',
     'profile.comingSoon': 'Bientôt disponible',
     'profile.featureSoon': 'Cette fonctionnalité sera bientôt disponible',
+
+    // Toast Notifications
+    'auth.toast.error.title': 'Erreur',
+    'auth.toast.error.multiple': '{count} erreurs trouvées',
+    'auth.toast.success.login': 'Bon retour !',
+    'auth.toast.success.signup': 'Compte créé !',
+    'auth.toast.success.logout': 'Déconnexion réussie',
+    'auth.toast.success.resend': 'Email de vérification envoyé',
+
+    // Verify Email Page
+    'auth.verify.title': 'Vérifiez votre email',
+    'auth.verify.message': 'Nous avons envoyé un lien de vérification à :',
+    'auth.verify.instructions': 'Cliquez sur le lien dans votre email pour activer votre compte',
+    'auth.verify.resend': 'Renvoyer l\'email',
+    'auth.verify.back': 'Retour à l\'inscription',
   },
 
   zh: {
@@ -815,6 +860,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.editProfile': '编辑资料',
     'profile.comingSoon': '即将推出',
     'profile.featureSoon': '此功能即将推出',
+
+    // Toast Notifications
+    'auth.toast.error.title': '错误',
+    'auth.toast.error.multiple': '发现 {count} 个错误',
+    'auth.toast.success.login': '欢迎回来！',
+    'auth.toast.success.signup': '账户已创建！',
+    'auth.toast.success.logout': '登出成功',
+    'auth.toast.success.resend': '验证邮件已发送',
+
+    // Verify Email Page
+    'auth.verify.title': '查看您的邮箱',
+    'auth.verify.message': '我们向以下地址发送了验证链接：',
+    'auth.verify.instructions': '点击邮件中的链接以激活您的账户',
+    'auth.verify.resend': '重新发送邮件',
+    'auth.verify.back': '返回注册',
   },
 
   vi: {
@@ -1017,5 +1077,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.editProfile': 'Chỉnh sửa',
     'profile.comingSoon': 'Sắp ra mắt',
     'profile.featureSoon': 'Tính năng này sẽ sớm ra mắt',
+
+    // Toast Notifications
+    'auth.toast.error.title': 'Lỗi',
+    'auth.toast.error.multiple': 'Phát hiện {count} lỗi',
+    'auth.toast.success.login': 'Chào mừng trở lại!',
+    'auth.toast.success.signup': 'Tài khoản đã được tạo!',
+    'auth.toast.success.logout': 'Đăng xuất thành công',
+    'auth.toast.success.resend': 'Email xác minh đã được gửi',
+
+    // Verify Email Page
+    'auth.verify.title': 'Kiểm tra email của bạn',
+    'auth.verify.message': 'Chúng tôi đã gửi liên kết xác minh đến:',
+    'auth.verify.instructions': 'Nhấp vào liên kết trong email để kích hoạt tài khoản',
+    'auth.verify.resend': 'Gửi lại email',
+    'auth.verify.back': 'Quay lại đăng ký',
   },
 };
