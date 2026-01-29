@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 6 of 6 (Map Feature)
-Plan: 0 of 6 in phase
-Status: Planned, ready for execution
-Last activity: 2026-01-29 — Created 06-PLAN.md
+Plan: 1 of 6 in phase
+Status: In progress
+Last activity: 2026-01-29 — Completed 06-01-PLAN.md
 
-Progress: [████████████████████░░░░] 80% (16/20 plans complete, 4 planned)
+Progress: [█████████████████████░░░] 85% (17/20 plans complete, 3 planned)
 
 ## Performance Metrics
 
@@ -39,6 +39,11 @@ Progress: [████████████████████░░░
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 6 (06-01):**
+- NEXT_PUBLIC_KAKAO_MAPS_API_KEY naming: Standardized on plural "MAPS" form for consistency with Kakao docs
+- CafeSummary.ratings is required field: Ensures all cafe data includes rating breakdowns for consistent filtering
+- Rating transform pattern: Individual rating_* columns parsed as floats with null fallbacks
 
 **From Phase 5 (05-06):**
 - useAutofillDetection hook: Triple detection strategy (onInput + polling + CSS animation) for password manager compatibility
@@ -161,9 +166,9 @@ Requirements for Phase 6:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Created 06-PLAN.md
-Resume file: .planning/phases/06-map-feature/06-PLAN.md
-Next action: Execute 06-01-PLAN.md (Dependencies & Type Updates)
+Stopped at: Completed 06-01-PLAN.md
+Resume file: None
+Next action: Execute 06-02-PLAN.md (Map Infrastructure)
 
 ---
 *State initialized: 2026-01-27*
