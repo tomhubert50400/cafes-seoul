@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 6 of 6 (Map Feature)
-Plan: 3 of 6 in phase
-Status: In progress
-Last activity: 2026-01-29 — Completed 06-03-PLAN.md
+Plan: 5 of 6 in phase (Tasks 1-4 complete, Task 5 pending)
+Status: In progress - Awaiting checkpoint verification
+Last activity: 2026-01-29 — Completed 06-05 tasks 1-4, checkpoint at Task 5
 
 Progress: [███████████████████████░] 95% (19/20 plans complete, 1 planned)
 
@@ -177,9 +177,9 @@ Requirements for Phase 6:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 06-03-PLAN.md
-Resume file: None
-Next action: Execute 06-04-PLAN.md (Map Page)
+Stopped at: Checkpoint in 06-05-PLAN.md (Task 5 - Verify static map on cafe detail pages)
+Resume file: .planning/phases/06-map-feature/06-05-SUMMARY.md
+Next action: Await user verification of static map display
 
 ---
 *State initialized: 2026-01-27*
