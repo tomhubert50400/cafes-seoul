@@ -97,10 +97,14 @@ Plans:
   3. Server errors display as inline messages or toast notifications
   4. Password strength indicator guides users to create secure passwords
   5. All auth flows feel smooth and provide clear feedback at each step
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 05-01-PLAN.md — Enhanced client-side validation with blur timing and focus management
+- [ ] 05-02-PLAN.md — Form loading overlays with 200ms delay and cancel functionality
+- [ ] 05-03-PLAN.md — Toast notifications for errors/success and email verification page
+- [ ] 05-04-PLAN.md — Password strength meter with criteria guidance
+- [ ] 05-05-PLAN.md — Final polish, animations, keyboard nav, and verification checkpoint
 
 ## Progress
 
