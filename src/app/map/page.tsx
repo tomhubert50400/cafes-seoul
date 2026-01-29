@@ -1,24 +1,8 @@
-import dynamic from 'next/dynamic';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
+import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
 import type { CafeSummary } from '@/types/cafe';
-
-// Dynamic import with SSR disabled for map components
-const CafeMapWrapper = dynamic(
-  () => import('@/components/map/cafe-map-wrapper').then((mod) => mod.CafeMapWrapper),
-  { 
-    ssr: false,
-    loading: () => (
-      <div className="flex h-full items-center justify-center bg-muted/20">
-        <div className="text-center">
-          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto" />
-          <p className="mt-2 text-sm text-muted-foreground">Loading map...</p>
-        </div>
-      </div>
-    )
-  }
-);
 
 async function getCafes(): Promise<CafeSummary[]> {
   const supabase = await createClient();
@@ -53,7 +37,7 @@ export default async function MapPage() {
     <div className="min-h-screen flex flex-col">
       <Header user={user} />
       <main className="flex-1 h-[calc(100vh-3.5rem)]">
-        <CafeMapWrapper cafes={cafes} />
+        <CafeMapWrapperDynamic cafes={cafes} />
       </main>
     </div>
   );
