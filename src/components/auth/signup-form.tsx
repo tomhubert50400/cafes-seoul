@@ -12,6 +12,7 @@ import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter
 import { useI18n } from '@/lib/i18n'
 import { OAuthButtons } from '@/components/auth/oauth-buttons'
 import { FormLoadingOverlay } from '@/components/auth/form-loading-overlay'
+import { showAuthError } from './auth-toast'
 
 interface SubmitButtonProps {
   isValid: boolean
@@ -43,7 +44,6 @@ export function SignupForm({ oauthError }: SignupFormProps) {
   const [showOverlay, setShowOverlay] = useState(false)
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
-  const [error, setError] = useState<string | null>(null)
 
   const {
     register,
@@ -102,7 +102,6 @@ export function SignupForm({ oauthError }: SignupFormProps) {
 
   // Form submission handler
   const onSubmit = useCallback(async (data: SignupInput) => {
-    setError(null)
     clearErrors()
     
     // Create new abort controller for this request
@@ -135,14 +134,15 @@ export function SignupForm({ oauthError }: SignupFormProps) {
       }
       
       if (result?.message) {
-        setError(result.message)
+        // Show error as toast instead of inline
+        showAuthError(result.message, t)
       }
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
         // Request was cancelled - no error to show
         return
       }
-      setError(t('common.error'))
+      showAuthError(t('common.error'), t)
     } finally {
       stopLoading()
       abortControllerRef.current = null
@@ -246,13 +246,6 @@ export function SignupForm({ oauthError }: SignupFormProps) {
         {/* Password strength meter */}
         <PasswordStrengthMeter password={password} />
       </div>
-
-      {/* Server error message */}
-      {error && (
-        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {error}
-        </div>
-      )}
 
       {/* Submit button */}
       <SubmitButton isValid={isValid} isLoading={isLoading} />
