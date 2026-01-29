@@ -78,6 +78,9 @@ export interface CafeSummary {
   isLaptopFriendly: boolean;
   primaryImageUrl: string | null;
   distance?: number; // in meters, when searching by location
+
+  // Ratings breakdown for map filtering
+  ratings: RatingBreakdown;
 }
 
 export interface RatingBreakdown {
