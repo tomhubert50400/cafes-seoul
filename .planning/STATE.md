@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 5 of 5 (Auth UI/UX Polish)
-Plan: 4 of 6 in phase
+Plan: 5 of 6 in phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 05-04-PLAN.md
+Last activity: 2026-01-29 — Completed 05-05-PLAN.md
 
-Progress: [████████████░░░░░░░░] 67% (14/15 plans complete)
+Progress: [█████████████░░░░░░░] 73% (15/16 plans complete)
 
 ## Performance Metrics
 
@@ -38,6 +38,12 @@ Progress: [████████████░░░░░░░░] 67% (14
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 5 (05-05):**
+- Custom scoring algorithm replaces zxcvbn: Finer control over password strength calculation and criteria
+- Check/Circle icon pattern: Met criteria show Check (green), unmet show Circle (neutral gray) - avoids negative X
+- 3-character threshold for meter appearance: Prevents overwhelming users with feedback too early
+- Animate-in CSS classes: Built-in Tailwind animation classes provide smooth entrance without framer-motion
 
 **From Phase 5 (05-04):**
 - OAuth errors remain inline: URL query param errors (OAuth failures) stay inline since user just landed
@@ -144,9 +150,9 @@ All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-04-PLAN.md
+Stopped at: Completed 05-05-PLAN.md
 Resume file: None
-Next action: Continue with 05-05-PLAN.md in Phase 5
+Next action: Continue with 05-06-PLAN.md in Phase 5
 
 ---
 *State initialized: 2026-01-27*

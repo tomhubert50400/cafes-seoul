@@ -100,11 +100,11 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Enhanced client-side validation with blur timing and focus management
-- [ ] 05-02-PLAN.md — Form loading overlays with 200ms delay and cancel functionality
-- [ ] 05-03-PLAN.md — Toast notifications infrastructure (sonner config, auth-toast helpers, Toaster in layout)
-- [ ] 05-04-PLAN.md — Toast integration & verify page (form integrations, verify-email page, logout toast)
-- [ ] 05-05-PLAN.md — Password strength meter with criteria guidance
+- [x] 05-01-PLAN.md — Enhanced client-side validation with blur timing and focus management
+- [x] 05-02-PLAN.md — Form loading overlays with 200ms delay and cancel functionality
+- [x] 05-03-PLAN.md — Toast notifications infrastructure (sonner config, auth-toast helpers, Toaster in layout)
+- [x] 05-04-PLAN.md — Toast integration & verify page (form integrations, verify-email page, logout toast)
+- [x] 05-05-PLAN.md — Password strength meter with criteria guidance
 - [ ] 05-06-PLAN.md — Final polish, animations, keyboard nav, and verification checkpoint
 
 ## Progress
@@ -118,7 +118,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Email/Password Authentication | 4/4 | ✓ Complete | 2026-01-28 |
 | 3. OAuth Integration | 2/2 | ✓ Complete | 2026-01-28 |
 | 4. Protected Routes & Session Management | 4/4 | ✓ Complete | 2026-01-28 |
-| 5. Auth UI/UX Polish | 0/? | Not started | - |
+| 5. Auth UI/UX Polish | 5/6 | In progress | 2026-01-29 |
 
 ---
 *Roadmap created: 2026-01-27*
@@ -130,4 +130,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 3 executed: 2026-01-28*
 *Phase 4 planned: 2026-01-28*
 *Phase 4 executed: 2026-01-28*
-*Next: `/gsd-discuss-phase 5` or `/gsd-plan-phase 5`*
+*Phase 5 planned: 2026-01-29*
+*Phase 5 executing: 2026-01-29*
+*Phase 5 in progress: 5/6 plans complete*
+*Next: 05-06-PLAN.md*
