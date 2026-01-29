@@ -243,8 +243,12 @@ export function SignupForm({ oauthError }: SignupFormProps) {
         {errors.password && (
           <p className="text-sm text-destructive">{errors.password.message}</p>
         )}
-        {/* Password strength meter */}
-        <PasswordStrengthMeter password={password} />
+        {/* Password strength meter - only show after 3+ characters */}
+        {password.length >= 3 && (
+          <div className="animate-in slide-in-from-top-2 fade-in duration-200">
+            <PasswordStrengthMeter password={password} t={t} />
+          </div>
+        )}
       </div>
 
       {/* Submit button */}
