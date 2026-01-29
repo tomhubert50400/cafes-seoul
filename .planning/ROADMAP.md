@@ -97,14 +97,15 @@ Plans:
   3. Server errors display as inline messages or toast notifications
   4. Password strength indicator guides users to create secure passwords
   5. All auth flows feel smooth and provide clear feedback at each step
-**Plans**: 5 plans
+**Plans**: 6 plans
 
 Plans:
 - [ ] 05-01-PLAN.md — Enhanced client-side validation with blur timing and focus management
 - [ ] 05-02-PLAN.md — Form loading overlays with 200ms delay and cancel functionality
-- [ ] 05-03-PLAN.md — Toast notifications for errors/success and email verification page
-- [ ] 05-04-PLAN.md — Password strength meter with criteria guidance
-- [ ] 05-05-PLAN.md — Final polish, animations, keyboard nav, and verification checkpoint
+- [ ] 05-03-PLAN.md — Toast notifications infrastructure (sonner config, auth-toast helpers, Toaster in layout)
+- [ ] 05-04-PLAN.md — Toast integration & verify page (form integrations, verify-email page, logout toast)
+- [ ] 05-05-PLAN.md — Password strength meter with criteria guidance
+- [ ] 05-06-PLAN.md — Final polish, animations, keyboard nav, and verification checkpoint
 
 ## Progress
 
