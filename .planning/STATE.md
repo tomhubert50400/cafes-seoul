@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 4 of 5 (Protected Routes & Session Management)
-Plan: 4 of 4 in phase
-Status: Phase complete
-Last activity: 2026-01-28 — Completed 04-04-PLAN.md
+Phase: 5 of 5 (Auth UI/UX Polish)
+Plan: 1 of ? in phase
+Status: In progress
+Last activity: 2026-01-29 — Completed 05-01-PLAN.md
 
-Progress: [██████████] 100% (10/10 plans complete)
+Progress: [██████████] 100% (11/11 plans complete)
 
 ## Performance Metrics
 
@@ -37,6 +37,11 @@ Progress: [██████████] 100% (10/10 plans complete)
 ## Accumulated Context
 
 ### Decisions
+
+**From Phase 5 (05-01):**
+- Error clearing behavior: Errors only clear immediately when user types if the field was previously touched (not on initial load) - prevents clearing validation before user interaction
+- Focus management priority: Email field focused first when server errors occur for better accessibility and user flow
+- i18n placeholder pattern: Form placeholders use dedicated translation keys instead of hardcoded strings
 
 **From Phase 4 (04-04):**
 - Remember me checkbox defaults to true: Better UX for users who want to stay logged in
@@ -102,7 +107,7 @@ None.
 
 ### Blockers/Concerns
 
-**Phase 4 complete - no blockers.**
+**Phase 5 in progress - no blockers.**
 
 All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 - AUTH-01: Email/password signup ✓
@@ -117,10 +122,10 @@ All auth requirements (AUTH-01 through AUTH-09) are now implemented:
 
 ## Session Continuity
 
-Last session: 2026-01-28
-Stopped at: Completed 04-04-PLAN.md
+Last session: 2026-01-29
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
-Next action: Phase 5 planning (Auth UI/UX Polish)
+Next action: Continue with 05-02-PLAN.md or next plan in Phase 5
 
 ---
 *State initialized: 2026-01-27*
