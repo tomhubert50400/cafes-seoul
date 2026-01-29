@@ -16,7 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Email/Password Authentication** - Signup, login, email verification, logout
 - [x] **Phase 3: OAuth Integration** - Google and Kakao social login
 - [x] **Phase 4: Protected Routes & Session Management** - Profile page, persistent sessions, auth UI state
-- [ ] **Phase 5: Auth UI/UX Polish** - Validation, loading states, error handling, redirects
+- [x] **Phase 5: Auth UI/UX Polish** - Validation, loading states, error handling, redirects
+- [ ] **Phase 6: Map Feature** - Interactive map with custom ratings filtering, static maps for cafe profiles
 
 ## Phase Details
 
@@ -107,6 +108,28 @@ Plans:
 - [x] 05-05-PLAN.md — Password strength meter with criteria guidance
 - [x] 05-06-PLAN.md — Final polish, animations, keyboard nav, and verification checkpoint
 
+### Phase 6: Map Feature
+**Goal**: Interactive map with custom ratings filtering and static maps for cafe profiles
+**Depends on**: Phase 5 (uses auth-aware Header)
+**Requirements**: Map feature with ratings filtering (core value prop)
+**Success Criteria** (what must be TRUE):
+  1. User can view all cafes on interactive map at `/map`
+  2. User can filter cafes by any rating dimension (seating, wifi, food, etc.)
+  3. Cafes below filter threshold disappear from map immediately
+  4. Map uses marker clustering for performance
+  5. Clicking marker shows cafe info with link to detail page
+  6. Cafe detail pages show static map focused on that location
+  7. Filters work on mobile with responsive layout
+**Plans**: 6 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Dependencies & Type Updates (react-kakao-maps-sdk, CafeSummary ratings field)
+- [ ] 06-02-PLAN.md — Map Infrastructure (MapProvider, types, filter utilities, hooks)
+- [ ] 06-03-PLAN.md — Filter System (rating sliders, feature toggles, i18n)
+- [ ] 06-04-PLAN.md — Interactive Map Page (clustering, markers, info windows, responsive layout)
+- [ ] 06-05-PLAN.md — Static Map Integration (cafe profile maps)
+- [ ] 06-06-PLAN.md — Polish & Testing (mobile, performance, error handling)
+
 ## Progress
 
 **Execution Order:**
@@ -119,6 +142,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 3. OAuth Integration | 2/2 | ✓ Complete | 2026-01-28 |
 | 4. Protected Routes & Session Management | 4/4 | ✓ Complete | 2026-01-28 |
 | 5. Auth UI/UX Polish | 6/6 | ✓ Complete | 2026-01-29 |
+| 6. Map Feature | 0/6 | Planned | - |
 
 ---
 *Roadmap created: 2026-01-27*
@@ -133,4 +157,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 *Phase 5 planned: 2026-01-29*
 *Phase 5 executed: 2026-01-29*
 *Phase 5 complete: 2026-01-29 — All 6 plans finished*
-*Milestone complete: Authentication system ready for production*
+*Phase 6 planned: 2026-01-29*
+*Milestone: Authentication complete, Map Feature planned*

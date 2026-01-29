@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Phase 5 complete - Authentication milestone finished
+**Current focus:** Phase 6 ready - Map Feature with custom ratings filtering
 
 ## Current Position
 
-Phase: 5 of 5 (Auth UI/UX Polish)
-Plan: 6 of 6 in phase
-Status: Phase complete
-Last activity: 2026-01-29 — Completed 05-06-PLAN.md
+Phase: 6 of 6 (Map Feature)
+Plan: 0 of 6 in phase
+Status: Planned, ready for execution
+Last activity: 2026-01-29 — Created 06-PLAN.md
 
-Progress: [████████████████████] 100% (16/16 plans complete)
+Progress: [████████████████████░░░░] 80% (16/20 plans complete, 4 planned)
 
 ## Performance Metrics
 
@@ -32,6 +32,7 @@ Progress: [████████████████████] 100% (1
 | 3. OAuth Integration | 2/2 | ~11 min | ~5 min |
 | 4. Protected Routes | 4/4 | ~25 min | ~6 min |
 | 5. Auth UI/UX Polish | 6/6 | ~57 min | ~10 min |
+| 6. Map Feature | 0/6 | - | ~25 min est |
 
 *Updated after each plan completion*
 
@@ -141,25 +142,28 @@ None.
 
 ### Blockers/Concerns
 
-**Phase 5 complete - Authentication milestone finished.**
+**Phase 6 ready for execution - Map Feature with ratings filtering.**
 
-All auth requirements (AUTH-01 through AUTH-09) are now implemented and polished:
-- AUTH-01: Email/password signup ✓
-- AUTH-02: Email verification ✓
-- AUTH-03: Email verification link handling ✓
-- AUTH-04: Email/password login ✓
-- AUTH-05: Google OAuth ✓
-- AUTH-06: Kakao OAuth ✓
-- AUTH-07: Logout ✓
-- AUTH-08: Session persistence ✓
-- AUTH-09: Auth-aware UI ✓
+Requirements for Phase 6:
+- ✅ Research complete (06-RESEARCH.md)
+- ✅ Plan created (06-PLAN.md with 6 sub-plans)
+- ⏳ Kakao Maps API key needed (user to provide)
+- ⏳ Cafe data must have ratings populated
+
+**Key dependencies:**
+1. **Kakao API Key** - User needs JavaScript key from Kakao Developers Console
+2. **CafeSummary type update** - Must add `ratings` field for filter support
+3. **Cafe data** - Database cafes should have ratings JSONB populated
+
+**Authentication milestone complete:**
+- AUTH-01 through AUTH-09: All implemented ✓
 
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 05-06-PLAN.md
-Resume file: None
-Next action: Milestone completion and audit
+Stopped at: Created 06-PLAN.md
+Resume file: .planning/phases/06-map-feature/06-PLAN.md
+Next action: Execute 06-01-PLAN.md (Dependencies & Type Updates)
 
 ---
 *State initialized: 2026-01-27*
@@ -168,3 +172,4 @@ Next action: Milestone completion and audit
 *Phase 3 verified: 2026-01-28*
 *Phase 4 complete: 2026-01-28*
 *Phase 5 complete: 2026-01-29 — All 6 plans finished*
+*Phase 6 planned: 2026-01-29 — Ready for execution*
