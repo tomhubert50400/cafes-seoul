@@ -13,6 +13,7 @@ import { useI18n } from '@/lib/i18n'
 import { OAuthButtons } from '@/components/auth/oauth-buttons'
 import { FormLoadingOverlay } from '@/components/auth/form-loading-overlay'
 import { showAuthError, showAuthSuccess } from './auth-toast'
+import { useAutofillDetection } from '@/hooks/use-autofill-detection'
 
 interface SubmitButtonProps {
   isValid: boolean
@@ -140,62 +141,21 @@ export function LoginForm({ oauthError }: LoginFormProps) {
     }
   }, [])
 
-  // Handle autofill detection - check for values filled by password managers
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    // Check for autofill every 100ms for the first 3 seconds after mount
-    // Password managers like Dashlane fill values programmatically
-    const checkAutofill = () => {
-      const emailInput = document.getElementById('email') as HTMLInputElement
-      const passwordInput = document.getElementById('password') as HTMLInputElement
-
-      if (emailInput && passwordInput) {
-        const emailValue = emailInput.value
-        const passwordValue = passwordInput.value
-        const currentValues = getValues()
-
-        // If inputs have values but form doesn't, autofill happened
-        if (emailValue && !currentValues.email) {
-          setValue('email', emailValue, { shouldValidate: true })
-        }
-        if (passwordValue && !currentValues.password) {
-          setValue('password', passwordValue, { shouldValidate: true })
-        }
-      }
-    }
-
-    // Initial check
-    checkAutofill()
-
-    // Set up interval for early autofill detection
-    const intervalId = setInterval(checkAutofill, 100)
-
-    // Stop checking after 3 seconds
-    const timeoutId = setTimeout(() => {
-      clearInterval(intervalId)
-    }, 3000)
-
-    // Also listen for animation events which some browsers trigger on autofill
-    const emailInput = document.getElementById('email')
-    const passwordInput = document.getElementById('password')
-
-    const handleAnimationStart = (e: AnimationEvent) => {
-      if (e.animationName === 'onAutoFillStart') {
-        checkAutofill()
-      }
-    }
-
-    emailInput?.addEventListener('animationstart', handleAnimationStart)
-    passwordInput?.addEventListener('animationstart', handleAnimationStart)
-
-    return () => {
-      clearInterval(intervalId)
-      clearTimeout(timeoutId)
-      emailInput?.removeEventListener('animationstart', handleAnimationStart)
-      passwordInput?.removeEventListener('animationstart', handleAnimationStart)
-    }
-  }, [getValues, setValue])
+  // Handle autofill detection using custom hook
+  useAutofillDetection({
+    fields: [
+      { id: 'email', name: 'email' },
+      { id: 'password', name: 'password' },
+    ],
+    onAutofill: (fieldName, value) => {
+      setValue(fieldName as keyof LoginInput, value, { 
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
+    },
+    enabled: true,
+  })
 
   // Store email for resend verification
   const [lastEmail, setLastEmail] = useState<string>('')
