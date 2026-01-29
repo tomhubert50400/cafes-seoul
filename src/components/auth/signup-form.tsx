@@ -179,7 +179,11 @@ export function SignupForm({ oauthError }: SignupFormProps) {
 
       {/* OAuth error from URL */}
       {oauthError && (
-        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+        <div
+          className="rounded-md bg-destructive/10 p-3 text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200"
+          role="alert"
+          aria-live="assertive"
+        >
           {oauthError}
         </div>
       )}

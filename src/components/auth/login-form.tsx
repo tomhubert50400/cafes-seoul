@@ -226,7 +226,11 @@ export function LoginForm({ oauthError }: LoginFormProps) {
 
       {/* OAuth error from URL */}
       {oauthError && (
-        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+        <div
+          className="rounded-md bg-destructive/10 p-3 text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200"
+          role="alert"
+          aria-live="assertive"
+        >
           {oauthError}
         </div>
       )}
@@ -340,7 +344,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
         <Button
           type="button"
           variant="outline"
-          className="w-full"
+          className="w-full transition-all duration-150"
           onClick={handleResendVerification}
           disabled={isLoading}
         >

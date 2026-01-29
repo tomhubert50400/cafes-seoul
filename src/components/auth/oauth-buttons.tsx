@@ -50,7 +50,11 @@ export function OAuthButtons() {
 
       {/* Error display */}
       {error && (
-        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+        <div
+          className="rounded-md bg-destructive/10 p-3 text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200"
+          role="alert"
+          aria-live="assertive"
+        >
           {error}
         </div>
       )}
@@ -59,9 +63,10 @@ export function OAuthButtons() {
       <Button
         type="button"
         variant="outline"
-        className="w-full bg-[#FEE500] hover:bg-[#FEE500]/90 text-[#000000] font-medium border-[#FEE500] hover:border-[#FEE500]/90"
+        className="w-full bg-[#FEE500] hover:bg-[#FEE500]/90 text-[#000000] font-medium border-[#FEE500] hover:border-[#FEE500]/90 transition-all duration-150"
         onClick={() => handleOAuthLogin('kakao')}
         disabled={isLoading}
+        aria-busy={loadingProvider === 'kakao'}
       >
         {loadingProvider === 'kakao'
           ? t('auth.oauth.loading')
@@ -72,9 +77,10 @@ export function OAuthButtons() {
       <Button
         type="button"
         variant="outline"
-        className="w-full"
+        className="w-full transition-all duration-150"
         onClick={() => handleOAuthLogin('google')}
         disabled={isLoading}
+        aria-busy={loadingProvider === 'google'}
       >
         {loadingProvider === 'google'
           ? t('auth.oauth.loading')
