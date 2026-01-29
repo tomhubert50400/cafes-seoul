@@ -218,7 +218,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
         <Input
           id="email"
           type="email"
-          placeholder="you@example.com"
+          placeholder={t('auth.form.emailPlaceholder')}
           disabled={isLoading}
           {...register('email', {
             onChange: () => {
@@ -254,7 +254,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Enter your password"
+            placeholder={t('auth.form.passwordPlaceholder')}
             disabled={isLoading}
             {...register('password', {
               onChange: () => {

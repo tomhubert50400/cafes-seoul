@@ -87,7 +87,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
         <Input
           id="email"
           type="email"
-          placeholder="you@example.com"
+          placeholder={t('auth.form.emailPlaceholder')}
           {...register('email', {
             onChange: () => {
               // Clear error immediately when user types, if field was touched
@@ -122,7 +122,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Create a password"
+            placeholder={t('auth.form.passwordCreatePlaceholder')}
             {...register('password', {
               onChange: () => {
                 // Clear error immediately when user types, if field was touched

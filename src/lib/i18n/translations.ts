@@ -167,6 +167,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.form.password': 'Password',
     'auth.form.showPassword': 'Show password',
     'auth.form.hidePassword': 'Hide password',
+    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.passwordPlaceholder': 'Enter your password',
+    'auth.form.passwordCreatePlaceholder': 'Create a password',
 
     'auth.password.weak': 'Weak',
     'auth.password.fair': 'Fair',
@@ -362,6 +365,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.form.password': '비밀번호',
     'auth.form.showPassword': '비밀번호 표시',
     'auth.form.hidePassword': '비밀번호 숨기기',
+    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.passwordPlaceholder': '비밀번호를 입력하세요',
+    'auth.form.passwordCreatePlaceholder': '비밀번호를 생성하세요',
 
     'auth.password.weak': '약함',
     'auth.password.fair': '보통',
@@ -557,6 +563,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.form.password': 'Mot de passe',
     'auth.form.showPassword': 'Afficher le mot de passe',
     'auth.form.hidePassword': 'Masquer le mot de passe',
+    'auth.form.emailPlaceholder': 'vous@exemple.com',
+    'auth.form.passwordPlaceholder': 'Entrez votre mot de passe',
+    'auth.form.passwordCreatePlaceholder': 'Créez un mot de passe',
 
     'auth.password.weak': 'Faible',
     'auth.password.fair': 'Moyen',
@@ -752,6 +761,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.form.password': '密码',
     'auth.form.showPassword': '显示密码',
     'auth.form.hidePassword': '隐藏密码',
+    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.passwordPlaceholder': '请输入密码',
+    'auth.form.passwordCreatePlaceholder': '创建密码',
 
     'auth.password.weak': '弱',
     'auth.password.fair': '一般',
@@ -947,6 +959,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.form.password': 'Mật khẩu',
     'auth.form.showPassword': 'Hiện mật khẩu',
     'auth.form.hidePassword': 'Ẩn mật khẩu',
+    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.passwordPlaceholder': 'Nhập mật khẩu của bạn',
+    'auth.form.passwordCreatePlaceholder': 'Tạo mật khẩu',
 
     'auth.password.weak': 'Yếu',
     'auth.password.fair': 'Trung bình',
