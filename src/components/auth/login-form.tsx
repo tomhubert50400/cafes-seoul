@@ -23,7 +23,11 @@ function SubmitButton({ isValid, isLoading }: SubmitButtonProps) {
   const { t } = useI18n()
 
   return (
-    <Button type="submit" className="w-full" disabled={isLoading || !isValid}>
+    <Button
+      type="submit"
+      className="w-full transition-all duration-150"
+      disabled={isLoading || !isValid}
+    >
       {isLoading ? t('auth.login.loading') : t('auth.login.submit')}
     </Button>
   )
@@ -103,6 +107,20 @@ export function LoginForm({ oauthError }: LoginFormProps) {
     }
     stopLoading()
   }, [stopLoading])
+
+  // Escape key handler for loading cancellation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showOverlay && abortControllerRef.current) {
+        abortControllerRef.current.abort()
+        abortControllerRef.current = null
+        stopLoading()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showOverlay, stopLoading])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -197,7 +215,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-4" aria-busy={isLoading}>
       {/* Loading overlay */}
       <FormLoadingOverlay
         isLoading={showOverlay}
@@ -242,9 +260,13 @@ export function LoginForm({ oauthError }: LoginFormProps) {
             }
           }}
           aria-invalid={errors.email ? 'true' : 'false'}
+          aria-describedby={errors.email ? 'email-error' : undefined}
+          className="transition-all duration-150"
         />
         {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
+          <p id="email-error" className="text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200">
+            {errors.email.message}
+          </p>
         )}
       </div>
 
@@ -272,6 +294,8 @@ export function LoginForm({ oauthError }: LoginFormProps) {
               },
             })}
             aria-invalid={errors.password ? 'true' : 'false'}
+            aria-describedby={errors.password ? 'password-error' : undefined}
+            className="transition-all duration-150"
           />
           <button
             type="button"
@@ -288,7 +312,9 @@ export function LoginForm({ oauthError }: LoginFormProps) {
           </button>
         </div>
         {errors.password && (
-          <p className="text-sm text-destructive">{errors.password.message}</p>
+          <p id="password-error" className="text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200">
+            {errors.password.message}
+          </p>
         )}
       </div>
 
