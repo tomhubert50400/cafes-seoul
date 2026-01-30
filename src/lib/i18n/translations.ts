@@ -337,6 +337,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'submissions.success.submitted': 'Cafe submitted for approval!',
     'submissions.success.updated': 'Submission updated successfully!',
+
+    // Ratings
+    'rating.title': 'Rate this cafe',
+    'rating.updateTitle': 'Update your rating',
+    'rating.submit': 'Submit Rating',
+    'rating.update': 'Update Rating',
+    'rating.cancel': 'Cancel',
+    'rating.required': 'Required',
+    'rating.rate': 'Rate',
+
+    // Additional Dimensions (new for rating form)
+    'rating.overall': 'Overall Rating',
+    'rating.coffee': 'Coffee Quality',
+    'rating.priceValue': 'Price/Value',
+    'rating.quietness': 'Quietness',
+    'rating.comfort': 'Comfort',
+    'rating.petFriendly': 'Pet Friendly',
+    'rating.petFriendlyDescription': 'Is this cafe welcoming to pets?',
+    'rating.lighting': 'Lighting',
+
+    // Sections
+    'rating.essentials': 'Essentials',
+    'rating.extras': 'Extras',
+
+    // Slider labels
+    'rating.skip': 'Skip',
+    'rating.excellent': 'Excellent',
+    'rating.poor': 'Poor',
+
+    // Validation
+    'rating.overallRequired': 'Overall rating is required',
+
+    // Success/Error
+    'rating.submitSuccess': 'Rating submitted!',
+    'rating.updateSuccess': 'Rating updated!',
+    'rating.submitError': 'Failed to submit rating',
   },
 
   ko: {
@@ -667,6 +703,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'submissions.success.submitted': '카페가 승인 대기 중입니다!',
     'submissions.success.updated': '제출이 성공적으로 수정되었습니다!',
+
+    // Ratings
+    'rating.title': '카페 평가하기',
+    'rating.updateTitle': '평가 수정하기',
+    'rating.submit': '평가 제출',
+    'rating.update': '평가 수정',
+    'rating.cancel': '취소',
+    'rating.required': '필수',
+    'rating.rate': '평가',
+
+    // Additional Dimensions (new for rating form)
+    'rating.overall': '전체 평점',
+    'rating.coffee': '커피',
+    'rating.priceValue': '가성비',
+    'rating.quietness': '조용함',
+    'rating.comfort': '편안함',
+    'rating.petFriendly': '반려동물 친화',
+    'rating.petFriendlyDescription': '반려동물 동반이 가능한가요?',
+    'rating.lighting': '조명',
+
+    // Sections
+    'rating.essentials': '필수',
+    'rating.extras': '추가',
+
+    // Slider labels
+    'rating.skip': '걸너뛰기',
+    'rating.excellent': '최고',
+    'rating.poor': '별로',
+
+    // Validation
+    'rating.overallRequired': '전체 평점을 입력해주세요',
+
+    // Success/Error
+    'rating.submitSuccess': '평가가 제출되었습니다!',
+    'rating.updateSuccess': '평가가 수정되었습니다!',
+    'rating.submitError': '평가 제출에 실패했습니다',
   },
 
   fr: {
@@ -997,6 +1069,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'submissions.success.submitted': 'Café proposé pour approbation !',
     'submissions.success.updated': 'Proposition mise à jour avec succès !',
+
+    // Ratings
+    'rating.title': 'Noter ce café',
+    'rating.updateTitle': 'Modifier votre note',
+    'rating.submit': 'Soumettre la note',
+    'rating.update': 'Mettre à jour',
+    'rating.cancel': 'Annuler',
+    'rating.required': 'Requis',
+    'rating.rate': 'Noter',
+
+    // Additional Dimensions (new for rating form)
+    'rating.overall': 'Note globale',
+    'rating.coffee': 'Qualité du café',
+    'rating.priceValue': 'Rapport qualité-prix',
+    'rating.quietness': 'Calme',
+    'rating.comfort': 'Confort',
+    'rating.petFriendly': 'Animaux acceptés',
+    'rating.petFriendlyDescription': 'Ce café accueille-t-il les animaux ?',
+    'rating.lighting': 'Éclairage',
+
+    // Sections
+    'rating.essentials': 'Essentiels',
+    'rating.extras': 'Extras',
+
+    // Slider labels
+    'rating.skip': 'Passer',
+    'rating.excellent': 'Excellent',
+    'rating.poor': 'Faible',
+
+    // Validation
+    'rating.overallRequired': 'La note globale est requise',
+
+    // Success/Error
+    'rating.submitSuccess': 'Note soumise !',
+    'rating.updateSuccess': 'Note mise à jour !',
+    'rating.submitError': 'Échec de la soumission',
   },
 
   zh: {
@@ -1327,6 +1435,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'submissions.success.submitted': '咖啡馆已提交审核！',
     'submissions.success.updated': '提交更新成功！',
+
+    // Ratings
+    'rating.title': '评价此咖啡馆',
+    'rating.updateTitle': '更新您的评价',
+    'rating.submit': '提交评价',
+    'rating.update': '更新评价',
+    'rating.cancel': '取消',
+    'rating.required': '必填',
+    'rating.rate': '评分',
+
+    // Additional Dimensions (new for rating form)
+    'rating.overall': '总体评分',
+    'rating.coffee': '咖啡质量',
+    'rating.priceValue': '性价比',
+    'rating.quietness': '安静程度',
+    'rating.comfort': '舒适度',
+    'rating.petFriendly': '宠物友好',
+    'rating.petFriendlyDescription': '这家咖啡馆欢迎宠物吗？',
+    'rating.lighting': '灯光',
+
+    // Sections
+    'rating.essentials': '必备',
+    'rating.extras': '额外',
+
+    // Slider labels
+    'rating.skip': '跳过',
+    'rating.excellent': '优秀',
+    'rating.poor': '差',
+
+    // Validation
+    'rating.overallRequired': '总体评分为必填项',
+
+    // Success/Error
+    'rating.submitSuccess': '评价已提交！',
+    'rating.updateSuccess': '评价已更新！',
+    'rating.submitError': '提交评价失败',
   },
 
   vi: {
@@ -1657,5 +1801,41 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'submissions.success.submitted': 'Quán cà phê đã được gửi để phê duyệt!',
     'submissions.success.updated': 'Gửi đã được cập nhật thành công!',
+
+    // Ratings
+    'rating.title': 'Đánh giá quán cà phê',
+    'rating.updateTitle': 'Cập nhật đánh giá',
+    'rating.submit': 'Gửi đánh giá',
+    'rating.update': 'Cập nhật',
+    'rating.cancel': 'Hủy',
+    'rating.required': 'Bắt buộc',
+    'rating.rate': 'Đánh giá',
+
+    // Additional Dimensions (new for rating form)
+    'rating.overall': 'Đánh giá tổng thể',
+    'rating.coffee': 'Chất lượng cà phê',
+    'rating.priceValue': 'Giá trị',
+    'rating.quietness': 'Yên tĩnh',
+    'rating.comfort': 'Thoải mái',
+    'rating.petFriendly': 'Thân thiện với thú cưng',
+    'rating.petFriendlyDescription': 'Quán này có chấp nhận thú cưng không?',
+    'rating.lighting': 'Ánh sáng',
+
+    // Sections
+    'rating.essentials': 'Thiết yếu',
+    'rating.extras': 'Bổ sung',
+
+    // Slider labels
+    'rating.skip': 'Bỏ qua',
+    'rating.excellent': 'Tuyệt vờị',
+    'rating.poor': 'Kém',
+
+    // Validation
+    'rating.overallRequired': 'Đánh giá tổng thể là bắt buộc',
+
+    // Success/Error
+    'rating.submitSuccess': 'Đánh giá đã được gửi!',
+    'rating.updateSuccess': 'Đánh giá đã được cập nhật!',
+    'rating.submitError': 'Gửi đánh giá thất bại',
   },
 };
