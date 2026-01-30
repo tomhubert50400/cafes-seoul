@@ -5,7 +5,7 @@ import { RatingButton } from './rating-button';
 import { useI18n } from '@/lib/i18n';
 import type { Cafe } from '@/types/cafe';
 import type { UserRating } from '@/types/ratings';
-import { RATING_DIMENSION_LABELS, RATING_SECTIONS, RATING_SECTION_LABELS } from '@/types/ratings';
+import { RATING_DIMENSION_LABELS } from '@/types/ratings';
 
 interface RatingsSectionProps {
   cafe: Cafe;
@@ -13,27 +13,49 @@ interface RatingsSectionProps {
   onRatingSubmitted?: () => void;
 }
 
+// Ordre d'affichage des dimensions
+const DIMENSION_ORDER = [
+  'coffee',
+  'wifi', 
+  'priceValue',
+  'quietness',
+  'seating',
+  'comfort',
+  'food',
+  'lighting',
+  'outlets'
+];
+
 export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsSectionProps) {
   const { t, language } = useI18n();
 
   const hasRatings = cafe.totalRatings > 0;
 
   // Helper to render a dimension bar
-  const renderDimension = (key: string, value: number | null | undefined) => {
-    if (value === null || value === undefined || value === 0) return null;
+  const renderDimension = (key: string) => {
+    const value = cafe.ratings[key as keyof typeof cafe.ratings];
+    const hasValue = value !== null && value !== undefined && value > 0;
+    
     const label = RATING_DIMENSION_LABELS[key as keyof typeof RATING_DIMENSION_LABELS];
     const labelText = label?.[language as 'en' | 'ko'] || label?.en || key;
-    const percentage = (value / 5) * 100;
+    const percentage = hasValue ? (value / 5) * 100 : 0;
 
     return (
-      <div key={key} className="space-y-1">
-        <div className="flex justify-between text-sm">
-          <span>{labelText}</span>
-          <span className="font-medium">{value.toFixed(1)}</span>
+      <div 
+        key={key} 
+        className={`space-y-2 p-3 rounded-lg border ${hasValue ? 'bg-card border-border' : 'bg-muted/50 border-transparent'}`}
+      >
+        <div className="flex items-center justify-between">
+          <span className={`text-sm font-medium ${hasValue ? 'text-foreground' : 'text-muted-foreground'}`}>
+            {labelText}
+          </span>
+          <span className={`text-sm font-semibold ${hasValue ? 'text-foreground' : 'text-muted-foreground'}`}>
+            {hasValue ? value.toFixed(1) : '-'}
+          </span>
         </div>
-        <div className="h-2 rounded-full bg-muted">
+        <div className="h-2 rounded-full bg-muted overflow-hidden">
           <div
-            className="h-full rounded-full bg-primary transition-all"
+            className={`h-full rounded-full transition-all ${hasValue ? 'bg-primary' : 'bg-transparent'}`}
             style={{ width: `${percentage}%` }}
           />
         </div>
@@ -67,44 +89,10 @@ export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsS
         />
       </div>
 
-      {/* Breakdown */}
+      {/* Breakdown - Grid Layout */}
       {hasRatings && (
-        <div className="space-y-6">
-          {/* Essentials */}
-          <div className="space-y-3">
-            <h3 className="font-medium text-muted-foreground">
-              {RATING_SECTION_LABELS.essentials[language as 'en' | 'ko'] || RATING_SECTION_LABELS.essentials.en}
-            </h3>
-            <div className="space-y-3">
-              {RATING_SECTIONS.essentials.map(key => 
-                renderDimension(key, cafe.ratings[key as keyof typeof cafe.ratings])
-              )}
-            </div>
-          </div>
-
-          {/* Comfort */}
-          <div className="space-y-3">
-            <h3 className="font-medium text-muted-foreground">
-              {RATING_SECTION_LABELS.comfort[language as 'en' | 'ko'] || RATING_SECTION_LABELS.comfort.en}
-            </h3>
-            <div className="space-y-3">
-              {RATING_SECTIONS.comfort.map(key => 
-                renderDimension(key, cafe.ratings[key as keyof typeof cafe.ratings])
-              )}
-            </div>
-          </div>
-
-          {/* Extras */}
-          <div className="space-y-3">
-            <h3 className="font-medium text-muted-foreground">
-              {RATING_SECTION_LABELS.extras[language as 'en' | 'ko'] || RATING_SECTION_LABELS.extras.en}
-            </h3>
-            <div className="space-y-3">
-              {RATING_SECTIONS.extras.map(key => 
-                renderDimension(key, cafe.ratings[key as keyof typeof cafe.ratings])
-              )}
-            </div>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {DIMENSION_ORDER.map(key => renderDimension(key))}
         </div>
       )}
 
