@@ -2,6 +2,9 @@ import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Plus } from 'lucide-react';
 import type { CafeSummary } from '@/types/cafe';
 
 async function getCafes(): Promise<CafeSummary[]> {
@@ -42,6 +45,16 @@ export default async function MapPage() {
       >
         <div className="absolute inset-0 w-full h-full">
           <CafeMapWrapperDynamic cafes={cafes} />
+        </div>
+        
+        {/* Add Cafe Button - Floating Action Button */}
+        <div className="absolute bottom-6 right-6 z-50">
+          <Button asChild size="lg" className="shadow-lg">
+            <Link href="/submit">
+              <Plus className="h-5 w-5 mr-2" />
+              <span className="hidden sm:inline">Add Cafe</span>
+            </Link>
+          </Button>
         </div>
       </main>
     </div>
