@@ -1,6 +1,7 @@
 import type { Cafe, CafeSummary, RatingBreakdown, OperatingHours, CafeType, CafeStatus, TranslatedText } from '@/types/cafe';
 import type { Review, ReviewUser, ReviewCafe, VisitPurpose, ReviewStatus } from '@/types/review';
 import type { User, UserProfile } from '@/types/user';
+import type { UserRating, RatingUser, RatingCafe } from '@/types/ratings';
 
 const CAFE_IMAGES_BUCKET = 'cafe-images';
 
@@ -239,17 +240,77 @@ export function transformCafeSubmissionSummary(row: Record<string, unknown>): Pi
 export function transformSubmissionRateLimit(row: Record<string, unknown>): SubmissionRateLimit {
   const submissionCount = row.submission_count as number || 0;
   const resetAt = row.reset_at as string;
-  
+
   // Calculate remaining submissions
   // If reset time has passed, user has full 3 submissions available
   const hasReset = new Date(resetAt) < new Date();
   const remaining = hasReset ? 3 : Math.max(0, 3 - submissionCount);
-  
+
   return {
     userId: row.user_id as string,
     submissionCount,
     resetAt,
     lastSubmissionAt: row.last_submission_at as string | null,
     remaining,
+  };
+}
+
+// ============================================
+// RATING TRANSFORMS
+// ============================================
+
+/**
+ * Transform database cafe_ratings row to UserRating type
+ * Handles joined profiles and cafes data for user/cafe info
+ */
+export function transformUserRating(row: Record<string, unknown>): UserRating {
+  const user = row.profiles as Record<string, unknown> | null;
+  const cafe = row.cafes as Record<string, unknown> | null;
+
+  return {
+    id: row.id as string,
+    userId: row.user_id as string,
+    cafeId: row.cafe_id as string,
+    overall: parseInt(row.overall as string, 10) || 0,
+    coffee: parseInt(row.coffee as string, 10) || 0,
+    wifi: parseInt(row.wifi as string, 10) || 0,
+    priceValue: parseInt(row.price_value as string, 10) || 0,
+    quietness: parseInt(row.quietness as string, 10) || 0,
+    seating: parseInt(row.seating as string, 10) || 0,
+    comfort: parseInt(row.comfort as string, 10) || 0,
+    food: parseInt(row.food as string, 10) || 0,
+    petFriendly: row.pet_friendly as boolean || false,
+    lighting: parseInt(row.lighting as string, 10) || 0,
+    outlets: parseInt(row.outlets as string, 10) || 0,
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+    user: user ? transformRatingUser(user) : undefined,
+    cafe: cafe ? transformRatingCafe(cafe) : undefined,
+  };
+}
+
+/**
+ * Transform database profiles row to RatingUser type
+ * Lightweight user info for rating display
+ */
+export function transformRatingUser(row: Record<string, unknown>): RatingUser {
+  return {
+    id: row.id as string,
+    username: row.username as string,
+    displayName: row.display_name as string | null,
+    avatarUrl: row.avatar_url as string | null,
+  };
+}
+
+/**
+ * Transform database cafes row to RatingCafe type
+ * Lightweight cafe info for rating display
+ */
+export function transformRatingCafe(row: Record<string, unknown>): RatingCafe {
+  const name = row.name as Record<string, string> | null;
+  return {
+    id: row.id as string,
+    name: name || {},
+    slug: row.slug as string,
   };
 }
