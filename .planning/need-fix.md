@@ -89,4 +89,58 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 ---
 
+## TypeScript/Code Issues
+
+### Issue: TypeScript errors after coffee→drinks rename
+
+**Date:** 2026-01-30
+**Status:** 🟡 Medium Priority
+**Phase:** 8 - Ratings System
+
+#### Problem
+After renaming the rating dimension from `coffee` to `drinks`, several TypeScript files still reference the old property name, causing compilation errors.
+
+**Error Messages:**
+```
+src/components/ratings/rating-form.tsx:
+- Object literal may only specify known properties, and 'drinks' does not exist in type 'RatingFormData'
+- Type '"drinks"' is not assignable to type '"cafeId" | "overall" | "wifi" | ... | "coffee" | "petFriendly"'
+
+src/lib/supabase/ratings.ts:
+- Property 'coffee' does not exist on type 'RatingInput'
+
+src/lib/actions/ratings.ts:
+- Object literal may only specify known properties, and 'coffee' does not exist in type 'RatingInput'
+```
+
+#### Root Cause
+The `rating-form.tsx` component uses a `RatingFormData` type (likely from react-hook-form) that still expects `coffee` instead of `drinks`. Additionally, some server-side code still references `coffee`.
+
+#### Solution Required
+
+1. **Update RatingFormData type/interface** to use `drinks` instead of `coffee`:
+   - Check the zod schema or interface definition for `RatingFormData`
+   - Change `coffee: number` to `drinks: number`
+
+2. **Update rating-form.tsx component:**
+   - Line 55: `drinks: existingRating.drinks` (already done)
+   - Line 69: `drinks: 0` (already done)
+   - Line 233: `name="drinks"` (already done)
+   - But the form schema still expects `coffee`
+
+3. **Update remaining references in:**
+   - `src/lib/supabase/ratings.ts` (line 27)
+   - `src/lib/actions/ratings.ts` (line 58)
+
+#### Files to Fix
+- `src/components/ratings/rating-form.tsx` - Form schema/type definition
+- `src/lib/supabase/ratings.ts` - Remove remaining `coffee` references
+- `src/lib/actions/ratings.ts` - Remove remaining `coffee` references
+
+#### Impact
+- ⚠️ Build fails due to TypeScript errors
+- ⚠️ Cannot submit ratings until fixed
+
+---
+
 *Document created: 2026-01-30*
