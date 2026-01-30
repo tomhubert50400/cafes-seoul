@@ -382,6 +382,50 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': 'Ratings',
     'rating.beFirst': 'Be the first to rate this cafe',
     'rating.youRated': 'You rated this cafe',
+
+    // Photos
+    'photos.title': 'Photos',
+    'photos.photo': 'photo',
+    'photos.photos': 'photos',
+    'photos.showMore': 'Show more',
+    'photos.loading': 'Loading...',
+    'photos.empty.title': 'No photos yet',
+    'photos.empty.description': 'Be the first to upload!',
+    'photos.guestPrompt.title': 'Sign in to upload photos',
+    'photos.guestPrompt.description': 'Share your favorite moments from this cafe',
+    'photos.guestPrompt.button': 'Sign In',
+
+    // Photo upload
+    'photos.upload.title': 'Upload Photo',
+    'photos.upload.description': 'Share a photo of this cafe',
+    'photos.upload.select': 'Select Photo',
+    'photos.upload.uploading': 'Uploading...',
+    'photos.upload.success': 'Photo uploaded successfully!',
+    'photos.upload.error': 'Failed to upload photo',
+    'photos.upload.maxSize': 'Max 5MB',
+    'photos.upload.allowedTypes': 'JPG, PNG, WebP only',
+
+    // Photo limits
+    'photos.limits.daily': '{count} uploads remaining today',
+    'photos.limits.cafe': '{count} of 3 photos for this cafe',
+    'photos.limits.reached': 'Upload limit reached',
+
+    // Photo status
+    'photos.status.pending': 'Pending approval',
+    'photos.status.approved': 'Approved',
+    'photos.status.rejected': 'Rejected',
+
+    // Photo errors
+    'photos.errors.fileSize': 'File must be less than 5MB',
+    'photos.errors.fileType': 'Only JPG, PNG, and WebP images are allowed',
+    'photos.errors.limitCafe': 'You can only upload 3 photos per cafe',
+    'photos.errors.limitDaily': 'You can upload up to 10 photos per day',
+    'photos.errors.deletePendingOnly': 'You can only delete pending photos',
+
+    // Voting
+    'photos.votes.count': '{count} upvotes',
+    'photos.votes.vote': 'Upvote',
+    'photos.votes.unvote': 'Remove upvote',
   },
 
   ko: {
@@ -757,6 +801,50 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': '평가',
     'rating.beFirst': '첫 번째 평가자가 되세요',
     'rating.youRated': '평가하셨습니다',
+
+    // Photos
+    'photos.title': '사진',
+    'photos.photo': '사진',
+    'photos.photos': '사진',
+    'photos.showMore': '더 보기',
+    'photos.loading': '로딩 중...',
+    'photos.empty.title': '아직 사진이 없습니다',
+    'photos.empty.description': '첫 번째로 사진을 올려보세요!',
+    'photos.guestPrompt.title': '사진을 업로드하려면 로그인하세요',
+    'photos.guestPrompt.description': '이 카페의 좋은 순간을 공유핳세요',
+    'photos.guestPrompt.button': '로그인',
+
+    // Photo upload
+    'photos.upload.title': '사진 업로드',
+    'photos.upload.description': '이 카페의 사진을 공유하세요',
+    'photos.upload.select': '사진 선택',
+    'photos.upload.uploading': '업로드 중...',
+    'photos.upload.success': '사진이 성공적으로 업로드되었습니다!',
+    'photos.upload.error': '사진 업로드에 실패했습니다',
+    'photos.upload.maxSize': '최대 5MB',
+    'photos.upload.allowedTypes': 'JPG, PNG, WebP만 가능',
+
+    // Photo limits
+    'photos.limits.daily': '오늘 {count}회 업로드 가능',
+    'photos.limits.cafe': '이 카페에 {count}개의 사진 (최대 3개)',
+    'photos.limits.reached': '업로드 제한에 도달했습니다',
+
+    // Photo status
+    'photos.status.pending': '승인 대기 중',
+    'photos.status.approved': '승인됨',
+    'photos.status.rejected': '거부됨',
+
+    // Photo errors
+    'photos.errors.fileSize': '파일 크기는 5MB 미만이어야 합니다',
+    'photos.errors.fileType': 'JPG, PNG, WebP 이미지만 허용됩니다',
+    'photos.errors.limitCafe': '카페당 최대 3개의 사진만 업로드 가능합니다',
+    'photos.errors.limitDaily': '하루에 최대 10개의 사진을 업로드할 수 있습니다',
+    'photos.errors.deletePendingOnly': '대기 중인 사진만 삭제할 수 있습니다',
+
+    // Voting
+    'photos.votes.count': '추천 {count}개',
+    'photos.votes.vote': '추천하기',
+    'photos.votes.unvote': '추천 취소',
   },
 
   fr: {
@@ -1132,6 +1220,50 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': 'Évaluations',
     'rating.beFirst': 'Soyez le premier à évaluer',
     'rating.youRated': 'Vous avez évalué ce café',
+
+    // Photos
+    'photos.title': 'Photos',
+    'photos.photo': 'photo',
+    'photos.photos': 'photos',
+    'photos.showMore': 'Afficher plus',
+    'photos.loading': 'Chargement...',
+    'photos.empty.title': 'Pas encore de photos',
+    'photos.empty.description': 'Soyez le premier à partager !',
+    'photos.guestPrompt.title': 'Connectez-vous pour télécharger des photos',
+    'photos.guestPrompt.description': 'Partagez vos moments préférés de ce café',
+    'photos.guestPrompt.button': 'Se connecter',
+
+    // Photo upload
+    'photos.upload.title': 'Télécharger une photo',
+    'photos.upload.description': 'Partagez une photo de ce café',
+    'photos.upload.select': 'Sélectionner une photo',
+    'photos.upload.uploading': 'Téléchargement...',
+    'photos.upload.success': 'Photo téléchargée avec succès !',
+    'photos.upload.error': 'Échec du téléchargement de la photo',
+    'photos.upload.maxSize': 'Max 5 Mo',
+    'photos.upload.allowedTypes': 'JPG, PNG, WebP uniquement',
+
+    // Photo limits
+    'photos.limits.daily': '{count} téléchargements restants aujourd\'hui',
+    'photos.limits.cafe': '{count} photos pour ce café (sur 3)',
+    'photos.limits.reached': 'Limite de téléchargement atteinte',
+
+    // Photo status
+    'photos.status.pending': 'En attente d\'approbation',
+    'photos.status.approved': 'Approuvé',
+    'photos.status.rejected': 'Refusé',
+
+    // Photo errors
+    'photos.errors.fileSize': 'Le fichier doit faire moins de 5 Mo',
+    'photos.errors.fileType': 'Seuls les JPG, PNG et WebP sont autorisés',
+    'photos.errors.limitCafe': 'Vous pouvez télécharger jusqu\'à 3 photos par café',
+    'photos.errors.limitDaily': 'Vous pouvez télécharger jusqu\'à 10 photos par jour',
+    'photos.errors.deletePendingOnly': 'Vous ne pouvez supprimer que les photos en attente',
+
+    // Voting
+    'photos.votes.count': '{count} votes positifs',
+    'photos.votes.vote': 'Voter',
+    'photos.votes.unvote': 'Retirer le vote',
   },
 
   zh: {
@@ -1507,6 +1639,50 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': '评分',
     'rating.beFirst': '成为第一个评价者',
     'rating.youRated': '您已评价此咖啡馆',
+
+    // Photos
+    'photos.title': '照片',
+    'photos.photo': '张照片',
+    'photos.photos': '张照片',
+    'photos.showMore': '显示更多',
+    'photos.loading': '加载中...',
+    'photos.empty.title': '还没有照片',
+    'photos.empty.description': '成为第一个分享的人！',
+    'photos.guestPrompt.title': '登录以上传照片',
+    'photos.guestPrompt.description': '分享您在这个咖啡馆的美好时刻',
+    'photos.guestPrompt.button': '登录',
+
+    // Photo upload
+    'photos.upload.title': '上传照片',
+    'photos.upload.description': '分享这个咖啡馆的照片',
+    'photos.upload.select': '选择照片',
+    'photos.upload.uploading': '上传中...',
+    'photos.upload.success': '照片上传成功！',
+    'photos.upload.error': '照片上传失败',
+    'photos.upload.maxSize': '最大5MB',
+    'photos.upload.allowedTypes': '仅JPG、PNG、WebP',
+
+    // Photo limits
+    'photos.limits.daily': '今天还剩{count}次上传机会',
+    'photos.limits.cafe': '这个咖啡馆已上传{count}张照片（最多3张）',
+    'photos.limits.reached': '已达到上传限制',
+
+    // Photo status
+    'photos.status.pending': '等待审核',
+    'photos.status.approved': '已批准',
+    'photos.status.rejected': '已拒绝',
+
+    // Photo errors
+    'photos.errors.fileSize': '文件必须小于5MB',
+    'photos.errors.fileType': '仅允许JPG、PNG和WebP图像',
+    'photos.errors.limitCafe': '每个咖啡馆最多只能上传3张照片',
+    'photos.errors.limitDaily': '每天最多可以上传10张照片',
+    'photos.errors.deletePendingOnly': '只能删除等待审核的照片',
+
+    // Voting
+    'photos.votes.count': '{count}个赞',
+    'photos.votes.vote': '点赞',
+    'photos.votes.unvote': '取消点赞',
   },
 
   vi: {
@@ -1882,5 +2058,49 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': 'Đánh giá',
     'rating.beFirst': 'Hãy là ngườI đầu tiên đánh giá',
     'rating.youRated': 'Bạn đã đánh giá',
+
+    // Photos
+    'photos.title': 'Hình ảnh',
+    'photos.photo': 'hình',
+    'photos.photos': 'hình',
+    'photos.showMore': 'Hiển thị thêm',
+    'photos.loading': 'Đang tải...',
+    'photos.empty.title': 'Chưa có hình ảnh',
+    'photos.empty.description': 'Hãy là ngườI đầu tiên chia sẻ!',
+    'photos.guestPrompt.title': 'Đăng nhập để tải lên hình ảnh',
+    'photos.guestPrompt.description': 'Chia sẻ những khoảnh khắc yêu thích của bạn tại quán cà phê này',
+    'photos.guestPrompt.button': 'Đăng nhập',
+
+    // Photo upload
+    'photos.upload.title': 'Tải lên hình ảnh',
+    'photos.upload.description': 'Chia sẻ hình ảnh về quán cà phê này',
+    'photos.upload.select': 'Chọn hình ảnh',
+    'photos.upload.uploading': 'Đang tải lên...',
+    'photos.upload.success': 'Tải lên hình ảnh thành công!',
+    'photos.upload.error': 'Tải lên hình ảnh thất bại',
+    'photos.upload.maxSize': 'Tối đa 5MB',
+    'photos.upload.allowedTypes': 'Chỉ JPG, PNG, WebP',
+
+    // Photo limits
+    'photos.limits.daily': 'Còn {count} lần tải lên hôm nay',
+    'photos.limits.cafe': '{count} hình ảnh cho quán này (tối đa 3)',
+    'photos.limits.reached': 'Đã đạt giới hạn tải lên',
+
+    // Photo status
+    'photos.status.pending': 'Đang chờ phê duyệt',
+    'photos.status.approved': 'Đã phê duyệt',
+    'photos.status.rejected': 'Đã từ chối',
+
+    // Photo errors
+    'photos.errors.fileSize': 'Tệp phảI nhỏ hơn 5MB',
+    'photos.errors.fileType': 'Chỉ chấp nhận JPG, PNG và WebP',
+    'photos.errors.limitCafe': 'Bạn chỉ có thể tảI lên tối đa 3 hình ảnh mỗi quán',
+    'photos.errors.limitDaily': 'Bạn có thể tảI lên tối đa 10 hình ảnh mỗi ngày',
+    'photos.errors.deletePendingOnly': 'Bạn chỉ có thể xóa hình ảnh đang chờ phê duyệt',
+
+    // Voting
+    'photos.votes.count': '{count} lượt thích',
+    'photos.votes.vote': 'Thích',
+    'photos.votes.unvote': 'Bỏ thích',
   },
 };
