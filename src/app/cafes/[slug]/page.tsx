@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
-import { transformCafe, transformReview, getStorageUrl } from '@/lib/supabase/transforms';
+import { transformCafe, transformReview, transformUserRating, getStorageUrl } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import type { Cafe, CafeImage } from '@/types/cafe';
 import type { Review } from '@/types/review';
@@ -79,38 +79,27 @@ async function getCafeReviews(cafeId: string): Promise<Review[]> {
 
 async function getUserRating(cafeId: string, userId: string | undefined): Promise<UserRating | null> {
   if (!userId) return null;
-  
+
   const supabase = await createClient();
-  
+
   const { data, error } = await supabase
-    .from('user_ratings')
+    .from('cafe_ratings')
     .select('*')
     .eq('cafe_id', cafeId)
     .eq('user_id', userId)
     .single();
-  
-  if (error || !data) {
+
+  // PGRST116 = not found (user hasn't rated this cafe yet)
+  if (error && error.code === 'PGRST116') {
     return null;
   }
-  
-  return {
-    id: data.id,
-    userId: data.user_id,
-    cafeId: data.cafe_id,
-    overall: data.overall,
-    coffee: data.coffee,
-    wifi: data.wifi,
-    priceValue: data.price_value,
-    quietness: data.quietness,
-    seating: data.seating,
-    comfort: data.comfort,
-    food: data.food,
-    lighting: data.lighting,
-    outlets: data.outlets,
-    petFriendly: data.pet_friendly,
-    createdAt: data.created_at,
-    updatedAt: data.updated_at,
-  };
+
+  if (error) {
+    console.error('Error fetching user rating:', error);
+    return null;
+  }
+
+  return data ? transformUserRating(data) : null;
 }
 
 export default async function CafeDetailPage({ params }: PageProps) {
