@@ -97,3 +97,47 @@ ON public.photos(upvote_count DESC);
 CREATE INDEX IF NOT EXISTS idx_photos_created_at 
 ON public.photos(created_at DESC);
 
+-- ============================================
+-- PHOTO VOTES TABLE
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS public.photo_votes (
+    -- Primary key
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    
+    -- Voter reference
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    
+    -- Photo being voted on
+    photo_id UUID NOT NULL REFERENCES public.photos(id) ON DELETE CASCADE,
+    
+    -- When vote was cast
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enforce one vote per user per photo (toggle behavior)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_photo_votes_user_photo 
+ON public.photo_votes(user_id, photo_id);
+
+-- Table comments
+COMMENT ON TABLE public.photo_votes IS 'User upvotes for photos - toggle voting (click to vote, click again to unvote)';
+COMMENT ON COLUMN public.photo_votes.user_id IS 'User who cast the vote';
+COMMENT ON COLUMN public.photo_votes.photo_id IS 'Photo being upvoted';
+COMMENT ON INDEX idx_photo_votes_user_photo IS 'Enforces one vote per user per photo, enables toggle behavior';
+
+-- ============================================
+-- PHOTO VOTES INDEXES
+-- ============================================
+
+-- Index for user's voted photos (dashboard "photos you liked")
+CREATE INDEX IF NOT EXISTS idx_photo_votes_user_id 
+ON public.photo_votes(user_id);
+
+-- Index for counting votes on a photo (fast upvote_count updates)
+CREATE INDEX IF NOT EXISTS idx_photo_votes_photo_id 
+ON public.photo_votes(photo_id);
+
+-- Index for recent votes (analytics/moderation)
+CREATE INDEX IF NOT EXISTS idx_photo_votes_created_at 
+ON public.photo_votes(created_at DESC);
+
