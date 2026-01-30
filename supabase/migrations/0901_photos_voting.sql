@@ -141,3 +141,66 @@ ON public.photo_votes(photo_id);
 CREATE INDEX IF NOT EXISTS idx_photo_votes_created_at 
 ON public.photo_votes(created_at DESC);
 
+-- ============================================
+-- PHOTO UPLOAD RATE LIMITS TABLE
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS public.photo_upload_limits (
+    -- Primary key - one record per user
+    user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    
+    -- Daily upload count
+    upload_count INTEGER NOT NULL DEFAULT 0,
+    
+    -- When the daily limit resets (midnight KST for Korea relevance)
+    reset_at TIMESTAMPTZ NOT NULL,
+    
+    -- Last upload timestamp
+    last_upload_at TIMESTAMPTZ
+);
+
+-- Table comments
+COMMENT ON TABLE public.photo_upload_limits IS 'Tracks daily photo upload limits per user (10 per day)';
+COMMENT ON COLUMN public.photo_upload_limits.upload_count IS 'Number of uploads today (resets at reset_at)';
+COMMENT ON COLUMN public.photo_upload_limits.reset_at IS 'Timestamp when daily limit resets (midnight KST)';
+COMMENT ON COLUMN public.photo_upload_limits.last_upload_at IS 'Timestamp of most recent upload';
+
+-- ============================================
+-- HELPER FUNCTION: Get remaining photo uploads
+-- ============================================
+
+CREATE OR REPLACE FUNCTION public.get_remaining_uploads(user_uuid UUID)
+RETURNS INTEGER AS $$
+DECLARE
+    current_count INTEGER;
+    limit_reset_at TIMESTAMPTZ;
+BEGIN
+    SELECT upload_count, reset_at
+    INTO current_count, limit_reset_at
+    FROM public.photo_upload_limits
+    WHERE user_id = user_uuid;
+    
+    -- If no record exists or reset time has passed, reset counter
+    IF current_count IS NULL OR limit_reset_at < NOW() THEN
+        RETURN 10;
+    END IF;
+    
+    RETURN GREATEST(0, 10 - current_count);
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+COMMENT ON FUNCTION public.get_remaining_uploads IS 'Get remaining daily photo uploads for a user (max 10 per day)';
+
+-- ============================================
+-- HELPER FUNCTION: Check if user can upload photo
+-- ============================================
+
+CREATE OR REPLACE FUNCTION public.can_upload_photo(user_uuid UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN public.get_remaining_uploads(user_uuid) > 0;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+COMMENT ON FUNCTION public.can_upload_photo IS 'Returns TRUE if user has remaining daily upload quota';
+
