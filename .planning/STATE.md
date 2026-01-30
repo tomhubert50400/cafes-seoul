@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 8 of 11 (Ratings System)
-Plan: 2 of 6 in current phase
+Plan: 3 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 08-02-PLAN.md (Rating form UI with sliders)
+Last activity: 2026-01-30 — Completed 08-03-PLAN.md (Server Actions and API for ratings)
 
-Progress: [██████████░░░░░░░░░░░░░░] 35% (8/23 plans)
+Progress: [███████████░░░░░░░░░░░░░] 39% (9/23 plans)
 
 ## Performance Metrics
 
@@ -24,9 +24,10 @@ Progress: [██████████░░░░░░░░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 6/19
+- Plans completed: 9/19
 - Phase 7 duration: ~26 min (6 plans including gap closures)
-- Average: ~4 min/plan
+- Phase 8: 3/6 plans complete (Wave 2 in progress)
+- Average: ~5 min/plan
 
 ## Accumulated Context
 
@@ -83,6 +84,11 @@ Progress: [██████████░░░░░░░░░░░░░
 | 2026-01-30 | Three sections organize 10 dimensions | Logical grouping: Essentials (core), Comfort (environment), Extras (features) |
 | 2026-01-30 | Same RatingForm component for create/update | existingRating prop determines mode; reduces code duplication |
 | 2026-01-30 | Touch-friendly 44px+ interaction targets | Mobile-optimized sliders and star buttons |
+| 2026-01-30 | No rate limiting on ratings (RATE-08) | Unlike submissions, ratings unlimited to encourage engagement |
+| 2026-01-30 | Upsert pattern with ON CONFLICT | Single function handles create/update atomically (RATE-05) |
+| 2026-01-30 | NULLIF for zero exclusion in averages | SQL NULLIF(column, 0) excludes un-rated dimensions from averages |
+| 2026-01-30 | API routes delegate to Server Actions | Single source of truth, avoids code duplication |
+| 2026-01-30 | RPC with SQL fallback for averages | Primary uses database function, manual SQL as fallback |
 
 ### Pending Todos
 
@@ -90,14 +96,14 @@ None — Phase 8 in progress.
 
 ### Blockers/Concerns
 
-None — ready for 08-03 (Server Actions for rating submission).
+None — ready for 08-04 (Rating display components).
 
 ## Session Continuity
 
-Last session: 2026-01-30 17:35 KST
-Stopped at: Completed 08-02-PLAN.md (Rating form UI)
-Resume file: .planning/phases/08-ratings-system/08-02-SUMMARY.md
-Next action: Continue Phase 8 with 08-03-PLAN.md (Server Actions for rating submission)
+Last session: 2026-01-30 17:45 KST
+Stopped at: Completed 08-03-PLAN.md (Server Actions and API for ratings)
+Resume file: .planning/phases/08-ratings-system/08-03-SUMMARY.md
+Next action: Continue Phase 8 with 08-04-PLAN.md (Rating display components)
 
 ---
 *State initialized: 2026-01-27*
