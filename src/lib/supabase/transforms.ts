@@ -163,6 +163,8 @@ export function transformUser(row: Record<string, unknown>): User {
     preferredLanguage: row.preferred_language as string,
     isModerator: row.is_moderator as boolean,
     isVerified: row.is_verified as boolean,
+    role: (row.role as string || 'user') as import('@/types/user').UserRole,
+    roleUpdatedAt: row.role_updated_at as string | null,
     totalReviews: row.total_reviews as number,
     totalHelpfulVotes: row.total_helpful_votes as number,
     createdAt: row.created_at as string,
@@ -178,8 +180,76 @@ export function transformUserProfile(row: Record<string, unknown>): UserProfile 
     avatarUrl: row.avatar_url as string | null,
     bio: row.bio as string | null,
     isVerified: row.is_verified as boolean,
+    role: (row.role as string || 'user') as import('@/types/user').UserRole,
     totalReviews: row.total_reviews as number,
     totalHelpfulVotes: row.total_helpful_votes as number,
     createdAt: row.created_at as string,
+  };
+}
+
+// ============================================
+// SUBMISSION TRANSFORMS
+// ============================================
+
+import type { CafeSubmission, SubmissionRateLimit, SubmissionStatus } from '@/types/submission';
+
+/**
+ * Transform database cafe_submissions row to CafeSubmission type
+ */
+export function transformCafeSubmission(row: Record<string, unknown>): CafeSubmission {
+  return {
+    id: row.id as string,
+    userId: row.user_id as string,
+    name: (row.name || {}) as TranslatedText,
+    address: (row.address || {}) as TranslatedText,
+    phone: row.phone as string | null,
+    latitude: row.latitude ? parseFloat(row.latitude as string) : null,
+    longitude: row.longitude ? parseFloat(row.longitude as string) : null,
+    districtId: row.district_id as number | null,
+    neighborhoodId: row.neighborhood_id as number | null,
+    status: row.status as SubmissionStatus,
+    rejectionReason: row.rejection_reason as string | null,
+    adminNotes: row.admin_notes as string | null,
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+    approvedAt: row.approved_at as string | null,
+    approvedBy: row.approved_by as string | null,
+    cafeId: row.cafe_id as string | null,
+  };
+}
+
+/**
+ * Transform database row to lightweight CafeSubmissionSummary
+ * Used for list views where only basic info is needed
+ */
+export function transformCafeSubmissionSummary(row: Record<string, unknown>): Pick<CafeSubmission, 'id' | 'name' | 'address' | 'status' | 'createdAt'> {
+  return {
+    id: row.id as string,
+    name: (row.name || {}) as TranslatedText,
+    address: (row.address || {}) as TranslatedText,
+    status: row.status as SubmissionStatus,
+    createdAt: row.created_at as string,
+  };
+}
+
+/**
+ * Transform database submission_rate_limits row to SubmissionRateLimit type
+ * Calculates remaining submissions (max 3 per day)
+ */
+export function transformSubmissionRateLimit(row: Record<string, unknown>): SubmissionRateLimit {
+  const submissionCount = row.submission_count as number || 0;
+  const resetAt = row.reset_at as string;
+  
+  // Calculate remaining submissions
+  // If reset time has passed, user has full 3 submissions available
+  const hasReset = new Date(resetAt) < new Date();
+  const remaining = hasReset ? 3 : Math.max(0, 3 - submissionCount);
+  
+  return {
+    userId: row.user_id as string,
+    submissionCount,
+    resetAt,
+    lastSubmissionAt: row.last_submission_at as string | null,
+    remaining,
   };
 }
