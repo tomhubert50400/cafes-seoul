@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 8 of 11 (Ratings System)
-Plan: 4 of 6 in current phase
+Plan: 5 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 08-04-PLAN.md (Rating component integration)
+Last activity: 2026-01-30 — Completed 08-05-PLAN.md (Ratings gap closure)
 
-Progress: [████████████░░░░░░░░░░░░] 43% (10/23 plans)
+Progress: [█████████████░░░░░░░░░░░] 48% (11/23 plans)
 
 ## Performance Metrics
 
@@ -91,6 +91,8 @@ Progress: [████████████░░░░░░░░░░░
 | 2026-01-30 | RPC with SQL fallback for averages | Primary uses database function, manual SQL as fallback |
 | 2026-01-30 | useAuth hook for client-side auth | Simple Supabase browser client wrapper for auth state |
 | 2026-01-30 | stopPropagation for map Rate button | Prevents navigation to cafe detail when clicking rate |
+| 2026-01-30 | Use transformUserRating for data consistency | Centralized transformation ensures type safety and field mapping |
+| 2026-01-30 | Handle PGRST116 specifically in user rating queries | Distinguishes "not rated yet" from actual database errors |
 
 ### Pending Todos
 
@@ -102,10 +104,10 @@ Minor: Type definitions for RATING_SECTION_LABELS only include ko/en, not all 5 
 
 ## Session Continuity
 
-Last session: 2026-01-30 17:52 KST
-Stopped at: Completed 08-04-PLAN.md (Rating component integration)
-Resume file: .planning/phases/08-ratings-system/08-04-SUMMARY.md
-Next action: Continue Phase 8 with 08-05-PLAN.md (Rating list and aggregation display)
+Last session: 2026-01-30 18:03 KST
+Stopped at: Completed 08-05-PLAN.md (Ratings gap closure)
+Resume file: .planning/phases/08-ratings-system/08-05-SUMMARY.md
+Next action: Continue Phase 8 with 08-06-PLAN.md (Ratings aggregation display)
 
 ---
 *State initialized: 2026-01-27*
