@@ -9,40 +9,34 @@
 export type PhotoStatus = 'pending' | 'approved' | 'rejected';
 
 /**
+ * Base photo interface matching database schema (snake_case)
+ */
+export interface Photo {
+  /** Unique photo identifier */
+  id: string;
+  /** Supabase Storage path (e.g., "cafes/uuid/filename.jpg") */
+  storage_path: string;
+  /** Current moderation status */
+  status: PhotoStatus;
+  /** Number of upvotes (denormalized) */
+  upvote_count: number;
+  /** When photo was uploaded */
+  created_at: string;
+}
+
+/**
  * Photo with vote status for gallery display
  * Includes all photo data plus current user's vote status
  */
-export interface PhotoWithVoteStatus {
-  /** Unique photo identifier */
-  id: string;
-  /** Cafe this photo belongs to */
-  cafeId: string;
-  /** User who uploaded the photo */
-  userId: string;
-  /** Supabase Storage path (e.g., "cafes/uuid/filename.jpg") */
-  storagePath: string;
-  /** Public URL for the photo */
+export interface PhotoWithVoteStatus extends Photo {
+  /** Public URL for the photo image */
   url: string;
-  /** Original filename */
-  fileName: string;
-  /** File size in bytes */
-  fileSize: number;
-  /** MIME type */
-  mimeType: string;
-  /** Width in pixels (if available) */
-  width?: number;
-  /** Height in pixels (if available) */
-  height?: number;
-  /** Current moderation status */
-  status: PhotoStatus;
-  /** Number of upvotes */
+  /** Number of upvotes (camelCase for client) */
   upvoteCount: number;
-  /** Admin rejection reason (if rejected) */
-  rejectionReason?: string;
-  /** When photo was uploaded */
-  createdAt: string;
-  /** When photo was last updated */
-  updatedAt: string;
+  /** Photo width in pixels (if available) */
+  width?: number;
+  /** Photo height in pixels (if available) */
+  height?: number;
   /** Whether current user has voted for this photo */
   hasVoted: boolean;
   /** Whether this photo belongs to the current user */
@@ -60,17 +54,17 @@ export interface PhotoSummary {
 }
 
 /**
- * Photo vote record
+ * Photo vote record (snake_case matching database)
  */
 export interface PhotoVote {
   id: string;
-  userId: string;
-  photoId: string;
-  createdAt: string;
+  user_id: string;
+  photo_id: string;
+  created_at: string;
 }
 
 /**
- * Result of toggling a vote
+ * Result of toggling a vote (camelCase for API responses)
  */
 export interface ToggleVoteResult {
   success: boolean;
@@ -106,4 +100,40 @@ export interface PhotoUploadLimits {
   cafeRemaining: number;
   /** When daily limit resets */
   resetsAt: string;
+}
+
+/**
+ * Input type for photo upload action
+ */
+export interface PhotoUploadInput {
+  /** The file to upload */
+  file: File;
+  /** Target cafe ID */
+  cafeId: string;
+}
+
+/**
+ * Result type for photo upload action
+ */
+export interface UploadPhotoResult {
+  success: boolean;
+  photoId?: string;
+  error?: string;
+}
+
+/**
+ * Result type for photo delete action
+ */
+export interface DeletePhotoResult {
+  success: boolean;
+  error?: string;
+}
+
+/**
+ * Result type for photo limit check
+ */
+export interface LimitCheckResult {
+  canUpload: boolean;
+  remainingCafe: number;
+  remainingDaily: number;
 }

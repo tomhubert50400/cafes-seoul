@@ -499,7 +499,9 @@ export async function getCafePhotos(
       storage_path: photo.storage_path,
       status: photo.status as PhotoStatus,
       upvote_count: photo.upvote_count,
+      upvoteCount: photo.upvote_count,
       created_at: photo.created_at,
+      url: supabase.storage.from('cafes').getPublicUrl(photo.storage_path).data.publicUrl,
       hasVoted: userVotes.has(photo.id),
       isOwnPhoto: user ? photo.user_id === user.id : false,
     }));
@@ -594,7 +596,9 @@ export async function getMyPhotos(options?: {
       storage_path: photo.storage_path,
       status: photo.status as PhotoStatus,
       upvote_count: photo.upvote_count,
+      upvoteCount: photo.upvote_count,
       created_at: photo.created_at,
+      url: supabase.storage.from('cafes').getPublicUrl(photo.storage_path).data.publicUrl,
       hasVoted: userVotes.has(photo.id),
       isOwnPhoto: true, // These are always the user's own photos
     }));
