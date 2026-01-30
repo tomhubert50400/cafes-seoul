@@ -373,6 +373,15 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitSuccess': 'Rating submitted!',
     'rating.updateSuccess': 'Rating updated!',
     'rating.submitError': 'Failed to submit rating',
+
+    // Display
+    'rating.noRatings': 'No ratings yet',
+    'rating.count': '{{count}} reviews',
+    'rating.rateButton': 'Rate',
+    'rating.updateButton': 'Update Rating',
+    'rating.sectionTitle': 'Ratings',
+    'rating.beFirst': 'Be the first to rate this cafe',
+    'rating.youRated': 'You rated this cafe',
   },
 
   ko: {
@@ -739,6 +748,15 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitSuccess': '평가가 제출되었습니다!',
     'rating.updateSuccess': '평가가 수정되었습니다!',
     'rating.submitError': '평가 제출에 실패했습니다',
+
+    // Display
+    'rating.noRatings': '아직 평가 없음',
+    'rating.count': '리뷰 {{count}}개',
+    'rating.rateButton': '평가하기',
+    'rating.updateButton': '평가 수정',
+    'rating.sectionTitle': '평가',
+    'rating.beFirst': '첫 번째 평가자가 되세요',
+    'rating.youRated': '평가하셨습니다',
   },
 
   fr: {
@@ -1105,6 +1123,15 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitSuccess': 'Note soumise !',
     'rating.updateSuccess': 'Note mise à jour !',
     'rating.submitError': 'Échec de la soumission',
+
+    // Display
+    'rating.noRatings': 'Pas encore d\'évaluation',
+    'rating.count': '{{count}} avis',
+    'rating.rateButton': 'Évaluer',
+    'rating.updateButton': 'Modifier',
+    'rating.sectionTitle': 'Évaluations',
+    'rating.beFirst': 'Soyez le premier à évaluer',
+    'rating.youRated': 'Vous avez évalué ce café',
   },
 
   zh: {
@@ -1471,6 +1498,15 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitSuccess': '评价已提交！',
     'rating.updateSuccess': '评价已更新！',
     'rating.submitError': '提交评价失败',
+
+    // Display
+    'rating.noRatings': '暂无评价',
+    'rating.count': '{{count}}条评价',
+    'rating.rateButton': '评价',
+    'rating.updateButton': '更新评价',
+    'rating.sectionTitle': '评分',
+    'rating.beFirst': '成为第一个评价者',
+    'rating.youRated': '您已评价此咖啡馆',
   },
 
   vi: {
@@ -1837,5 +1873,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitSuccess': 'Đánh giá đã được gửi!',
     'rating.updateSuccess': 'Đánh giá đã được cập nhật!',
     'rating.submitError': 'Gửi đánh giá thất bại',
+
+    // Display
+    'rating.noRatings': 'Chưa có đánh giá',
+    'rating.count': '{{count}} đánh giá',
+    'rating.rateButton': 'Đánh giá',
+    'rating.updateButton': 'Cập nhật',
+    'rating.sectionTitle': 'Đánh giá',
+    'rating.beFirst': 'Hãy là ngườI đầu tiên đánh giá',
+    'rating.youRated': 'Bạn đã đánh giá',
   },
 };
