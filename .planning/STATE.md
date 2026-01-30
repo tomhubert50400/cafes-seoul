@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 8 of 11 (Ratings System)
-Plan: 3 of 6 in current phase
+Plan: 4 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 08-03-PLAN.md (Server Actions and API for ratings)
+Last activity: 2026-01-30 — Completed 08-04-PLAN.md (Rating component integration)
 
-Progress: [███████████░░░░░░░░░░░░░] 39% (9/23 plans)
+Progress: [████████████░░░░░░░░░░░░] 43% (10/23 plans)
 
 ## Performance Metrics
 
@@ -24,9 +24,9 @@ Progress: [███████████░░░░░░░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 9/19
+- Plans completed: 10/19
 - Phase 7 duration: ~26 min (6 plans including gap closures)
-- Phase 8: 3/6 plans complete (Wave 2 in progress)
+- Phase 8: 4/6 plans complete (Wave 2 nearly complete)
 - Average: ~5 min/plan
 
 ## Accumulated Context
@@ -89,6 +89,8 @@ Progress: [███████████░░░░░░░░░░░░
 | 2026-01-30 | NULLIF for zero exclusion in averages | SQL NULLIF(column, 0) excludes un-rated dimensions from averages |
 | 2026-01-30 | API routes delegate to Server Actions | Single source of truth, avoids code duplication |
 | 2026-01-30 | RPC with SQL fallback for averages | Primary uses database function, manual SQL as fallback |
+| 2026-01-30 | useAuth hook for client-side auth | Simple Supabase browser client wrapper for auth state |
+| 2026-01-30 | stopPropagation for map Rate button | Prevents navigation to cafe detail when clicking rate |
 
 ### Pending Todos
 
@@ -96,14 +98,14 @@ None — Phase 8 in progress.
 
 ### Blockers/Concerns
 
-None — ready for 08-04 (Rating display components).
+Minor: Type definitions for RATING_SECTION_LABELS only include ko/en, not all 5 languages. Type assertion used as workaround. Consider updating types to include all languages or use translation keys instead.
 
 ## Session Continuity
 
-Last session: 2026-01-30 17:45 KST
-Stopped at: Completed 08-03-PLAN.md (Server Actions and API for ratings)
-Resume file: .planning/phases/08-ratings-system/08-03-SUMMARY.md
-Next action: Continue Phase 8 with 08-04-PLAN.md (Rating display components)
+Last session: 2026-01-30 17:52 KST
+Stopped at: Completed 08-04-PLAN.md (Rating component integration)
+Resume file: .planning/phases/08-ratings-system/08-04-SUMMARY.md
+Next action: Continue Phase 8 with 08-05-PLAN.md (Rating list and aggregation display)
 
 ---
 *State initialized: 2026-01-27*
