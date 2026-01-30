@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 9 of 11 (Photos & Voting)
-Plan: 1 of 5 in current phase
+Plan: 3 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 09-01-PLAN.md (Photos schema)
+Last activity: 2026-01-30 — Completed 09-03-PLAN.md (Photo gallery with voting)
 
-Progress: [███████████████░░░░░░░░░] 57% (13/23 plans)
+Progress: [█████████████████░░░░░░░] 65% (15/23 plans)
 
 ## Performance Metrics
 
@@ -24,10 +24,10 @@ Progress: [███████████████░░░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 12/19
+- Plans completed: 15/23
 - Phase 7 duration: ~26 min (6 plans including gap closures)
 - Phase 8 duration: ~36 min (5 plans including gap closure)
-- Phase 9 duration: ~3 min (1 plan so far)
+- Phase 9 duration: ~22 min (3 plans: schema, upload, gallery)
 - Average: ~5 min/plan
 
 ## Accumulated Context
@@ -106,10 +106,15 @@ Progress: [███████████████░░░░░░░░
 | 2026-01-30 | Toggle voting via unique constraint | (user_id, photo_id) unique enables vote/unvote naturally |
 | 2026-01-30 | Approved photos public, own photos always visible | Users see their pending photos; public only sees approved |
 | 2026-01-30 | Rate limit reset at midnight KST | Consistent with Phase 7 pattern for Korea relevance |
+| 2026-01-30 | CSS columns for masonry layout | No JavaScript library needed - CSS columns with break-inside-avoid |
+| 2026-01-30 | Optimistic UI with automatic rollback | Immediate feedback, revert on error for consistency |
+| 2026-01-30 | Heart animation: 200ms scale pulse | Responsive feel while visible to users |
+| 2026-01-30 | Count flash: 300ms highlight | Draws attention without being distracting |
+| 2026-01-30 | "Show more" loads 6 photos at a time | Balance between initial load and browsing depth |
 
 ### Pending Todos
 
-None — Phase 9 Plan 1 complete. Ready for Plan 2.
+None — Phase 9 Plans 1-3 complete. Ready for Plan 4 (Integration).
 
 ### Blockers/Concerns
 
@@ -117,10 +122,10 @@ None — ready for Phase 9: Photos & Voting.
 
 ## Session Continuity
 
-Last session: 2026-01-30 18:40 KST
-Stopped at: Completed 09-01-PLAN.md (Photos schema with 409 lines)
+Last session: 2026-01-30 19:00 KST
+Stopped at: Completed 09-03-PLAN.md (Photo gallery with voting UI)
 Resume file: None
-Next action: Execute 09-02-PLAN.md (Photo upload component)
+Next action: Execute 09-04-PLAN.md (Integration on cafe detail page)
 
 ---
 *State initialized: 2026-01-27*
@@ -132,4 +137,4 @@ Next action: Execute 09-02-PLAN.md (Photo upload component)
 *Phase 6 complete: 2026-01-29*
 *Phase 7 complete: 2026-01-30 (gap closures 07-05, 07-06 completed)*
 *Phase 8 complete: 2026-01-30 (gap closure 08-05 completed, 8/8 must-haves verified)*
-*Phase 9 in progress: 2026-01-30 (Plan 1/5 complete - photos schema)*
+*Phase 9 in progress: 2026-01-30 (Plans 1-3/5 complete - schema, upload, gallery)*
