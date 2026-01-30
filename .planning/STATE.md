@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 9 of 11 (Photos & Voting)
-Plan: 4 of 5 in current phase
-Status: In progress
-Last activity: 2026-01-30 — Completed 09-04-PLAN.md (Photo Server Actions and API)
+Plan: 5 of 5 complete — **Phase Complete**
+Status: Complete
+Last activity: 2026-01-30 — Completed 09-05-PLAN.md (Photo integration on cafe detail page)
 
-Progress: [██████████████████░░░░░░] 67% (16/24 plans)
+Progress: [███████████████████░░░░░] 71% (17/24 plans)
 
 ## Performance Metrics
 
@@ -117,10 +117,13 @@ Progress: [██████████████████░░░░░
 | 2026-01-30 | Pending-only photo deletion | PHOTO-07 requirement - approved photos are permanent |
 | 2026-01-30 | Toggle voting via DELETE/INSERT | Unique constraint on (user_id, photo_id) enables natural toggle |
 | 2026-01-30 | API returns storage_path for URL construction | Client controls image transformations and sizing |
+| 2026-01-30 | Photos section placed after Ratings in Info tab | Logical content flow: description → facilities → ratings → photos |
+| 2026-01-30 | Guest upload prompt shows Sign In CTA | Encourages conversion rather than hiding functionality |
+| 2026-01-30 | router.refresh() for post-upload photo reload | Simplest pattern for SSR data refresh without complex state management |
 
 ### Pending Todos
 
-None — Phase 9 Plans 1-4 complete. Ready for Plan 5 (Integration on cafe detail page).
+None — Phase 9 complete. Ready for Phase 10 (Admin Panel).
 
 ### Blockers/Concerns
 
@@ -128,10 +131,10 @@ None — ready for Phase 9: Photos & Voting.
 
 ## Session Continuity
 
-Last session: 2026-01-30 19:22 KST
-Stopped at: Completed 09-04-PLAN.md (Photo Server Actions and API)
+Last session: 2026-01-30 19:48 KST
+Stopped at: Completed 09-05-PLAN.md (Photo integration complete)
 Resume file: None
-Next action: Execute 09-05-PLAN.md (Integration on cafe detail page)
+Next action: Execute Phase 10-01-PLAN.md (Admin Panel route protection)
 
 ---
 *State initialized: 2026-01-27*
@@ -143,4 +146,4 @@ Next action: Execute 09-05-PLAN.md (Integration on cafe detail page)
 *Phase 6 complete: 2026-01-29*
 *Phase 7 complete: 2026-01-30 (gap closures 07-05, 07-06 completed)*
 *Phase 8 complete: 2026-01-30 (gap closure 08-05 completed, 8/8 must-haves verified)*
-*Phase 9 in progress: 2026-01-30 (Plans 1-4/5 complete - schema, upload, gallery, Server Actions)*
+*Phase 9 complete: 2026-01-30 (Plans 1-5/5 complete - schema, upload, gallery, Server Actions, integration)*
