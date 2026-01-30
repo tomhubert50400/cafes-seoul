@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 7 of 11 (Cafe Submissions)
-Plan: 6 of 6 in current phase - **PHASE COMPLETE** (gap closures: 5, 6)
-Status: Complete
-Last activity: 2026-01-30 — Completed 07-06-PLAN.md (pg_trgm RPC for fuzzy duplicate detection)
+Phase: 8 of 11 (Ratings System)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 08-01-PLAN.md (Database schema for 10-dimension rating system)
 
-Progress: [████████░░░░░░░░░░░░░░░░] 26% (6/23 plans)
+Progress: [█████████░░░░░░░░░░░░░░░] 30% (7/23 plans)
 
 ## Performance Metrics
 
@@ -70,20 +70,29 @@ Progress: [████████░░░░░░░░░░░░░░░
 | 2026-01-30 | pg_trgm similarity threshold 0.3 for names, 0.4 for addresses | Balances precision/recall - stricter for addresses to avoid false positives |
 | 2026-01-30 | GIN trigram indexes on both ko/en columns | Supports dual-language cafe names with fast similarity search |
 
+### Decisions for Phase 8: Ratings System
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-01-30 | UserRatingDimension distinct from cafe.ts RatingDimension | Avoids type name collision while clarifying user vs aggregated ratings |
+| 2026-01-30 | pet_friendly as boolean (not 0-5) | Binary indicator clearer than gradient for pet policy |
+| 2026-01-30 | Zero ratings excluded via calculate_dimension_average() function | Satisfies RATE-04 requirement cleanly at database level |
+| 2026-01-30 | Auto-aggregation trigger on rating changes | Keeps cafes table denormalized aggregates synchronized automatically |
+
 ### Pending Todos
 
-None — Phase 7 complete.
+None — Phase 8 in progress.
 
 ### Blockers/Concerns
 
-None — ready for Phase 8: Ratings System.
+None — ready for 08-02 (Rating form component).
 
 ## Session Continuity
 
-Last session: 2026-01-30 17:28 KST
-Stopped at: Completed 07-06-PLAN.md (Phase 7 complete with gap closures)
-Resume file: .planning/phases/07-cafe-submissions/07-06-SUMMARY.md
-Next action: Begin Phase 8: Ratings System (08-01-PLAN.md)
+Last session: 2026-01-30 17:29 KST
+Stopped at: Completed 08-01-PLAN.md (Database schema for ratings)
+Resume file: .planning/phases/08-ratings-system/08-01-SUMMARY.md
+Next action: Continue Phase 8 with 08-02-PLAN.md (Rating form component)
 
 ---
 *State initialized: 2026-01-27*
