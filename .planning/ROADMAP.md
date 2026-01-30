@@ -83,11 +83,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Database schema: photos table, votes table
-- [ ] 09-02-PLAN.md — Photo upload component with limits and validation
-- [ ] 09-03-PLAN.md — Photo gallery with voting UI (heart button)
-- [ ] 09-04-PLAN.md — Server Actions for upload, vote, rate limiting
-- [ ] 09-05-PLAN.md — Integration on cafe detail page
+- [x] 09-01-PLAN.md — Database schema: photos table, votes table
+- [x] 09-02-PLAN.md — Photo upload component with limits and validation
+- [x] 09-03-PLAN.md — Photo gallery with voting UI (heart button)
+- [ ] 09-04-PLAN.md — Integration on cafe detail page
+- [ ] 09-05-PLAN.md — Server Actions refinement and error handling
 
 ### Phase 10: Admin Panel
 **Goal**: Admin interface for moderating cafes and photos
@@ -133,7 +133,7 @@ Phases execute in numeric order: 7 -> 8 -> 9 -> 10 -> 11
 |-------|----------------|--------|-----------|
 | 7. Cafe Submissions | 6/6 | ● Complete | 2026-01-30 |
 | 8. Ratings System | 5/5 | ● Complete | 2026-01-30 |
-| 9. Photos & Voting | 0/5 | ○ Not Started | — |
+| 9. Photos & Voting | 3/5 | ○ In Progress | — |
 | 10. Admin Panel | 0/4 | ○ Not Started | — |
 | 11. User Dashboard | 0/2 | ○ Not Started | — |
 
