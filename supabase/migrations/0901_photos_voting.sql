@@ -204,3 +204,40 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 COMMENT ON FUNCTION public.can_upload_photo IS 'Returns TRUE if user has remaining daily upload quota';
 
+-- ============================================
+-- HELPER FUNCTION: Count user's photos for a cafe
+-- ============================================
+
+CREATE OR REPLACE FUNCTION public.count_user_cafe_photos(user_uuid UUID, cafe_uuid UUID)
+RETURNS INTEGER AS $$
+DECLARE
+    photo_count INTEGER;
+BEGIN
+    -- Count photos regardless of status (pending + approved, exclude rejected)
+    -- Rejected photos don't count toward the limit (user can retry)
+    SELECT COUNT(*) INTO photo_count
+    FROM public.photos
+    WHERE user_id = user_uuid 
+      AND cafe_id = cafe_uuid
+      AND status != 'rejected';
+    
+    RETURN photo_count;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+COMMENT ON FUNCTION public.count_user_cafe_photos IS 'Count photos uploaded by user for a specific cafe (excludes rejected)';
+
+-- ============================================
+-- HELPER FUNCTION: Check if user can upload to cafe
+-- ============================================
+
+CREATE OR REPLACE FUNCTION public.can_upload_to_cafe(user_uuid UUID, cafe_uuid UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+    -- User can upload if they have fewer than 3 photos for this cafe
+    RETURN public.count_user_cafe_photos(user_uuid, cafe_uuid) < 3;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+COMMENT ON FUNCTION public.can_upload_to_cafe IS 'Returns TRUE if user has fewer than 3 photos for this cafe';
+
