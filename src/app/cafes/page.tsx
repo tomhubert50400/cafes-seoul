@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { headers } from 'next/headers';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
 import { SearchFilters } from '@/components/search-filters';
 import { CafeList } from '@/components/cafe-list';
 import { CafeCardSkeleton } from '@/components/cafe-card';
@@ -10,6 +10,9 @@ import { ResultsInfo } from '@/components/cafes/results-info';
 import { Pagination } from '@/components/cafes/pagination';
 import { fetchCafes } from '@/lib/api/cafes';
 import { createClient } from '@/lib/supabase/server';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Plus } from 'lucide-react';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
 
@@ -91,9 +94,17 @@ export default async function CafesPage({ searchParams }: PageProps) {
   return (
     <div className="min-h-screen bg-background">
       <Header user={user} />
-
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <CafesPageHeader />
+        {/* Header with Add Cafe button */}
+        <div className="flex items-start justify-between mb-8">
+          <CafesPageHeader />
+          <Button asChild className="shrink-0">
+            <Link href="/submit">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Cafe
+            </Link>
+          </Button>
+        </div>
 
         <Suspense fallback={null}>
           <SearchFilters className="mb-8" />
