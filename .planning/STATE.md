@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 8 of 11 (Ratings System)
-Plan: 1 of 4 in current phase
+Plan: 2 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 08-01-PLAN.md (Database schema for 10-dimension rating system)
+Last activity: 2026-01-30 — Completed 08-02-PLAN.md (Rating form UI with sliders)
 
-Progress: [█████████░░░░░░░░░░░░░░░] 30% (7/23 plans)
+Progress: [██████████░░░░░░░░░░░░░░] 35% (8/23 plans)
 
 ## Performance Metrics
 
@@ -78,6 +78,11 @@ Progress: [█████████░░░░░░░░░░░░░░
 | 2026-01-30 | pet_friendly as boolean (not 0-5) | Binary indicator clearer than gradient for pet policy |
 | 2026-01-30 | Zero ratings excluded via calculate_dimension_average() function | Satisfies RATE-04 requirement cleanly at database level |
 | 2026-01-30 | Auto-aggregation trigger on rating changes | Keeps cafes table denormalized aggregates synchronized automatically |
+| 2026-01-30 | Overall rating uses star input, not slider | Visual prominence for mandatory field, more intuitive for 1-5 scale |
+| 2026-01-30 | Optional dimensions default to 0 (skip) | Users explicitly choose to rate; 0 clearly indicates "not rated" |
+| 2026-01-30 | Three sections organize 10 dimensions | Logical grouping: Essentials (core), Comfort (environment), Extras (features) |
+| 2026-01-30 | Same RatingForm component for create/update | existingRating prop determines mode; reduces code duplication |
+| 2026-01-30 | Touch-friendly 44px+ interaction targets | Mobile-optimized sliders and star buttons |
 
 ### Pending Todos
 
@@ -85,14 +90,14 @@ None — Phase 8 in progress.
 
 ### Blockers/Concerns
 
-None — ready for 08-02 (Rating form component).
+None — ready for 08-03 (Server Actions for rating submission).
 
 ## Session Continuity
 
-Last session: 2026-01-30 17:29 KST
-Stopped at: Completed 08-01-PLAN.md (Database schema for ratings)
-Resume file: .planning/phases/08-ratings-system/08-01-SUMMARY.md
-Next action: Continue Phase 8 with 08-02-PLAN.md (Rating form component)
+Last session: 2026-01-30 17:35 KST
+Stopped at: Completed 08-02-PLAN.md (Rating form UI)
+Resume file: .planning/phases/08-ratings-system/08-02-SUMMARY.md
+Next action: Continue Phase 8 with 08-03-PLAN.md (Server Actions for rating submission)
 
 ---
 *State initialized: 2026-01-27*
