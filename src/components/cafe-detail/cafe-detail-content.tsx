@@ -17,15 +17,19 @@ import { CAFE_TYPE_LABELS, PRICE_RANGE_LABELS, getLocalizedText } from '@/types/
 import type { Review } from '@/types/review';
 import { RatingsSection } from '@/components/ratings/ratings-section';
 import type { UserRating } from '@/types/ratings';
+import { PhotosSection } from '@/app/cafes/[slug]/photos-section';
+import type { PhotoWithVoteStatus } from '@/types/photos';
+import type { User } from '@/types/user';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
   images: CafeImage[];
   reviews: Review[];
   userRating?: UserRating | null;
+  photos?: PhotoWithVoteStatus[];
 }
 
-export function CafeDetailContent({ cafe, images, reviews, userRating }: CafeDetailContentProps) {
+export function CafeDetailContent({ cafe, images, reviews, userRating, photos = [] }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
   const typeLabel = CAFE_TYPE_LABELS[cafe.cafeType];
@@ -36,6 +40,10 @@ export function CafeDetailContent({ cafe, images, reviews, userRating }: CafeDet
   const cafeAddress = getLocalizedText(cafe.address, language);
 
   const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
+
+  // Note: We don't have access to currentUser directly in this client component
+  // The server component passes photos with isOwnPhoto flags, so we can infer auth state
+  const isAuthenticated = photos.some(p => p.isOwnPhoto);
 
   return (
     <div className="min-h-screen bg-background">
@@ -149,6 +157,13 @@ export function CafeDetailContent({ cafe, images, reviews, userRating }: CafeDet
                     // Refresh page to show updated ratings
                     window.location.reload();
                   }}
+                />
+
+                {/* Photos Section */}
+                <PhotosSection
+                  cafeId={cafe.id}
+                  initialPhotos={photos}
+                  currentUser={null} // Auth state inferred from photos, Sign In CTA shown for guests
                 />
 
                 {/* Operating hours */}

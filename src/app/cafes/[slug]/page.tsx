@@ -6,6 +6,7 @@ import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content'
 import type { Cafe, CafeImage } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import type { UserRating } from '@/types/ratings';
+import type { PhotoWithVoteStatus, PhotoStatus } from '@/types/photos';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -102,6 +103,105 @@ async function getUserRating(cafeId: string, userId: string | undefined): Promis
   return data ? transformUserRating(data) : null;
 }
 
+async function getCafePhotos(
+  cafeId: string,
+  userId: string | undefined
+): Promise<PhotoWithVoteStatus[]> {
+  const supabase = await createClient();
+
+  try {
+    // Build base query
+    let query = supabase
+      .from('photos')
+      .select(
+        `
+        id,
+        cafe_id,
+        user_id,
+        storage_path,
+        status,
+        upvote_count,
+        created_at
+      `
+      )
+      .eq('cafe_id', cafeId);
+
+    // Apply visibility filter:
+    // - Approved photos visible to all
+    // - User's own photos (any status) visible to them
+    if (userId) {
+      // For authenticated users: show approved + their own photos
+      const { data: photos, error } = await query.or(
+        `status.eq.approved,and(user_id.eq.${userId})`
+      );
+
+      if (error) {
+        console.error('Error fetching photos:', error);
+        return [];
+      }
+
+      if (!photos || photos.length === 0) {
+        return [];
+      }
+
+      // Get user's votes for these photos
+      const photoIds = photos.map((p) => p.id);
+      const { data: votes } = await supabase
+        .from('photo_votes')
+        .select('photo_id')
+        .eq('user_id', userId)
+        .in('photo_id', photoIds);
+
+      const userVotes = new Set(votes?.map((v) => v.photo_id) || []);
+
+      // Transform to PhotoWithVoteStatus
+      return photos.map((photo) => ({
+        id: photo.id,
+        storage_path: photo.storage_path,
+        status: photo.status as PhotoStatus,
+        upvote_count: photo.upvote_count,
+        upvoteCount: photo.upvote_count,
+        created_at: photo.created_at,
+        url: supabase.storage.from('photos').getPublicUrl(photo.storage_path).data.publicUrl,
+        hasVoted: userVotes.has(photo.id),
+        isOwnPhoto: photo.user_id === userId,
+      }));
+    } else {
+      // For guests: show only approved photos
+      const { data: photos, error } = await query
+        .eq('status', 'approved')
+        .order('upvote_count', { ascending: false })
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error) {
+        console.error('Error fetching photos:', error);
+        return [];
+      }
+
+      if (!photos || photos.length === 0) {
+        return [];
+      }
+
+      // Transform to PhotoWithVoteStatus (no votes for guests)
+      return photos.map((photo) => ({
+        id: photo.id,
+        storage_path: photo.storage_path,
+        status: photo.status as PhotoStatus,
+        upvote_count: photo.upvote_count,
+        upvoteCount: photo.upvote_count,
+        created_at: photo.created_at,
+        url: supabase.storage.from('photos').getPublicUrl(photo.storage_path).data.publicUrl,
+        hasVoted: false,
+        isOwnPhoto: false,
+      }));
+    }
+  } catch (err) {
+    console.error('Unexpected error fetching photos:', err);
+    return [];
+  }
+}
+
 export default async function CafeDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const result = await getCafe(slug);
@@ -112,15 +212,22 @@ export default async function CafeDetailPage({ params }: PageProps) {
 
   const { cafe, images } = result;
   const reviews = await getCafeReviews(cafe.id);
-  
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const userRating = await getUserRating(cafe.id, user?.id);
+  const photos = await getCafePhotos(cafe.id, user?.id);
 
   return (
     <>
       <Header user={user} />
-      <CafeDetailContent cafe={cafe} images={images} reviews={reviews} userRating={userRating} />
+      <CafeDetailContent
+        cafe={cafe}
+        images={images}
+        reviews={reviews}
+        userRating={userRating}
+        photos={photos}
+      />
     </>
   );
 }
