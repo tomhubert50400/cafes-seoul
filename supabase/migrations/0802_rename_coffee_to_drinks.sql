@@ -1,16 +1,41 @@
--- ============================================-- RENAME COFFEE TO DRINKS-- Rename rating columns from coffee to drinks-- ============================================
+-- ============================================
+-- RENAME COFFEE TO DRINKS
+-- Rename rating columns from coffee to drinks
+-- Handles case where columns may already exist
+-- ============================================
 
--- Rename column in cafe_ratings table
-ALTER TABLE public.cafe_ratings RENAME COLUMN coffee TO drinks;
+-- Rename column in cafe_ratings table (if coffee still exists)
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'cafe_ratings' AND column_name = 'coffee'
+    ) THEN
+        ALTER TABLE public.cafe_ratings RENAME COLUMN coffee TO drinks;
+    END IF;
+END $$;
 
--- Rename column in cafes table (aggregated ratings)
-ALTER TABLE public.cafes RENAME COLUMN rating_coffee TO rating_drinks;
+-- Rename column in cafes table (if rating_coffee still exists and rating_drinks doesn't)
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'cafes' AND column_name = 'rating_coffee'
+    ) AND NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'cafes' AND column_name = 'rating_drinks'
+    ) THEN
+        ALTER TABLE public.cafes RENAME COLUMN rating_coffee TO rating_drinks;
+    END IF;
+END $$;
 
 -- Update comments
 COMMENT ON COLUMN public.cafe_ratings.drinks IS 'Drinks quality rating 0-5 (0 = not rated)';
 COMMENT ON COLUMN public.cafes.rating_drinks IS 'Average drinks quality rating';
 
--- ============================================-- UPDATE TRIGGER FUNCTION-- ============================================
+-- ============================================
+-- UPDATE TRIGGER FUNCTION
+-- ============================================
 
 -- Recreate the function with updated column references
 CREATE OR REPLACE FUNCTION public.update_cafe_rating_aggregates(p_cafe_id UUID)

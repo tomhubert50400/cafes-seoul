@@ -111,17 +111,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'feature.reservation': 'Reservations',
     'feature.meeting': 'Meeting rooms',
 
-    // Rating categories
-    'rating.drinks': 'Drinks',
-    'rating.food': 'Food',
-    'rating.ambiance': 'Ambiance',
-    'rating.seating': 'Seating',
-    'rating.wifi': 'WiFi',
-    'rating.outlets': 'Outlets',
-    'rating.noise': 'Noise level',
-    'rating.value': 'Value',
-    'rating.temperature': 'Temperature',
-
     // Days of week
     'day.mon': 'Mon',
     'day.tue': 'Tue',
@@ -354,6 +343,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendly': 'Pet Friendly',
     'rating.petFriendlyDescription': 'Is this cafe welcoming to pets?',
     'rating.lighting': 'Lighting',
+    'rating.drinks': 'Drinks',
 
     // Sections
     'rating.essentials': 'Essentials',
@@ -527,17 +517,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'feature.outdoor': '야외석',
     'feature.reservation': '예약',
     'feature.meeting': '미팅룸',
-
-    // Rating categories
-    'rating.drinks': '음료',
-    'rating.food': '음식',
-    'rating.ambiance': '분위기',
-    'rating.seating': '좌석',
-    'rating.wifi': '와이파이',
-    'rating.outlets': '콘센트',
-    'rating.noise': '소음',
-    'rating.value': '가성비',
-    'rating.temperature': '온도',
 
     // Days of week
     'day.mon': '월',
@@ -771,6 +750,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendly': '반려동물 친화',
     'rating.petFriendlyDescription': '반려동물 동반이 가능한가요?',
     'rating.lighting': '조명',
+    'rating.drinks': '음료',
 
     // Sections
     'rating.essentials': '필수',
@@ -944,17 +924,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'feature.outdoor': 'Terrasse',
     'feature.reservation': 'Réservation',
     'feature.meeting': 'Salles de réunion',
-
-    // Rating categories
-    'rating.drinks': 'Boissons',
-    'rating.food': 'Nourriture',
-    'rating.ambiance': 'Ambiance',
-    'rating.seating': 'Places assises',
-    'rating.wifi': 'WiFi',
-    'rating.outlets': 'Prises',
-    'rating.noise': 'Niveau sonore',
-    'rating.value': 'Rapport qualité-prix',
-    'rating.temperature': 'Température',
 
     // Days of week
     'day.mon': 'Lun',
@@ -1188,6 +1157,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendly': 'Animaux acceptés',
     'rating.petFriendlyDescription': 'Ce café accueille-t-il les animaux ?',
     'rating.lighting': 'Éclairage',
+    'rating.drinks': 'Boissons',
 
     // Sections
     'rating.essentials': 'Essentiels',
@@ -1362,19 +1332,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'feature.reservation': '可预约',
     'feature.meeting': '会议室',
 
-    // Rating categories
-    'rating.drinks': '饮品',
-    'rating.food': '食物',
-    'rating.ambiance': '氛围',
-    'rating.seating': '座位',
-    'rating.wifi': 'WiFi',
-    'rating.outlets': '插座',
-    'rating.noise': '噪音',
-    'rating.value': '性价比',
-    'rating.temperature': '温度',
-
     // Days of week
-    'day.mon': '周一',
+    'day.mon': '周一', 
     'day.tue': '周二',
     'day.wed': '周三',
     'day.thu': '周四',
@@ -1605,6 +1564,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendly': '宠物友好',
     'rating.petFriendlyDescription': '这家咖啡馆欢迎宠物吗？',
     'rating.lighting': '灯光',
+    'rating.drinks': '饮品',
 
     // Sections
     'rating.essentials': '必备',
@@ -1778,17 +1738,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'feature.outdoor': 'Chỗ ngồi ngoài trời',
     'feature.reservation': 'Đặt chỗ',
     'feature.meeting': 'Phòng họp',
-
-    // Rating categories
-    'rating.drinks': 'Đồ uống',
-    'rating.food': 'Đồ ăn',
-    'rating.ambiance': 'Không gian',
-    'rating.seating': 'Chỗ ngồi',
-    'rating.wifi': 'WiFi',
-    'rating.outlets': 'Ổ cắm',
-    'rating.noise': 'Tiếng ồn',
-    'rating.value': 'Giá trị',
-    'rating.temperature': 'Nhiệt độ',
 
     // Days of week
     'day.mon': 'T2',
@@ -2022,6 +1971,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendly': 'Thân thiện với thú cưng',
     'rating.petFriendlyDescription': 'Quán này có chấp nhận thú cưng không?',
     'rating.lighting': 'Ánh sáng',
+    'rating.drinks': 'Đồ uống',
 
     // Sections
     'rating.essentials': 'Thiết yếu',
