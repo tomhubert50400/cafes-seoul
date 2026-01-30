@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 7 of 11 (Cafe Submissions)
-Plan: 1 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 07-01-PLAN.md
+Last activity: 2026-01-30 — Completed 07-03-PLAN.md
 
-Progress: [████░░░░░░░░░░░░░░░░░░░░] 4% (1/23 plans)
+Progress: [███████░░░░░░░░░░░░░░░░░] 13% (3/23 plans)
 
 ## Performance Metrics
 
@@ -24,9 +24,9 @@ Progress: [████░░░░░░░░░░░░░░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 1/19
-- Average duration: ~5 min/plan
-- Total execution time: ~5 min
+- Plans completed: 3/19
+- Average duration: ~6 min/plan
+- Total execution time: ~18 min
 
 ## Accumulated Context
 
@@ -60,6 +60,10 @@ Progress: [████░░░░░░░░░░░░░░░░░░░
 | 2026-01-30 | Rate limits in dedicated table | Efficient queries, supports future rate limit features |
 | 2026-01-30 | Submission.cafe_id links to approved cafe | Enables traceability and "view approved cafe" feature |
 | 2026-01-30 | Admin notes separate from rejection_reason | Internal vs user-facing moderation workflow |
+| 2026-01-30 | Rate limit reset at midnight KST | Korea Standard Time for local relevance in Seoul |
+| 2026-01-30 | Server Actions preferred over API routes for forms | Better type safety and React form integration |
+| 2026-01-30 | Return error objects instead of throwing | Predictable error handling with TypeScript narrowing |
+| 2026-01-30 | PATCH merges updates before validation | Allows partial updates while maintaining validation |
 
 ### Pending Todos
 
@@ -67,14 +71,14 @@ None — plan executing normally.
 
 ### Blockers/Concerns
 
-None — ready to continue with 07-02-PLAN.md.
+None — ready to continue with 07-04-PLAN.md.
 
 ## Session Continuity
 
-Last session: 2026-01-30 15:44 KST
-Stopped at: Completed 07-01-PLAN.md (database schema)
-Resume file: .planning/phases/07-cafe-submissions/07-01-SUMMARY.md
-Next action: Execute 07-02-PLAN.md (Submission form UI)
+Last session: 2026-01-30 15:57 KST
+Stopped at: Completed 07-03-PLAN.md (Server Actions and API)
+Resume file: .planning/phases/07-cafe-submissions/07-03-SUMMARY.md
+Next action: Execute 07-04-PLAN.md (Entry point and submission status display)
 
 ---
 *State initialized: 2026-01-27*
