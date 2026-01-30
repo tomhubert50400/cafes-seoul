@@ -60,9 +60,10 @@ Plans:
 
 Plans:
 - [x] 08-01-PLAN.md — Database schema: ratings table with 10 dimensions
-- [ ] 08-02-PLAN.md — Rating form component with sliders and validation
-- [ ] 08-03-PLAN.md — Server Actions and API for rating CRUD
-- [ ] 08-04-PLAN.md — Entry points integration (list, map, detail) with i18n
+- [x] 08-02-PLAN.md — Rating form component with sliders and validation
+- [x] 08-03-PLAN.md — Server Actions and API for rating CRUD
+- [x] 08-04-PLAN.md — Entry points integration (list, map, detail) with i18n
+- [x] 08-05-PLAN.md — **GAP CLOSURE**: Wire form to Server Actions, fix table name
 
 ### Phase 9: Photos & Voting
 **Goal**: Photo uploads with moderation queue and upvoting system
@@ -131,7 +132,7 @@ Phases execute in numeric order: 7 -> 8 -> 9 -> 10 -> 11
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 7. Cafe Submissions | 6/6 | ● Complete | 2026-01-30 |
-| 8. Ratings System | 1/4 | ○ In Progress | — |
+| 8. Ratings System | 5/5 | ● Complete | 2026-01-30 |
 | 9. Photos & Voting | 0/5 | ○ Not Started | — |
 | 10. Admin Panel | 0/4 | ○ Not Started | — |
 | 11. User Dashboard | 0/2 | ○ Not Started | — |
