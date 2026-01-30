@@ -4,3 +4,4 @@ export * from './user';
 export * from './api';
 export * from './map';
 export * from './ratings';
+export * from './photos';
