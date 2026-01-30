@@ -66,7 +66,7 @@ export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsS
   return (
     <section className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h2 className="text-xl font-semibold">{t('rating.sectionTitle')}</h2>
           {hasRatings ? (
@@ -86,12 +86,13 @@ export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsS
           cafeSlug={cafe.slug}
           existingRating={userRating}
           onRatingSubmitted={onRatingSubmitted}
+          className="w-full sm:w-auto"
         />
       </div>
 
       {/* Breakdown - Grid Layout */}
       {hasRatings && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {DIMENSION_ORDER.map(key => renderDimension(key))}
         </div>
       )}

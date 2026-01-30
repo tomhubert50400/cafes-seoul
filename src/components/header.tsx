@@ -13,7 +13,6 @@ import { cn } from '@/lib/utils';
 const NAV_ITEMS = [
   { href: ROUTES.CAFES, labelKey: 'nav.cafes' },
   { href: ROUTES.MAP, labelKey: 'nav.map' },
-  { href: ROUTES.DISTRICTS, labelKey: 'nav.districts' },
 ];
 
 interface HeaderProps {
@@ -26,15 +25,15 @@ export function Header({ user }: HeaderProps = {}) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        {/* Logo */}
-        <Link href={ROUTES.HOME} className="flex items-center gap-2">
+      <div className="mx-auto relative flex h-14 max-w-6xl items-center justify-between px-4">
+        {/* Logo - icon only on mobile, icon + name on desktop */}
+        <Link href={ROUTES.HOME} className="flex items-center gap-2 z-10">
           <CoffeeIcon className="h-6 w-6" />
-          <span className="font-semibold">{t('site.name')}</span>
+          <span className="font-semibold hidden md:inline">{t('site.name')}</span>
         </Link>
 
-        {/* Navigation */}
-        <nav className="hidden items-center gap-6 md:flex">
+        {/* Navigation - centered absolutely */}
+        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-4 md:gap-6">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
@@ -50,19 +49,25 @@ export function Header({ user }: HeaderProps = {}) {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2 z-10">
           <LanguageSwitcher />
           {user ? (
             <UserMenu user={user} />
           ) : (
-            <>
+            <div className="hidden md:flex items-center gap-2">
               <Button variant="ghost" size="sm" asChild>
                 <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
               </Button>
               <Button size="sm" asChild>
                 <Link href={ROUTES.SIGNUP}>{t('nav.signup')}</Link>
               </Button>
-            </>
+            </div>
+          )}
+          {/* Mobile auth - single button */}
+          {!user && (
+            <Button size="sm" asChild className="md:hidden">
+              <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
+            </Button>
           )}
         </div>
       </div>

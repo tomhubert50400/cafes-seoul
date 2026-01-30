@@ -6,7 +6,6 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useI18n } from '@/lib/i18n';
 import { ratingFormSchema, RatingFormData, toRatingInput } from '@/lib/validations/ratings';
 import { submitRating } from '@/lib/actions/ratings';
@@ -136,13 +135,13 @@ export function RatingForm({
           )}
         </span>
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-0.5 sm:gap-1 justify-center sm:justify-start">
         {[1, 2, 3, 4, 5].map((star) => (
           <button
             key={star}
             type="button"
             onClick={() => onChange(star)}
-            className={`p-2 transition-colors hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded ${
+            className={`p-1.5 sm:p-2 transition-colors hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded ${
               star <= value
                 ? 'text-amber-500'
                 : 'text-muted-foreground/30 hover:text-amber-300'
@@ -150,7 +149,7 @@ export function RatingForm({
             aria-label={`${t('rating.rate')} ${star}`}
           >
             <Star
-              className={`h-8 w-8 ${star <= value ? 'fill-current' : ''} transition-all`}
+              className={`h-7 w-7 sm:h-8 sm:w-8 ${star <= value ? 'fill-current' : ''} transition-all`}
             />
           </button>
         ))}
@@ -196,18 +195,14 @@ export function RatingForm({
   );
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
-      <CardHeader>
-        <CardTitle className="text-xl">
-          {isUpdateMode ? t('rating.updateTitle') : t('rating.title')}
-        </CardTitle>
-        <p className="text-sm text-muted-foreground">
+    <div className="w-full overflow-x-hidden">
+      <div className="mb-4">
+        <p className="text-sm text-muted-foreground truncate">
           {cafeName}
         </p>
-      </CardHeader>
+      </div>
 
-      <CardContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 overflow-x-hidden">
           {/* Overall Rating - Mandatory */}
           <div className="pb-4 border-b">
             <Controller
@@ -365,16 +360,17 @@ export function RatingForm({
               name="petFriendly"
               control={control}
               render={({ field }) => (
-                <div className="flex items-center justify-between rounded-lg border p-4 mt-4">
-                  <div>
+                <div className="flex items-center justify-between gap-3 rounded-lg border p-3 sm:p-4 mt-4">
+                  <div className="min-w-0 flex-1">
                     <Label className="font-medium">{t('rating.petFriendly')}</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       {t('rating.petFriendlyDescription')}
                     </p>
                   </div>
                   <Switch
                     checked={field.value}
                     onCheckedChange={field.onChange}
+                    className="shrink-0"
                   />
                 </div>
               )}
@@ -419,7 +415,6 @@ export function RatingForm({
             </Button>
           </div>
         </form>
-      </CardContent>
-    </Card>
+    </div>
   );
 }

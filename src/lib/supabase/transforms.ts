@@ -84,7 +84,7 @@ export function transformCafeSummary(row: Record<string, unknown>): CafeSummary 
     isPetFriendly: row.has_pet_friendly as boolean,
     isLaptopFriendly: row.has_laptop_friendly as boolean,
     hasParking: row.has_parking as boolean,
-    primaryImageUrl: null,
+    primaryImageUrl: getStorageUrl(row.primary_image_url as string | null),
     distance: row.distance_meters ? parseFloat(row.distance_meters as string) : undefined,
     ratings: {
       drinks: row.rating_drinks ? parseFloat(row.rating_coffee as string) : null,

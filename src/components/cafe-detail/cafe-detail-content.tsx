@@ -6,14 +6,13 @@ import { Footer } from '@/components/footer';
 import { RatingStars } from '@/components/rating-stars';
 import { CafeStaticMap } from '@/components/map/cafe-static-map';
 import { MapProvider } from '@/components/map/map-provider';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useI18n } from '@/lib/i18n';
 import { getDistrictById } from '@/lib/constants/districts';
 import { EXTERNAL_URLS } from '@/lib/constants/routes';
 import type { Cafe, CafeImage } from '@/types/cafe';
-import { CAFE_TYPE_LABELS, PRICE_RANGE_LABELS, getLocalizedText } from '@/types/cafe';
+import { getLocalizedText } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import { RatingsSection } from '@/components/ratings/ratings-section';
 import type { UserRating } from '@/types/ratings';
@@ -32,8 +31,6 @@ interface CafeDetailContentProps {
 export function CafeDetailContent({ cafe, images, reviews, userRating, photos = [] }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
-  const typeLabel = CAFE_TYPE_LABELS[cafe.cafeType];
-  const priceLabel = PRICE_RANGE_LABELS[cafe.priceRange];
 
   const cafeName = getLocalizedText(cafe.name, language);
   const cafeDescription = getLocalizedText(cafe.description, language);
@@ -46,8 +43,8 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
   const isAuthenticated = photos.some(p => p.isOwnPhoto);
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-6xl px-4 py-8">
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <main className="mx-auto max-w-6xl px-4 py-8 overflow-x-hidden">
         {/* Breadcrumb */}
         <nav className="mb-4 text-sm text-muted-foreground">
           <Link href="/cafes" className="hover:text-foreground">
@@ -90,8 +87,22 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
               ))}
             </div>
           ) : (
-            <div className="flex aspect-[21/9] items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
-              <CoffeeIcon className="h-24 w-24 text-zinc-300 dark:text-zinc-600" />
+            <div className="flex aspect-[21/9] flex-col items-center justify-center gap-3 rounded-lg bg-zinc-100 dark:bg-zinc-800">
+              <CoffeeIcon className="h-16 w-16 text-zinc-300 dark:text-zinc-600" />
+              <div className="text-center">
+                <p className="text-muted-foreground">{t('cafe.noImage')}</p>
+                <button
+                  onClick={() => {
+                    const photosSection = document.getElementById('photos-section');
+                    if (photosSection) {
+                      photosSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="mt-1 text-sm text-primary hover:underline"
+                >
+                  {t('cafe.addFirstPhoto')}
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -101,15 +112,7 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
           <div className="lg:col-span-2">
             {/* Header */}
             <div className="mb-6">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <h1 className="text-3xl font-bold">{cafeName}</h1>
-                </div>
-                <div className="flex gap-2">
-                  {typeLabel && <Badge variant="outline">{typeLabel[language as keyof typeof typeLabel] || typeLabel.en}</Badge>}
-                  {priceLabel && <Badge variant="outline">{priceLabel.symbol}</Badge>}
-                </div>
-              </div>
+              <h1 className="text-3xl font-bold">{cafeName}</h1>
 
               {/* Rating */}
               <div className="mt-4 flex items-center gap-4">
@@ -145,11 +148,13 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
                 />
 
                 {/* Photos Section */}
-                <PhotosSection
-                  cafeId={cafe.id}
-                  initialPhotos={photos}
-                  currentUser={null} // Auth state inferred from photos, Sign In CTA shown for guests
-                />
+                <div id="photos-section">
+                  <PhotosSection
+                    cafeId={cafe.id}
+                    initialPhotos={photos}
+                    currentUser={null} // Auth state inferred from photos, Sign In CTA shown for guests
+                  />
+                </div>
 
                 {/* Operating hours */}
                 {Object.keys(cafe.operatingHours).length > 0 && (

@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import {
   Select,
   SelectContent,
@@ -13,29 +12,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { SEOUL_DISTRICTS } from '@/lib/constants/districts';
-import { CAFE_TYPE_LABELS, type CafeType, getLocalizedText } from '@/types/cafe';
+import { CAFE_TYPE_LABELS, getLocalizedText } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 interface SearchFiltersProps {
   className?: string;
 }
-
-const FEATURE_FILTERS = [
-  { key: 'hasWifi', labelKey: 'filter.wifi' },
-  { key: 'hasOutlets', labelKey: 'filter.outlets' },
-  { key: 'isPetFriendly', labelKey: 'filter.pet' },
-  { key: 'isLaptopFriendly', labelKey: 'filter.laptop' },
-  { key: 'hasParking', labelKey: 'filter.parking' },
-  { key: 'hasOutdoorSeating', labelKey: 'filter.outdoor' },
-] as const;
-
-const PRICE_RANGES = [
-  { value: '1', label: '₩' },
-  { value: '2', label: '₩₩' },
-  { value: '3', label: '₩₩₩' },
-  { value: '4', label: '₩₩₩₩' },
-] as const;
 
 export function SearchFilters({ className }: SearchFiltersProps) {
   const router = useRouter();
@@ -56,23 +39,13 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     [router, searchParams]
   );
 
-  const toggleFeature = useCallback(
-    (key: string) => {
-      const current = searchParams.get(key);
-      updateParams(key, current === 'true' ? null : 'true');
-    },
-    [searchParams, updateParams]
-  );
-
   const clearFilters = useCallback(() => {
     router.push('?');
   }, [router]);
 
   const hasActiveFilters =
     searchParams.get('district') ||
-    searchParams.get('cafeType') ||
-    searchParams.get('priceRange') ||
-    FEATURE_FILTERS.some((f) => searchParams.get(f.key) === 'true');
+    searchParams.get('cafeType');
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -152,43 +125,6 @@ export function SearchFilters({ className }: SearchFiltersProps) {
         )}
       </div>
 
-      {/* Feature badges */}
-      <div className="flex flex-wrap gap-2">
-        {FEATURE_FILTERS.map((feature) => {
-          const isActive = searchParams.get(feature.key) === 'true';
-          return (
-            <Badge
-              key={feature.key}
-              variant={isActive ? 'default' : 'outline'}
-              className="cursor-pointer"
-              onClick={() => toggleFeature(feature.key)}
-            >
-              {t(feature.labelKey)}
-            </Badge>
-          );
-        })}
-
-        {/* Price range badges */}
-        {PRICE_RANGES.map((price) => {
-          const currentPrices = searchParams.get('priceRange')?.split(',') || [];
-          const isActive = currentPrices.includes(price.value);
-          return (
-            <Badge
-              key={price.value}
-              variant={isActive ? 'default' : 'outline'}
-              className="cursor-pointer"
-              onClick={() => {
-                const newPrices = isActive
-                  ? currentPrices.filter((p) => p !== price.value)
-                  : [...currentPrices, price.value];
-                updateParams('priceRange', newPrices.length > 0 ? newPrices.join(',') : null);
-              }}
-            >
-              {price.label}
-            </Badge>
-          );
-        })}
-      </div>
     </div>
   );
 }

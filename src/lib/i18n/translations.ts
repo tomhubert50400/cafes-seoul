@@ -16,6 +16,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': 'Districts',
     'nav.login': 'Login',
     'nav.signup': 'Sign up',
+    'nav.language': 'Language',
     'nav.profile': 'Profile',
     'nav.myReviews': 'My Reviews',
     'nav.settings': 'Settings',
@@ -99,6 +100,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': 'Average drink price:',
     'cafe.noReviews': 'No reviews yet',
     'cafe.writeFirst': 'Write the first review',
+    'cafe.noImage': 'No image available',
+    'cafe.addFirstPhoto': 'Be the first to add one!',
     'cafe.helpful': 'Helpful',
 
     // Features/Facilities
@@ -349,6 +352,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendlyDescription': 'Is this cafe welcoming to pets?',
     'rating.lighting': 'Lighting',
     'rating.drinks': 'Drinks',
+    'rating.wifi': 'WiFi',
+    'rating.seating': 'Seating',
+    'rating.food': 'Food',
+    'rating.outlets': 'Outlets',
 
     // Sections
     'rating.essentials': 'Essentials',
@@ -429,6 +436,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': '지역별',
     'nav.login': '로그인',
     'nav.signup': '회원가입',
+    'nav.language': '언어',
     'nav.profile': '프로필',
     'nav.myReviews': '내 리뷰',
     'nav.settings': '설정',
@@ -512,6 +520,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': '평균 음료 가격:',
     'cafe.noReviews': '아직 리뷰가 없습니다',
     'cafe.writeFirst': '첫 리뷰 작성하기',
+    'cafe.noImage': '이미지가 없습니다',
+    'cafe.addFirstPhoto': '첫 번째 사진을 올려주세요!',
     'cafe.helpful': '도움이 됐어요',
 
     // Features/Facilities
@@ -762,6 +772,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendlyDescription': '반려동물 동반이 가능한가요?',
     'rating.lighting': '조명',
     'rating.drinks': '음료',
+    'rating.wifi': '와이파이',
+    'rating.seating': '좌석',
+    'rating.food': '음식',
+    'rating.outlets': '콘센트',
 
     // Sections
     'rating.essentials': '필수',
@@ -842,6 +856,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': 'Quartiers',
     'nav.login': 'Connexion',
     'nav.signup': 'Inscription',
+    'nav.language': 'Langue',
     'nav.profile': 'Profil',
     'nav.myReviews': 'Mes avis',
     'nav.settings': 'Paramètres',
@@ -925,6 +940,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': 'Prix moyen d\'une boisson :',
     'cafe.noReviews': 'Pas encore d\'avis',
     'cafe.writeFirst': 'Écrire le premier avis',
+    'cafe.noImage': 'Aucune image disponible',
+    'cafe.addFirstPhoto': 'Soyez le premier à en ajouter une !',
     'cafe.helpful': 'Utile',
 
     // Features/Facilities
@@ -1175,6 +1192,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendlyDescription': 'Ce café accueille-t-il les animaux ?',
     'rating.lighting': 'Éclairage',
     'rating.drinks': 'Boissons',
+    'rating.wifi': 'WiFi',
+    'rating.seating': 'Places assises',
+    'rating.food': 'Nourriture',
+    'rating.outlets': 'Prises',
 
     // Sections
     'rating.essentials': 'Essentiels',
@@ -1255,6 +1276,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': '地区',
     'nav.login': '登录',
     'nav.signup': '注册',
+    'nav.language': '语言',
     'nav.profile': '个人资料',
     'nav.myReviews': '我的评论',
     'nav.settings': '设置',
@@ -1338,6 +1360,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': '平均饮品价格：',
     'cafe.noReviews': '暂无评论',
     'cafe.writeFirst': '写第一条评论',
+    'cafe.noImage': '暂无图片',
+    'cafe.addFirstPhoto': '成为第一个上传图片的人！',
     'cafe.helpful': '有帮助',
 
     // Features/Facilities
@@ -1588,6 +1612,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendlyDescription': '这家咖啡馆欢迎宠物吗？',
     'rating.lighting': '灯光',
     'rating.drinks': '饮品',
+    'rating.wifi': 'WiFi',
+    'rating.seating': '座位',
+    'rating.food': '食物',
+    'rating.outlets': '插座',
 
     // Sections
     'rating.essentials': '必备',
@@ -1668,6 +1696,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.districts': 'Khu vực',
     'nav.login': 'Đăng nhập',
     'nav.signup': 'Đăng ký',
+    'nav.language': 'Ngôn ngữ',
     'nav.profile': 'Hồ sơ',
     'nav.myReviews': 'Đánh giá của tôi',
     'nav.settings': 'Cài đặt',
@@ -1751,6 +1780,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': 'Giá đồ uống trung bình:',
     'cafe.noReviews': 'Chưa có đánh giá',
     'cafe.writeFirst': 'Viết đánh giá đầu tiên',
+    'cafe.noImage': 'Không có hình ảnh',
+    'cafe.addFirstPhoto': 'Hãy là người đầu tiên thêm ảnh!',
     'cafe.helpful': 'Hữu ích',
 
     // Features/Facilities
@@ -2001,6 +2032,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.petFriendlyDescription': 'Quán này có chấp nhận thú cưng không?',
     'rating.lighting': 'Ánh sáng',
     'rating.drinks': 'Đồ uống',
+    'rating.wifi': 'WiFi',
+    'rating.seating': 'Chỗ ngồi',
+    'rating.food': 'Đồ ăn',
+    'rating.outlets': 'Ổ cắm',
 
     // Sections
     'rating.essentials': 'Thiết yếu',

@@ -19,16 +19,23 @@ async function getCafes(): Promise<CafeSummary[]> {
       rating_food, rating_drinks, rating_temperature, rating_seating,
       rating_ambiance, rating_wifi, rating_noise, rating_outlets, rating_value,
       price_range, cafe_type,
-      has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking
+      has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
+      cafe_images(storage_path)
     `)
     .eq('status', 'active');
-  
+
   if (error) {
     console.error('Error fetching cafes:', error);
     return [];
   }
-  
-  return (data || []).map(transformCafeSummary);
+
+  return (data || []).map((row) => {
+    const images = row.cafe_images as { storage_path: string }[] | null;
+    return transformCafeSummary({
+      ...row,
+      primary_image_url: images?.[0]?.storage_path || null,
+    });
+  });
 }
 
 export default async function MapPage() {

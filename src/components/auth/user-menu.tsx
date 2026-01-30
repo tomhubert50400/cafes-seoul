@@ -9,12 +9,16 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { useI18n } from '@/lib/i18n';
+import { useI18n, LanguageCode } from '@/lib/i18n';
 import { logout } from '@/app/actions/auth';
 import { ROUTES } from '@/lib/constants/routes';
-import { User as UserIcon, LogOut, FileText, Settings } from 'lucide-react';
+import { User as UserIcon, LogOut, FileText, Settings, Globe } from 'lucide-react';
 
 interface UserMenuProps {
   user: SupabaseUser;
@@ -26,13 +30,14 @@ function getInitials(email: string): string {
 }
 
 export function UserMenu({ user }: UserMenuProps) {
-  const { t } = useI18n();
+  const { t, language, setLanguage, languages } = useI18n();
   const [open, setOpen] = useState(false);
 
   const email = user.email || '';
   const initials = getInitials(email);
   const avatarUrl = user.user_metadata?.avatar_url;
   const displayName = user.user_metadata?.name || email;
+  const currentLanguage = languages[language];
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -95,6 +100,28 @@ export function UserMenu({ user }: UserMenuProps) {
             {t('nav.settings')}
           </Link>
         </DropdownMenuItem>
+
+        {/* Language submenu */}
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger className="flex cursor-pointer items-center gap-2">
+            <Globe className="h-4 w-4" />
+            <span>{currentLanguage.nativeName}</span>
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              {Object.values(languages).map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code as LanguageCode)}
+                  className={language === lang.code ? 'bg-accent' : ''}
+                >
+                  <span className="mr-2">{lang.flag}</span>
+                  <span>{lang.nativeName}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
 
         <DropdownMenuSeparator />
 
