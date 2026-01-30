@@ -1,27 +1,85 @@
-# Requirements: Cafes Seoul
+# Requirements: Cafes Seoul — Milestone v1.1
 
-**Defined:** 2026-01-27
+**Defined:** 2026-01-30
+**Milestone:** v1.1 User Contributions
 **Core Value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
 
-## v1 Requirements
+## v1.1 Requirements
 
-Requirements for authentication milestone. Each maps to roadmap phases.
+### Cafe Submissions
 
-### Authentication
+- [ ] **SUBMIT-01**: User can submit a new cafe with name and address (required)
+- [ ] **SUBMIT-02**: User can optionally provide phone number
+- [ ] **SUBMIT-03**: System shows potential duplicates before allowing submission
+- [ ] **SUBMIT-04**: Submission is pending admin approval before appearing on site
+- [ ] **SUBMIT-05**: User can edit submission while pending
+- [ ] **SUBMIT-06**: User can delete submission while pending
+- [ ] **SUBMIT-07**: User receives notification when submission is approved/rejected
+- [ ] **SUBMIT-08**: Rate limit: 3 cafe submissions per user per day
 
-- [x] **AUTH-01**: User can create account with email and password
-- [x] **AUTH-02**: User receives email verification after signup
-- [x] **AUTH-03**: User can verify email via link and activate account
-- [x] **AUTH-04**: User can log in with email and password
-- [x] **AUTH-05**: User can log in with Google OAuth
-- [x] **AUTH-06**: User can log in with Kakao OAuth
-- [x] **AUTH-07**: User can log out from any page
-- [x] **AUTH-08**: User session persists across browser refresh (cookie-based)
-- [x] **AUTH-09**: User sees appropriate UI state (logged in vs logged out)
+### Cafe Ratings
 
-## v2 Requirements
+- [ ] **RATE-01**: User must provide overall rating (1-5) when rating a cafe
+- [ ] **RATE-02**: User can optionally rate on 9 additional dimensions (0-5, 0 = not rated)
+  - Comfort: Seating, Space (size), Temperature
+  - Atmosphere: Quietness, Lighting
+  - Useful: Power outlets, Wi-Fi, Price/value
+  - Menu: Coffee, Food, Options
+- [ ] **RATE-03**: User can indicate if cafe is pet friendly (boolean)
+- [ ] **RATE-04**: Ratings of 0 do not impact the average calculation
+- [ ] **RATE-05**: User can update their ratings anytime (overwrite previous)
+- [ ] **RATE-06**: Cafe cards show average rating as ★★★★☆ (X reviews)
+- [ ] **RATE-07**: Rate button appears on cafe list cards, map info windows, and detail page
+- [ ] **RATE-08**: No rate limit (unlimited ratings)
 
-Deferred to future release. Tracked but not in current roadmap.
+### Photos
+
+- [ ] **PHOTO-01**: User can upload photos to any approved cafe
+- [ ] **PHOTO-02**: Limit: 3 photos per user per cafe
+- [ ] **PHOTO-03**: Rate limit: 10 photo uploads per user per day
+- [ ] **PHOTO-04**: Photos require separate admin approval from cafe approval
+- [ ] **PHOTO-05**: Approved photos are visible on cafe detail page gallery
+- [ ] **PHOTO-06**: Photos display in order of most upvoted
+- [ ] **PHOTO-07**: User cannot delete photos after approval (admin only)
+
+### Photo Voting
+
+- [ ] **VOTE-01**: User can upvote photos with heart button
+- [ ] **VOTE-02**: One upvote per user per photo
+- [ ] **VOTE-03**: Photos sorted by upvote count (highest first)
+
+### Admin Panel
+
+- [ ] **ADMIN-01**: Admin can view list of pending cafe submissions
+- [ ] **ADMIN-02**: Admin can approve cafe submissions
+- [ ] **ADMIN-03**: Admin can reject cafe submissions with reason
+- [ ] **ADMIN-04**: Admin can edit submission details before approving
+- [ ] **ADMIN-05**: Admin can view list of pending photos
+- [ ] **ADMIN-06**: Admin can approve/reject photos
+- [ ] **ADMIN-07**: Role-based access control (user/pro/admin)
+
+### User Dashboard
+
+- [ ] **DASH-01**: User can view their submitted cafes (pending/approved counts)
+- [ ] **DASH-02**: User can view their ratings given
+- [ ] **DASH-03**: User can view their uploaded photos
+- [ ] **DASH-04**: Dashboard shows contribution statistics
+
+### Roles System
+
+- [ ] **ROLE-01**: Users have `user` role by default
+- [ ] **ROLE-02**: `pro` role exists (reserved for future cafe owner features)
+- [ ] **ROLE-03**: `admin` role has full moderation access
+- [ ] **ROLE-04**: Only users with `admin` role can access admin panel
+
+## v2 Requirements (Deferred)
+
+### Pro Features (Cafe Owners)
+
+- **PRO-01**: Cafe owners can claim their cafe profile
+- **PRO-02**: Cafe owners can view basic stats (views, ratings)
+- **PRO-03**: Cafe owners can subscribe for full analytics
+- **PRO-04**: Cafe owners can edit their cafe information
 
 ### Authentication Enhancements
 
@@ -30,60 +88,85 @@ Deferred to future release. Tracked but not in current roadmap.
 - **AUTH-12**: User can enable 2FA (TOTP)
 - **AUTH-13**: User can log in via magic link (passwordless)
 
-### User Contributions
+### Social Features
 
-- **CONTRIB-01**: User can propose adding a new café
-- **CONTRIB-02**: User can rate café criteria (1-5 scale)
-- **CONTRIB-03**: User can upload photos to a café
-- **CONTRIB-04**: User can edit their submitted content
-
-### Administration
-
-- **ADMIN-01**: Admin can review pending café submissions
-- **ADMIN-02**: Admin can approve/reject café submissions
-- **ADMIN-03**: Admin can moderate user-uploaded photos
-- **ADMIN-04**: Admin can manage user accounts
+- **SOCL-01**: User can follow other users
+- **SOCL-02**: User can see friends' ratings
+- **SOCL-03**: Review comments/discussions
 
 ## Out of Scope
 
-Explicitly excluded. Documented to prevent scope creep.
+Explicitly excluded from v1.1.
 
 | Feature | Reason |
 |---------|--------|
-| Naver OAuth | Not natively supported by Supabase, deferred to v2 |
-| Password reset | Minimal v1 scope, OAuth covers most recovery cases |
-| 2FA | Complexity not needed for café discovery app |
-| Social login linking | Can add later if users request account merging |
-| Admin panel | v2, after core auth is validated |
+| Password reset | Minimal scope, OAuth covers most cases |
+| 2FA | Complexity not needed for cafe discovery |
+| Edit/delete after approval | Prevent abuse, permanent content |
+| Review comments | Adds complexity without core value |
+| Gamification/rewards | Evaluate after user adoption |
+| Mobile app | Web-first, mobile responsive only |
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
+Which phases cover which requirements.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 2 | Complete |
-| AUTH-02 | Phase 2 | Complete |
-| AUTH-03 | Phase 2 | Complete |
-| AUTH-04 | Phase 2 | Complete |
-| AUTH-05 | Phase 3 | Complete |
-| AUTH-06 | Phase 3 | Complete |
-| AUTH-07 | Phase 2 | Complete |
-| AUTH-08 | Phase 4 | Complete |
-| AUTH-09 | Phase 4 | Complete |
+| SUBMIT-01 | Phase 7 | Pending |
+| SUBMIT-02 | Phase 7 | Pending |
+| SUBMIT-03 | Phase 7 | Pending |
+| SUBMIT-04 | Phase 7 | Pending |
+| SUBMIT-05 | Phase 7 | Pending |
+| SUBMIT-06 | Phase 7 | Pending |
+| SUBMIT-07 | Phase 7 | Pending |
+| SUBMIT-08 | Phase 7 | Pending |
+| RATE-01 | Phase 8 | Pending |
+| RATE-02 | Phase 8 | Pending |
+| RATE-03 | Phase 8 | Pending |
+| RATE-04 | Phase 8 | Pending |
+| RATE-05 | Phase 8 | Pending |
+| RATE-06 | Phase 8 | Pending |
+| RATE-07 | Phase 8 | Pending |
+| RATE-08 | Phase 8 | Pending |
+| PHOTO-01 | Phase 9 | Pending |
+| PHOTO-02 | Phase 9 | Pending |
+| PHOTO-03 | Phase 9 | Pending |
+| PHOTO-04 | Phase 9 | Pending |
+| PHOTO-05 | Phase 9 | Pending |
+| PHOTO-06 | Phase 9 | Pending |
+| PHOTO-07 | Phase 9 | Pending |
+| VOTE-01 | Phase 9 | Pending |
+| VOTE-02 | Phase 9 | Pending |
+| VOTE-03 | Phase 9 | Pending |
+| ADMIN-01 | Phase 10 | Pending |
+| ADMIN-02 | Phase 10 | Pending |
+| ADMIN-03 | Phase 10 | Pending |
+| ADMIN-04 | Phase 10 | Pending |
+| ADMIN-05 | Phase 10 | Pending |
+| ADMIN-06 | Phase 10 | Pending |
+| ADMIN-07 | Phase 10 | Pending |
+| DASH-01 | Phase 11 | Pending |
+| DASH-02 | Phase 11 | Pending |
+| DASH-03 | Phase 11 | Pending |
+| DASH-04 | Phase 11 | Pending |
+| ROLE-01 | Phase 7 | Pending |
+| ROLE-02 | Phase 7 | Pending |
+| ROLE-03 | Phase 7 | Pending |
+| ROLE-04 | Phase 10 | Pending |
 
 **Coverage:**
-- v1 requirements: 9 total
-- Mapped to phases: 9
+- v1.1 requirements: 37 total
+- Mapped to phases: 37
 - Unmapped: 0 ✓
 
 **Phase breakdown:**
-- Phase 1 (Auth Foundation): 0 direct requirements (enables all phases)
-- Phase 2 (Email/Password Auth): 5 requirements (AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-07)
-- Phase 3 (OAuth Integration): 2 requirements (AUTH-05, AUTH-06)
-- Phase 4 (Protected Routes): 2 requirements (AUTH-08, AUTH-09)
-- Phase 5 (UX Polish): 0 new requirements (polish existing)
+- Phase 7 (Cafe Submissions): 12 requirements (SUBMIT + ROLE setup)
+- Phase 8 (Ratings System): 8 requirements
+- Phase 9 (Photos & Voting): 10 requirements
+- Phase 10 (Admin Panel): 8 requirements (ADMIN + ROLE enforcement)
+- Phase 11 (User Dashboard): 4 requirements
 
 ---
-*Requirements defined: 2026-01-27*
-*Last updated: 2026-01-28 after Phase 4 verification*
+*Requirements defined: 2026-01-30*
+*Last updated: 2026-01-30 after milestone planning*
