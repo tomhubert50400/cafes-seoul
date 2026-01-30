@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 7 of 11 (Cafe Submissions)
-Plan: 4 of 4 in current phase - **PHASE COMPLETE**
+Plan: 6 of 6 in current phase - **PHASE COMPLETE** (gap closures: 5, 6)
 Status: Complete
-Last activity: 2026-01-30 — Completed 07-04-PLAN.md (Entry points and status display)
+Last activity: 2026-01-30 — Completed 07-06-PLAN.md (pg_trgm RPC for fuzzy duplicate detection)
 
-Progress: [████████░░░░░░░░░░░░░░░░] 17% (4/23 plans)
+Progress: [████████░░░░░░░░░░░░░░░░] 26% (6/23 plans)
 
 ## Performance Metrics
 
@@ -24,9 +24,9 @@ Progress: [████████░░░░░░░░░░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 4/19
-- Phase 7 duration: ~25 min (4 plans)
-- Average: ~6 min/plan
+- Plans completed: 6/19
+- Phase 7 duration: ~26 min (6 plans including gap closures)
+- Average: ~4 min/plan
 
 ## Accumulated Context
 
@@ -67,6 +67,8 @@ Progress: [████████░░░░░░░░░░░░░░░
 | 2026-01-30 | Map page uses FAB pattern for primary action | Floating action button visible without obstructing map |
 | 2026-01-30 | Three-tab submission organization | Pending/Approved/Declined with counts for clear status visibility |
 | 2026-01-30 | Status-based conditional actions | Only pending submissions show edit/delete buttons |
+| 2026-01-30 | pg_trgm similarity threshold 0.3 for names, 0.4 for addresses | Balances precision/recall - stricter for addresses to avoid false positives |
+| 2026-01-30 | GIN trigram indexes on both ko/en columns | Supports dual-language cafe names with fast similarity search |
 
 ### Pending Todos
 
@@ -78,9 +80,9 @@ None — ready for Phase 8: Ratings System.
 
 ## Session Continuity
 
-Last session: 2026-01-30 17:03 KST
-Stopped at: Completed 07-04-PLAN.md (Phase 7 complete)
-Resume file: .planning/phases/07-cafe-submissions/07-04-SUMMARY.md
+Last session: 2026-01-30 17:28 KST
+Stopped at: Completed 07-06-PLAN.md (Phase 7 complete with gap closures)
+Resume file: .planning/phases/07-cafe-submissions/07-06-SUMMARY.md
 Next action: Begin Phase 8: Ratings System (08-01-PLAN.md)
 
 ---
@@ -91,4 +93,4 @@ Next action: Begin Phase 8: Ratings System (08-01-PLAN.md)
 *Phase 4 complete: 2026-01-28*
 *Phase 5 complete: 2026-01-29*
 *Phase 6 complete: 2026-01-29*
-*Phase 7 complete: 2026-01-30*
+*Phase 7 complete: 2026-01-30 (gap closures 07-05, 07-06 completed)*
