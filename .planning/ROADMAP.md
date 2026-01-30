@@ -39,7 +39,7 @@ Plans:
 - [x] 07-01-PLAN.md — Database schema: submissions table, roles enum, rate limiting setup
 - [x] 07-02-PLAN.md — Submission form UI with duplicate detection and i18n
 - [x] 07-03-PLAN.md — Server Actions for submit, edit, delete with rate limiting
-- [ ] 07-04-PLAN.md — Entry point (Add Cafe button) and submission status display
+- [x] 07-04-PLAN.md — Entry point (Add Cafe button) and submission status display
 
 ### Phase 8: Ratings System
 **Goal**: Users can rate cafes on 10 dimensions with mandatory overall rating
@@ -128,7 +128,7 @@ Phases execute in numeric order: 7 -> 8 -> 9 -> 10 -> 11
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Cafe Submissions | 3/4 | ◐ In Progress | 2026-01-30 |
+| 7. Cafe Submissions | 4/4 | ● Complete | 2026-01-30 |
 | 8. Ratings System | 0/4 | ○ Not Started | — |
 | 9. Photos & Voting | 0/5 | ○ Not Started | — |
 | 10. Admin Panel | 0/4 | ○ Not Started | — |
