@@ -85,15 +85,15 @@ export interface CafeSummary {
 }
 
 export interface RatingBreakdown {
-  food: number | null;
-  drinks: number | null;
-  temperature: number | null;
-  seating: number | null;
-  ambiance: number | null;
+  coffee: number | null;
   wifi: number | null;
-  noise: number | null;
+  priceValue: number | null;
+  quietness: number | null;
+  seating: number | null;
+  comfort: number | null;
+  food: number | null;
+  lighting: number | null;
   outlets: number | null;
-  value: number | null;
 }
 
 export interface OperatingHours {
