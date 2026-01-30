@@ -269,6 +269,20 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
                   </Button>
                 )}
               </div>
+
+              {/* Get me there button */}
+              {cafe.latitude && cafe.longitude && (
+                <Button asChild className="mt-3 w-full">
+                  <a
+                    href={`${EXTERNAL_URLS.KAKAO_MAP}/link/to/${encodeURIComponent(cafeName)},${cafe.latitude},${cafe.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <NavigationIcon className="mr-2 h-4 w-4" />
+                    {t('map.getDirections')}
+                  </a>
+                </Button>
+              )}
             </div>
 
             {/* Static map */}
@@ -443,4 +457,8 @@ function GlobeIcon({ className }: { className?: string }) {
 
 function InstagramIcon({ className }: { className?: string }) {
   return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>;
+}
+
+function NavigationIcon({ className }: { className?: string }) {
+  return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className={className}><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>;
 }
