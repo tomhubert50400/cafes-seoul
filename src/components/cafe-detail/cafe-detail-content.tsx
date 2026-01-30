@@ -15,14 +15,17 @@ import { EXTERNAL_URLS } from '@/lib/constants/routes';
 import type { Cafe, CafeImage } from '@/types/cafe';
 import { CAFE_TYPE_LABELS, PRICE_RANGE_LABELS, getLocalizedText } from '@/types/cafe';
 import type { Review } from '@/types/review';
+import { RatingsSection } from '@/components/ratings/ratings-section';
+import type { UserRating } from '@/types/ratings';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
   images: CafeImage[];
   reviews: Review[];
+  userRating?: UserRating | null;
 }
 
-export function CafeDetailContent({ cafe, images, reviews }: CafeDetailContentProps) {
+export function CafeDetailContent({ cafe, images, reviews, userRating }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
   const typeLabel = CAFE_TYPE_LABELS[cafe.cafeType];
@@ -139,20 +142,14 @@ export function CafeDetailContent({ cafe, images, reviews }: CafeDetailContentPr
                 </div>
 
                 {/* Rating breakdown */}
-                <div>
-                  <h2 className="mb-3 text-lg font-semibold">{t('cafe.detailedRatings')}</h2>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <RatingBar label={t('rating.drinks')} rating={cafe.ratings.drinks} />
-                    <RatingBar label={t('rating.food')} rating={cafe.ratings.food} />
-                    <RatingBar label={t('rating.ambiance')} rating={cafe.ratings.ambiance} />
-                    <RatingBar label={t('rating.seating')} rating={cafe.ratings.seating} />
-                    <RatingBar label={t('rating.wifi')} rating={cafe.ratings.wifi} />
-                    <RatingBar label={t('rating.outlets')} rating={cafe.ratings.outlets} />
-                    <RatingBar label={t('rating.noise')} rating={cafe.ratings.noise} />
-                    <RatingBar label={t('rating.value')} rating={cafe.ratings.value} />
-                    <RatingBar label={t('rating.temperature')} rating={cafe.ratings.temperature} />
-                  </div>
-                </div>
+                <RatingsSection
+                  cafe={cafe}
+                  userRating={userRating}
+                  onRatingSubmitted={() => {
+                    // Refresh page to show updated ratings
+                    window.location.reload();
+                  }}
+                />
 
                 {/* Operating hours */}
                 {Object.keys(cafe.operatingHours).length > 0 && (

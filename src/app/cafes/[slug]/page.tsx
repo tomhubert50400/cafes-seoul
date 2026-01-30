@@ -5,6 +5,7 @@ import { transformCafe, transformReview, getStorageUrl } from '@/lib/supabase/tr
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import type { Cafe, CafeImage } from '@/types/cafe';
 import type { Review } from '@/types/review';
+import type { UserRating } from '@/types/ratings';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -76,6 +77,42 @@ async function getCafeReviews(cafeId: string): Promise<Review[]> {
   return data.map((row) => transformReview(row));
 }
 
+async function getUserRating(cafeId: string, userId: string | undefined): Promise<UserRating | null> {
+  if (!userId) return null;
+  
+  const supabase = await createClient();
+  
+  const { data, error } = await supabase
+    .from('user_ratings')
+    .select('*')
+    .eq('cafe_id', cafeId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (error || !data) {
+    return null;
+  }
+  
+  return {
+    id: data.id,
+    userId: data.user_id,
+    cafeId: data.cafe_id,
+    overall: data.overall,
+    coffee: data.coffee,
+    wifi: data.wifi,
+    priceValue: data.price_value,
+    quietness: data.quietness,
+    seating: data.seating,
+    comfort: data.comfort,
+    food: data.food,
+    lighting: data.lighting,
+    outlets: data.outlets,
+    petFriendly: data.pet_friendly,
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+  };
+}
+
 export default async function CafeDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const result = await getCafe(slug);
@@ -89,11 +126,12 @@ export default async function CafeDetailPage({ params }: PageProps) {
   
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const userRating = await getUserRating(cafe.id, user?.id);
 
   return (
     <>
       <Header user={user} />
-      <CafeDetailContent cafe={cafe} images={images} reviews={reviews} />
+      <CafeDetailContent cafe={cafe} images={images} reviews={reviews} userRating={userRating} />
     </>
   );
 }

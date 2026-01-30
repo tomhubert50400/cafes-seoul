@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { RatingStars } from '@/components/rating-stars';
+import { RatingDisplay } from '@/components/ratings/rating-display';
+import { RatingButton } from '@/components/ratings/rating-button';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
 import { CAFE_TYPE_LABELS, PRICE_RANGE_LABELS, getLocalizedText } from '@/types/cafe';
@@ -69,9 +71,20 @@ export function CafeCard({ cafe, className }: CafeCardProps) {
         </p>
 
         {/* Rating */}
-        <div className="flex items-center gap-2">
-          <RatingStars rating={cafe.overallRating} size="sm" />
-          <span className="text-xs text-muted-foreground">({cafe.totalRatings})</span>
+        <div className="flex items-center justify-between">
+          <RatingDisplay
+            overallRating={cafe.overallRating}
+            totalRatings={cafe.totalRatings}
+            showStars={true}
+            size="sm"
+          />
+          <RatingButton
+            cafeId={cafe.id}
+            cafeName={cafeName}
+            cafeSlug={cafe.slug}
+            variant="ghost"
+            size="sm"
+          />
         </div>
 
         {/* Features */}
