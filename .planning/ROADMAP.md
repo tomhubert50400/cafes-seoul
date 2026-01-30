@@ -40,6 +40,8 @@ Plans:
 - [x] 07-02-PLAN.md — Submission form UI with duplicate detection and i18n
 - [x] 07-03-PLAN.md — Server Actions for submit, edit, delete with rate limiting
 - [x] 07-04-PLAN.md — Entry point (Add Cafe button) and submission status display
+- [ ] 07-05-PLAN.md — **GAP CLOSURE**: Edit submission page for pending submissions
+- [ ] 07-06-PLAN.md — **GAP CLOSURE**: pg_trgm RPC for fuzzy duplicate detection
 
 ### Phase 8: Ratings System
 **Goal**: Users can rate cafes on 10 dimensions with mandatory overall rating
