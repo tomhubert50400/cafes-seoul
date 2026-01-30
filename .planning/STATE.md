@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Milestone v1.1 - User Contributions (Phase 7 complete, ready for Phase 8)
+**Current focus:** Milestone v1.1 - User Contributions (Phase 9 in progress)
 
 ## Current Position
 
-Phase: 8 of 11 (Ratings System)
-Plan: 5 of 5 in current phase - **PHASE COMPLETE** (gap closure: 5)
-Status: Complete - Verified ✓
-Last activity: 2026-01-30 — Completed 08-05-PLAN.md (Ratings gap closure), phase verified
+Phase: 9 of 11 (Photos & Voting)
+Plan: 1 of 5 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 09-01-PLAN.md (Photos schema)
 
-Progress: [██████████████░░░░░░░░░░] 52% (12/23 plans)
+Progress: [███████████████░░░░░░░░░] 57% (13/23 plans)
 
 ## Performance Metrics
 
@@ -24,9 +24,10 @@ Progress: [██████████████░░░░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 11/19
+- Plans completed: 12/19
 - Phase 7 duration: ~26 min (6 plans including gap closures)
 - Phase 8 duration: ~36 min (5 plans including gap closure)
+- Phase 9 duration: ~3 min (1 plan so far)
 - Average: ~5 min/plan
 
 ## Accumulated Context
@@ -94,9 +95,21 @@ Progress: [██████████████░░░░░░░░░
 | 2026-01-30 | Use transformUserRating for data consistency | Centralized transformation ensures type safety and field mapping |
 | 2026-01-30 | Handle PGRST116 specifically in user rating queries | Distinguishes "not rated yet" from actual database errors |
 
+### Decisions for Phase 9: Photos & Voting
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-01-30 | Never store uploader name in photos table | Privacy by design - focus on cafes, not contributors |
+| 2026-01-30 | storage_path stores path only, not full URL | Allows URL construction in app layer with transform options |
+| 2026-01-30 | Rejected photos excluded from 3 photo limit | Users can retry rejected uploads without penalty |
+| 2026-01-30 | upvote_count denormalized with trigger updates | Gallery sorting performance without JOIN aggregation |
+| 2026-01-30 | Toggle voting via unique constraint | (user_id, photo_id) unique enables vote/unvote naturally |
+| 2026-01-30 | Approved photos public, own photos always visible | Users see their pending photos; public only sees approved |
+| 2026-01-30 | Rate limit reset at midnight KST | Consistent with Phase 7 pattern for Korea relevance |
+
 ### Pending Todos
 
-None — Phase 8 complete.
+None — Phase 9 Plan 1 complete. Ready for Plan 2.
 
 ### Blockers/Concerns
 
@@ -104,10 +117,10 @@ None — ready for Phase 9: Photos & Voting.
 
 ## Session Continuity
 
-Last session: 2026-01-30 18:15 KST
-Stopped at: Phase 8 verified complete (all 8 must-haves achieved)
-Resume file: .planning/phases/08-ratings-system/08-ratings-system-VERIFICATION.md
-Next action: Begin Phase 9: Photos & Voting (09-01-PLAN.md)
+Last session: 2026-01-30 18:40 KST
+Stopped at: Completed 09-01-PLAN.md (Photos schema with 409 lines)
+Resume file: None
+Next action: Execute 09-02-PLAN.md (Photo upload component)
 
 ---
 *State initialized: 2026-01-27*
@@ -119,3 +132,4 @@ Next action: Begin Phase 9: Photos & Voting (09-01-PLAN.md)
 *Phase 6 complete: 2026-01-29*
 *Phase 7 complete: 2026-01-30 (gap closures 07-05, 07-06 completed)*
 *Phase 8 complete: 2026-01-30 (gap closure 08-05 completed, 8/8 must-haves verified)*
+*Phase 9 in progress: 2026-01-30 (Plan 1/5 complete - photos schema)*
