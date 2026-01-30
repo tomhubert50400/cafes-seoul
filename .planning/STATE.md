@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Milestone v1.1 - User Contributions (defining requirements)
+**Current focus:** Milestone v1.1 - User Contributions (Phase 7 in progress)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements for v1.1 User Contributions
-Last activity: 2026-01-30 — Milestone v1.1 User Contributions started
+Phase: 7 of 11 (Cafe Submissions)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 07-01-PLAN.md
 
-Progress: [░░░░░░░░░░░░░░░░░░░░░░░░] 0% (0/0 plans)
+Progress: [████░░░░░░░░░░░░░░░░░░░░] 4% (1/23 plans)
 
 ## Performance Metrics
 
@@ -23,7 +23,10 @@ Progress: [░░░░░░░░░░░░░░░░░░░░░░░
 - Average duration: ~6 min/plan
 - Total execution time: ~1.5 hours
 
-*Metrics will accumulate as v1.1 progresses*
+**Milestone v1.1:**
+- Plans completed: 1/19
+- Average duration: ~5 min/plan
+- Total execution time: ~5 min
 
 ## Accumulated Context
 
@@ -48,22 +51,30 @@ Progress: [░░░░░░░░░░░░░░░░░░░░░░░
 
 ### Decisions for v1.1 (new)
 
-*(Will be populated as phases complete)*
+**Phase 7: Cafe Submissions**
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-01-30 | User roles stored as enum (user/pro/admin) | Allows future expansion for pro tier features |
+| 2026-01-30 | Separate submission_status enum from CafeStatus | Clear separation between workflow and visibility states |
+| 2026-01-30 | Rate limits in dedicated table | Efficient queries, supports future rate limit features |
+| 2026-01-30 | Submission.cafe_id links to approved cafe | Enables traceability and "view approved cafe" feature |
+| 2026-01-30 | Admin notes separate from rejection_reason | Internal vs user-facing moderation workflow |
 
 ### Pending Todos
 
-None yet — requirements being defined.
+None — plan executing normally.
 
 ### Blockers/Concerns
 
-None — ready to begin.
+None — ready to continue with 07-02-PLAN.md.
 
 ## Session Continuity
 
-Last session: 2026-01-30
-Stopped at: Starting milestone v1.1 — User Contributions
-Resume file: N/A (new milestone)
-Next action: Create REQUIREMENTS.md and ROADMAP.md
+Last session: 2026-01-30 15:44 KST
+Stopped at: Completed 07-01-PLAN.md (database schema)
+Resume file: .planning/phases/07-cafe-submissions/07-01-SUMMARY.md
+Next action: Execute 07-02-PLAN.md (Submission form UI)
 
 ---
 *State initialized: 2026-01-27*
@@ -72,6 +83,5 @@ Next action: Create REQUIREMENTS.md and ROADMAP.md
 *Phase 3 verified: 2026-01-28*
 *Phase 4 complete: 2026-01-28*
 *Phase 5 complete: 2026-01-29*
-*Phase 6 planned: 2026-01-29*
 *Phase 6 complete: 2026-01-29*
-*Milestone v1.1 started: 2026-01-30*
+*Phase 7 started: 2026-01-30*
