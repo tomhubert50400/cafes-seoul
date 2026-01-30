@@ -2,6 +2,11 @@ import type { TranslatedText } from './cafe';
 
 export type SupportedLanguage = 'en' | 'ko' | 'fr' | 'zh' | 'vi';
 
+/**
+ * User role types for the system
+ */
+export type UserRole = 'user' | 'pro' | 'admin';
+
 export interface User {
   id: string;
   email: string;
@@ -12,6 +17,8 @@ export interface User {
   preferredLanguage: string;
   isModerator: boolean;
   isVerified: boolean;
+  role: UserRole;
+  roleUpdatedAt: string | null;
   totalReviews: number;
   totalHelpfulVotes: number;
   createdAt: string;
@@ -25,6 +32,7 @@ export interface UserProfile {
   avatarUrl: string | null;
   bio: string | null;
   isVerified: boolean;
+  role: UserRole;
   totalReviews: number;
   totalHelpfulVotes: number;
   createdAt: string;
