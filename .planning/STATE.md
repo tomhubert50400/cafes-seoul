@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 9 of 11 (Photos & Voting)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 09-03-PLAN.md (Photo gallery with voting)
+Last activity: 2026-01-30 — Completed 09-04-PLAN.md (Photo Server Actions and API)
 
-Progress: [█████████████████░░░░░░░] 65% (15/23 plans)
+Progress: [██████████████████░░░░░░] 67% (16/24 plans)
 
 ## Performance Metrics
 
@@ -24,10 +24,10 @@ Progress: [█████████████████░░░░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 15/23
+- Plans completed: 16/24
 - Phase 7 duration: ~26 min (6 plans including gap closures)
 - Phase 8 duration: ~36 min (5 plans including gap closure)
-- Phase 9 duration: ~22 min (3 plans: schema, upload, gallery)
+- Phase 9 duration: ~34 min (4 plans: schema, upload component, gallery, Server Actions)
 - Average: ~5 min/plan
 
 ## Accumulated Context
@@ -111,10 +111,16 @@ Progress: [█████████████████░░░░░░
 | 2026-01-30 | Heart animation: 200ms scale pulse | Responsive feel while visible to users |
 | 2026-01-30 | Count flash: 300ms highlight | Draws attention without being distracting |
 | 2026-01-30 | "Show more" loads 6 photos at a time | Balance between initial load and browsing depth |
+| 2026-01-30 | RPC functions for limit checks | Consistent enforcement across Server Actions and API |
+| 2026-01-30 | Server Actions return structured error objects | Type-safe error handling without throwing |
+| 2026-01-30 | Dual property naming (snake_case + camelCase) | Supports existing components without breaking changes |
+| 2026-01-30 | Pending-only photo deletion | PHOTO-07 requirement - approved photos are permanent |
+| 2026-01-30 | Toggle voting via DELETE/INSERT | Unique constraint on (user_id, photo_id) enables natural toggle |
+| 2026-01-30 | API returns storage_path for URL construction | Client controls image transformations and sizing |
 
 ### Pending Todos
 
-None — Phase 9 Plans 1-3 complete. Ready for Plan 4 (Integration).
+None — Phase 9 Plans 1-4 complete. Ready for Plan 5 (Integration on cafe detail page).
 
 ### Blockers/Concerns
 
@@ -122,10 +128,10 @@ None — ready for Phase 9: Photos & Voting.
 
 ## Session Continuity
 
-Last session: 2026-01-30 19:10 KST
-Stopped at: Completed 09-02-PLAN.md (Photo upload component - re-verified)
+Last session: 2026-01-30 19:22 KST
+Stopped at: Completed 09-04-PLAN.md (Photo Server Actions and API)
 Resume file: None
-Next action: Execute 09-04-PLAN.md (Integration on cafe detail page) or 09-05
+Next action: Execute 09-05-PLAN.md (Integration on cafe detail page)
 
 ---
 *State initialized: 2026-01-27*
@@ -137,4 +143,4 @@ Next action: Execute 09-04-PLAN.md (Integration on cafe detail page) or 09-05
 *Phase 6 complete: 2026-01-29*
 *Phase 7 complete: 2026-01-30 (gap closures 07-05, 07-06 completed)*
 *Phase 8 complete: 2026-01-30 (gap closure 08-05 completed, 8/8 must-haves verified)*
-*Phase 9 in progress: 2026-01-30 (Plans 1-3/5 complete - schema, upload, gallery)*
+*Phase 9 in progress: 2026-01-30 (Plans 1-4/5 complete - schema, upload, gallery, Server Actions)*
