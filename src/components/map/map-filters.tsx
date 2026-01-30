@@ -92,9 +92,9 @@ export function MapFiltersPanel({ filters, onChange, onClear }: MapFiltersProps)
         />
 
         <RatingSlider
-          label={t('map.filters.ambiance')}
-          value={filters.ambianceMin ?? null}
-          onChange={(value) => updateFilter('ambianceMin', value)}
+          label={t('map.filters.lighting')}
+          value={filters.lightingMin ?? null}
+          onChange={(value) => updateFilter('lightingMin', value)}
         />
 
         <RatingSlider
@@ -104,21 +104,21 @@ export function MapFiltersPanel({ filters, onChange, onClear }: MapFiltersProps)
         />
 
         <RatingSlider
-          label={t('map.filters.noise')}
-          value={filters.noiseMin ?? null}
-          onChange={(value) => updateFilter('noiseMin', value)}
+          label={t('map.filters.quietness')}
+          value={filters.quietnessMin ?? null}
+          onChange={(value) => updateFilter('quietnessMin', value)}
         />
 
         <RatingSlider
-          label={t('map.filters.value')}
-          value={filters.valueMin ?? null}
-          onChange={(value) => updateFilter('valueMin', value)}
+          label={t('map.filters.priceValue')}
+          value={filters.priceValueMin ?? null}
+          onChange={(value) => updateFilter('priceValueMin', value)}
         />
 
         <RatingSlider
-          label={t('map.filters.temperature')}
-          value={filters.temperatureMin ?? null}
-          onChange={(value) => updateFilter('temperatureMin', value)}
+          label={t('map.filters.comfort')}
+          value={filters.comfortMin ?? null}
+          onChange={(value) => updateFilter('comfortMin', value)}
         />
       </div>
 

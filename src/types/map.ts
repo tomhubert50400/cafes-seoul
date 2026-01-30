@@ -5,11 +5,11 @@ export interface MapFilters {
   wifiMin?: number | null;
   foodMin?: number | null;
   drinksMin?: number | null;
-  ambianceMin?: number | null;
+  lightingMin?: number | null;
   outletsMin?: number | null;
-  noiseMin?: number | null;
-  valueMin?: number | null;
-  temperatureMin?: number | null;
+  quietnessMin?: number | null;
+  priceValueMin?: number | null;
+  comfortMin?: number | null;
   
   // Boolean features
   hasWifi?: boolean;

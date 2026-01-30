@@ -204,7 +204,7 @@ BEGIN
     ON CONFLICT (user_id, cafe_id)
     DO UPDATE SET
         overall = EXCLUDED.overall,
-        coffee = EXCLUDED.coffee,
+        drinks = EXCLUDED.coffee,
         wifi = EXCLUDED.wifi,
         price_value = EXCLUDED.price_value,
         quietness = EXCLUDED.quietness,
@@ -278,7 +278,7 @@ BEGIN
         total_ratings = v_total_ratings,
         overall_rating = COALESCE(v_overall_avg, 0),
         -- Update individual dimension averages (excluding 0s)
-        rating_coffee = public.calculate_dimension_average(p_cafe_id, 'coffee'),
+        rating_drinks = public.calculate_dimension_average(p_cafe_id, 'coffee'),
         rating_wifi = public.calculate_dimension_average(p_cafe_id, 'wifi'),
         rating_price_value = public.calculate_dimension_average(p_cafe_id, 'price_value'),
         rating_quietness = public.calculate_dimension_average(p_cafe_id, 'quietness'),

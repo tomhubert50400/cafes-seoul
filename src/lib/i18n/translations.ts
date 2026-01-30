@@ -137,16 +137,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.wifi': 'WiFi',
     'map.filters.food': 'Food',
     'map.filters.drinks': 'Drinks',
-    'map.filters.ambiance': 'Ambiance',
+    'map.filters.lighting': 'Lighting',
     'map.filters.outlets': 'Outlets',
-    'map.filters.noise': 'Noise Level',
-    'map.filters.value': 'Value',
-    'map.filters.temperature': 'Temperature',
+    'map.filters.quietness': 'Quietness',
+    'map.filters.priceValue': 'Value',
+    'map.filters.comfort': 'Comfort',
     'map.filters.hasWifi': 'Has WiFi',
     'map.filters.hasPowerOutlets': 'Power Outlets',
     'map.filters.isLaptopFriendly': 'Laptop Friendly',
     'map.filters.isPetFriendly': 'Pet Friendly',
     'map.filters.hasParking': 'Parking',
+
+    // Map Detail
+    'map.viewDetails': 'View Details',
+    'map.cafeDetails': 'Cafe Details',
+    'map.getDirections': 'Get me there',
 
     // Common
     'common.loading': 'Loading...',
@@ -363,6 +368,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitError': 'Failed to submit rating',
 
     // Display
+    'rating.breakdown': 'Ratings',
     'rating.noRatings': 'No ratings yet',
     'rating.count': '{{count}} reviews',
     'rating.rateButton': 'Rate',
@@ -544,16 +550,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.wifi': '와이파이',
     'map.filters.food': '음식',
     'map.filters.drinks': '음료',
-    'map.filters.ambiance': '분위기',
+    'map.filters.lighting': '조명',
     'map.filters.outlets': '콘센트',
-    'map.filters.noise': '소음 수준',
-    'map.filters.value': '가성비',
-    'map.filters.temperature': '온도',
+    'map.filters.quietness': '조용함',
+    'map.filters.priceValue': '가성비',
+    'map.filters.comfort': '편안함',
     'map.filters.hasWifi': '와이파이 있음',
     'map.filters.hasPowerOutlets': '콘센트 있음',
     'map.filters.isLaptopFriendly': '노트북 가능',
     'map.filters.isPetFriendly': '반려동물 가능',
     'map.filters.hasParking': '주차',
+
+    // Map Detail
+    'map.viewDetails': '상세 보기',
+    'map.cafeDetails': '카페 정보',
+    'map.getDirections': '길 안내',
 
     // Common
     'common.loading': '로딩 중...',
@@ -770,6 +781,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitError': '평가 제출에 실패했습니다',
 
     // Display
+    'rating.breakdown': '상세 평가',
     'rating.noRatings': '아직 평가 없음',
     'rating.count': '리뷰 {{count}}개',
     'rating.rateButton': '평가하기',
@@ -951,16 +963,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.wifi': 'WiFi',
     'map.filters.food': 'Nourriture',
     'map.filters.drinks': 'Boissons',
-    'map.filters.ambiance': 'Ambiance',
+    'map.filters.lighting': 'Éclairage',
     'map.filters.outlets': 'Prises',
-    'map.filters.noise': 'Niveau de bruit',
-    'map.filters.value': 'Rapport qualité-prix',
-    'map.filters.temperature': 'Température',
+    'map.filters.quietness': 'Calme',
+    'map.filters.priceValue': 'Rapport qualité-prix',
+    'map.filters.comfort': 'Confort',
     'map.filters.hasWifi': 'WiFi disponible',
     'map.filters.hasPowerOutlets': 'Prises électriques',
     'map.filters.isLaptopFriendly': 'Laptop friendly',
     'map.filters.isPetFriendly': 'Animaux acceptés',
     'map.filters.hasParking': 'Parking',
+
+    // Map Detail
+    'map.viewDetails': 'Voir les détails',
+    'map.cafeDetails': 'Détails du café',
+    'map.getDirections': 'Allons y !',
 
     // Common
     'common.loading': 'Chargement...',
@@ -1177,6 +1194,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitError': 'Échec de la soumission',
 
     // Display
+    'rating.breakdown': 'Notes',
     'rating.noRatings': 'Pas encore d\'évaluation',
     'rating.count': '{{count}} avis',
     'rating.rateButton': 'Évaluer',
@@ -1358,16 +1376,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.wifi': '无线网络',
     'map.filters.food': '食物',
     'map.filters.drinks': '饮料',
-    'map.filters.ambiance': '氛围',
+    'map.filters.lighting': '照明',
     'map.filters.outlets': '插座',
-    'map.filters.noise': '噪音水平',
-    'map.filters.value': '性价比',
-    'map.filters.temperature': '温度',
+    'map.filters.quietness': '安静',
+    'map.filters.priceValue': '性价比',
+    'map.filters.comfort': '舒适度',
     'map.filters.hasWifi': '有无线网络',
     'map.filters.hasPowerOutlets': '有插座',
     'map.filters.isLaptopFriendly': '适合笔记本',
     'map.filters.isPetFriendly': '宠物友好',
     'map.filters.hasParking': '停车',
+
+    // Map Detail
+    'map.viewDetails': '查看详情',
+    'map.cafeDetails': '咖啡馆详情',
+    'map.getDirections': '导航前往',
 
     // Common
     'common.loading': '加载中...',
@@ -1584,6 +1607,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitError': '提交评价失败',
 
     // Display
+    'rating.breakdown': '详细评分',
     'rating.noRatings': '暂无评价',
     'rating.count': '{{count}}条评价',
     'rating.rateButton': '评价',
@@ -1765,16 +1789,21 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.wifi': 'WiFi',
     'map.filters.food': 'Đồ ăn',
     'map.filters.drinks': 'Đồ uống',
-    'map.filters.ambiance': 'Không khí',
+    'map.filters.lighting': 'Ánh sáng',
     'map.filters.outlets': 'Ổ cắm',
-    'map.filters.noise': 'Mức độ ồn',
-    'map.filters.value': 'Giá trị',
-    'map.filters.temperature': 'Nhiệt độ',
+    'map.filters.quietness': 'Yên tĩnh',
+    'map.filters.priceValue': 'Giá trị',
+    'map.filters.comfort': 'Thoải mái',
     'map.filters.hasWifi': 'Có WiFi',
     'map.filters.hasPowerOutlets': 'Có ổ cắm điện',
     'map.filters.isLaptopFriendly': 'Thân thiện với laptop',
     'map.filters.isPetFriendly': 'Thân thiện với thú cưng',
     'map.filters.hasParking': 'Đỗ xe',
+
+    // Map Detail
+    'map.viewDetails': 'Xem chi tiết',
+    'map.cafeDetails': 'Thông tin quán cà phê',
+    'map.getDirections': 'Chỉ đường',
 
     // Common
     'common.loading': 'Đang tải...',
@@ -1991,6 +2020,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.submitError': 'Gửi đánh giá thất bại',
 
     // Display
+    'rating.breakdown': 'Đánh giá chi tiết',
     'rating.noRatings': 'Chưa có đánh giá',
     'rating.count': '{{count}} đánh giá',
     'rating.rateButton': 'Đánh giá',

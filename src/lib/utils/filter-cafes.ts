@@ -31,29 +31,29 @@ export function filterCafes(
       if (rating == null || rating < filters.drinksMin) return false;
     }
     
-    if (filters.ambianceMin != null && filters.ambianceMin > 0) {
-      const rating = cafe.ratings?.ambiance;
-      if (rating == null || rating < filters.ambianceMin) return false;
+    if (filters.lightingMin != null && filters.lightingMin > 0) {
+      const rating = cafe.ratings?.lighting;
+      if (rating == null || rating < filters.lightingMin) return false;
     }
-    
+
     if (filters.outletsMin != null && filters.outletsMin > 0) {
       const rating = cafe.ratings?.outlets;
       if (rating == null || rating < filters.outletsMin) return false;
     }
-    
-    if (filters.noiseMin != null && filters.noiseMin > 0) {
-      const rating = cafe.ratings?.noise;
-      if (rating == null || rating < filters.noiseMin) return false;
+
+    if (filters.quietnessMin != null && filters.quietnessMin > 0) {
+      const rating = cafe.ratings?.quietness;
+      if (rating == null || rating < filters.quietnessMin) return false;
     }
-    
-    if (filters.valueMin != null && filters.valueMin > 0) {
-      const rating = cafe.ratings?.value;
-      if (rating == null || rating < filters.valueMin) return false;
+
+    if (filters.priceValueMin != null && filters.priceValueMin > 0) {
+      const rating = cafe.ratings?.priceValue;
+      if (rating == null || rating < filters.priceValueMin) return false;
     }
-    
-    if (filters.temperatureMin != null && filters.temperatureMin > 0) {
-      const rating = cafe.ratings?.temperature;
-      if (rating == null || rating < filters.temperatureMin) return false;
+
+    if (filters.comfortMin != null && filters.comfortMin > 0) {
+      const rating = cafe.ratings?.comfort;
+      if (rating == null || rating < filters.comfortMin) return false;
     }
     
     // Boolean feature filters

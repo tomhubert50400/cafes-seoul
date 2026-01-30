@@ -1,0 +1,17 @@
+[19:56:05] [LOG] 'bootstrapping'
+[19:56:05] [LOG] 'resolveSystemTheme'
+[19:56:05] [LOG] '{"type":"home"}'
+[19:56:06] [LOG] [
+  null, null, null, null,
+  null, null, null, null,
+  null, null, null, null,
+  null, null, null, null
+]
+[19:59:48] [LOG] 'bootstrapping'
+[19:59:48] [LOG] 'bootstrapping'
+[19:59:48] [LOG] 'bootstrapping'
+[19:59:49] [ERROR] Error: EditBuffer is destroyed
+Error: EditBuffer is destroyed
+    at guard (../../node_modules/.bun/@opentui+core@0.1.75+81ecd8642a1892ca/node_modules/@opentui/core/index.js:332:17)
+    at getText (../../node_modules/.bun/@opentui+core@0.1.75+81ecd8642a1892ca/node_modules/@opentui/core/index.js:371:10)
+    at focus (../../node_modules/.bun/@opentui+core@0.1.75+81ecd8642a1892ca/node_modules/@opentui/core/index.js:6744:32)

@@ -14,7 +14,11 @@ function CafeMarkerComponent({ cafe, isSelected, onClick }: CafeMarkerProps) {
   return (
     <MapMarker
       position={{ lat: cafe.latitude, lng: cafe.longitude }}
-      onClick={onClick}
+      onClick={(marker) => {
+        // Prevent event from bubbling
+        onClick();
+      }}
+      clickable={true}
     />
   );
 }
