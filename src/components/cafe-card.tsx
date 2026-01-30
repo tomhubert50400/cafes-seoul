@@ -9,7 +9,7 @@ import { RatingDisplay } from '@/components/ratings/rating-display';
 import { RatingButton } from '@/components/ratings/rating-button';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
-import { CAFE_TYPE_LABELS, PRICE_RANGE_LABELS, getLocalizedText } from '@/types/cafe';
+import { getLocalizedText } from '@/types/cafe';
 import { getDistrictById } from '@/lib/constants/districts';
 import { ROUTES } from '@/lib/constants/routes';
 
@@ -21,8 +21,6 @@ interface CafeCardProps {
 export function CafeCard({ cafe, className }: CafeCardProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
-  const priceLabel = PRICE_RANGE_LABELS[cafe.priceRange];
-  const typeLabel = CAFE_TYPE_LABELS[cafe.cafeType];
 
   const cafeName = getLocalizedText(cafe.name, language);
   const cafeAddress = getLocalizedText(cafe.address, language);
@@ -50,12 +48,6 @@ export function CafeCard({ cafe, className }: CafeCardProps) {
             <CoffeeIcon className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
           </div>
         )}
-        {/* Price badge */}
-        <div className="absolute right-2 top-2">
-          <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm dark:bg-zinc-900/90">
-            {priceLabel.symbol}
-          </Badge>
-        </div>
       </div>
 
       {/* Content */}
@@ -89,11 +81,6 @@ export function CafeCard({ cafe, className }: CafeCardProps) {
 
         {/* Features */}
         <div className="mt-auto flex flex-wrap gap-1">
-          {typeLabel && (
-            <Badge variant="outline" className="text-xs">
-              {typeLabel.ko}
-            </Badge>
-          )}
           {cafe.hasWifi && (
             <Badge variant="outline" className="text-xs">
               {t('feature.wifi')}
