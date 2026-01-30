@@ -86,9 +86,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.breadcrumb': 'Cafes',
     'cafe.reviews': 'reviews',
     'cafe.tabs.info': 'Info',
-    'cafe.tabs.reviews': 'Reviews',
+    'cafe.tabs.comments': 'Comments',
     'cafe.intro': 'About',
-    'cafe.facilities': 'Facilities & Services',
     'cafe.detailedRatings': 'Detailed Ratings',
     'cafe.hours': 'Opening Hours',
     'cafe.closed': 'Closed',
@@ -349,7 +348,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Additional Dimensions (new for rating form)
     'rating.overall': 'Overall Rating',
-    'rating.coffee': 'Coffee Quality',
     'rating.priceValue': 'Price/Value',
     'rating.quietness': 'Quietness',
     'rating.comfort': 'Comfort',
@@ -505,9 +503,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.breadcrumb': '카페',
     'cafe.reviews': '개의 리뷰',
     'cafe.tabs.info': '정보',
-    'cafe.tabs.reviews': '리뷰',
+    'cafe.tabs.comments': '댓글',
     'cafe.intro': '소개',
-    'cafe.facilities': '시설 & 서비스',
     'cafe.detailedRatings': '세부 평점',
     'cafe.hours': '영업 시간',
     'cafe.closed': '휴무',
@@ -768,7 +765,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Additional Dimensions (new for rating form)
     'rating.overall': '전체 평점',
-    'rating.coffee': '커피',
     'rating.priceValue': '가성비',
     'rating.quietness': '조용함',
     'rating.comfort': '편안함',
@@ -924,9 +920,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.breadcrumb': 'Cafés',
     'cafe.reviews': 'avis',
     'cafe.tabs.info': 'Infos',
-    'cafe.tabs.reviews': 'Avis',
+    'cafe.tabs.comments': 'Commentaires',
     'cafe.intro': 'À propos',
-    'cafe.facilities': 'Équipements & Services',
     'cafe.detailedRatings': 'Notes détaillées',
     'cafe.hours': 'Horaires d\'ouverture',
     'cafe.closed': 'Fermé',
@@ -1187,7 +1182,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Additional Dimensions (new for rating form)
     'rating.overall': 'Note globale',
-    'rating.coffee': 'Qualité du café',
     'rating.priceValue': 'Rapport qualité-prix',
     'rating.quietness': 'Calme',
     'rating.comfort': 'Confort',
@@ -1343,9 +1337,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.breadcrumb': '咖啡馆',
     'cafe.reviews': '条评论',
     'cafe.tabs.info': '信息',
-    'cafe.tabs.reviews': '评论',
+    'cafe.tabs.comments': '评论',
     'cafe.intro': '简介',
-    'cafe.facilities': '设施与服务',
     'cafe.detailedRatings': '详细评分',
     'cafe.hours': '营业时间',
     'cafe.closed': '休息',
@@ -1606,7 +1599,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Additional Dimensions (new for rating form)
     'rating.overall': '总体评分',
-    'rating.coffee': '咖啡质量',
     'rating.priceValue': '性价比',
     'rating.quietness': '安静程度',
     'rating.comfort': '舒适度',
@@ -1762,9 +1754,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.breadcrumb': 'Quán cà phê',
     'cafe.reviews': 'đánh giá',
     'cafe.tabs.info': 'Thông tin',
-    'cafe.tabs.reviews': 'Đánh giá',
+    'cafe.tabs.comments': 'Bình luận',
     'cafe.intro': 'Giới thiệu',
-    'cafe.facilities': 'Tiện nghi & Dịch vụ',
     'cafe.detailedRatings': 'Đánh giá chi tiết',
     'cafe.hours': 'Giờ mở cửa',
     'cafe.closed': 'Đóng cửa',
@@ -2025,7 +2016,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Additional Dimensions (new for rating form)
     'rating.overall': 'Đánh giá tổng thể',
-    'rating.coffee': 'Chất lượng cà phê',
     'rating.priceValue': 'Giá trị',
     'rating.quietness': 'Yên tĩnh',
     'rating.comfort': 'Thoải mái',

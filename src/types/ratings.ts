@@ -22,8 +22,8 @@ export interface UserRating {
   overall: number;
   
   // Optional dimensions (0 = not rated, 1-5 = valid rating)
-  /** Coffee quality rating 0-5 */
-  coffee: number;
+  /** Drinks quality rating 0-5 */
+  drinks: number;
   /** Wi-Fi quality rating 0-5 */
   wifi: number;
   /** Price/value rating 0-5 */
@@ -95,8 +95,8 @@ export interface RatingInput {
   overall: number;
   
   // Optional dimensions (undefined = 0 = not rated)
-  /** Coffee quality rating (undefined = not rated) */
-  coffee?: number;
+  /** Drinks quality rating (undefined = not rated) */
+  drinks?: number;
   /** Wi-Fi quality rating (undefined = not rated) */
   wifi?: number;
   /** Price/value rating (undefined = not rated) */
@@ -124,7 +124,7 @@ export interface RatingInput {
  */
 export const RATING_DIMENSION_LABELS: Record<UserRatingDimension, { ko: string; en: string }> = {
   overall: { ko: '전체 평점', en: 'Overall' },
-  coffee: { ko: '커피', en: 'Coffee' },
+  drinks: { ko: '음료', en: 'Drinks' },
   wifi: { ko: '와이파이', en: 'Wi-Fi' },
   priceValue: { ko: '가성비', en: 'Value' },
   quietness: { ko: '조용함', en: 'Quietness' },
@@ -142,7 +142,7 @@ export const RATING_DIMENSION_LABELS: Record<UserRatingDimension, { ko: string; 
  */
 export type UserRatingDimension = 
   | 'overall'
-  | 'coffee'
+  | 'drinks'
   | 'wifi'
   | 'priceValue'
   | 'quietness'
@@ -158,7 +158,7 @@ export type UserRatingDimension =
  */
 export type NumericRatingDimension = 
   | 'overall'
-  | 'coffee'
+  | 'drinks'
   | 'wifi'
   | 'priceValue'
   | 'quietness'
@@ -172,7 +172,7 @@ export type NumericRatingDimension =
  * Optional numeric dimensions (not including overall which is mandatory)
  */
 export type OptionalRatingDimension = 
-  | 'coffee'
+  | 'drinks'
   | 'wifi'
   | 'priceValue'
   | 'quietness'
@@ -188,7 +188,7 @@ export type OptionalRatingDimension =
  */
 export const RATING_SECTIONS = {
   /** Essential cafe qualities */
-  essentials: ['coffee', 'wifi', 'priceValue'] as const,
+  essentials: ['drinks', 'wifi', 'priceValue'] as const,
   /** Comfort-related aspects */
   comfort: ['quietness', 'seating', 'comfort'] as const,
   /** Additional features */
@@ -230,7 +230,7 @@ export function isRatingDimensionOptional(dim: UserRatingDimension): boolean {
  */
 export function getRatedDimensions(rating: UserRating): OptionalRatingDimension[] {
   const dimensions: OptionalRatingDimension[] = [
-    'coffee', 'wifi', 'priceValue', 'quietness', 
+    'drinks', 'wifi', 'priceValue', 'quietness', 
     'seating', 'comfort', 'food', 'lighting', 'outlets'
   ];
   
@@ -245,7 +245,7 @@ export function getRatedDimensions(rating: UserRating): OptionalRatingDimension[
  */
 export function getOptionalAverage(rating: UserRating): number | null {
   const dimensions: OptionalRatingDimension[] = [
-    'coffee', 'wifi', 'priceValue', 'quietness', 
+    'drinks', 'wifi', 'priceValue', 'quietness', 
     'seating', 'comfort', 'food', 'lighting', 'outlets'
   ];
   
@@ -315,7 +315,7 @@ export function createEmptyRatingInput(cafeId: string): RatingInput {
   return {
     cafeId,
     overall: 0, // User must set this
-    coffee: 0,
+    drinks: 0,
     wifi: 0,
     priceValue: 0,
     quietness: 0,
@@ -337,7 +337,7 @@ export function toDatabaseRating(input: RatingInput): Record<string, unknown> {
   return {
     cafe_id: input.cafeId,
     overall: input.overall,
-    coffee: input.coffee ?? 0,
+    drinks: input.drinks ?? 0,
     wifi: input.wifi ?? 0,
     price_value: input.priceValue ?? 0,
     quietness: input.quietness ?? 0,

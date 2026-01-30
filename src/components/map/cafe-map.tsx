@@ -31,10 +31,10 @@ export function CafeMap({ cafes, filters }: CafeMapProps) {
   }, []);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full min-h-[400px] md:min-h-0">
       <Map
         center={{ lat: 37.5665, lng: 126.9780 }} // Seoul City Hall
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%', minHeight: '400px' }}
         level={7} // Initial zoom level
         onClick={handleCloseInfoWindow}
       >

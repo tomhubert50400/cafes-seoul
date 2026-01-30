@@ -24,7 +24,7 @@ export async function upsertRating(
           user_id: userId,
           cafe_id: data.cafeId,
           overall: data.overall,
-          coffee: data.coffee ?? 0,
+          drinks: data.drinks ?? 0,
           wifi: data.wifi ?? 0,
           price_value: data.priceValue ?? 0,
           quietness: data.quietness ?? 0,
@@ -291,7 +291,7 @@ async function updateCafeAveragesFallback(
       .select(
         `
         overall:avg(overall)::float,
-        coffee:avg(nullif(coffee, 0))::float,
+        drinks:avg(nullif(drinks, 0))::float,
         wifi:avg(nullif(wifi, 0))::float,
         price_value:avg(nullif(price_value, 0))::float,
         quietness:avg(nullif(quietness, 0))::float,
@@ -321,7 +321,7 @@ async function updateCafeAveragesFallback(
       .update({
         overall_rating: (statsData?.overall as number) || 0,
         total_ratings: (statsData?.count as number) || 0,
-        rating_coffee: statsData?.coffee as number | null,
+        rating_drinks: statsData?.drinks as number | null,
         rating_wifi: statsData?.wifi as number | null,
         rating_price_value: statsData?.price_value as number | null,
         rating_quietness: statsData?.quietness as number | null,
@@ -359,7 +359,7 @@ export async function getCafeRatingStats(
   cafeId: string
 ): Promise<{
   overall: number;
-  coffee: number | null;
+  drinks: number | null;
   wifi: number | null;
   priceValue: number | null;
   quietness: number | null;
@@ -377,7 +377,7 @@ export async function getCafeRatingStats(
       .select(
         `
         overall:avg(overall)::float,
-        coffee:avg(nullif(coffee, 0))::float,
+        drinks:avg(nullif(drinks, 0))::float,
         wifi:avg(nullif(wifi, 0))::float,
         price_value:avg(nullif(price_value, 0))::float,
         quietness:avg(nullif(quietness, 0))::float,
@@ -403,7 +403,7 @@ export async function getCafeRatingStats(
 
     return {
       overall: (statsData?.overall as number) || 0,
-      coffee: (statsData?.coffee as number | null) ?? null,
+      drinks: (statsData?.drinks as number | null) ?? null,
       wifi: (statsData?.wifi as number | null) ?? null,
       priceValue: (statsData?.price_value as number | null) ?? null,
       quietness: (statsData?.quietness as number | null) ?? null,

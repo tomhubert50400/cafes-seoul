@@ -9,7 +9,7 @@ export const ratingFormSchema = z.object({
   // Mandatory overall rating (1-5)
   overall: z.number().int().min(1, { message: 'validation.overallRequired' }).max(5),
   // Optional dimensions (0-5, 0 = not rated) - all have default values
-  coffee: z.number().int().min(0).max(5).default(0),
+  drinks: z.number().int().min(0).max(5).default(0),
   wifi: z.number().int().min(0).max(5).default(0),
   priceValue: z.number().int().min(0).max(5).default(0),
   quietness: z.number().int().min(0).max(5).default(0),
@@ -28,7 +28,7 @@ export const ratingFormSchema = z.object({
 export type RatingFormData = {
   cafeId: string;
   overall: number;
-  coffee: number;
+  drinks: number;
   wifi: number;
   priceValue: number;
   quietness: number;
@@ -45,7 +45,7 @@ export type RatingFormData = {
  */
 export function hasOptionalRatings(data: RatingFormData): boolean {
   return [
-    data.coffee,
+    data.drinks,
     data.wifi,
     data.priceValue,
     data.quietness,
@@ -64,7 +64,7 @@ export function toRatingInput(data: RatingFormData) {
   return {
     cafeId: data.cafeId,
     overall: data.overall,
-    coffee: data.coffee || 0,
+    drinks: data.drinks || 0,
     wifi: data.wifi || 0,
     priceValue: data.priceValue || 0,
     quietness: data.quietness || 0,

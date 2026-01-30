@@ -143,7 +143,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     const mergedData = {
       cafeId: existingRating.cafe_id,
       overall: body.overall ?? 1, // Must be provided
-      coffee: body.coffee ?? 0,
+      drinks: body.drinks ?? 0,
       wifi: body.wifi ?? 0,
       priceValue: body.priceValue ?? 0,
       quietness: body.quietness ?? 0,

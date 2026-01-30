@@ -85,7 +85,7 @@ export interface CafeSummary {
 }
 
 export interface RatingBreakdown {
-  coffee: number | null;
+  drinks: number | null;
   wifi: number | null;
   priceValue: number | null;
   quietness: number | null;

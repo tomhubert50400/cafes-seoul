@@ -55,7 +55,7 @@ export async function submitRating(data: RatingFormData): Promise<{
     const result = await upsertRating(supabase, user.id, {
       cafeId: validatedData.cafeId,
       overall: validatedData.overall,
-      coffee: validatedData.coffee,
+      drinks: validatedData.drinks,
       wifi: validatedData.wifi,
       priceValue: validatedData.priceValue,
       quietness: validatedData.quietness,

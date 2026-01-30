@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Header } from '@/components/header';
 import { Button } from '@/components/ui/button';
 import { useI18n } from '@/lib/i18n';
 
@@ -10,8 +9,6 @@ export default function CafeNotFound() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       <main className="mx-auto flex max-w-6xl flex-col items-center justify-center px-4 py-32 text-center">
         <div className="rounded-full bg-zinc-100 p-6 dark:bg-zinc-800">
           <SearchIcon className="h-12 w-12 text-zinc-400" />

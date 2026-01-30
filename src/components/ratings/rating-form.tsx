@@ -52,7 +52,7 @@ export function RatingForm({
     ? {
         cafeId,
         overall: existingRating.overall,
-        coffee: existingRating.coffee,
+        drinks: existingRating.drinks,
         wifi: existingRating.wifi,
         priceValue: existingRating.priceValue,
         quietness: existingRating.quietness,
@@ -66,7 +66,7 @@ export function RatingForm({
     : {
         cafeId,
         overall: 0,
-        coffee: 0,
+        drinks: 0,
         wifi: 0,
         priceValue: 0,
         quietness: 0,
@@ -230,12 +230,12 @@ export function RatingForm({
             </h3>
             
             <Controller
-              name="coffee"
+              name="drinks"
               control={control}
               render={({ field }) => (
                 <DimensionSlider
-                  name="coffee"
-                  label={t('rating.coffee')}
+                  name="drinks"
+                  label={t('rating.drinks')}
                   value={field.value}
                   onChange={field.onChange}
                 />

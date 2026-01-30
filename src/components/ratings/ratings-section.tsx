@@ -15,7 +15,7 @@ interface RatingsSectionProps {
 
 // Ordre d'affichage des dimensions
 const DIMENSION_ORDER = [
-  'coffee',
+  'drinks',
   'wifi', 
   'priceValue',
   'quietness',

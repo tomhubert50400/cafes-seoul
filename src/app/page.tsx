@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
 import { HeroSection } from '@/components/home/hero-section';
 import { FeaturedSection } from '@/components/home/featured-section';
 import { DistrictsSection } from '@/components/home/districts-section';

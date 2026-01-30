@@ -122,7 +122,7 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
             <Tabs defaultValue="info" className="mt-8">
               <TabsList>
                 <TabsTrigger value="info">{t('cafe.tabs.info')}</TabsTrigger>
-                <TabsTrigger value="reviews">{t('cafe.tabs.reviews')} ({cafe.totalRatings})</TabsTrigger>
+                <TabsTrigger value="reviews">{t('cafe.tabs.comments')}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="info" className="mt-6 space-y-8">
@@ -133,21 +133,6 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
                     <p className="text-muted-foreground">{cafeDescription}</p>
                   </div>
                 )}
-
-                {/* Features */}
-                <div>
-                  <h2 className="mb-3 text-lg font-semibold">{t('cafe.facilities')}</h2>
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    <FeatureItem icon={<WifiIcon />} label={t('feature.wifi')} available={cafe.hasWifi} />
-                    <FeatureItem icon={<PlugIcon />} label={t('feature.outlets')} available={cafe.hasPowerOutlets} />
-                    <FeatureItem icon={<LaptopIcon />} label={t('feature.laptop')} available={cafe.isLaptopFriendly} />
-                    <FeatureItem icon={<PetIcon />} label={t('feature.pet')} available={cafe.isPetFriendly} />
-                    <FeatureItem icon={<ParkingIcon />} label={t('feature.parking')} available={cafe.hasParking} />
-                    <FeatureItem icon={<OutdoorIcon />} label={t('feature.outdoor')} available={cafe.hasOutdoorSeating} />
-                    <FeatureItem icon={<ReservationIcon />} label={t('feature.reservation')} available={cafe.hasReservations} />
-                    <FeatureItem icon={<MeetingIcon />} label={t('feature.meeting')} available={cafe.hasMeetingRooms} />
-                  </div>
-                </div>
 
                 {/* Rating breakdown */}
                 <RatingsSection

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { MapFiltersPanel } from './map-filters';
 import { CafeMap } from './cafe-map';
 import { useMapFilters } from '@/hooks/use-map-filters';
@@ -33,7 +33,7 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
       </aside>
 
       {/* Mobile Filter Button & Sheet */}
-      <div className="md:hidden absolute top-4 left-4 z-10">
+      <div className="md:hidden absolute top-4 left-4 z-50">
         <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
           <SheetTrigger asChild>
             <Button variant="secondary" size="default" className="shadow-md min-h-[44px] min-w-[44px]">
@@ -47,6 +47,7 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-[300px] sm:w-80 p-0">
+            <SheetTitle className="sr-only">Filter cafes</SheetTitle>
             <MapFiltersPanel
               filters={filters}
               onChange={(newFilters) => {
@@ -61,8 +62,10 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
       </div>
 
       {/* Map Area */}
-      <main className="flex-1 relative">
-        <CafeMap cafes={cafes} filters={filters} />
+      <main className="flex-1 relative z-0 min-h-0">
+        <div className="absolute inset-0 z-0">
+          <CafeMap cafes={cafes} filters={filters} />
+        </div>
       </main>
     </div>
   );
