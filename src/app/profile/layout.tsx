@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
+import { Header } from '@/components/header';
 import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
@@ -36,6 +37,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header user={user} />
       <div className="mx-auto max-w-6xl px-4 py-8">
         <h1 className="mb-8 text-3xl font-bold">
           {getTranslation(lang, 'profile.title')}
@@ -56,6 +58,11 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
             <TabsTrigger value="favorites" asChild>
               <Link href={ROUTES.PROFILE_FAVORITES}>
                 {getTranslation(lang, 'profile.favorites')}
+              </Link>
+            </TabsTrigger>
+            <TabsTrigger value="submissions" asChild>
+              <Link href={ROUTES.PROFILE_SUBMISSIONS}>
+                {getTranslation(lang, 'profile.submissions')}
               </Link>
             </TabsTrigger>
             <TabsTrigger value="settings" asChild>

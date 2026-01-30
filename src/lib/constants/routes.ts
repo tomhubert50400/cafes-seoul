@@ -15,6 +15,7 @@ export const ROUTES = {
   PROFILE: '/profile',
   PROFILE_REVIEWS: '/profile/reviews',
   PROFILE_FAVORITES: '/profile/favorites',
+  PROFILE_SUBMISSIONS: '/profile/submissions',
   PROFILE_SETTINGS: '/profile/settings',
   USER_PROFILE: (username: string) => `/users/${username}`,
 
