@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useI18n } from '@/lib/i18n';
 import { ratingFormSchema, RatingFormData, toRatingInput } from '@/lib/validations/ratings';
+import { submitRating } from '@/lib/actions/ratings';
 import type { UserRating } from '@/types/ratings';
 import { Star, Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -94,18 +95,15 @@ export function RatingForm({
     setSubmitError(null);
 
     try {
-      // Convert form data to rating input
-      const ratingInput = toRatingInput(data);
+      const result = await submitRating(data);
 
-      // TODO: Call submitRating action (from 08-03)
-      // For now, simulate submission
-      console.log('Submitting rating:', ratingInput);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      onSuccess?.();
+      if (result.success) {
+        onSuccess?.();
+      } else {
+        setSubmitError(result.error || t('rating.submitError'));
+      }
     } catch (error) {
+      console.error('Error submitting rating:', error);
       setSubmitError(t('rating.submitError'));
     } finally {
       setIsSubmitting(false);
