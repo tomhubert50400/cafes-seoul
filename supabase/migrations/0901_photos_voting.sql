@@ -241,3 +241,169 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 COMMENT ON FUNCTION public.can_upload_to_cafe IS 'Returns TRUE if user has fewer than 3 photos for this cafe';
 
+-- ============================================
+-- ROW LEVEL SECURITY
+-- ============================================
+
+-- Enable RLS on photos table
+ALTER TABLE public.photos ENABLE ROW LEVEL SECURITY;
+
+-- Enable RLS on photo_votes table
+ALTER TABLE public.photo_votes ENABLE ROW LEVEL SECURITY;
+
+-- Enable RLS on photo_upload_limits table
+ALTER TABLE public.photo_upload_limits ENABLE ROW LEVEL SECURITY;
+
+-- ============================================
+-- PHOTOS RLS POLICIES
+-- ============================================
+
+-- SELECT: Anyone can view APPROVED photos
+DROP POLICY IF EXISTS "Anyone can view approved photos" ON public.photos;
+CREATE POLICY "Anyone can view approved photos"
+ON public.photos FOR SELECT
+USING (status = 'approved');
+
+-- SELECT: Users can view their OWN photos regardless of status
+DROP POLICY IF EXISTS "Users can view own photos" ON public.photos;
+CREATE POLICY "Users can view own photos"
+ON public.photos FOR SELECT
+USING (auth.uid() = user_id);
+
+-- SELECT: Admins can view ALL photos
+DROP POLICY IF EXISTS "Admins can view all photos" ON public.photos;
+CREATE POLICY "Admins can view all photos"
+ON public.photos FOR SELECT
+USING (
+    EXISTS (
+        SELECT 1 FROM public.profiles
+        WHERE id = auth.uid() AND role = 'admin'
+    )
+);
+
+-- INSERT: Authenticated users can insert photos
+DROP POLICY IF EXISTS "Authenticated users can insert photos" ON public.photos;
+CREATE POLICY "Authenticated users can insert photos"
+ON public.photos FOR INSERT
+WITH CHECK (auth.role() = 'authenticated');
+
+-- UPDATE: Only admins can update status and rejection_reason
+DROP POLICY IF EXISTS "Admins can update photo status" ON public.photos;
+CREATE POLICY "Admins can update photo status"
+ON public.photos FOR UPDATE
+USING (
+    EXISTS (
+        SELECT 1 FROM public.profiles
+        WHERE id = auth.uid() AND role = 'admin'
+    )
+)
+WITH CHECK (
+    EXISTS (
+        SELECT 1 FROM public.profiles
+        WHERE id = auth.uid() AND role = 'admin'
+    )
+);
+
+-- DELETE: Users can delete their OWN pending photos only
+DROP POLICY IF EXISTS "Users can delete own pending photos" ON public.photos;
+CREATE POLICY "Users can delete own pending photos"
+ON public.photos FOR DELETE
+USING (auth.uid() = user_id AND status = 'pending');
+
+-- ============================================
+-- PHOTO VOTES RLS POLICIES
+-- ============================================
+
+-- SELECT: Anyone can view votes (for count display)
+DROP POLICY IF EXISTS "Anyone can view photo votes" ON public.photo_votes;
+CREATE POLICY "Anyone can view photo votes"
+ON public.photo_votes FOR SELECT
+USING (true);
+
+-- INSERT: Users can only vote for themselves
+DROP POLICY IF EXISTS "Users can vote for themselves" ON public.photo_votes;
+CREATE POLICY "Users can vote for themselves"
+ON public.photo_votes FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+-- DELETE: Users can only delete their own votes
+DROP POLICY IF EXISTS "Users can delete own votes" ON public.photo_votes;
+CREATE POLICY "Users can delete own votes"
+ON public.photo_votes FOR DELETE
+USING (auth.uid() = user_id);
+
+-- ============================================
+-- PHOTO UPLOAD LIMITS RLS POLICIES
+-- ============================================
+
+-- Users can view their own rate limit
+DROP POLICY IF EXISTS "Users can view own upload limit" ON public.photo_upload_limits;
+CREATE POLICY "Users can view own upload limit"
+ON public.photo_upload_limits FOR SELECT
+USING (auth.uid() = user_id);
+
+-- Users can only insert/update their own rate limit
+DROP POLICY IF EXISTS "Users can manage own upload limit" ON public.photo_upload_limits;
+CREATE POLICY "Users can manage own upload limit"
+ON public.photo_upload_limits FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can update own upload limit" ON public.photo_upload_limits;
+CREATE POLICY "Users can update own upload limit"
+ON public.photo_upload_limits FOR UPDATE
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- ============================================
+-- TRIGGERS
+-- ============================================
+
+-- Function to auto-update photos.updated_at timestamp
+CREATE OR REPLACE FUNCTION public.update_photo_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger for photos updated_at
+DROP TRIGGER IF EXISTS trigger_photos_updated_at ON public.photos;
+CREATE TRIGGER trigger_photos_updated_at
+    BEFORE UPDATE ON public.photos
+    FOR EACH ROW
+    EXECUTE FUNCTION public.update_photo_updated_at();
+
+-- ============================================
+-- TRIGGER: Auto-update upvote_count on vote changes
+-- ============================================
+
+CREATE OR REPLACE FUNCTION public.update_photo_upvote_count()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        -- Increment count when vote is added
+        UPDATE public.photos
+        SET upvote_count = upvote_count + 1
+        WHERE id = NEW.photo_id;
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        -- Decrement count when vote is removed
+        UPDATE public.photos
+        SET upvote_count = upvote_count - 1
+        WHERE id = OLD.photo_id;
+        RETURN OLD;
+    END IF;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Apply trigger to photo_votes
+DROP TRIGGER IF EXISTS trigger_photo_votes_update_count ON public.photo_votes;
+CREATE TRIGGER trigger_photo_votes_update_count
+    AFTER INSERT OR DELETE ON public.photo_votes
+    FOR EACH ROW
+    EXECUTE FUNCTION public.update_photo_upvote_count();
+
+COMMENT ON TRIGGER trigger_photo_votes_update_count ON public.photo_votes IS 'Automatically recalculate photo upvote count when votes are added or removed';
+
