@@ -19,8 +19,8 @@ export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsS
   const hasRatings = cafe.totalRatings > 0;
 
   // Helper to render a dimension bar
-  const renderDimension = (key: string, value: number | null) => {
-    if (value === null || value === 0) return null;
+  const renderDimension = (key: string, value: number | null | undefined) => {
+    if (value === null || value === undefined || value === 0) return null;
     const label = RATING_DIMENSION_LABELS[key as keyof typeof RATING_DIMENSION_LABELS];
     const labelText = label?.[language as 'en' | 'ko'] || label?.en || key;
     const percentage = (value / 5) * 100;
