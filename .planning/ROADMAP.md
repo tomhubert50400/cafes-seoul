@@ -121,8 +121,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Dashboard layout and statistics aggregation
-- [ ] 11-02-PLAN.md — Contribution lists (cafes, ratings, photos) with i18n
+- [ ] 11-01-PLAN.md — Dashboard page with auth, stats cards, user menu link, i18n
+- [ ] 11-02-PLAN.md — Contribution lists (submissions, ratings, photos) with load more
 
 ## Progress
 
