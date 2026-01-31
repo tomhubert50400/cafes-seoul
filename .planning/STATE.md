@@ -4,17 +4,17 @@
 
 See: .planning/PROJECT.md (updated 2026-01-30)
 
-**Core value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
-**Current focus:** Milestone v1.1 - User Contributions (Phase 9 complete, ready for Phase 10)
+**Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
+**Current focus:** Milestone v1.1 - User Contributions (Phase 10 in progress)
 
 ## Current Position
 
-Phase: 9 of 11 (Photos & Voting)
-Plan: 5 of 5 complete — **PHASE COMPLETE** (verified ✓)
-Status: Complete - Verified ✓
-Last activity: 2026-01-30 — Completed 09-05-PLAN.md (Photo integration), phase verified (10/10 requirements)
+Phase: 10 of 11 (Admin Panel)
+Plan: 1 of 3 complete
+Status: In progress
+Last activity: 2026-01-31 - Completed 10-01-PLAN.md (Admin Setup)
 
-Progress: [████████████████████░░░░] 75% (18/24 plans)
+Progress: [█████████████████████░░░] 79% (19/24 plans)
 
 ## Performance Metrics
 
@@ -24,10 +24,11 @@ Progress: [████████████████████░░░
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 18/24
+- Plans completed: 19/24
 - Phase 7 duration: ~26 min (6 plans including gap closures)
 - Phase 8 duration: ~36 min (5 plans including gap closure)
 - Phase 9 duration: ~45 min (5 plans: schema, upload, gallery, Server Actions, integration)
+- Phase 10 (partial): ~4 min (1 plan complete)
 - Average: ~5 min/plan
 
 ## Accumulated Context
@@ -117,24 +118,32 @@ Progress: [████████████████████░░░
 | 2026-01-30 | Pending-only photo deletion | PHOTO-07 requirement - approved photos are permanent |
 | 2026-01-30 | Toggle voting via DELETE/INSERT | Unique constraint on (user_id, photo_id) enables natural toggle |
 | 2026-01-30 | API returns storage_path for URL construction | Client controls image transformations and sizing |
-| 2026-01-30 | Photos section placed after Ratings in Info tab | Logical content flow: description → facilities → ratings → photos |
+| 2026-01-30 | Photos section placed after Ratings in Info tab | Logical content flow: description - facilities - ratings - photos |
 | 2026-01-30 | Guest upload prompt shows Sign In CTA | Encourages conversion rather than hiding functionality |
 | 2026-01-30 | router.refresh() for post-upload photo reload | Simplest pattern for SSR data refresh without complex state management |
 
+### Decisions for Phase 10: Admin Panel
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-01-31 | Check role in layout, call forbidden() for non-admin | Centralized protection for all /admin/* routes |
+| 2026-01-31 | forbidden.tsx at app level as custom 403 page | Next.js 16 convention for custom error pages |
+| 2026-01-31 | AdminNav as client component with usePathname | Active link highlighting requires client-side path tracking |
+
 ### Pending Todos
 
-None — Phase 9 complete. Ready for Phase 10 (Admin Panel).
+None - proceeding to Phase 10 Plan 02 (Cafe Submissions Moderation).
 
 ### Blockers/Concerns
 
-None — ready for Phase 10: Admin Panel.
+None - admin setup complete, ready for moderation pages.
 
 ## Session Continuity
 
-Last session: 2026-01-30 20:35 KST
-Stopped at: Phase 9 verified complete (10/10 requirements achieved)
-Resume file: .planning/phases/09-photos-voting/09-photos-voting-VERIFICATION.md
-Next action: Begin Phase 10: Admin Panel (10-01-PLAN.md)
+Last session: 2026-01-31 10:33 KST
+Stopped at: Completed 10-01-PLAN.md (Admin Setup)
+Resume file: .planning/phases/10-admin-panel/10-01-SUMMARY.md
+Next action: Execute 10-02-PLAN.md (Cafe Submissions Moderation)
 
 ---
 *State initialized: 2026-01-27*
@@ -147,3 +156,4 @@ Next action: Begin Phase 10: Admin Panel (10-01-PLAN.md)
 *Phase 7 complete: 2026-01-30 (gap closures 07-05, 07-06 completed)*
 *Phase 8 complete: 2026-01-30 (gap closure 08-05 completed, 8/8 must-haves verified)*
 *Phase 9 complete: 2026-01-30 (Plans 1-5/5 complete - schema, upload, gallery, Server Actions, integration)*
+*Phase 10 started: 2026-01-31 (Plan 01 complete - admin layout, dashboard, table component)*
