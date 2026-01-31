@@ -36,7 +36,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   const lang = await getLanguageFromCookies();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Header user={user} />
       <div className="mx-auto max-w-6xl px-4 py-8">
         <h1 className="mb-8 text-3xl font-bold">
