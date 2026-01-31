@@ -394,7 +394,7 @@ export function RatingForm({
                 disabled={isSubmitting}
                 className="flex-1"
               >
-                {t('common.cancel')}
+                {t('rating.cancel')}
               </Button>
             )}
             <Button
