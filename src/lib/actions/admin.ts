@@ -204,8 +204,8 @@ export async function rejectSubmission(input: z.infer<typeof rejectSchema>): Pro
 
 const editSchema = z.object({
   submissionId: z.string().uuid(),
-  name: z.record(z.string()),
-  address: z.record(z.string()),
+  name: z.record(z.string(), z.string()),
+  address: z.record(z.string(), z.string()),
   phone: z.string().nullable().optional(),
   latitude: z.number().nullable().optional(),
   longitude: z.number().nullable().optional(),
