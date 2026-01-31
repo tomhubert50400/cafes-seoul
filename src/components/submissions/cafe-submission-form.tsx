@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, MapPin, Phone, AlertCircle } from 'lucide-react';
+import { Loader2, Phone, AlertCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -70,8 +70,6 @@ export function CafeSubmissionForm({
       name: initialData?.name || { en: '', ko: '' },
       address: initialData?.address || { en: '', ko: '' },
       phone: initialData?.phone || '',
-      latitude: initialData?.latitude,
-      longitude: initialData?.longitude,
       districtId: initialData?.districtId,
       neighborhoodId: initialData?.neighborhoodId,
     },
@@ -337,73 +335,6 @@ export function CafeSubmissionForm({
                 <p className="text-sm text-destructive">{errors.phone.message}</p>
               )}
               <p className="text-xs text-muted-foreground">{t('submissions.form.phoneHelp')}</p>
-            </div>
-
-            {/* Location Section (Optional) */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-muted-foreground" />
-                <Label className="text-base font-medium">
-                  {t('submissions.form.locationLabel')}
-                  <span className="text-muted-foreground ml-1 font-normal">
-                    ({t('submissions.form.optional')})
-                  </span>
-                </Label>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="latitude" className="text-sm text-muted-foreground">
-                    {t('submissions.form.latitudeLabel')}
-                  </Label>
-                  <Controller
-                    name="latitude"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        id="latitude"
-                        type="number"
-                        step="any"
-                        value={field.value ?? ''}
-                        onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
-                        placeholder="37.5665"
-                        className={errors.latitude ? 'border-destructive' : ''}
-                      />
-                    )}
-                  />
-                  {errors.latitude && (
-                    <p className="text-xs text-destructive">{errors.latitude.message}</p>
-                  )}
-                </div>
-
-                <div className="space-y-1">
-                  <Label htmlFor="longitude" className="text-sm text-muted-foreground">
-                    {t('submissions.form.longitudeLabel')}
-                  </Label>
-                  <Controller
-                    name="longitude"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        id="longitude"
-                        type="number"
-                        step="any"
-                        value={field.value ?? ''}
-                        onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
-                        placeholder="126.9780"
-                        className={errors.longitude ? 'border-destructive' : ''}
-                      />
-                    )}
-                  />
-                  {errors.longitude && (
-                    <p className="text-xs text-destructive">{errors.longitude.message}</p>
-                  )}
-                </div>
-              </div>
-
-              <p className="text-xs text-muted-foreground">{t('submissions.form.locationHelp')}</p>
             </div>
 
             {/* Submit Button */}
