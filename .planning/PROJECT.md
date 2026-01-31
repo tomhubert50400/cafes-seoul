@@ -4,18 +4,18 @@
 
 Une application web pour découvrir des cafés à Seoul avec des critères de filtrage avancés (places assises, boissons, nourriture, température, terrasse, esthétique, etc.) que Kakao Map et Naver Map n'offrent pas. Les utilisateurs peuvent parcourir et filtrer les cafés sans compte, mais doivent se connecter pour contribuer.
 
-## Current Milestone: v1.1 User Contributions
+## Current State
 
-**Goal:** Enable authenticated users to contribute content to the platform — submit new cafes, rate existing ones on 10 dimensions, and upload photos.
+**Latest Release:** v1.1 User Contributions (2026-01-31)
+**Codebase:** 23,257 lines TypeScript (Next.js 16 + Supabase)
 
-**Target features:**
-- Submit new cafes (name, address, phone) with duplicate detection
-- Rate cafes on 10 dimensions (mandatory overall rating + 9 optional)
-- Upload photos to cafe profiles (up to 3 per user per cafe)
-- Admin panel for approving/rejecting submissions and photos
-- User dashboard showing contribution stats
-- Photo voting system (heart/upvote)
-- Role-based access (user/pro/admin) — pro reserved for future cafe owner features
+**Shipped in v1.1:**
+- Cafe submission with fuzzy duplicate detection and admin approval workflow
+- 10-dimension rating system with automatic average aggregation
+- Photo uploads with voting, masonry gallery, and moderation queue
+- Admin panel for moderating submissions and photos
+- User contribution dashboard with stats and action controls
+- Full i18n across 5 languages (KO, EN, FR, ZH, VI)
 
 **Rate limits:** 3 cafe submissions/day, unlimited ratings, 10 photo uploads/day
 
@@ -37,25 +37,26 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - ✓ Email verification and session persistence — v1.0
 - ✓ User profiles and protected routes — v1.0
 - ✓ Interactive map with rating filters — v1.0
+- ✓ Cafe submission with duplicate detection and admin approval — v1.1
+- ✓ 10-dimension rating system with automatic averages — v1.1
+- ✓ Photo uploads with moderation and voting — v1.1
+- ✓ Admin panel for cafes and photos — v1.1
+- ✓ User dashboard with contribution stats — v1.1
+- ✓ Role-based access (user/pro/admin) — v1.1
 
-### Active (v1.1 - User Contributions)
+### Active (Next Milestone)
 
-- [ ] Proposer un nouveau café (soumission avec validation admin)
-- [ ] Noter un café sur 10 dimensions (note globale obligatoire)
-- [ ] Télécharger des photos d'un café (max 3 par utilisateur)
-- [ ] Voter pour les photos (système de likes)
-- [ ] Tableau de bord utilisateur (contributions, statistiques)
-- [ ] Panel admin (validation cafés et photos)
-- [ ] Système de rôles (user/pro/admin)
+- [ ] User notification on submission approval/rejection (SUBMIT-07 deferred from v1.1)
+- [ ] Password reset via email link
+- [ ] Naver OAuth login
 
 ### Out of Scope (deferred)
 
-- Reset mot de passe — peut être ajouté plus tard
-- 2FA — complexité non nécessaire
-- Fonctionnalités "pro" pour les propriétaires de cafés — milestone future (v1.2+)
-- Modification/Suppression après approbation — contenu approuvé est permanent
-- Commentaires sur les avis — pas nécessaire pour v1.1
-- Système de récompenses/gamification — à évaluer plus tard
+- 2FA — complexity not needed for cafe discovery
+- Pro features for cafe owners — future milestone (v2.0+)
+- Edit/delete after approval — approved content is permanent
+- Review comments — adds complexity without core value
+- Gamification/rewards — evaluate after user adoption
 
 ## Context
 
@@ -87,4 +88,4 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 | Pas de reset password en v1 | Scope minimal, OAuth couvre la plupart des cas | — Pending |
 
 ---
-*Last updated: 2026-01-30 after milestone v1.1 planning*
+*Last updated: 2026-01-31 after v1.1 milestone shipped*
