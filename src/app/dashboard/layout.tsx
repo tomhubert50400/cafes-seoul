@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
+import { Header } from '@/components/header';
 
 export const metadata: Metadata = {
   title: 'My Contributions | Seoul Cafe',
@@ -23,8 +24,11 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      {children}
+    <div className="min-h-screen bg-background">
+      <Header user={user} />
+      <div className="container mx-auto py-8 px-4">
+        {children}
+      </div>
     </div>
   );
 }
