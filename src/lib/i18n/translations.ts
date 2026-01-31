@@ -427,6 +427,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.votes.count': '{count} upvotes',
     'photos.votes.vote': 'Upvote',
     'photos.votes.unvote': 'Remove upvote',
+
+    // Admin
+    'admin.title': 'Admin Dashboard',
+    'admin.dashboard.subtitle': 'Manage cafe submissions and photo moderation',
+    'admin.pendingSubmissions': 'Pending Cafe Submissions',
+    'admin.pendingPhotos': 'Pending Photos',
+    'admin.viewAll': 'View all',
+    'admin.noPending': 'No pending items',
+    'admin.nav.dashboard': 'Dashboard',
+    'admin.nav.submissions': 'Cafe Submissions',
+    'admin.nav.photos': 'Photos',
+    'admin.forbidden.title': '403 - Forbidden',
+    'admin.forbidden.message': 'You do not have permission to access this page.',
+    'admin.forbidden.back': 'Go back home',
   },
 
   ko: {
@@ -847,6 +861,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.votes.count': '추천 {count}개',
     'photos.votes.vote': '추천하기',
     'photos.votes.unvote': '추천 취소',
+
+    // Admin
+    'admin.title': '관리자 대시보드',
+    'admin.dashboard.subtitle': '카페 제출 및 사진 관리',
+    'admin.pendingSubmissions': '대기 중인 카페 제출',
+    'admin.pendingPhotos': '대기 중인 사진',
+    'admin.viewAll': '전체 보기',
+    'admin.noPending': '대기 중인 항목 없음',
+    'admin.nav.dashboard': '대시보드',
+    'admin.nav.submissions': '카페 제출',
+    'admin.nav.photos': '사진',
+    'admin.forbidden.title': '403 - 접근 금지',
+    'admin.forbidden.message': '이 페이지에 접근할 권한이 없습니다.',
+    'admin.forbidden.back': '홈으로 돌아가기',
   },
 
   fr: {
@@ -1267,6 +1295,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.votes.count': '{count} votes positifs',
     'photos.votes.vote': 'Voter',
     'photos.votes.unvote': 'Retirer le vote',
+
+    // Admin
+    'admin.title': 'Tableau de bord admin',
+    'admin.dashboard.subtitle': 'Gerer les propositions de cafes et la moderation des photos',
+    'admin.pendingSubmissions': 'Propositions de cafes en attente',
+    'admin.pendingPhotos': 'Photos en attente',
+    'admin.viewAll': 'Voir tout',
+    'admin.noPending': 'Aucun element en attente',
+    'admin.nav.dashboard': 'Tableau de bord',
+    'admin.nav.submissions': 'Propositions de cafes',
+    'admin.nav.photos': 'Photos',
+    'admin.forbidden.title': '403 - Interdit',
+    'admin.forbidden.message': 'Vous n\'avez pas la permission d\'acceder a cette page.',
+    'admin.forbidden.back': 'Retour a l\'accueil',
   },
 
   zh: {
@@ -1687,6 +1729,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.votes.count': '{count}个赞',
     'photos.votes.vote': '点赞',
     'photos.votes.unvote': '取消点赞',
+
+    // Admin
+    'admin.title': '管理员仪表板',
+    'admin.dashboard.subtitle': '管理咖啡馆提交和照片审核',
+    'admin.pendingSubmissions': '待审核的咖啡馆提交',
+    'admin.pendingPhotos': '待审核的照片',
+    'admin.viewAll': '查看全部',
+    'admin.noPending': '没有待处理项目',
+    'admin.nav.dashboard': '仪表板',
+    'admin.nav.submissions': '咖啡馆提交',
+    'admin.nav.photos': '照片',
+    'admin.forbidden.title': '403 - 禁止访问',
+    'admin.forbidden.message': '您没有权限访问此页面。',
+    'admin.forbidden.back': '返回首页',
   },
 
   vi: {
@@ -2107,5 +2163,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.votes.count': '{count} lượt thích',
     'photos.votes.vote': 'Thích',
     'photos.votes.unvote': 'Bỏ thích',
+
+    // Admin
+    'admin.title': 'Bang dieu khien quan tri',
+    'admin.dashboard.subtitle': 'Quan ly cac quan ca phe gui va kiem duyet anh',
+    'admin.pendingSubmissions': 'Quan ca phe cho duyet',
+    'admin.pendingPhotos': 'Anh cho duyet',
+    'admin.viewAll': 'Xem tat ca',
+    'admin.noPending': 'Khong co muc cho xu ly',
+    'admin.nav.dashboard': 'Bang dieu khien',
+    'admin.nav.submissions': 'Quan ca phe gui',
+    'admin.nav.photos': 'Anh',
+    'admin.forbidden.title': '403 - Cam truy cap',
+    'admin.forbidden.message': 'Ban khong co quyen truy cap trang nay.',
+    'admin.forbidden.back': 'Ve trang chu',
   },
 };
