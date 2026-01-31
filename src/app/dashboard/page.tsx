@@ -3,7 +3,9 @@ import { cookies } from 'next/headers';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { UserStats } from '@/components/dashboard/user-stats';
-import { StatusBadge } from '@/components/dashboard/status-badge';
+import { SubmissionsList } from '@/components/dashboard/submissions-list';
+import { RatingsList } from '@/components/dashboard/ratings-list';
+import { PhotosList } from '@/components/dashboard/photos-list';
 import { Coffee, Star, Image } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -29,6 +31,9 @@ export default async function DashboardPage() {
 
   // User is guaranteed to exist due to layout auth check
   const userId = user!.id;
+
+  // Get Supabase URL for storage
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 
   // Fetch all data in parallel (6 queries simultaneously)
   const [
@@ -68,7 +73,7 @@ export default async function DashboardPage() {
       .limit(5),
     supabase
       .from('photos')
-      .select('id, storage_path, status, upvote_count, created_at, cafe:cafes(name)')
+      .select('id, storage_path, status, upvote_count, created_at, rejection_reason, cafe:cafes(name)')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(5),
@@ -86,16 +91,87 @@ export default async function DashboardPage() {
     (totalRatings ?? 0) === 0 &&
     (totalPhotos ?? 0) === 0;
 
-  // Build translations
+  // Build translations helper
   const t = (key: string) => getTranslation(lang, key);
 
-  // Status translations
-  const statusTranslations = {
-    pending: t('dashboard.status.pending'),
-    approved: t('dashboard.status.approved'),
-    declined: t('dashboard.status.declined'),
-    rejected: t('dashboard.status.rejected'),
+  // Build translations objects for list components
+  const submissionsTranslations = {
+    empty: t('dashboard.cafes.empty'),
+    emptyCta: t('dashboard.cafes.emptyCta'),
+    loadMore: t('dashboard.loadMore'),
+    remaining: t('dashboard.remaining'),
+    showReason: t('dashboard.showReason'),
+    hideReason: t('dashboard.hideReason'),
+    rejectionReason: t('dashboard.rejectionReason'),
+    edit: t('dashboard.actions.edit'),
+    delete: t('dashboard.actions.delete'),
+    deleteConfirm: t('dashboard.actions.deleteConfirm'),
+    statusPending: t('dashboard.status.pending'),
+    statusApproved: t('dashboard.status.approved'),
+    statusDeclined: t('dashboard.status.declined'),
   };
+
+  const ratingsTranslations = {
+    empty: t('dashboard.ratings.empty'),
+    emptyCta: t('dashboard.ratings.emptyCta'),
+    loadMore: t('dashboard.loadMore'),
+    remaining: t('dashboard.remaining'),
+  };
+
+  const photosTranslations = {
+    empty: t('dashboard.photos.empty'),
+    emptyCta: t('dashboard.photos.emptyCta'),
+    loadMore: t('dashboard.loadMore'),
+    remaining: t('dashboard.remaining'),
+    upvotes: t('dashboard.upvotes'),
+    delete: t('dashboard.actions.delete'),
+    deleteConfirm: t('dashboard.actions.deleteConfirm'),
+    rejectionReason: t('dashboard.rejectionReason'),
+    statusPending: t('dashboard.status.pending'),
+    statusApproved: t('dashboard.status.approved'),
+    statusRejected: t('dashboard.status.rejected'),
+  };
+
+  // Transform submissions for component (ensure correct typing)
+  const typedSubmissions = (submissions || []).map((s) => ({
+    id: s.id as string,
+    name: s.name as { en?: string; ko?: string },
+    address: s.address as { en?: string; ko?: string },
+    status: s.status as 'pending' | 'approved' | 'declined',
+    created_at: s.created_at as string,
+    rejection_reason: s.rejection_reason as string | null | undefined,
+  }));
+
+  // Transform ratings for component
+  const typedRatings = (ratings || []).map((r) => {
+    const cafeData = r.cafe as unknown;
+    const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
+    const typedCafe = cafe as { id: string; name: { en?: string; ko?: string }; slug: string } | null;
+
+    return {
+      id: r.id as string,
+      overall: r.overall as number,
+      created_at: r.created_at as string,
+      cafe: typedCafe,
+    };
+  });
+
+  // Transform photos for component
+  const typedPhotos = (photos || []).map((p) => {
+    const cafeData = p.cafe as unknown;
+    const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
+    const typedCafe = cafe as { name: { en?: string; ko?: string } } | null;
+
+    return {
+      id: p.id as string,
+      storage_path: p.storage_path as string,
+      status: p.status as 'pending' | 'approved' | 'rejected',
+      upvote_count: p.upvote_count as number,
+      created_at: p.created_at as string,
+      rejection_reason: p.rejection_reason as string | null | undefined,
+      cafe: typedCafe,
+    };
+  });
 
   return (
     <div className="space-y-8">
@@ -128,39 +204,12 @@ export default async function DashboardPage() {
               title={t('dashboard.cafes.title')}
               count={totalSubmissions ?? 0}
             />
-            {submissions && submissions.length > 0 ? (
-              <div className="mt-4 space-y-3">
-                {submissions.map((submission) => {
-                  const cafeName =
-                    submission.name?.en || submission.name?.ko || 'Unnamed';
-                  return (
-                    <div
-                      key={submission.id}
-                      className="flex items-start justify-between rounded-lg border p-4"
-                    >
-                      <div className="flex-1">
-                        <p className="font-medium">{cafeName}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {submission.address?.en || submission.address?.ko}
-                        </p>
-                        <div className="mt-2">
-                          <StatusBadge
-                            status={submission.status}
-                            label={statusTranslations[submission.status as keyof typeof statusTranslations]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="mt-4 rounded-lg border border-dashed p-8 text-center">
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard.cafes.empty') || 'No cafe submissions yet'}
-                </p>
-              </div>
-            )}
+            <SubmissionsList
+              submissions={typedSubmissions}
+              totalCount={totalSubmissions ?? 0}
+              userId={userId}
+              translations={submissionsTranslations}
+            />
           </section>
 
           {/* Ratings Section */}
@@ -171,44 +220,12 @@ export default async function DashboardPage() {
               count={totalRatings ?? 0}
               metric={avgRating ? `${t('dashboard.ratings.avg')} ${avgRating}` : undefined}
             />
-            {ratings && ratings.length > 0 ? (
-              <div className="mt-4 space-y-3">
-                {ratings.map((rating) => {
-                  const cafeData = rating.cafe as unknown;
-                  const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
-                  const typedCafe = cafe as { id: string; name: { en?: string; ko?: string }; slug: string } | null;
-                  const cafeName = typedCafe?.name?.en || typedCafe?.name?.ko || 'Unknown Cafe';
-                  const cafeSlug = typedCafe?.slug;
-
-                  return (
-                    <Link
-                      key={rating.id}
-                      href={cafeSlug ? ROUTES.CAFE_DETAIL(cafeSlug) : '#'}
-                      className="block rounded-lg border p-4 transition-colors hover:bg-accent"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium">{cafeName}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(rating.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <div className="text-lg font-bold">{rating.overall}</div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="mt-4 rounded-lg border border-dashed p-8 text-center">
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard.ratings.empty') || 'No ratings yet'}
-                </p>
-                <Button asChild className="mt-4" variant="outline">
-                  <Link href={ROUTES.CAFES}>{t('dashboard.welcome.browse')}</Link>
-                </Button>
-              </div>
-            )}
+            <RatingsList
+              ratings={typedRatings}
+              totalCount={totalRatings ?? 0}
+              userId={userId}
+              translations={ratingsTranslations}
+            />
           </section>
 
           {/* Photos Section */}
@@ -218,47 +235,13 @@ export default async function DashboardPage() {
               title={t('dashboard.photos.title')}
               count={totalPhotos ?? 0}
             />
-            {photos && photos.length > 0 ? (
-              <div className="mt-4 space-y-3">
-                {photos.map((photo) => {
-                  const cafeData = photo.cafe as unknown;
-                  const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
-                  const typedCafe = cafe as { name: { en?: string; ko?: string } } | null;
-                  const cafeName = typedCafe?.name?.en || typedCafe?.name?.ko || 'Unknown Cafe';
-
-                  return (
-                    <div
-                      key={photo.id}
-                      className="flex items-center justify-between rounded-lg border p-4"
-                    >
-                      <div>
-                        <p className="font-medium">{cafeName}</p>
-                        <div className="mt-1 flex items-center gap-2">
-                          <StatusBadge
-                            status={photo.status}
-                            label={statusTranslations[photo.status as keyof typeof statusTranslations]}
-                          />
-                          {photo.upvote_count > 0 && (
-                            <span className="text-sm text-muted-foreground">
-                              {photo.upvote_count} upvote{photo.upvote_count !== 1 ? 's' : ''}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(photo.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="mt-4 rounded-lg border border-dashed p-8 text-center">
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard.photos.empty') || 'No photos uploaded yet'}
-                </p>
-              </div>
-            )}
+            <PhotosList
+              photos={typedPhotos}
+              totalCount={totalPhotos ?? 0}
+              userId={userId}
+              translations={photosTranslations}
+              storageUrl={supabaseUrl}
+            />
           </section>
         </div>
       )}
