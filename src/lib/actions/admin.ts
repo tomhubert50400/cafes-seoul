@@ -315,7 +315,7 @@ export async function approvePhoto(photoId: string): Promise<{
     // 2. Validate input
     const validation = approvePhotoSchema.safeParse({ photoId });
     if (!validation.success) {
-      return { success: false, error: validation.error.errors[0].message };
+      return { success: false, error: validation.error.issues[0].message };
     }
 
     // 3. Get current photo to verify it is pending
@@ -407,7 +407,7 @@ export async function rejectPhoto(
     // 2. Validate input
     const validation = rejectPhotoSchema.safeParse({ photoId, reason });
     if (!validation.success) {
-      return { success: false, error: validation.error.errors[0].message };
+      return { success: false, error: validation.error.issues[0].message };
     }
 
     // 3. Get current photo to verify it is pending
@@ -513,13 +513,16 @@ export async function getPendingPhotos(): Promise<{
 
     // Transform to flat structure
     const transformedPhotos: PendingPhoto[] = (photos || []).map((photo) => {
-      const cafe = photo.cafe as { name: string; slug: string } | null;
+      // Supabase returns the joined data - handle both array and object cases
+      const cafeData = photo.cafe as unknown;
+      const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
+      const typedCafe = cafe as { name: string; slug: string } | null;
       return {
         id: photo.id,
         storage_path: photo.storage_path,
         cafe_id: photo.cafe_id,
-        cafe_name: cafe?.name || null,
-        cafe_slug: cafe?.slug || null,
+        cafe_name: typedCafe?.name || null,
+        cafe_slug: typedCafe?.slug || null,
         user_id: photo.user_id,
         created_at: photo.created_at,
         file_size: photo.file_size,
