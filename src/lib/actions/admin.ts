@@ -282,6 +282,259 @@ export async function editSubmission(input: z.infer<typeof editSchema>): Promise
 }
 
 // ============================================
+// PHOTO MODERATION ACTIONS
+// ============================================
+
+const approvePhotoSchema = z.object({
+  photoId: z.string().uuid('Invalid photo ID'),
+});
+
+/**
+ * Approve a pending photo
+ * Updates status to 'approved', sets approved_at and approved_by
+ * @param photoId - ID of the photo to approve
+ * @returns Success status or error
+ */
+export async function approvePhoto(photoId: string): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication and admin role
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    if (!(await verifyAdminRole(supabase, user.id))) {
+      return { success: false, error: 'Unauthorized: Admin access required' };
+    }
+
+    // 2. Validate input
+    const validation = approvePhotoSchema.safeParse({ photoId });
+    if (!validation.success) {
+      return { success: false, error: validation.error.errors[0].message };
+    }
+
+    // 3. Get current photo to verify it is pending
+    const { data: photo, error: fetchError } = await supabase
+      .from('photos')
+      .select('id, status, cafe_id')
+      .eq('id', photoId)
+      .single();
+
+    if (fetchError || !photo) {
+      return { success: false, error: 'Photo not found' };
+    }
+
+    if (photo.status !== 'pending') {
+      return { success: false, error: 'Only pending photos can be approved' };
+    }
+
+    // 4. Update photo status to approved
+    const { error: updateError } = await supabase
+      .from('photos')
+      .update({
+        status: 'approved',
+        approved_at: new Date().toISOString(),
+        approved_by: user.id,
+      })
+      .eq('id', photoId)
+      .eq('status', 'pending');
+
+    if (updateError) {
+      console.error('Error approving photo:', updateError);
+      return { success: false, error: 'Failed to approve photo' };
+    }
+
+    // 5. Revalidate paths
+    revalidatePath('/admin/photos');
+    revalidatePath('/admin');
+
+    if (photo.cafe_id) {
+      const { data: cafe } = await supabase
+        .from('cafes')
+        .select('slug')
+        .eq('id', photo.cafe_id)
+        .single();
+
+      if (cafe?.slug) {
+        revalidatePath(`/cafes/${cafe.slug}`);
+      }
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error approving photo:', err);
+    return { success: false, error: 'Failed to approve photo' };
+  }
+}
+
+const rejectPhotoSchema = z.object({
+  photoId: z.string().uuid('Invalid photo ID'),
+  reason: z.string().min(5, 'Rejection reason must be at least 5 characters'),
+});
+
+/**
+ * Reject a pending photo with a reason
+ * Updates status to 'rejected', sets rejection_reason
+ * @param photoId - ID of the photo to reject
+ * @param reason - Reason for rejection (visible to uploader)
+ * @returns Success status or error
+ */
+export async function rejectPhoto(
+  photoId: string,
+  reason: string
+): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication and admin role
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    if (!(await verifyAdminRole(supabase, user.id))) {
+      return { success: false, error: 'Unauthorized: Admin access required' };
+    }
+
+    // 2. Validate input
+    const validation = rejectPhotoSchema.safeParse({ photoId, reason });
+    if (!validation.success) {
+      return { success: false, error: validation.error.errors[0].message };
+    }
+
+    // 3. Get current photo to verify it is pending
+    const { data: photo, error: fetchError } = await supabase
+      .from('photos')
+      .select('id, status, cafe_id')
+      .eq('id', photoId)
+      .single();
+
+    if (fetchError || !photo) {
+      return { success: false, error: 'Photo not found' };
+    }
+
+    if (photo.status !== 'pending') {
+      return { success: false, error: 'Only pending photos can be rejected' };
+    }
+
+    // 4. Update photo status to rejected
+    const { error: updateError } = await supabase
+      .from('photos')
+      .update({
+        status: 'rejected',
+        rejection_reason: reason,
+      })
+      .eq('id', photoId)
+      .eq('status', 'pending');
+
+    if (updateError) {
+      console.error('Error rejecting photo:', updateError);
+      return { success: false, error: 'Failed to reject photo' };
+    }
+
+    // 5. Revalidate paths
+    revalidatePath('/admin/photos');
+    revalidatePath('/admin');
+
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error rejecting photo:', err);
+    return { success: false, error: 'Failed to reject photo' };
+  }
+}
+
+// ============================================
+// GET PENDING PHOTOS FOR ADMIN
+// ============================================
+
+export interface PendingPhoto {
+  id: string;
+  storage_path: string;
+  cafe_id: string;
+  cafe_name: string | null;
+  cafe_slug: string | null;
+  user_id: string;
+  created_at: string;
+  file_size: number;
+  mime_type: string;
+}
+
+/**
+ * Get all pending photos for admin moderation
+ * Includes cafe information for context
+ * @returns List of pending photos with cafe info
+ */
+export async function getPendingPhotos(): Promise<{
+  success: boolean;
+  photos?: PendingPhoto[];
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication and admin role
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    if (!(await verifyAdminRole(supabase, user.id))) {
+      return { success: false, error: 'Unauthorized: Admin access required' };
+    }
+
+    // 2. Fetch pending photos with cafe info
+    const { data: photos, error } = await supabase
+      .from('photos')
+      .select(`
+        id,
+        storage_path,
+        cafe_id,
+        user_id,
+        created_at,
+        file_size,
+        mime_type,
+        cafe:cafes(name, slug)
+      `)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: true }); // Oldest first for FIFO moderation
+
+    if (error) {
+      console.error('Error fetching pending photos:', error);
+      return { success: false, error: 'Failed to fetch pending photos' };
+    }
+
+    // Transform to flat structure
+    const transformedPhotos: PendingPhoto[] = (photos || []).map((photo) => {
+      const cafe = photo.cafe as { name: string; slug: string } | null;
+      return {
+        id: photo.id,
+        storage_path: photo.storage_path,
+        cafe_id: photo.cafe_id,
+        cafe_name: cafe?.name || null,
+        cafe_slug: cafe?.slug || null,
+        user_id: photo.user_id,
+        created_at: photo.created_at,
+        file_size: photo.file_size,
+        mime_type: photo.mime_type,
+      };
+    });
+
+    return { success: true, photos: transformedPhotos };
+  } catch (err) {
+    console.error('Unexpected error fetching pending photos:', err);
+    return { success: false, error: 'Failed to fetch pending photos' };
+  }
+}
+
+// ============================================
 // GET PENDING SUBMISSIONS (for admin table)
 // ============================================
 
