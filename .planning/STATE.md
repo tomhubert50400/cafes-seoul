@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** Milestone v1.1 - User Contributions (Phase 10 complete)
+**Current focus:** Milestone v1.1 - User Contributions (Phase 11 in progress)
 
 ## Current Position
 
-Phase: 10 of 11 (Admin Panel)
-Plan: 4 of 4 complete
-Status: Phase complete
-Last activity: 2026-01-31 - Completed 10-04-PLAN.md (Dashboard Enhancement)
+Phase: 11 of 11 (User Dashboard)
+Plan: 1 of 2 complete
+Status: In progress
+Last activity: 2026-01-31 - Completed 11-01-PLAN.md (Dashboard Foundation)
 
-Progress: [███████████████████████░] 92% (22/24 plans)
+Progress: [████████████████████████] 96% (23/24 plans)
 
 ## Performance Metrics
 
@@ -24,7 +24,7 @@ Progress: [███████████████████████
 - Total execution time: ~1.5 hours
 
 **Milestone v1.1:**
-- Plans completed: 22/24
+- Plans completed: 23/24
 - Phase 7 duration: ~26 min (6 plans including gap closures)
 - Phase 8 duration: ~36 min (5 plans including gap closure)
 - Phase 9 duration: ~45 min (5 plans: schema, upload, gallery, Server Actions, integration)
@@ -140,20 +140,28 @@ Progress: [███████████████████████
 | 2026-01-31 | Combine and sort activities by timestamp | Unified view of moderation actions |
 | 2026-01-31 | Relative time formatting in component | No external dependency needed |
 
+### Decisions for Phase 11: User Dashboard
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-01-31 | Dashboard layout simple container, not admin-style sidebar | User dashboard is single-page, no sub-navigation needed |
+| 2026-01-31 | Mini stats cards placed above each section | Provides context for each contribution type separately |
+| 2026-01-31 | Average rating shown inline with count as metric | Compact display, avoids extra visual elements |
+
 ### Pending Todos
 
-None - Phase 10 complete. Ready for Phase 11.
+None - Phase 11 Plan 01 complete. Continue with Plan 02.
 
 ### Blockers/Concerns
 
-None - admin panel fully implemented with dashboard enhancement.
+None - dashboard foundation complete with stats, components, and i18n.
 
 ## Session Continuity
 
-Last session: 2026-01-31 11:01 KST
-Stopped at: Completed 10-04-PLAN.md (Dashboard Enhancement)
-Resume file: .planning/phases/10-admin-panel/10-04-SUMMARY.md
-Next action: Execute Phase 11 (Final Integration/Polish)
+Last session: 2026-01-31 15:45 KST
+Stopped at: Completed 11-01-PLAN.md (Dashboard Foundation)
+Resume file: .planning/phases/11-user-dashboard/11-01-SUMMARY.md
+Next action: Execute 11-02-PLAN.md (Contribution Lists)
 
 ---
 *State initialized: 2026-01-27*
@@ -167,3 +175,4 @@ Next action: Execute Phase 11 (Final Integration/Polish)
 *Phase 8 complete: 2026-01-30 (gap closure 08-05 completed, 8/8 must-haves verified)*
 *Phase 9 complete: 2026-01-30 (Plans 1-5/5 complete - schema, upload, gallery, Server Actions, integration)*
 *Phase 10 complete: 2026-01-31 (Plans 1-4/4 complete - layout, submissions, photos, dashboard)*
+*Phase 11 Plan 01 complete: 2026-01-31 (Dashboard Foundation - stats, components, i18n)*
