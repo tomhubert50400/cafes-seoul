@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 12 - Bug Fixes & Polish
-Plan: 02 of 4
+Plan: 04 of 4
 Status: In progress
-Last activity: 2026-02-01 - Completed 12-02-PLAN.md (Simplify Submission Form)
+Last activity: 2026-02-01 - Completed 12-04-PLAN.md (Fix Photo Upload Auth Detection)
 
-Progress: [##--------] 2/9 requirements
+Progress: [###-------] 3/9 requirements
 
 ## Performance Metrics
 
@@ -29,7 +29,7 @@ Progress: [##--------] 2/9 requirements
 - Timeline: 2 days
 
 **Milestone v1.2:**
-- Plans completed: 2
+- Plans completed: 3
 - Phase: 12 (1 phase)
 - Target: 9 bug fixes
 
@@ -42,6 +42,7 @@ Progress: [##--------] 2/9 requirements
 - `@supabase/ssr` for cookie-based sessions
 - Server Actions for auth mutations
 - `getUser()` not `getSession()` in server code
+- Client components: use onAuthStateChange subscription to track auth state, use tracked userId in callbacks instead of async getUser()
 
 **UI/UX:**
 - Sonner for toast notifications
@@ -71,9 +72,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 12-02-PLAN.md
+Stopped at: Completed 12-04-PLAN.md
 Resume file: None
-Next action: Execute 12-03-PLAN.md
+Next action: Execute remaining phase 12 plans
 
 ---
 *State initialized: 2026-01-27*
