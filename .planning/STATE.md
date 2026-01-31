@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 12 - Bug Fixes & Polish
-Plan: 04 of 4
+Plan: 03 of 4
 Status: In progress
-Last activity: 2026-02-01 - Completed 12-04-PLAN.md (Fix Photo Upload Auth Detection)
+Last activity: 2026-02-01 - Completed 12-03-PLAN.md (Layout Bug Fixes)
 
-Progress: [###-------] 3/9 requirements
+Progress: [###-------] 3/4 plans (02, 03, 04 complete)
 
 ## Performance Metrics
 
@@ -29,9 +29,9 @@ Progress: [###-------] 3/9 requirements
 - Timeline: 2 days
 
 **Milestone v1.2:**
-- Plans completed: 3
+- Plans completed: 3 (02, 03, 04)
 - Phase: 12 (1 phase)
-- Target: 9 bug fixes
+- Remaining: Plan 01
 
 ## Accumulated Context
 
@@ -50,6 +50,7 @@ Progress: [###-------] 3/9 requirements
 - Tailwind animate-pulse for loading states
 - i18n via next-intl (KO, EN, FR, ZH, VI)
 - Unified tab state: When multiple tab groups should sync, use shared controlled state
+- Nested layouts: child pages return content only, parent layout provides Header
 
 **Database:**
 - pg_trgm for fuzzy text search
@@ -72,9 +73,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 12-04-PLAN.md
+Stopped at: Completed 12-03-PLAN.md
 Resume file: None
-Next action: Execute remaining phase 12 plans
+Next action: Execute plan 12-01
 
 ---
 *State initialized: 2026-01-27*
