@@ -243,7 +243,7 @@ export function CafeSubmissionForm({
                 </Label>
               </div>
 
-              <Tabs defaultValue="en">
+              <Tabs value={activeLanguageTab} onValueChange={(v) => setActiveLanguageTab(v as 'en' | 'ko')}>
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="en">{t('submissions.form.englishTab')}</TabsTrigger>
                   <TabsTrigger value="ko">{t('submissions.form.koreanTab')}</TabsTrigger>
