@@ -6,32 +6,17 @@ Une application web pour découvrir des cafés à Seoul avec des critères de fi
 
 ## Current State
 
-**Latest Release:** v1.1 User Contributions (2026-01-31)
-**Codebase:** 23,257 lines TypeScript (Next.js 16 + Supabase)
+**Latest Release:** v1.2 Polish & Bug Fixes (2026-02-01)
+**Codebase:** 23,200 lines TypeScript (Next.js 16 + Supabase)
 
-**Shipped in v1.1:**
-- Cafe submission with fuzzy duplicate detection and admin approval workflow
-- 10-dimension rating system with automatic average aggregation
-- Photo uploads with voting, masonry gallery, and moderation queue
-- Admin panel for moderating submissions and photos
-- User contribution dashboard with stats and action controls
-- Full i18n across 5 languages (KO, EN, FR, ZH, VI)
+**Shipped in v1.2:**
+- Fixed rating cancel button i18n key (shows translated text in all 5 languages)
+- Added admin link to user dropdown for admin users
+- Simplified cafe submission form (address only, unified language tabs)
+- Fixed layout bugs (dashboard header, single header on submissions, mobile overflow)
+- Fixed photo upload auth detection using onAuthStateChange subscription
 
 **Rate limits:** 3 cafe submissions/day, unlimited ratings, 10 photo uploads/day
-
-## Current Milestone: v1.2 Polish & Bug Fixes
-
-**Goal:** Fix UI bugs, resolve i18n issues, and improve mobile UX across the app.
-
-**Target fixes:**
-- i18n key not resolving on rating cancel button
-- Missing admin link in profile dropdown
-- Remove language picker from profile dropdown
-- Simplify add cafe form (address only, unified language selection)
-- Missing header on My Contributions page
-- Mobile profile page horizontal scroll overflow
-- Duplicate header in My Submissions subnav
-- Photo upload auth state bug (shows sign in when already signed in)
 
 ## Core Value
 
@@ -57,18 +42,11 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - ✓ Admin panel for cafes and photos — v1.1
 - ✓ User dashboard with contribution stats — v1.1
 - ✓ Role-based access (user/pro/admin) — v1.1
-
-### Active (v1.2 Polish & Bug Fixes)
-
-- [ ] Fix i18n key display on rating cancel button
-- [ ] Add admin link to profile dropdown
-- [ ] Remove language picker from profile dropdown
-- [ ] Remove coordinates field from add cafe form
-- [ ] Unify language selection for name and address in add cafe form
-- [ ] Add missing header to My Contributions page
-- [ ] Fix mobile profile page horizontal scroll
-- [ ] Fix duplicate header in My Submissions subnav
-- [ ] Fix photo upload auth state detection
+- ✓ Rating cancel button i18n fix — v1.2
+- ✓ Admin link in profile dropdown — v1.2
+- ✓ Simplified cafe submission form — v1.2
+- ✓ Layout fixes (dashboard header, submissions header, mobile overflow) — v1.2
+- ✓ Photo upload auth detection fix — v1.2
 
 ### Deferred (v1.3+)
 
@@ -98,6 +76,11 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - Kakao: Provider natif Supabase, nécessite config Kakao Developers
 - Naver: Provider natif Supabase, nécessite config Naver Developers
 
+**Key Patterns (from v1.2):**
+- Client auth: use onAuthStateChange subscription, track userId in state
+- Nested layouts: child pages return content only, parent layout provides Header
+- Unified tab state: when multiple tab groups should sync, use shared controlled state
+
 ## Constraints
 
 - **Stack**: Next.js 16 + Supabase (déjà en place, pas de changement)
@@ -109,9 +92,11 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Supabase Auth plutôt que NextAuth | Déjà intégré, moins de config | — Pending |
-| 4 méthodes de connexion (email + 3 OAuth) | Couvrir users coréens (Kakao/Naver) et internationaux (Google/Email) | — Pending |
-| Pas de reset password en v1 | Scope minimal, OAuth couvre la plupart des cas | — Pending |
+| Supabase Auth plutôt que NextAuth | Déjà intégré, moins de config | ✓ Good |
+| 4 méthodes de connexion (email + 3 OAuth) | Couvrir users coréens (Kakao/Naver) et internationaux (Google/Email) | ✓ Good (Naver deferred) |
+| Pas de reset password en v1 | Scope minimal, OAuth couvre la plupart des cas | ✓ Good |
+| onAuthStateChange for client auth | Prevents race conditions with async getUser() in callbacks | ✓ Good (v1.2) |
+| Unified tab state pattern | Keep related UI elements synchronized | ✓ Good (v1.2) |
 
 ---
-*Last updated: 2026-01-31 after v1.2 milestone started*
+*Last updated: 2026-02-01 after v1.2 milestone complete*

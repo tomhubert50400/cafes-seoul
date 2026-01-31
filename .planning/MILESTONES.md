@@ -1,5 +1,30 @@
 # Project Milestones: Cafes Seoul
 
+## v1.2 Polish & Bug Fixes (Shipped: 2026-02-01)
+
+**Delivered:** Bug fixes for i18n, navigation, forms, layout, and auth issues identified after v1.1 release
+
+**Phases completed:** 12 (4 plans total)
+
+**Key accomplishments:**
+- Fixed rating cancel button i18n key (shows translated text in all 5 languages)
+- Added admin link with Shield icon to user dropdown for admin users
+- Simplified cafe submission form (removed coordinates, unified language tabs)
+- Fixed layout issues (dashboard header, single header on submissions, mobile overflow)
+- Fixed photo upload auth detection using onAuthStateChange subscription
+
+**Stats:**
+- 22 files modified
+- 23,200 lines of TypeScript (current total)
+- 1 phase, 4 plans, 8 tasks
+- 1 day from v1.1 to v1.2
+
+**Git range:** `fix(12-01)` → `docs(12)`
+
+**What's next:** v1.3 or v2.0 — potential areas: user notifications, password reset, Naver OAuth, pro features for cafe owners
+
+---
+
 ## v1.1 User Contributions (Shipped: 2026-01-31)
 
 **Delivered:** Full user contribution system with cafe submissions, 10-dimension ratings, photo uploads with voting, admin moderation, and contributor dashboard
