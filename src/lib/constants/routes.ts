@@ -13,6 +13,7 @@ export const ROUTES = {
 
   // User
   PROFILE: '/profile',
+  DASHBOARD: '/dashboard',
   PROFILE_REVIEWS: '/profile/reviews',
   PROFILE_FAVORITES: '/profile/favorites',
   PROFILE_SUBMISSIONS: '/profile/submissions',

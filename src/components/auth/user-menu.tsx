@@ -18,7 +18,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useI18n, LanguageCode } from '@/lib/i18n';
 import { logout } from '@/app/actions/auth';
 import { ROUTES } from '@/lib/constants/routes';
-import { User as UserIcon, LogOut, FileText, Settings, Globe } from 'lucide-react';
+import { User as UserIcon, LogOut, FileText, Settings, Globe, LayoutDashboard } from 'lucide-react';
 
 interface UserMenuProps {
   user: SupabaseUser;
@@ -78,6 +78,16 @@ export function UserMenu({ user }: UserMenuProps) {
           >
             <UserIcon className="h-4 w-4" />
             {t('nav.profile')}
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link
+            href={ROUTES.DASHBOARD}
+            className="flex cursor-pointer items-center gap-2"
+          >
+            <LayoutDashboard className="h-4 w-4" />
+            {t('nav.contributions')}
           </Link>
         </DropdownMenuItem>
 
