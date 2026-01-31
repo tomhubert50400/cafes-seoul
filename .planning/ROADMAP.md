@@ -20,10 +20,10 @@ v1.2 is a polish milestone focused on fixing UI bugs, i18n issues, and mobile UX
 **Plans:** 4 plans
 
 Plans:
-- [ ] 12-01-PLAN.md - I18N and navigation fixes (I18N-01, NAV-01, NAV-02)
-- [ ] 12-02-PLAN.md - Form simplification (FORM-01, FORM-02)
-- [ ] 12-03-PLAN.md - Layout fixes (LAYOUT-01, LAYOUT-02, LAYOUT-03)
-- [ ] 12-04-PLAN.md - Photo upload auth fix (AUTH-01)
+- [x] 12-01-PLAN.md - I18N and navigation fixes (I18N-01, NAV-01, NAV-02)
+- [x] 12-02-PLAN.md - Form simplification (FORM-01, FORM-02)
+- [x] 12-03-PLAN.md - Layout fixes (LAYOUT-01, LAYOUT-02, LAYOUT-03)
+- [x] 12-04-PLAN.md - Photo upload auth fix (AUTH-01)
 
 **Requirements:**
 - I18N-01: Rating cancel button i18n fix
@@ -49,10 +49,11 @@ Plans:
 
 | Phase | Status | Plans | Completed |
 |-------|--------|-------|-----------|
-| 12 - Bug Fixes & Polish | Planned | 4 | 0 |
+| 12 - Bug Fixes & Polish | ✓ Complete | 4 | 4 |
 
-**Milestone Progress:** 0/9 requirements complete
+**Milestone Progress:** 9/9 requirements complete ✓
 
 ---
 *Roadmap created: 2026-01-31*
 *Last updated: 2026-02-01*
+*Phase 12 completed: 2026-02-01*

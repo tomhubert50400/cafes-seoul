@@ -9,27 +9,27 @@ Bug fixes and polish items. All items are fixes to existing features.
 
 ### I18N
 
-- [ ] **I18N-01**: Rating cancel button displays translated text (not "common.cancel")
+- [x] **I18N-01**: Rating cancel button displays translated text (not "common.cancel")
 
 ### Navigation
 
-- [ ] **NAV-01**: Admin users see admin panel link in profile dropdown
-- [ ] **NAV-02**: Language picker removed from profile dropdown
+- [x] **NAV-01**: Admin users see admin panel link in profile dropdown
+- [x] **NAV-02**: Language picker removed from profile dropdown
 
 ### Forms
 
-- [ ] **FORM-01**: Add cafe form uses address only (no coordinates field)
-- [ ] **FORM-02**: Add cafe form has unified language selection (name language auto-applies to address)
+- [x] **FORM-01**: Add cafe form uses address only (no coordinates field)
+- [x] **FORM-02**: Add cafe form has unified language selection (name language auto-applies to address)
 
 ### Layout
 
-- [ ] **LAYOUT-01**: My Contributions page has proper header
-- [ ] **LAYOUT-02**: My Submissions subnav shows single header (no duplicate)
-- [ ] **LAYOUT-03**: Mobile profile page has no horizontal scroll overflow
+- [x] **LAYOUT-01**: My Contributions page has proper header
+- [x] **LAYOUT-02**: My Submissions subnav shows single header (no duplicate)
+- [x] **LAYOUT-03**: Mobile profile page has no horizontal scroll overflow
 
 ### Auth
 
-- [ ] **AUTH-01**: Photo upload correctly detects signed-in user (no false "sign in" prompt)
+- [x] **AUTH-01**: Photo upload correctly detects signed-in user (no false "sign in" prompt)
 
 ## Out of Scope
 
@@ -44,15 +44,15 @@ Bug fixes and polish items. All items are fixes to existing features.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| I18N-01 | Phase 12 | Pending |
-| NAV-01 | Phase 12 | Pending |
-| NAV-02 | Phase 12 | Pending |
-| FORM-01 | Phase 12 | Pending |
-| FORM-02 | Phase 12 | Pending |
-| LAYOUT-01 | Phase 12 | Pending |
-| LAYOUT-02 | Phase 12 | Pending |
-| LAYOUT-03 | Phase 12 | Pending |
-| AUTH-01 | Phase 12 | Pending |
+| I18N-01 | Phase 12 | Complete |
+| NAV-01 | Phase 12 | Complete |
+| NAV-02 | Phase 12 | Complete |
+| FORM-01 | Phase 12 | Complete |
+| FORM-02 | Phase 12 | Complete |
+| LAYOUT-01 | Phase 12 | Complete |
+| LAYOUT-02 | Phase 12 | Complete |
+| LAYOUT-03 | Phase 12 | Complete |
+| AUTH-01 | Phase 12 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 9 total
@@ -61,4 +61,4 @@ Bug fixes and polish items. All items are fixes to existing features.
 
 ---
 *Requirements defined: 2026-01-31*
-*Last updated: 2026-01-31 after roadmap creation*
+*Last updated: 2026-02-01 — all requirements complete*
