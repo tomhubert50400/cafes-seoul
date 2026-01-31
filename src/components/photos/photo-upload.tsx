@@ -11,13 +11,11 @@ import { useI18n } from '@/lib/i18n';
 import {
   validatePhotoFile,
   formatFileSize,
-  type ValidationResult,
 } from '@/lib/photos/validation';
 import {
   uploadPhotoWithProgress,
   insertPhotoRecord,
   checkAllUploadLimits,
-  type LimitCheckResult,
 } from '@/lib/photos/upload';
 import { createClient } from '@/lib/supabase/client';
 
@@ -44,7 +42,9 @@ interface UploadState {
 export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: PhotoUploadProps) {
   const { t } = useI18n();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const supabase = createClient();
+
+  const [userId, setUserId] = useState<string | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const [state, setState] = useState<UploadState>({
     selectedFile: null,
@@ -54,30 +54,40 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
     limitInfo: null,
   });
 
-  // Fetch limit info on mount
+  // Fetch limit info on mount and subscribe to auth state changes
   useEffect(() => {
-    async function fetchLimits() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+    const supabase = createClient();
 
-      if (!user) return;
+    // Get initial user
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUserId(user?.id || null);
+      setAuthLoading(false);
 
-      const limitCheck = await checkAllUploadLimits(supabase, user.id, cafeId);
-
-      if (limitCheck.canUpload) {
-        setState((prev) => ({
-          ...prev,
-          limitInfo: {
-            remainingDaily: limitCheck.remainingDaily ?? 10,
-            remainingCafe: limitCheck.remainingCafe ?? 3,
-          },
-        }));
+      if (user) {
+        checkAllUploadLimits(supabase, user.id, cafeId).then((limitCheck) => {
+          if (limitCheck.canUpload) {
+            setState((prev) => ({
+              ...prev,
+              limitInfo: {
+                remainingDaily: limitCheck.remainingDaily ?? 10,
+                remainingCafe: limitCheck.remainingCafe ?? 3,
+              },
+            }));
+          }
+        });
       }
-    }
+    });
 
-    fetchLimits();
-  }, [cafeId, supabase]);
+    // Subscribe to auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserId(session?.user?.id || null);
+      setAuthLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [cafeId]);
 
   // Handle file selection
   const handleFileSelect = useCallback(
@@ -98,12 +108,8 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
         return;
       }
 
-      // Check limits before allowing selection
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
+      // Use tracked userId instead of calling getUser()
+      if (!userId) {
         setState((prev) => ({
           ...prev,
           errors: ['Please sign in to upload photos'],
@@ -111,7 +117,8 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
         return;
       }
 
-      const limitCheck = await checkAllUploadLimits(supabase, user.id, cafeId);
+      const supabase = createClient();
+      const limitCheck = await checkAllUploadLimits(supabase, userId, cafeId);
 
       if (!limitCheck.canUpload) {
         setState((prev) => ({
@@ -130,7 +137,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
         uploadProgress: 0,
       }));
     },
-    [cafeId, supabase]
+    [cafeId, userId]
   );
 
   // Clear selected file
@@ -150,16 +157,15 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
   const handleUpload = useCallback(async () => {
     if (!state.selectedFile) return;
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
+    // Use tracked userId instead of calling getUser()
+    if (!userId) {
       toast.error('Please sign in to upload photos');
       return;
     }
 
     setState((prev) => ({ ...prev, isUploading: true, errors: [] }));
+
+    const supabase = createClient();
 
     try {
       // Upload to storage with progress
@@ -167,7 +173,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
         supabase,
         state.selectedFile,
         cafeId,
-        user.id,
+        userId,
         (progress) => {
           setState((prev) => ({ ...prev, uploadProgress: progress }));
         }
@@ -187,7 +193,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
       // Insert database record
       const insertResult = await insertPhotoRecord(supabase, {
         cafeId,
-        userId: user.id,
+        userId: userId,
         storagePath: uploadResult.path,
         fileSize: state.selectedFile.size,
         mimeType: state.selectedFile.type,
@@ -221,7 +227,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
       }
 
       // Update limit info
-      const limitCheck = await checkAllUploadLimits(supabase, user.id, cafeId);
+      const limitCheck = await checkAllUploadLimits(supabase, userId, cafeId);
       if (limitCheck.canUpload) {
         setState((prev) => ({
           ...prev,
@@ -245,7 +251,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
       }));
       toast.error(message);
     }
-  }, [state.selectedFile, cafeId, supabase, onUploadSuccess]);
+  }, [state.selectedFile, cafeId, userId, onUploadSuccess]);
 
   // Trigger file input click
   const triggerFileInput = useCallback(() => {
@@ -255,8 +261,10 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
   // Check if upload should be disabled
   const isUploadDisabled =
     disabled ||
+    authLoading ||
     state.isUploading ||
     !state.selectedFile ||
+    !userId ||
     (state.limitInfo !== null &&
       (state.limitInfo.remainingDaily <= 0 || state.limitInfo.remainingCafe <= 0));
 
