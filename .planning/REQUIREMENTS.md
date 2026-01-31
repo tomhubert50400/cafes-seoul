@@ -44,21 +44,21 @@ Bug fixes and polish items. All items are fixes to existing features.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| I18N-01 | TBD | Pending |
-| NAV-01 | TBD | Pending |
-| NAV-02 | TBD | Pending |
-| FORM-01 | TBD | Pending |
-| FORM-02 | TBD | Pending |
-| LAYOUT-01 | TBD | Pending |
-| LAYOUT-02 | TBD | Pending |
-| LAYOUT-03 | TBD | Pending |
-| AUTH-01 | TBD | Pending |
+| I18N-01 | Phase 12 | Pending |
+| NAV-01 | Phase 12 | Pending |
+| NAV-02 | Phase 12 | Pending |
+| FORM-01 | Phase 12 | Pending |
+| FORM-02 | Phase 12 | Pending |
+| LAYOUT-01 | Phase 12 | Pending |
+| LAYOUT-02 | Phase 12 | Pending |
+| LAYOUT-03 | Phase 12 | Pending |
+| AUTH-01 | Phase 12 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 9 total
-- Mapped to phases: 0
-- Unmapped: 9
+- Mapped to phases: 9
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-31*
-*Last updated: 2026-01-31 after initial definition*
+*Last updated: 2026-01-31 after roadmap creation*
