@@ -1,93 +1,157 @@
-import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
-import Link from 'next/link'
-import { Coffee, Image } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { getTranslation } from '@/lib/i18n/translations'
-import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages'
+import { createClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
+import { getTranslation } from '@/lib/i18n/translations';
+import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
+import { AdminStats, SubmissionCounts, PhotoCounts } from '@/components/admin/admin-stats';
+import { RecentActivity, ActivityItem } from '@/components/admin/recent-activity';
 
 async function getLanguageFromCookies(): Promise<LanguageCode> {
-  const cookieStore = await cookies()
-  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME)
+  const cookieStore = await cookies();
+  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME);
 
   if (langCookie?.value && ['en', 'ko', 'fr', 'zh', 'vi'].includes(langCookie.value)) {
-    return langCookie.value as LanguageCode
+    return langCookie.value as LanguageCode;
   }
 
-  return DEFAULT_LANGUAGE
+  return DEFAULT_LANGUAGE;
 }
 
 export default async function AdminDashboard() {
-  const supabase = await createClient()
-  const lang = await getLanguageFromCookies()
+  const supabase = await createClient();
+  const lang = await getLanguageFromCookies();
 
-  // Get pending submissions count
-  const { count: pendingSubmissions } = await supabase
-    .from('cafe_submissions')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'pending')
+  // Fetch submission counts by status
+  const [
+    { count: pendingSubmissions },
+    { count: approvedSubmissions },
+    { count: declinedSubmissions },
+  ] = await Promise.all([
+    supabase
+      .from('cafe_submissions')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'pending'),
+    supabase
+      .from('cafe_submissions')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'approved'),
+    supabase
+      .from('cafe_submissions')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'declined'),
+  ]);
 
-  // Get pending photos count
-  const { count: pendingPhotos } = await supabase
-    .from('photos')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'pending')
+  // Fetch photo counts by status
+  const [
+    { count: pendingPhotos },
+    { count: approvedPhotos },
+    { count: rejectedPhotos },
+  ] = await Promise.all([
+    supabase
+      .from('photos')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'pending'),
+    supabase
+      .from('photos')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'approved'),
+    supabase
+      .from('photos')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'rejected'),
+  ]);
 
-  const stats = [
-    {
-      title: getTranslation(lang, 'admin.pendingSubmissions'),
-      count: pendingSubmissions ?? 0,
-      icon: Coffee,
-      href: '/admin/submissions',
-    },
-    {
-      title: getTranslation(lang, 'admin.pendingPhotos'),
-      count: pendingPhotos ?? 0,
-      icon: Image,
-      href: '/admin/photos',
-    },
-  ]
+  // Fetch recent moderation activity (last 5 approved/declined submissions + last 5 approved/rejected photos)
+  const [{ data: recentSubmissions }, { data: recentPhotos }] = await Promise.all([
+    supabase
+      .from('cafe_submissions')
+      .select('id, name, status, updated_at')
+      .in('status', ['approved', 'declined'])
+      .order('updated_at', { ascending: false })
+      .limit(5),
+    supabase
+      .from('photos')
+      .select('id, cafe_id, status, updated_at, cafe:cafes(name)')
+      .in('status', ['approved', 'rejected'])
+      .order('updated_at', { ascending: false })
+      .limit(5),
+  ]);
+
+  // Transform and combine activities
+  const submissionActivities: ActivityItem[] = (recentSubmissions || []).map((s) => ({
+    id: s.id,
+    type: 'submission' as const,
+    action: s.status as 'approved' | 'declined',
+    name: s.name?.en || s.name?.ko || 'Unknown',
+    timestamp: s.updated_at,
+  }));
+
+  const photoActivities: ActivityItem[] = (recentPhotos || []).map((p) => {
+    const cafeData = p.cafe as unknown;
+    const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
+    const typedCafe = cafe as { name: { en?: string; ko?: string } | null } | null;
+    const cafeName = typedCafe?.name?.en || typedCafe?.name?.ko || 'Unknown Cafe';
+    return {
+      id: p.id,
+      type: 'photo' as const,
+      action: p.status === 'approved' ? ('approved' as const) : ('rejected' as const),
+      name: `Photo at ${cafeName}`,
+      timestamp: p.updated_at,
+    };
+  });
+
+  // Combine and sort by timestamp (most recent first)
+  const allActivities = [...submissionActivities, ...photoActivities]
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .slice(0, 10);
+
+  // Build stats objects
+  const submissionCounts: SubmissionCounts = {
+    pending: pendingSubmissions ?? 0,
+    approved: approvedSubmissions ?? 0,
+    declined: declinedSubmissions ?? 0,
+  };
+
+  const photoCounts: PhotoCounts = {
+    pending: pendingPhotos ?? 0,
+    approved: approvedPhotos ?? 0,
+    rejected: rejectedPhotos ?? 0,
+  };
+
+  // Build translations
+  const statsTranslations = {
+    submissions: getTranslation(lang, 'admin.stats.submissions'),
+    photos: getTranslation(lang, 'admin.stats.photos'),
+    pending: getTranslation(lang, 'admin.stats.pending'),
+    approved: getTranslation(lang, 'admin.stats.approved'),
+    declined: getTranslation(lang, 'admin.stats.declined'),
+    rejected: getTranslation(lang, 'admin.stats.rejected'),
+  };
+
+  const activityTranslations = {
+    title: getTranslation(lang, 'admin.activity.title'),
+    empty: getTranslation(lang, 'admin.activity.empty'),
+    approved: getTranslation(lang, 'admin.activity.approved'),
+    rejected: getTranslation(lang, 'admin.activity.rejected'),
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">
-          {getTranslation(lang, 'admin.title')}
-        </h1>
+        <h1 className="text-3xl font-bold">{getTranslation(lang, 'admin.title')}</h1>
         <p className="mt-1 text-muted-foreground">
           {getTranslation(lang, 'admin.dashboard.subtitle')}
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {stats.map((stat) => {
-          const Icon = stat.icon
-          return (
-            <Link key={stat.href} href={stat.href}>
-              <Card className="transition-colors hover:bg-accent/50">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    {stat.title}
-                  </CardTitle>
-                  <Icon className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stat.count}</div>
-                  {stat.count === 0 ? (
-                    <p className="text-xs text-muted-foreground">
-                      {getTranslation(lang, 'admin.noPending')}
-                    </p>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">
-                      {getTranslation(lang, 'admin.viewAll')}
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
-            </Link>
-          )
-        })}
-      </div>
+      {/* Stats Section */}
+      <AdminStats
+        submissions={submissionCounts}
+        photos={photoCounts}
+        translations={statsTranslations}
+      />
+
+      {/* Recent Activity Section */}
+      <RecentActivity activities={allActivities} translations={activityTranslations} />
     </div>
-  )
+  );
 }
