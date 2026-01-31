@@ -489,6 +489,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // User Dashboard
     'nav.contributions': 'My Contributions',
+    'nav.admin': 'Admin',
     'dashboard.title': 'My Contributions',
     'dashboard.welcome.title': 'Welcome to your dashboard!',
     'dashboard.welcome.subtitle': 'Track your contributions to the Seoul Cafes community',
@@ -999,6 +1000,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // User Dashboard
     'nav.contributions': '내 기여',
+    'nav.admin': '관리자',
     'dashboard.title': '내 기여',
     'dashboard.welcome.title': '대시보드에 오신 것을 환영합니다!',
     'dashboard.welcome.subtitle': '서울 카페 커뮤니티에 대한 기여를 추적하세요',
@@ -1509,6 +1511,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // User Dashboard
     'nav.contributions': 'Mes Contributions',
+    'nav.admin': 'Admin',
     'dashboard.title': 'Mes Contributions',
     'dashboard.welcome.title': 'Bienvenue sur votre tableau de bord!',
     'dashboard.welcome.subtitle': 'Suivez vos contributions a la communaute Seoul Cafes',
@@ -2019,6 +2022,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // User Dashboard
     'nav.contributions': '我的贡献',
+    'nav.admin': '管理',
     'dashboard.title': '我的贡献',
     'dashboard.welcome.title': '欢迎来到您的仪表板!',
     'dashboard.welcome.subtitle': '追踪您对首尔咖啡馆社区的贡献',
@@ -2529,6 +2533,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // User Dashboard
     'nav.contributions': 'Dong gop cua toi',
+    'nav.admin': 'Quan tri',
     'dashboard.title': 'Dong gop cua toi',
     'dashboard.welcome.title': 'Chao mung den bang dieu khien!',
     'dashboard.welcome.subtitle': 'Theo doi dong gop cua ban cho cong dong Seoul Cafes',
