@@ -139,13 +139,13 @@ Which phases cover which requirements.
 | VOTE-01 | Phase 9 | Pending |
 | VOTE-02 | Phase 9 | Pending |
 | VOTE-03 | Phase 9 | Pending |
-| ADMIN-01 | Phase 10 | Pending |
-| ADMIN-02 | Phase 10 | Pending |
-| ADMIN-03 | Phase 10 | Pending |
-| ADMIN-04 | Phase 10 | Pending |
-| ADMIN-05 | Phase 10 | Pending |
-| ADMIN-06 | Phase 10 | Pending |
-| ADMIN-07 | Phase 10 | Pending |
+| ADMIN-01 | Phase 10 | Complete |
+| ADMIN-02 | Phase 10 | Complete |
+| ADMIN-03 | Phase 10 | Complete |
+| ADMIN-04 | Phase 10 | Complete |
+| ADMIN-05 | Phase 10 | Complete |
+| ADMIN-06 | Phase 10 | Complete |
+| ADMIN-07 | Phase 10 | Complete |
 | DASH-01 | Phase 11 | Pending |
 | DASH-02 | Phase 11 | Pending |
 | DASH-03 | Phase 11 | Pending |
@@ -153,7 +153,7 @@ Which phases cover which requirements.
 | ROLE-01 | Phase 7 | Pending |
 | ROLE-02 | Phase 7 | Pending |
 | ROLE-03 | Phase 7 | Pending |
-| ROLE-04 | Phase 10 | Pending |
+| ROLE-04 | Phase 10 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 37 total
