@@ -104,10 +104,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 10-01-PLAN.md — Admin route protection and layout
-- [ ] 10-02-PLAN.md — Pending cafes list with approve/reject/edit actions
-- [ ] 10-03-PLAN.md — Pending photos list with moderation actions
-- [ ] 10-04-PLAN.md — Admin notifications and email alerts
+- [ ] 10-01-PLAN.md — Admin route protection, layout, dashboard, Table component
+- [ ] 10-02-PLAN.md — Pending cafes list with approve/reject/edit modals and Server Actions
+- [ ] 10-03-PLAN.md — Pending photos gallery with approve/reject modals and Server Actions
+- [ ] 10-04-PLAN.md — Enhanced dashboard with stats cards and recent activity
 
 ### Phase 11: User Dashboard
 **Goal**: Users can view their contributions and statistics
