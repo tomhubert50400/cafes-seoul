@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-01-31)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** Planning next milestone
+**Current focus:** v1.2 Polish & Bug Fixes
 
 ## Current Position
 
-Phase: Between milestones
-Plan: N/A
-Status: v1.1 SHIPPED — Ready for next milestone
-Last activity: 2026-01-31 — v1.1 milestone archived
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v1.2
+Last activity: 2026-01-31 — Milestone v1.2 started
 
 Progress: v1.0 + v1.1 complete (11 phases, 44 plans total)
 
@@ -65,9 +65,9 @@ None
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: v1.1 milestone archived
+Stopped at: v1.2 requirements definition
 Resume file: None
-Next action: `/gsd:new-milestone` to plan next version
+Next action: Define requirements, create roadmap
 
 ---
 *State initialized: 2026-01-27*

@@ -19,6 +19,20 @@ Une application web pour découvrir des cafés à Seoul avec des critères de fi
 
 **Rate limits:** 3 cafe submissions/day, unlimited ratings, 10 photo uploads/day
 
+## Current Milestone: v1.2 Polish & Bug Fixes
+
+**Goal:** Fix UI bugs, resolve i18n issues, and improve mobile UX across the app.
+
+**Target fixes:**
+- i18n key not resolving on rating cancel button
+- Missing admin link in profile dropdown
+- Remove language picker from profile dropdown
+- Simplify add cafe form (address only, unified language selection)
+- Missing header on My Contributions page
+- Mobile profile page horizontal scroll overflow
+- Duplicate header in My Submissions subnav
+- Photo upload auth state bug (shows sign in when already signed in)
+
 ## Core Value
 
 Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permettant de trouver exactement le type de café recherché.
@@ -44,9 +58,21 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - ✓ User dashboard with contribution stats — v1.1
 - ✓ Role-based access (user/pro/admin) — v1.1
 
-### Active (Next Milestone)
+### Active (v1.2 Polish & Bug Fixes)
 
-- [ ] User notification on submission approval/rejection (SUBMIT-07 deferred from v1.1)
+- [ ] Fix i18n key display on rating cancel button
+- [ ] Add admin link to profile dropdown
+- [ ] Remove language picker from profile dropdown
+- [ ] Remove coordinates field from add cafe form
+- [ ] Unify language selection for name and address in add cafe form
+- [ ] Add missing header to My Contributions page
+- [ ] Fix mobile profile page horizontal scroll
+- [ ] Fix duplicate header in My Submissions subnav
+- [ ] Fix photo upload auth state detection
+
+### Deferred (v1.3+)
+
+- [ ] User notification on submission approval/rejection (SUBMIT-07)
 - [ ] Password reset via email link
 - [ ] Naver OAuth login
 
@@ -88,4 +114,4 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 | Pas de reset password en v1 | Scope minimal, OAuth couvre la plupart des cas | — Pending |
 
 ---
-*Last updated: 2026-01-31 after v1.1 milestone shipped*
+*Last updated: 2026-01-31 after v1.2 milestone started*
