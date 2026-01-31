@@ -113,32 +113,32 @@ Which phases cover which requirements.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SUBMIT-01 | Phase 7 | Pending |
-| SUBMIT-02 | Phase 7 | Pending |
-| SUBMIT-03 | Phase 7 | Pending |
-| SUBMIT-04 | Phase 7 | Pending |
-| SUBMIT-05 | Phase 7 | Pending |
-| SUBMIT-06 | Phase 7 | Pending |
-| SUBMIT-07 | Phase 7 | Pending |
-| SUBMIT-08 | Phase 7 | Pending |
-| RATE-01 | Phase 8 | Pending |
-| RATE-02 | Phase 8 | Pending |
-| RATE-03 | Phase 8 | Pending |
-| RATE-04 | Phase 8 | Pending |
-| RATE-05 | Phase 8 | Pending |
-| RATE-06 | Phase 8 | Pending |
-| RATE-07 | Phase 8 | Pending |
-| RATE-08 | Phase 8 | Pending |
-| PHOTO-01 | Phase 9 | Pending |
-| PHOTO-02 | Phase 9 | Pending |
-| PHOTO-03 | Phase 9 | Pending |
-| PHOTO-04 | Phase 9 | Pending |
-| PHOTO-05 | Phase 9 | Pending |
-| PHOTO-06 | Phase 9 | Pending |
-| PHOTO-07 | Phase 9 | Pending |
-| VOTE-01 | Phase 9 | Pending |
-| VOTE-02 | Phase 9 | Pending |
-| VOTE-03 | Phase 9 | Pending |
+| SUBMIT-01 | Phase 7 | Complete |
+| SUBMIT-02 | Phase 7 | Complete |
+| SUBMIT-03 | Phase 7 | Complete |
+| SUBMIT-04 | Phase 7 | Complete |
+| SUBMIT-05 | Phase 7 | Complete |
+| SUBMIT-06 | Phase 7 | Complete |
+| SUBMIT-07 | Phase 7 | Deferred |
+| SUBMIT-08 | Phase 7 | Complete |
+| RATE-01 | Phase 8 | Complete |
+| RATE-02 | Phase 8 | Complete |
+| RATE-03 | Phase 8 | Complete |
+| RATE-04 | Phase 8 | Complete |
+| RATE-05 | Phase 8 | Complete |
+| RATE-06 | Phase 8 | Complete |
+| RATE-07 | Phase 8 | Complete |
+| RATE-08 | Phase 8 | Complete |
+| PHOTO-01 | Phase 9 | Complete |
+| PHOTO-02 | Phase 9 | Complete |
+| PHOTO-03 | Phase 9 | Complete |
+| PHOTO-04 | Phase 9 | Complete |
+| PHOTO-05 | Phase 9 | Complete |
+| PHOTO-06 | Phase 9 | Complete |
+| PHOTO-07 | Phase 9 | Complete |
+| VOTE-01 | Phase 9 | Complete |
+| VOTE-02 | Phase 9 | Complete |
+| VOTE-03 | Phase 9 | Complete |
 | ADMIN-01 | Phase 10 | Complete |
 | ADMIN-02 | Phase 10 | Complete |
 | ADMIN-03 | Phase 10 | Complete |
@@ -146,13 +146,13 @@ Which phases cover which requirements.
 | ADMIN-05 | Phase 10 | Complete |
 | ADMIN-06 | Phase 10 | Complete |
 | ADMIN-07 | Phase 10 | Complete |
-| DASH-01 | Phase 11 | Pending |
-| DASH-02 | Phase 11 | Pending |
-| DASH-03 | Phase 11 | Pending |
-| DASH-04 | Phase 11 | Pending |
-| ROLE-01 | Phase 7 | Pending |
-| ROLE-02 | Phase 7 | Pending |
-| ROLE-03 | Phase 7 | Pending |
+| DASH-01 | Phase 11 | Complete |
+| DASH-02 | Phase 11 | Complete |
+| DASH-03 | Phase 11 | Complete |
+| DASH-04 | Phase 11 | Complete |
+| ROLE-01 | Phase 7 | Complete |
+| ROLE-02 | Phase 7 | Complete |
+| ROLE-03 | Phase 7 | Complete |
 | ROLE-04 | Phase 10 | Complete |
 
 **Coverage:**
@@ -169,4 +169,4 @@ Which phases cover which requirements.
 
 ---
 *Requirements defined: 2026-01-30*
-*Last updated: 2026-01-30 after milestone planning*
+*Milestone v1.1 complete: 2026-01-31 (36/37 requirements complete, 1 deferred)*

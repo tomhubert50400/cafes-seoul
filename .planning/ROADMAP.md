@@ -12,11 +12,11 @@ This milestone adds user contribution capabilities to the cafe discovery platfor
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 7: Cafe Submissions** - Submit new cafes with duplicate detection and admin approval workflow
-- [ ] **Phase 8: Ratings System** - 10-dimension rating UI with mandatory overall rating
-- [ ] **Phase 9: Photos & Voting** - Photo uploads with moderation and upvoting system
-- [ ] **Phase 10: Admin Panel** - Moderation interface for cafes and photos
-- [ ] **Phase 11: User Dashboard** - Contributor statistics and contribution history
+- [x] **Phase 7: Cafe Submissions** - Submit new cafes with duplicate detection and admin approval workflow
+- [x] **Phase 8: Ratings System** - 10-dimension rating UI with mandatory overall rating
+- [x] **Phase 9: Photos & Voting** - Photo uploads with moderation and upvoting system
+- [x] **Phase 10: Admin Panel** - Moderation interface for cafes and photos
+- [x] **Phase 11: User Dashboard** - Contributor statistics and contribution history
 
 ## Phase Details
 
@@ -121,8 +121,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Dashboard page with auth, stats cards, user menu link, i18n
-- [ ] 11-02-PLAN.md — Contribution lists (submissions, ratings, photos) with load more
+- [x] 11-01-PLAN.md — Dashboard page with auth, stats cards, user menu link, i18n
+- [x] 11-02-PLAN.md — Contribution lists (submissions, ratings, photos) with load more
 
 ## Progress
 
@@ -135,8 +135,8 @@ Phases execute in numeric order: 7 -> 8 -> 9 -> 10 -> 11
 | 8. Ratings System | 5/5 | ● Complete | 2026-01-30 |
 | 9. Photos & Voting | 5/5 | ● Complete | 2026-01-30 |
 | 10. Admin Panel | 4/4 | ● Complete | 2026-01-31 |
-| 11. User Dashboard | 0/2 | ○ Not Started | — |
+| 11. User Dashboard | 2/2 | ● Complete | 2026-01-31 |
 
 ---
 *Roadmap created: 2026-01-30*
-*Milestone v1.1: User Contributions — Ready for execution*
+*Milestone v1.1: User Contributions — Complete 2026-01-31*
