@@ -42,7 +42,7 @@ export function FavoritesList({ favorites, userId }: FavoritesListProps) {
         );
       case 'neighborhood':
         return sorted.sort((a, b) =>
-          a.cafe.districtId.localeCompare(b.cafe.districtId)
+          (a.cafe.districtId ?? '').localeCompare(b.cafe.districtId ?? '')
         );
       default:
         return sorted;
@@ -110,7 +110,14 @@ export function FavoritesList({ favorites, userId }: FavoritesListProps) {
             },
           };
 
-          return <CafeCard key={favorite.id} cafe={cafeSummary} />;
+          return (
+            <CafeCard
+              key={favorite.id}
+              cafe={cafeSummary}
+              isFavorited={true}
+              userId={userId}
+            />
+          );
         })}
       </div>
     </div>
