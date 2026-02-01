@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 15 of 18 (Settings & Profile)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-02-01 — Completed Phase 14
+Plan: 1 of TBD in current phase
+Status: In progress
+Last activity: 2026-02-01 — Completed 15-01-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 
@@ -98,6 +98,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 | 14-03 | Heart button next to cafe name | Prominent placement, follows common patterns |
 | 14-04 | Disabled toggle for logged-out users | Better feature discoverability than hiding |
 | 14-04 | Red pins for favorites, blue for regular | Red matches heart color, blue is standard |
+| 15-01 | Snake_case Profile types separate from User types | Database-aligned types for settings operations |
+| 15-01 | Partial index on scheduled_deletion_at | Efficient cleanup queries without index bloat |
 
 ### Pending Todos
 
@@ -110,9 +112,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 14 complete
+Stopped at: Completed 15-01-PLAN.md
 Resume file: None
-Next action: /gsd:discuss-phase 15
+Next action: Execute 15-02-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
