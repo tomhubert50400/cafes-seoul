@@ -25,12 +25,12 @@ Requirements for Profile Enhancement milestone.
 
 ### Settings
 
-- [ ] **SET-01**: User can edit display name
-- [ ] **SET-02**: User can upload/change avatar (stored in Supabase Storage)
-- [ ] **SET-03**: User can edit bio
+- [x] **SET-01**: User can edit display name
+- [x] **SET-02**: User can upload/change avatar (stored in Supabase Storage)
+- [x] **SET-03**: User can edit bio
 - [ ] **SET-04**: User can reset password via email link
 - [ ] **SET-05**: User can toggle notification preferences for submission emails
-- [ ] **SET-06**: User can delete their account and associated data
+- [x] **SET-06**: User can delete their account and associated data
 
 ### Text Reviews
 
@@ -93,12 +93,12 @@ Explicitly excluded for v1.3.
 | FAV-03 | Phase 14 | Complete |
 | FAV-04 | Phase 14 | Complete |
 | FAV-05 | Phase 14 | Complete |
-| SET-01 | Phase 15 | Pending |
-| SET-02 | Phase 15 | Pending |
-| SET-03 | Phase 15 | Pending |
+| SET-01 | Phase 15 | Complete |
+| SET-02 | Phase 15 | Complete |
+| SET-03 | Phase 15 | Complete |
 | SET-04 | Phase 17 | Pending |
 | SET-05 | Phase 17 | Pending |
-| SET-06 | Phase 15 | Pending |
+| SET-06 | Phase 15 | Complete |
 | TXT-01 | Phase 16 | Pending |
 | TXT-02 | Phase 16 | Pending |
 | TXT-03 | Phase 16 | Pending |
