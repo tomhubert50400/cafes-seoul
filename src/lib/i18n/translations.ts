@@ -354,6 +354,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.notificationUpdateSuccess': 'Preference updated',
     'settings.notificationUpdateError': 'Failed to update preference',
 
+    // Settings Tabs
+    'settings.tabProfile': 'Profile',
+    'settings.tabSecurity': 'Security',
+    'settings.tabNotifications': 'Notifications',
+
     // Profile validation errors
     'profile.error.displayNameMin': 'Display name must be at least 2 characters',
     'profile.error.displayNameMax': 'Display name must be at most 50 characters',
@@ -1110,6 +1115,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.photoRejectedDesc': '제출한 사진이 거절되었을 때',
     'settings.notificationUpdateSuccess': '설정이 업데이트되었습니다',
     'settings.notificationUpdateError': '설정 업데이트에 실패했습니다',
+
+    // Settings Tabs
+    'settings.tabProfile': '프로필',
+    'settings.tabSecurity': '보안',
+    'settings.tabNotifications': '알림',
 
     // Profile validation errors
     'profile.error.displayNameMin': '표시 이름은 최소 2자 이상이어야 합니다',
@@ -1868,6 +1878,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.notificationUpdateSuccess': 'Preference mise a jour',
     'settings.notificationUpdateError': 'Echec de la mise a jour',
 
+    // Settings Tabs
+    'settings.tabProfile': 'Profil',
+    'settings.tabSecurity': 'Securite',
+    'settings.tabNotifications': 'Notifications',
+
     // Profile validation errors
     'profile.error.displayNameMin': 'Le nom affiché doit contenir au moins 2 caractères',
     'profile.error.displayNameMax': 'Le nom affiché doit contenir au plus 50 caractères',
@@ -2625,6 +2640,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.notificationUpdateSuccess': '设置已更新',
     'settings.notificationUpdateError': '更新设置失败',
 
+    // Settings Tabs
+    'settings.tabProfile': '个人资料',
+    'settings.tabSecurity': '安全',
+    'settings.tabNotifications': '通知',
+
     // Profile validation errors
     'profile.error.displayNameMin': '显示名称至少需要2个字符',
     'profile.error.displayNameMax': '显示名称最多50个字符',
@@ -3381,6 +3401,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.photoRejectedDesc': 'Khi ảnh bạn gửi bị từ chối',
     'settings.notificationUpdateSuccess': 'Đã cập nhật cài đặt',
     'settings.notificationUpdateError': 'Cập nhật cài đặt thất bại',
+
+    // Settings Tabs
+    'settings.tabProfile': 'Hồ sơ',
+    'settings.tabSecurity': 'Bảo mật',
+    'settings.tabNotifications': 'Thông báo',
 
     // Toast Notifications
     'auth.toast.error.title': 'Lỗi',
