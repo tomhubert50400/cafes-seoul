@@ -17,11 +17,11 @@ Requirements for Profile Enhancement milestone.
 
 ### Favorites System
 
-- [ ] **FAV-01**: User can toggle favorite via heart icon on cafe cards
-- [ ] **FAV-02**: User can toggle favorite via heart icon on cafe detail page
-- [ ] **FAV-03**: User can view favorites list in profile tab
-- [ ] **FAV-04**: User can remove cafes from favorites
-- [ ] **FAV-05**: User can view favorited cafes on a map
+- [x] **FAV-01**: User can toggle favorite via heart icon on cafe cards
+- [x] **FAV-02**: User can toggle favorite via heart icon on cafe detail page
+- [x] **FAV-03**: User can view favorites list in profile tab
+- [x] **FAV-04**: User can remove cafes from favorites
+- [x] **FAV-05**: User can view favorited cafes on a map
 
 ### Settings
 
@@ -88,11 +88,11 @@ Explicitly excluded for v1.3.
 | REV-03 | Phase 13 | Complete |
 | REV-04 | Phase 13 | Complete |
 | REV-05 | Phase 13 | Complete |
-| FAV-01 | Phase 14 | Pending |
-| FAV-02 | Phase 14 | Pending |
-| FAV-03 | Phase 14 | Pending |
-| FAV-04 | Phase 14 | Pending |
-| FAV-05 | Phase 14 | Pending |
+| FAV-01 | Phase 14 | Complete |
+| FAV-02 | Phase 14 | Complete |
+| FAV-03 | Phase 14 | Complete |
+| FAV-04 | Phase 14 | Complete |
+| FAV-05 | Phase 14 | Complete |
 | SET-01 | Phase 15 | Pending |
 | SET-02 | Phase 15 | Pending |
 | SET-03 | Phase 15 | Pending |

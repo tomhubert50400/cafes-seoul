@@ -35,7 +35,7 @@ See .planning/MILESTONES.md for details.
 **Milestone Goal:** Enhance user profile with reviews, favorites, and comprehensive settings
 
 - [x] **Phase 13: Profile Foundation** - My Reviews tab with user's rating history
-- [ ] **Phase 14: Favorites System** - Heart icons on cafe cards/detail, favorites list
+- [x] **Phase 14: Favorites System** - Heart icons on cafe cards/detail, favorites list
 - [ ] **Phase 15: Settings & Profile** - Profile editing, avatar upload, account management
 - [ ] **Phase 16: Text Reviews** - Optional text reviews with ratings
 - [ ] **Phase 17: Password & Preferences** - Password reset, notification preferences
@@ -73,10 +73,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 14-01-PLAN.md - Database schema, Supabase queries, Server Actions
-- [ ] 14-02-PLAN.md - FavoriteButton component, CafeCard integration
-- [ ] 14-03-PLAN.md - Favorites profile page, cafe detail integration
-- [ ] 14-04-PLAN.md - Map favorites filter and colored pins
+- [x] 14-01-PLAN.md - Database schema, Supabase queries, Server Actions
+- [x] 14-02-PLAN.md - FavoriteButton component, CafeCard integration
+- [x] 14-03-PLAN.md - Favorites profile page, cafe detail integration
+- [x] 14-04-PLAN.md - Map favorites filter and colored pins
 
 ### Phase 15: Settings & Profile
 **Goal**: User can manage their profile information and account
@@ -139,7 +139,7 @@ Plans:
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 13. Profile Foundation | v1.3 | 3/3 | Complete | 2026-02-01 |
-| 14. Favorites System | v1.3 | 0/4 | Planned | - |
+| 14. Favorites System | v1.3 | 4/4 | Complete | 2026-02-01 |
 | 15. Settings & Profile | v1.3 | 0/TBD | Not started | - |
 | 16. Text Reviews | v1.3 | 0/TBD | Not started | - |
 | 17. Password & Preferences | v1.3 | 0/TBD | Not started | - |
