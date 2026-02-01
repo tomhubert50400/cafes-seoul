@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { RatingStars } from '@/components/rating-stars';
 import { RatingDisplay } from '@/components/ratings/rating-display';
 import { RatingButton } from '@/components/ratings/rating-button';
+import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
 import { getLocalizedText } from '@/types/cafe';
@@ -16,9 +17,11 @@ import { ROUTES } from '@/lib/constants/routes';
 interface CafeCardProps {
   cafe: CafeSummary;
   className?: string;
+  isFavorited?: boolean;
+  userId?: string;
 }
 
-export function CafeCard({ cafe, className }: CafeCardProps) {
+export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
@@ -46,6 +49,17 @@ export function CafeCard({ cafe, className }: CafeCardProps) {
         ) : (
           <div className="flex h-full items-center justify-center">
             <CoffeeIcon className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
+          </div>
+        )}
+
+        {/* Heart icon overlay - only for logged-in users */}
+        {userId && (
+          <div className="absolute top-2 right-2 z-10">
+            <FavoriteButton
+              cafeId={cafe.id}
+              initialIsFavorited={isFavorited ?? false}
+              size="sm"
+            />
           </div>
         )}
       </div>
