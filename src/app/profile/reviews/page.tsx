@@ -7,6 +7,7 @@ import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { createClient } from '@/lib/supabase/server';
 import { getLocalizedText } from '@/types/cafe';
+import { getDistrictById } from '@/lib/constants/districts';
 
 async function getLanguageFromCookies(): Promise<LanguageCode> {
   const cookieStore = await cookies();
@@ -42,19 +43,32 @@ export default async function ReviewsPage() {
   }
 
   // Fetch popular cafes for empty state suggestion
-  // Get top 3 cafes by total_ratings for suggestions
+  // Get top 3 cafes by total_ratings for suggestions with images
   const supabase = await createClient();
   const { data: popularCafesData } = await supabase
     .from('cafes')
-    .select('slug, name')
+    .select(`
+      slug,
+      name,
+      district_id,
+      cafe_images(storage_path)
+    `)
     .eq('status', 'active')
     .order('total_ratings', { ascending: false })
     .limit(3);
 
-  const popularCafes = popularCafesData?.map(cafe => ({
-    slug: cafe.slug,
-    name: getLocalizedText(cafe.name as Record<string, string>, lang),
-  })) || [];
+  const popularCafes = popularCafesData?.map(cafe => {
+    const images = cafe.cafe_images as Array<{ storage_path: string }> | null;
+    const primaryImage = images?.[0]?.storage_path || null;
+    const district = getDistrictById(cafe.district_id);
+
+    return {
+      slug: cafe.slug,
+      name: getLocalizedText(cafe.name as Record<string, string>, lang),
+      imageUrl: primaryImage ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/cafe-images/${primaryImage}` : null,
+      area: district ? getLocalizedText(district.name, lang) : null,
+    };
+  }) || [];
 
   return (
     <>

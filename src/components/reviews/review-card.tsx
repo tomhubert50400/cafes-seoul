@@ -34,14 +34,14 @@ export function ReviewCard({ review }: ReviewCardProps) {
   const ratedDimensions = dimensions.filter(dim => review[dim] > 0);
 
   return (
-    <Card className="transition-shadow hover:shadow-md">
+    <Card className="transition-shadow hover:shadow-md overflow-hidden">
       <CardHeader
-        className="cursor-pointer pb-3"
+        className="cursor-pointer pb-3 !block"
         onClick={() => setExpanded(!expanded)}
       >
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-3 w-full">
           {/* Cafe thumbnail */}
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-muted">
+          <div className="relative h-12 w-12 sm:h-16 sm:w-16 shrink-0 overflow-hidden rounded-lg bg-muted">
             {review.cafe.primaryImageUrl ? (
               <Image
                 src={review.cafe.primaryImageUrl}
@@ -52,31 +52,31 @@ export function ReviewCard({ review }: ReviewCardProps) {
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
-                <Coffee className="h-6 w-6 text-muted-foreground" />
+                <Coffee className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
               </div>
             )}
           </div>
 
-          {/* Card info */}
+          {/* Card info + score */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-lg truncate">{cafeName}</h3>
-            <p className="text-sm text-muted-foreground">
+            {/* Top row: name + score + chevron */}
+            <div className="flex items-center gap-2 w-full">
+              <h3 className="font-semibold text-sm sm:text-lg truncate min-w-0 flex-1">{cafeName}</h3>
+              <div className="flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 sm:px-3 sm:py-1.5 shrink-0">
+                <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-primary text-primary" />
+                <span className="text-xs sm:text-base font-semibold text-primary">{review.overall}</span>
+              </div>
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 text-muted-foreground transition-transform duration-200 shrink-0",
+                  expanded && "rotate-180"
+                )}
+              />
+            </div>
+            {/* Date row */}
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1 truncate">
               {t('reviews.card.ratedOn')}: {ratedDate}
             </p>
-          </div>
-
-          {/* Overall score and expand icon */}
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5">
-              <Star className="h-4 w-4 fill-primary text-primary" />
-              <span className="font-semibold text-primary">{review.overall}</span>
-            </div>
-            <ChevronDown
-              className={cn(
-                "h-5 w-5 text-muted-foreground transition-transform duration-200",
-                expanded && "rotate-180"
-              )}
-            />
           </div>
         </div>
       </CardHeader>

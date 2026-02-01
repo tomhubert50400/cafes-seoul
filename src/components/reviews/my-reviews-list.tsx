@@ -19,7 +19,12 @@ type SortOption = 'rating-high' | 'rating-low' | 'date-new' | 'date-old';
 
 interface MyReviewsListProps {
   reviews: UserRatingWithImage[];
-  popularCafes?: Array<{ slug: string; name: string }>;
+  popularCafes?: Array<{
+    slug: string;
+    name: string;
+    imageUrl: string | null;
+    area: string | null;
+  }>;
 }
 
 export function MyReviewsList({ reviews, popularCafes = [] }: MyReviewsListProps) {

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Coffee, Star, MapPin, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,8 @@ interface ReviewsEmptyStateProps {
   popularCafes?: Array<{
     slug: string;
     name: string;
+    imageUrl: string | null;
+    area: string | null;
   }>;
 }
 
@@ -79,17 +82,42 @@ export function ReviewsEmptyState({
 
         {/* Popular cafes suggestions */}
         {popularCafes.length > 0 && (
-          <div className="mt-8 pt-6 border-t">
-            <p className="text-sm text-muted-foreground mb-3">
+          <div className="mt-8 pt-6 border-t text-left">
+            <p className="text-sm text-muted-foreground mb-4 text-center">
               {t('reviews.popularCafes')}
             </p>
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {popularCafes.slice(0, 3).map(cafe => (
-                <Button key={cafe.slug} variant="ghost" size="sm" asChild>
-                  <Link href={`/cafes/${cafe.slug}`}>
-                    {cafe.name}
-                  </Link>
-                </Button>
+                <Link
+                  key={cafe.slug}
+                  href={`/cafes/${cafe.slug}`}
+                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors"
+                >
+                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-muted">
+                    {cafe.imageUrl ? (
+                      <Image
+                        src={cafe.imageUrl}
+                        alt={cafe.name}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center">
+                        <Coffee className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-sm truncate">{cafe.name}</p>
+                    {cafe.area && (
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        {cafe.area}
+                      </p>
+                    )}
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
