@@ -190,7 +190,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.loading.cancel': 'Cancel',
 
     'auth.form.username': 'Username',
-    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernamePlaceholder': 'username',
     'auth.form.usernameHint': 'Letters, numbers, underscores, and hyphens only',
     'auth.form.email': 'Email',
     'auth.form.password': 'Password',
@@ -884,13 +884,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.loading.cancel': '취소',
 
     'auth.form.username': '사용자 이름',
-    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernamePlaceholder': '사용자 이름',
     'auth.form.usernameHint': '영문, 숫자, 밑줄, 하이픈만 사용 가능',
     'auth.form.email': '이메일',
     'auth.form.password': '비밀번호',
     'auth.form.showPassword': '비밀번호 표시',
     'auth.form.hidePassword': '비밀번호 숨기기',
-    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.emailPlaceholder': '이메일@예시.com',
     'auth.form.passwordPlaceholder': '비밀번호를 입력하세요',
     'auth.form.passwordCreatePlaceholder': '비밀번호를 생성하세요',
 
@@ -1578,7 +1578,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.loading.cancel': 'Annuler',
 
     'auth.form.username': 'Nom d\'utilisateur',
-    'auth.form.usernamePlaceholder': 'votre_nom',
+    'auth.form.usernamePlaceholder': 'nom d\'utilisateur',
     'auth.form.usernameHint': 'Lettres, chiffres, tirets et underscores uniquement',
     'auth.form.email': 'Email',
     'auth.form.password': 'Mot de passe',
@@ -2272,13 +2272,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.loading.cancel': '取消',
 
     'auth.form.username': '用户名',
-    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernamePlaceholder': '用户名',
     'auth.form.usernameHint': '仅限字母、数字、下划线和连字符',
     'auth.form.email': '邮箱',
     'auth.form.password': '密码',
     'auth.form.showPassword': '显示密码',
     'auth.form.hidePassword': '隐藏密码',
-    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.emailPlaceholder': '你@示例.com',
     'auth.form.passwordPlaceholder': '请输入密码',
     'auth.form.passwordCreatePlaceholder': '创建密码',
 
@@ -2966,13 +2966,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.loading.cancel': 'Hủy',
 
     'auth.form.username': 'Tên người dùng',
-    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernamePlaceholder': 'tên người dùng',
     'auth.form.usernameHint': 'Chỉ chữ cái, số, gạch dưới và gạch ngang',
     'auth.form.email': 'Email',
     'auth.form.password': 'Mật khẩu',
     'auth.form.showPassword': 'Hiện mật khẩu',
     'auth.form.hidePassword': 'Ẩn mật khẩu',
-    'auth.form.emailPlaceholder': 'you@example.com',
+    'auth.form.emailPlaceholder': 'bạn@vidu.com',
     'auth.form.passwordPlaceholder': 'Nhập mật khẩu của bạn',
     'auth.form.passwordCreatePlaceholder': 'Tạo mật khẩu',
 

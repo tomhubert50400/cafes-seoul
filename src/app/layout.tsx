@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider } from "@/lib/i18n";
+import { DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME, SUPPORTED_LANGUAGES } from "@/lib/i18n/languages";
+import type { LanguageCode } from "@/lib/i18n/languages";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,17 +28,22 @@ export const metadata: Metadata = {
   description: "서울의 베스트 카페를 찾아보세요. Discover the best cafes in Seoul.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME)?.value;
+  const initialLanguage: LanguageCode =
+    langCookie && langCookie in SUPPORTED_LANGUAGES ? (langCookie as LanguageCode) : DEFAULT_LANGUAGE;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={initialLanguage} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased`}
       >
-        <I18nProvider>
+        <I18nProvider initialLanguage={initialLanguage}>
           {children}
           <Toaster position="top-right" richColors closeButton />
         </I18nProvider>

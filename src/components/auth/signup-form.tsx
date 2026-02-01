@@ -241,12 +241,9 @@ export function SignupForm({ oauthError }: SignupFormProps) {
             },
           })}
           aria-invalid={errors.username ? 'true' : 'false'}
-          aria-describedby={errors.username ? 'username-error' : 'username-hint'}
+          aria-describedby={errors.username ? 'username-error' : undefined}
           className="transition-all duration-150"
         />
-        <p id="username-hint" className="text-xs text-muted-foreground">
-          {t('auth.form.usernameHint')}
-        </p>
         {errors.username && (
           <p id="username-error" className="text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200">
             {errors.username.message}
