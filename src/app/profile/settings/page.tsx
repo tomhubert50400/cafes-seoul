@@ -3,11 +3,14 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getProfile } from '@/lib/supabase/profiles';
 import { getNotificationPreferences } from '@/lib/supabase/notifications';
+import { hasPasswordAuth, getUserEmail } from '@/lib/supabase/auth-helpers';
 import { syncProfileFromAuthMetadata } from '@/lib/actions/profile';
 import { ProfileForm } from '@/components/profile/profile-form';
 import { PrivacyToggle } from '@/components/profile/privacy-toggle';
 import { DeleteAccountDialog } from '@/components/profile/delete-account-dialog';
 import { NotificationsSection } from '@/components/settings/notifications-section';
+import { SettingsTabs, SettingsTab } from '@/components/settings/settings-tabs';
+import { SecuritySection } from '@/components/settings/security-section';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { ROUTES } from '@/lib/constants/routes';
@@ -23,7 +26,11 @@ async function getLanguageFromCookies(): Promise<LanguageCode> {
   return DEFAULT_LANGUAGE;
 }
 
-export default async function SettingsPage() {
+interface SettingsPageProps {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export default async function SettingsPage({ searchParams }: SettingsPageProps) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -34,10 +41,19 @@ export default async function SettingsPage() {
   // Sync OAuth data to profile if missing (for OAuth users)
   await syncProfileFromAuthMetadata();
 
-  const [profile, lang, notificationPreferences] = await Promise.all([
+  // Parse active tab from URL query params
+  const params = await searchParams;
+  const validTabs: SettingsTab[] = ['profile', 'security', 'notifications'];
+  const activeTab: SettingsTab = validTabs.includes(params.tab as SettingsTab)
+    ? (params.tab as SettingsTab)
+    : 'profile';
+
+  const [profile, lang, notificationPreferences, hasPassword, userEmail] = await Promise.all([
     getProfile(supabase, user.id),
     getLanguageFromCookies(),
     getNotificationPreferences(supabase, user.id),
+    hasPasswordAuth(supabase),
+    getUserEmail(supabase),
   ]);
 
   if (!profile) {
@@ -61,7 +77,14 @@ export default async function SettingsPage() {
     }
   }
 
-  const translations = {
+  // Tab translations
+  const tabTranslations = {
+    profile: getTranslation(lang, 'settings.tabProfile'),
+    security: getTranslation(lang, 'settings.tabSecurity'),
+    notifications: getTranslation(lang, 'settings.tabNotifications'),
+  };
+
+  const profileFormTranslations = {
     title: getTranslation(lang, 'settings.profileInfo'),
     displayName: getTranslation(lang, 'settings.displayName'),
     displayNamePlaceholder: getTranslation(lang, 'settings.displayNamePlaceholder'),
@@ -108,6 +131,14 @@ export default async function SettingsPage() {
     gracePeriodInfo: getTranslation(lang, 'settings.gracePeriodInfo'),
   };
 
+  const securityTranslations = {
+    changePassword: getTranslation(lang, 'settings.changePassword'),
+    changePasswordDescription: getTranslation(lang, 'settings.changePasswordDescription'),
+    sendResetLink: getTranslation(lang, 'settings.sendResetLink'),
+    resetLinkSent: getTranslation(lang, 'settings.resetLinkSent'),
+    noPasswordForOAuth: getTranslation(lang, 'settings.noPasswordForOAuth'),
+  };
+
   const notificationTranslations = {
     title: getTranslation(lang, 'settings.notificationsTitle'),
     description: getTranslation(lang, 'settings.notificationsDescription'),
@@ -125,24 +156,43 @@ export default async function SettingsPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      <ProfileForm
-        profile={profile}
-        avatarUrl={avatarUrl}
-        translations={translations}
-      />
-      <NotificationsSection
-        initialPreferences={notificationPreferences}
-        translations={notificationTranslations}
-      />
-      <PrivacyToggle
-        isPrivate={profile.is_private ?? false}
-        translations={privacyTranslations}
-      />
-      <DeleteAccountDialog
-        userEmail={user.email || ''}
-        scheduledDeletionAt={profile.scheduled_deletion_at}
-        translations={deletionTranslations}
-      />
+      <SettingsTabs activeTab={activeTab} translations={tabTranslations} />
+
+      {activeTab === 'profile' && (
+        <>
+          <ProfileForm
+            profile={profile}
+            avatarUrl={avatarUrl}
+            translations={profileFormTranslations}
+          />
+          <PrivacyToggle
+            isPrivate={profile.is_private ?? false}
+            translations={privacyTranslations}
+          />
+        </>
+      )}
+
+      {activeTab === 'security' && (
+        <>
+          <SecuritySection
+            hasPasswordAuth={hasPassword}
+            userEmail={userEmail || user.email || ''}
+            translations={securityTranslations}
+          />
+          <DeleteAccountDialog
+            userEmail={user.email || ''}
+            scheduledDeletionAt={profile.scheduled_deletion_at}
+            translations={deletionTranslations}
+          />
+        </>
+      )}
+
+      {activeTab === 'notifications' && (
+        <NotificationsSection
+          initialPreferences={notificationPreferences}
+          translations={notificationTranslations}
+        />
+      )}
     </div>
   );
 }
