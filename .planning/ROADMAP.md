@@ -53,10 +53,12 @@ See .planning/MILESTONES.md for details.
   3. User can click any cafe in the list to navigate to its detail page
   4. User can sort reviews by date (newest/oldest) or by rating score
   5. User can see their review stats (total count, average rating given)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 13-01: TBD
+- [ ] 13-01-PLAN.md - Data layer: extend ratings query for images, add translations
+- [ ] 13-02-PLAN.md - UI components: ReviewCard with expand, empty states
+- [ ] 13-03-PLAN.md - Integration: MyReviewsList, stats footer, page assembly
 
 ### Phase 14: Favorites System
 **Goal**: User can save and manage favorite cafes across the application
@@ -133,7 +135,7 @@ Plans:
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 13. Profile Foundation | v1.3 | 0/TBD | Not started | - |
+| 13. Profile Foundation | v1.3 | 0/3 | Planned | - |
 | 14. Favorites System | v1.3 | 0/TBD | Not started | - |
 | 15. Settings & Profile | v1.3 | 0/TBD | Not started | - |
 | 16. Text Reviews | v1.3 | 0/TBD | Not started | - |
