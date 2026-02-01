@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 18 of 18 (Email Notifications)
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-01 - Completed 18-02-PLAN.md
+Last activity: 2026-02-01 - Completed 18-03-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase 18 [2/4 plans]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase 18 [3/4 plans]
 
 ## Performance Metrics
 
@@ -35,10 +35,10 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase
 - Timeline: 1 day
 
 **Milestone v1.3:**
-- Plans completed: 19
+- Plans completed: 20
 - Phases: 13-18 (6 phases)
-- Status: In progress (Phase 17 complete, Phase 18 in progress - 2/4 plans complete)
-- Average: ~2.5 min/plan (Phase 18-01: 2min, 18-02: 2min)
+- Status: In progress (Phase 17 complete, Phase 18 in progress - 3/4 plans complete)
+- Average: ~2.3 min/plan (Phase 18-01: 2min, 18-02: 2min, 18-03: 2min)
 
 ## Accumulated Context
 
@@ -73,6 +73,7 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase
 - HMAC-signed tokens for secure unsubscribe links
 - Opt-out model: notifications enabled by default
 - Service role in Edge Functions for full database access
+- Service role client in Next.js for unauthenticated operations (unsubscribe)
 
 **Ratings (Phase 13):**
 - WithImage type suffix for types including image URLs
@@ -153,7 +154,10 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase
 | 18-02 | Table-based HTML email layout | Email clients don't support modern CSS (flexbox, grid) |
 | 18-02 | Opt-out notification model | Enabled by default if no preference exists, reduces friction |
 | 18-02 | Mark all as sent after processing | Prevents duplicate emails on retry (Pitfall 3) |
-| 18-02 | HMAC-signed unsubscribe tokens | Web Crypto API for tamper-proof 30-day tokens
+| 18-02 | HMAC-signed unsubscribe tokens | Web Crypto API for tamper-proof 30-day tokens |
+| 18-03 | Service role client for unsubscribe | User not logged in, needs to bypass RLS |
+| 18-03 | Node.js crypto for HMAC verification | Next.js route handler uses Node.js runtime, not Edge |
+| 18-03 | Disable all notification types on unsubscribe | Simpler UX, better email deliverability compliance
 
 ### Pending Todos
 
@@ -166,9 +170,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 18-02-PLAN.md
+Stopped at: Completed 18-03-PLAN.md
 Resume file: None
-Next action: Execute 18-03 (Cron Job Scheduling) or 18-04 (Unsubscribe API Route)
+Next action: Execute 18-04 (Cron Job Scheduling - final plan in Phase 18)
 
 ---
 *State initialized: 2026-01-27*
