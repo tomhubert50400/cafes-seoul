@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 17 of 18 (Password & Preferences)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-01 - Completed 17-01-PLAN.md
+Last activity: 2026-02-01 - Completed 17-02-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 
@@ -125,6 +125,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 | 16-05 | Username fallback for review author display | Handles null display_name gracefully |
 | 17-01 | Password min score 2 (Good) | Balance security and UX per RESEARCH.md recommendation |
 | 17-01 | Key-value notification preferences | Flexible schema, easier migrations than columns per type |
+| 17-02 | Always return success on password reset | Prevent email enumeration attacks |
+| 17-02 | Global sign out after password change | Security - invalidate all existing sessions |
+| 17-02 | Reset page outside (auth) group | User arrives with valid session from reset link |
 
 ### Pending Todos
 
@@ -137,9 +140,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 17-01-PLAN.md
+Stopped at: Completed 17-02-PLAN.md
 Resume file: None
-Next action: Execute 17-02-PLAN.md
+Next action: Execute 17-03-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
