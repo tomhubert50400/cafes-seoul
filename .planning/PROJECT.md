@@ -4,6 +4,17 @@
 
 Une application web pour découvrir des cafés à Seoul avec des critères de filtrage avancés (places assises, boissons, nourriture, température, terrasse, esthétique, etc.) que Kakao Map et Naver Map n'offrent pas. Les utilisateurs peuvent parcourir et filtrer les cafés sans compte, mais doivent se connecter pour contribuer.
 
+## Current Milestone: v1.3 Profile Enhancement
+
+**Goal:** Enhance user profile with reviews, favorites, and comprehensive settings
+
+**Target features:**
+- Profile tabs: My Reviews, Favorites, Settings
+- Text reviews with ratings (optional text when rating a cafe)
+- Favorites system with heart icon on cafe cards and detail pages
+- Settings: profile editing (name, avatar, bio), password reset, notification preferences
+- Email notifications for submission approval/rejection
+
 ## Current State
 
 **Latest Release:** v1.2 Polish & Bug Fixes (2026-02-01)
@@ -48,10 +59,18 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - ✓ Layout fixes (dashboard header, submissions header, mobile overflow) — v1.2
 - ✓ Photo upload auth detection fix — v1.2
 
-### Deferred (v1.3+)
+### Active (v1.3)
 
-- [ ] User notification on submission approval/rejection (SUBMIT-07)
+- [ ] Profile tabs: My Reviews, Favorites, Settings
+- [ ] Text reviews with ratings (optional text when rating a cafe)
+- [ ] Favorites system with heart icon on cafe cards and detail pages
+- [ ] Settings: profile editing (name, avatar via Supabase Storage, bio)
 - [ ] Password reset via email link
+- [ ] Notification preferences (toggle email for submission status)
+- [ ] Email notifications for submission approval/rejection
+
+### Deferred (v1.4+)
+
 - [ ] Naver OAuth login
 
 ### Out of Scope (deferred)
@@ -99,4 +118,4 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 | Unified tab state pattern | Keep related UI elements synchronized | ✓ Good (v1.2) |
 
 ---
-*Last updated: 2026-02-01 after v1.2 milestone complete*
+*Last updated: 2026-02-01 after v1.3 milestone started*
