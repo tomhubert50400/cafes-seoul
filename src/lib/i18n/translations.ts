@@ -334,6 +334,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.success.submitted': 'Cafe submitted for approval!',
     'submissions.success.updated': 'Submission updated successfully!',
 
+    // My Submissions Page
+    'mySubmissions.title': 'My Submissions',
+    'mySubmissions.subtitle': 'Track the status of cafes you\'ve submitted',
+    'mySubmissions.loadError': 'Failed to load your submissions. Please try again later.',
+    'mySubmissions.pending': 'Pending',
+    'mySubmissions.approved': 'Approved',
+    'mySubmissions.declined': 'Declined',
+    'mySubmissions.emptyPending': 'You have no pending submissions. Submit a new cafe to get started!',
+    'mySubmissions.emptyApproved': 'No approved submissions yet.',
+    'mySubmissions.emptyDeclined': 'No declined submissions.',
+    'mySubmissions.submitNew': 'Submit a New Cafe',
+
+    // Edit Submission Page
+    'mySubmissions.edit.title': 'Edit Submission',
+    'mySubmissions.edit.backToSubmissions': 'Back to Submissions',
+    'mySubmissions.edit.pendingReview': 'Pending Review',
+    'mySubmissions.edit.description': 'Make changes to your cafe submission before it\'s reviewed by our team.',
+    'mySubmissions.edit.submissionDetails': 'Submission Details',
+    'mySubmissions.edit.submittedOn': 'Submitted on',
+    'mySubmissions.edit.status': 'Status',
+    'mySubmissions.edit.phone': 'Phone',
+    'mySubmissions.edit.helpText': 'Once approved, your submission will become a public cafe page.',
+    'mySubmissions.edit.returnToSubmissions': 'Return to submissions',
+
+    // Submission Status Card
+    'mySubmissions.card.pendingReview': 'Pending Review',
+    'mySubmissions.card.approved': 'Approved',
+    'mySubmissions.card.declined': 'Declined',
+    'mySubmissions.card.submitted': 'Submitted',
+    'mySubmissions.card.phone': 'Phone',
+    'mySubmissions.card.reason': 'Reason',
+    'mySubmissions.card.edit': 'Edit',
+    'mySubmissions.card.delete': 'Delete',
+    'mySubmissions.card.deleting': 'Deleting...',
+    'mySubmissions.card.viewCafe': 'View Cafe Page',
+
     // Ratings
     'rating.title': 'Rate this cafe',
     'rating.updateTitle': 'Update your rating',
@@ -388,6 +424,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.title': 'Photos',
     'photos.photo': 'photo',
     'photos.photos': 'photos',
+    'photos.addPhoto': 'Add Photo',
+    'photos.signInToUpload': 'Sign in to add',
     'photos.showMore': 'Show more',
     'photos.loading': 'Loading...',
     'photos.empty.title': 'No photos yet',
@@ -398,8 +436,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Photo upload
     'photos.upload.title': 'Upload Photo',
-    'photos.upload.description': 'Share a photo of this cafe',
-    'photos.upload.select': 'Select Photo',
+    'photos.upload.description': 'Share a photo of this cafe. Photos will be reviewed before appearing publicly.',
+    'photos.upload.disclaimer': 'By uploading, you agree that your photo will be reviewed for quality and relevance. Approved photos will be visible to all users.',
+    'photos.upload.select': 'Click to select a photo',
     'photos.upload.uploading': 'Uploading...',
     'photos.upload.success': 'Photo uploaded successfully!',
     'photos.upload.error': 'Failed to upload photo',
@@ -422,6 +461,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.errors.limitCafe': 'You can only upload 3 photos per cafe',
     'photos.errors.limitDaily': 'You can upload up to 10 photos per day',
     'photos.errors.deletePendingOnly': 'You can only delete pending photos',
+
+    // Photo deletion
+    'photos.delete.confirm': 'Are you sure you want to delete this photo? This action cannot be undone.',
+    'photos.delete.success': 'Photo deleted successfully',
+    'photos.delete.error': 'Failed to delete photo',
+    'photos.delete.adminTitle': 'Delete photo (Admin)',
+    'photos.delete.pendingTitle': 'Delete pending photo',
 
     // Voting
     'photos.votes.count': '{count} upvotes',
@@ -518,6 +564,31 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'dashboard.actions.delete': 'Delete',
     'dashboard.actions.deleteConfirm': 'Are you sure you want to delete this?',
     'dashboard.upvotes': 'upvotes',
+
+    // My Reviews
+    'reviews.title': 'My Reviews',
+    'reviews.subtitle': 'Cafes you have rated',
+    'reviews.emptyState.title': 'No reviews yet',
+    'reviews.emptyState.message': 'Start discovering cafes and share your thoughts!',
+    'reviews.emptyState.explore': 'Explore cafes',
+    'reviews.emptyFiltered.title': 'No reviews match',
+    'reviews.emptyFiltered.message': 'No reviews match your current filter',
+    'reviews.emptyFiltered.clearFilter': 'Clear filter',
+    'reviews.sort.label': 'Sort by',
+    'reviews.sort.ratingHigh': 'Highest rated',
+    'reviews.sort.ratingLow': 'Lowest rated',
+    'reviews.sort.dateNew': 'Newest first',
+    'reviews.sort.dateOld': 'Oldest first',
+    'reviews.filter.minScore': 'Minimum score',
+    'reviews.card.viewCafe': 'View cafe',
+    'reviews.card.ratedOn': 'Rated on',
+    'reviews.card.dimensions': 'Rating details',
+    'reviews.stats.total': 'Total reviews',
+    'reviews.stats.shown': 'Showing',
+    'reviews.stats.of': 'of',
+    'reviews.stats.avgOverall': 'Average rating',
+    'reviews.stats.avgDimensions': 'Per dimension',
+    'reviews.popularCafes': 'Popular cafes to try',
   },
 
   ko: {
@@ -845,6 +916,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.success.submitted': '카페가 승인 대기 중입니다!',
     'submissions.success.updated': '제출이 성공적으로 수정되었습니다!',
 
+    // My Submissions Page
+    'mySubmissions.title': '내 제출 목록',
+    'mySubmissions.subtitle': '제출한 카페의 상태를 확인하세요',
+    'mySubmissions.loadError': '제출 목록을 불러오는데 실패했습니다. 다시 시도해주세요.',
+    'mySubmissions.pending': '대기 중',
+    'mySubmissions.approved': '승인됨',
+    'mySubmissions.declined': '거절됨',
+    'mySubmissions.emptyPending': '대기 중인 제출이 없습니다. 새 카페를 제출해보세요!',
+    'mySubmissions.emptyApproved': '아직 승인된 제출이 없습니다.',
+    'mySubmissions.emptyDeclined': '거절된 제출이 없습니다.',
+    'mySubmissions.submitNew': '새 카페 제출하기',
+
+    // Edit Submission Page
+    'mySubmissions.edit.title': '제출 수정',
+    'mySubmissions.edit.backToSubmissions': '제출 목록으로',
+    'mySubmissions.edit.pendingReview': '검토 대기 중',
+    'mySubmissions.edit.description': '검토되기 전에 카페 제출 내용을 수정할 수 있습니다.',
+    'mySubmissions.edit.submissionDetails': '제출 상세',
+    'mySubmissions.edit.submittedOn': '제출일',
+    'mySubmissions.edit.status': '상태',
+    'mySubmissions.edit.phone': '전화번호',
+    'mySubmissions.edit.helpText': '승인되면 카페 페이지가 공개됩니다.',
+    'mySubmissions.edit.returnToSubmissions': '제출 목록으로 돌아가기',
+
+    // Submission Status Card
+    'mySubmissions.card.pendingReview': '검토 대기 중',
+    'mySubmissions.card.approved': '승인됨',
+    'mySubmissions.card.declined': '거절됨',
+    'mySubmissions.card.submitted': '제출일',
+    'mySubmissions.card.phone': '전화번호',
+    'mySubmissions.card.reason': '사유',
+    'mySubmissions.card.edit': '수정',
+    'mySubmissions.card.delete': '삭제',
+    'mySubmissions.card.deleting': '삭제 중...',
+    'mySubmissions.card.viewCafe': '카페 페이지 보기',
+
     // Ratings
     'rating.title': '카페 평가하기',
     'rating.updateTitle': '평가 수정하기',
@@ -899,6 +1006,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.title': '사진',
     'photos.photo': '사진',
     'photos.photos': '사진',
+    'photos.addPhoto': '사진 추가',
+    'photos.signInToUpload': '로그인하여 추가',
     'photos.showMore': '더 보기',
     'photos.loading': '로딩 중...',
     'photos.empty.title': '아직 사진이 없습니다',
@@ -909,8 +1018,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Photo upload
     'photos.upload.title': '사진 업로드',
-    'photos.upload.description': '이 카페의 사진을 공유하세요',
-    'photos.upload.select': '사진 선택',
+    'photos.upload.description': '이 카페의 사진을 공유하세요. 사진은 검토 후 공개됩니다.',
+    'photos.upload.disclaimer': '업로드하면 사진이 품질과 관련성을 검토받는 데 동의하는 것입니다. 승인된 사진은 모든 사용자에게 표시됩니다.',
+    'photos.upload.select': '클릭하여 사진 선택',
     'photos.upload.uploading': '업로드 중...',
     'photos.upload.success': '사진이 성공적으로 업로드되었습니다!',
     'photos.upload.error': '사진 업로드에 실패했습니다',
@@ -933,6 +1043,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.errors.limitCafe': '카페당 최대 3개의 사진만 업로드 가능합니다',
     'photos.errors.limitDaily': '하루에 최대 10개의 사진을 업로드할 수 있습니다',
     'photos.errors.deletePendingOnly': '대기 중인 사진만 삭제할 수 있습니다',
+
+    // Photo deletion
+    'photos.delete.confirm': '이 사진을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.',
+    'photos.delete.success': '사진이 삭제되었습니다',
+    'photos.delete.error': '사진 삭제에 실패했습니다',
+    'photos.delete.adminTitle': '사진 삭제 (관리자)',
+    'photos.delete.pendingTitle': '대기 중인 사진 삭제',
 
     // Voting
     'photos.votes.count': '추천 {count}개',
@@ -1029,6 +1146,31 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'dashboard.actions.delete': '삭제',
     'dashboard.actions.deleteConfirm': '정말 삭제하시겠습니까?',
     'dashboard.upvotes': '추천',
+
+    // My Reviews
+    'reviews.title': '나의 리뷰',
+    'reviews.subtitle': '평가한 카페 목록',
+    'reviews.emptyState.title': '아직 리뷰가 없습니다',
+    'reviews.emptyState.message': '카페를 탐색하고 의견을 공유해보세요!',
+    'reviews.emptyState.explore': '카페 탐색하기',
+    'reviews.emptyFiltered.title': '일치하는 리뷰 없음',
+    'reviews.emptyFiltered.message': '현재 필터에 맞는 리뷰가 없습니다',
+    'reviews.emptyFiltered.clearFilter': '필터 초기화',
+    'reviews.sort.label': '정렬',
+    'reviews.sort.ratingHigh': '높은 평점순',
+    'reviews.sort.ratingLow': '낮은 평점순',
+    'reviews.sort.dateNew': '최신순',
+    'reviews.sort.dateOld': '오래된순',
+    'reviews.filter.minScore': '최소 점수',
+    'reviews.card.viewCafe': '카페 보기',
+    'reviews.card.ratedOn': '평가일',
+    'reviews.card.dimensions': '상세 평점',
+    'reviews.stats.total': '총 리뷰',
+    'reviews.stats.shown': '표시 중',
+    'reviews.stats.of': '/',
+    'reviews.stats.avgOverall': '평균 평점',
+    'reviews.stats.avgDimensions': '항목별 평균',
+    'reviews.popularCafes': '인기 카페 둘러보기',
   },
 
   fr: {
@@ -1356,6 +1498,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.success.submitted': 'Café proposé pour approbation !',
     'submissions.success.updated': 'Proposition mise à jour avec succès !',
 
+    // My Submissions Page
+    'mySubmissions.title': 'Mes propositions',
+    'mySubmissions.subtitle': 'Suivez le statut des cafés que vous avez proposés',
+    'mySubmissions.loadError': 'Échec du chargement de vos propositions. Veuillez réessayer.',
+    'mySubmissions.pending': 'En attente',
+    'mySubmissions.approved': 'Approuvé',
+    'mySubmissions.declined': 'Refusé',
+    'mySubmissions.emptyPending': 'Aucune proposition en attente. Proposez un nouveau café !',
+    'mySubmissions.emptyApproved': 'Aucune proposition approuvée pour le moment.',
+    'mySubmissions.emptyDeclined': 'Aucune proposition refusée.',
+    'mySubmissions.submitNew': 'Proposer un nouveau café',
+
+    // Edit Submission Page
+    'mySubmissions.edit.title': 'Modifier la proposition',
+    'mySubmissions.edit.backToSubmissions': 'Retour aux propositions',
+    'mySubmissions.edit.pendingReview': 'En attente de révision',
+    'mySubmissions.edit.description': 'Modifiez votre proposition de café avant qu\'elle ne soit examinée par notre équipe.',
+    'mySubmissions.edit.submissionDetails': 'Détails de la proposition',
+    'mySubmissions.edit.submittedOn': 'Proposé le',
+    'mySubmissions.edit.status': 'Statut',
+    'mySubmissions.edit.phone': 'Téléphone',
+    'mySubmissions.edit.helpText': 'Une fois approuvée, votre proposition deviendra une page de café publique.',
+    'mySubmissions.edit.returnToSubmissions': 'Retour aux propositions',
+
+    // Submission Status Card
+    'mySubmissions.card.pendingReview': 'En attente de révision',
+    'mySubmissions.card.approved': 'Approuvé',
+    'mySubmissions.card.declined': 'Refusé',
+    'mySubmissions.card.submitted': 'Soumis le',
+    'mySubmissions.card.phone': 'Téléphone',
+    'mySubmissions.card.reason': 'Raison',
+    'mySubmissions.card.edit': 'Modifier',
+    'mySubmissions.card.delete': 'Supprimer',
+    'mySubmissions.card.deleting': 'Suppression...',
+    'mySubmissions.card.viewCafe': 'Voir la page du café',
+
     // Ratings
     'rating.title': 'Noter ce café',
     'rating.updateTitle': 'Modifier votre note',
@@ -1410,6 +1588,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.title': 'Photos',
     'photos.photo': 'photo',
     'photos.photos': 'photos',
+    'photos.addPhoto': 'Ajouter une photo',
+    'photos.signInToUpload': 'Connectez-vous',
     'photos.showMore': 'Afficher plus',
     'photos.loading': 'Chargement...',
     'photos.empty.title': 'Pas encore de photos',
@@ -1420,8 +1600,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Photo upload
     'photos.upload.title': 'Télécharger une photo',
-    'photos.upload.description': 'Partagez une photo de ce café',
-    'photos.upload.select': 'Sélectionner une photo',
+    'photos.upload.description': 'Partagez une photo de ce café. Les photos seront examinées avant d\'apparaître publiquement.',
+    'photos.upload.disclaimer': 'En téléchargeant, vous acceptez que votre photo soit examinée pour sa qualité et sa pertinence. Les photos approuvées seront visibles par tous.',
+    'photos.upload.select': 'Cliquez pour sélectionner une photo',
     'photos.upload.uploading': 'Téléchargement...',
     'photos.upload.success': 'Photo téléchargée avec succès !',
     'photos.upload.error': 'Échec du téléchargement de la photo',
@@ -1444,6 +1625,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.errors.limitCafe': 'Vous pouvez télécharger jusqu\'à 3 photos par café',
     'photos.errors.limitDaily': 'Vous pouvez télécharger jusqu\'à 10 photos par jour',
     'photos.errors.deletePendingOnly': 'Vous ne pouvez supprimer que les photos en attente',
+
+    // Photo deletion
+    'photos.delete.confirm': 'Êtes-vous sûr de vouloir supprimer cette photo ? Cette action est irréversible.',
+    'photos.delete.success': 'Photo supprimée avec succès',
+    'photos.delete.error': 'Échec de la suppression de la photo',
+    'photos.delete.adminTitle': 'Supprimer la photo (Admin)',
+    'photos.delete.pendingTitle': 'Supprimer la photo en attente',
 
     // Voting
     'photos.votes.count': '{count} votes positifs',
@@ -1540,6 +1728,31 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'dashboard.actions.delete': 'Supprimer',
     'dashboard.actions.deleteConfirm': 'Etes-vous sur de vouloir supprimer?',
     'dashboard.upvotes': 'votes',
+
+    // My Reviews
+    'reviews.title': 'Mes avis',
+    'reviews.subtitle': 'Cafes que vous avez notes',
+    'reviews.emptyState.title': 'Pas encore d\'avis',
+    'reviews.emptyState.message': 'Decouvrez des cafes et partagez votre opinion !',
+    'reviews.emptyState.explore': 'Explorer les cafes',
+    'reviews.emptyFiltered.title': 'Aucun avis trouve',
+    'reviews.emptyFiltered.message': 'Aucun avis ne correspond a votre filtre',
+    'reviews.emptyFiltered.clearFilter': 'Effacer le filtre',
+    'reviews.sort.label': 'Trier par',
+    'reviews.sort.ratingHigh': 'Mieux notes',
+    'reviews.sort.ratingLow': 'Moins bien notes',
+    'reviews.sort.dateNew': 'Plus recents',
+    'reviews.sort.dateOld': 'Plus anciens',
+    'reviews.filter.minScore': 'Note minimale',
+    'reviews.card.viewCafe': 'Voir le cafe',
+    'reviews.card.ratedOn': 'Note le',
+    'reviews.card.dimensions': 'Details de la note',
+    'reviews.stats.total': 'Total des avis',
+    'reviews.stats.shown': 'Affiches',
+    'reviews.stats.of': 'sur',
+    'reviews.stats.avgOverall': 'Note moyenne',
+    'reviews.stats.avgDimensions': 'Par dimension',
+    'reviews.popularCafes': 'Cafes populaires a decouvrir',
   },
 
   zh: {
@@ -1867,6 +2080,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.success.submitted': '咖啡馆已提交审核！',
     'submissions.success.updated': '提交更新成功！',
 
+    // My Submissions Page
+    'mySubmissions.title': '我的提交',
+    'mySubmissions.subtitle': '追踪您提交的咖啡馆状态',
+    'mySubmissions.loadError': '加载提交列表失败。请重试。',
+    'mySubmissions.pending': '待审核',
+    'mySubmissions.approved': '已通过',
+    'mySubmissions.declined': '已拒绝',
+    'mySubmissions.emptyPending': '没有待审核的提交。提交一个新咖啡馆开始吧！',
+    'mySubmissions.emptyApproved': '暂无已通过的提交。',
+    'mySubmissions.emptyDeclined': '没有被拒绝的提交。',
+    'mySubmissions.submitNew': '提交新咖啡馆',
+
+    // Edit Submission Page
+    'mySubmissions.edit.title': '编辑提交',
+    'mySubmissions.edit.backToSubmissions': '返回提交列表',
+    'mySubmissions.edit.pendingReview': '等待审核',
+    'mySubmissions.edit.description': '在审核前修改您的咖啡馆提交内容。',
+    'mySubmissions.edit.submissionDetails': '提交详情',
+    'mySubmissions.edit.submittedOn': '提交时间',
+    'mySubmissions.edit.status': '状态',
+    'mySubmissions.edit.phone': '电话',
+    'mySubmissions.edit.helpText': '审核通过后，您的提交将成为公开的咖啡馆页面。',
+    'mySubmissions.edit.returnToSubmissions': '返回提交列表',
+
+    // Submission Status Card
+    'mySubmissions.card.pendingReview': '等待审核',
+    'mySubmissions.card.approved': '已通过',
+    'mySubmissions.card.declined': '已拒绝',
+    'mySubmissions.card.submitted': '提交时间',
+    'mySubmissions.card.phone': '电话',
+    'mySubmissions.card.reason': '原因',
+    'mySubmissions.card.edit': '编辑',
+    'mySubmissions.card.delete': '删除',
+    'mySubmissions.card.deleting': '删除中...',
+    'mySubmissions.card.viewCafe': '查看咖啡馆页面',
+
     // Ratings
     'rating.title': '评价此咖啡馆',
     'rating.updateTitle': '更新您的评价',
@@ -1921,6 +2170,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.title': '照片',
     'photos.photo': '张照片',
     'photos.photos': '张照片',
+    'photos.addPhoto': '添加照片',
+    'photos.signInToUpload': '登录添加',
     'photos.showMore': '显示更多',
     'photos.loading': '加载中...',
     'photos.empty.title': '还没有照片',
@@ -1931,8 +2182,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Photo upload
     'photos.upload.title': '上传照片',
-    'photos.upload.description': '分享这个咖啡馆的照片',
-    'photos.upload.select': '选择照片',
+    'photos.upload.description': '分享这个咖啡馆的照片。照片将在公开前接受审核。',
+    'photos.upload.disclaimer': '上传即表示您同意您的照片将接受质量和相关性审核。审核通过的照片将对所有用户可见。',
+    'photos.upload.select': '点击选择照片',
     'photos.upload.uploading': '上传中...',
     'photos.upload.success': '照片上传成功！',
     'photos.upload.error': '照片上传失败',
@@ -1955,6 +2207,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.errors.limitCafe': '每个咖啡馆最多只能上传3张照片',
     'photos.errors.limitDaily': '每天最多可以上传10张照片',
     'photos.errors.deletePendingOnly': '只能删除等待审核的照片',
+
+    // Photo deletion
+    'photos.delete.confirm': '确定要删除这张照片吗？此操作无法撤销。',
+    'photos.delete.success': '照片删除成功',
+    'photos.delete.error': '删除照片失败',
+    'photos.delete.adminTitle': '删除照片（管理员）',
+    'photos.delete.pendingTitle': '删除待审核照片',
 
     // Voting
     'photos.votes.count': '{count}个赞',
@@ -2051,6 +2310,31 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'dashboard.actions.delete': '删除',
     'dashboard.actions.deleteConfirm': '确定要删除吗?',
     'dashboard.upvotes': '赞',
+
+    // My Reviews
+    'reviews.title': '我的评价',
+    'reviews.subtitle': '您评价过的咖啡馆',
+    'reviews.emptyState.title': '暂无评价',
+    'reviews.emptyState.message': '探索咖啡馆并分享您的想法！',
+    'reviews.emptyState.explore': '探索咖啡馆',
+    'reviews.emptyFiltered.title': '没有匹配的评价',
+    'reviews.emptyFiltered.message': '没有符合当前筛选条件的评价',
+    'reviews.emptyFiltered.clearFilter': '清除筛选',
+    'reviews.sort.label': '排序',
+    'reviews.sort.ratingHigh': '评分最高',
+    'reviews.sort.ratingLow': '评分最低',
+    'reviews.sort.dateNew': '最新优先',
+    'reviews.sort.dateOld': '最早优先',
+    'reviews.filter.minScore': '最低评分',
+    'reviews.card.viewCafe': '查看咖啡馆',
+    'reviews.card.ratedOn': '评价日期',
+    'reviews.card.dimensions': '评分详情',
+    'reviews.stats.total': '评价总数',
+    'reviews.stats.shown': '显示',
+    'reviews.stats.of': '/',
+    'reviews.stats.avgOverall': '平均评分',
+    'reviews.stats.avgDimensions': '各项平均',
+    'reviews.popularCafes': '热门咖啡馆推荐',
   },
 
   vi: {
@@ -2378,6 +2662,42 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.success.submitted': 'Quán cà phê đã được gửi để phê duyệt!',
     'submissions.success.updated': 'Gửi đã được cập nhật thành công!',
 
+    // My Submissions Page
+    'mySubmissions.title': 'Đã gửi của tôi',
+    'mySubmissions.subtitle': 'Theo dõi trạng thái quán cà phê bạn đã gửi',
+    'mySubmissions.loadError': 'Không thể tải danh sách gửi. Vui lòng thử lại.',
+    'mySubmissions.pending': 'Đang chờ',
+    'mySubmissions.approved': 'Đã duyệt',
+    'mySubmissions.declined': 'Từ chối',
+    'mySubmissions.emptyPending': 'Không có gửi nào đang chờ. Gửi quán cà phê mới để bắt đầu!',
+    'mySubmissions.emptyApproved': 'Chưa có gửi nào được duyệt.',
+    'mySubmissions.emptyDeclined': 'Không có gửi nào bị từ chối.',
+    'mySubmissions.submitNew': 'Gửi quán cà phê mới',
+
+    // Edit Submission Page
+    'mySubmissions.edit.title': 'Chỉnh sửa gửi',
+    'mySubmissions.edit.backToSubmissions': 'Quay lại danh sách',
+    'mySubmissions.edit.pendingReview': 'Đang chờ duyệt',
+    'mySubmissions.edit.description': 'Chỉnh sửa nội dung gửi trước khi được đội ngũ xem xét.',
+    'mySubmissions.edit.submissionDetails': 'Chi tiết gửi',
+    'mySubmissions.edit.submittedOn': 'Ngày gửi',
+    'mySubmissions.edit.status': 'Trạng thái',
+    'mySubmissions.edit.phone': 'Điện thoại',
+    'mySubmissions.edit.helpText': 'Sau khi được duyệt, gửi của bạn sẽ trở thành trang quán cà phê công khai.',
+    'mySubmissions.edit.returnToSubmissions': 'Quay lại danh sách gửi',
+
+    // Submission Status Card
+    'mySubmissions.card.pendingReview': 'Đang chờ duyệt',
+    'mySubmissions.card.approved': 'Đã duyệt',
+    'mySubmissions.card.declined': 'Từ chối',
+    'mySubmissions.card.submitted': 'Ngày gửi',
+    'mySubmissions.card.phone': 'Điện thoại',
+    'mySubmissions.card.reason': 'Lý do',
+    'mySubmissions.card.edit': 'Chỉnh sửa',
+    'mySubmissions.card.delete': 'Xóa',
+    'mySubmissions.card.deleting': 'Đang xóa...',
+    'mySubmissions.card.viewCafe': 'Xem trang quán cà phê',
+
     // Ratings
     'rating.title': 'Đánh giá quán cà phê',
     'rating.updateTitle': 'Cập nhật đánh giá',
@@ -2432,6 +2752,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.title': 'Hình ảnh',
     'photos.photo': 'hình',
     'photos.photos': 'hình',
+    'photos.addPhoto': 'Thêm hình',
+    'photos.signInToUpload': 'Đăng nhập để thêm',
     'photos.showMore': 'Hiển thị thêm',
     'photos.loading': 'Đang tải...',
     'photos.empty.title': 'Chưa có hình ảnh',
@@ -2442,8 +2764,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Photo upload
     'photos.upload.title': 'Tải lên hình ảnh',
-    'photos.upload.description': 'Chia sẻ hình ảnh về quán cà phê này',
-    'photos.upload.select': 'Chọn hình ảnh',
+    'photos.upload.description': 'Chia sẻ hình ảnh về quán cà phê này. Hình ảnh sẽ được xem xét trước khi công khai.',
+    'photos.upload.disclaimer': 'Bằng cách tải lên, bạn đồng ý rằng hình ảnh của bạn sẽ được xem xét về chất lượng và sự phù hợp. Hình ảnh được phê duyệt sẽ hiển thị cho tất cả người dùng.',
+    'photos.upload.select': 'Nhấn để chọn hình ảnh',
     'photos.upload.uploading': 'Đang tải lên...',
     'photos.upload.success': 'Tải lên hình ảnh thành công!',
     'photos.upload.error': 'Tải lên hình ảnh thất bại',
@@ -2466,6 +2789,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'photos.errors.limitCafe': 'Bạn chỉ có thể tảI lên tối đa 3 hình ảnh mỗi quán',
     'photos.errors.limitDaily': 'Bạn có thể tảI lên tối đa 10 hình ảnh mỗi ngày',
     'photos.errors.deletePendingOnly': 'Bạn chỉ có thể xóa hình ảnh đang chờ phê duyệt',
+
+    // Photo deletion
+    'photos.delete.confirm': 'Bạn có chắc chắn muốn xóa hình ảnh này không? Hành động này không thể hoàn tác.',
+    'photos.delete.success': 'Đã xóa hình ảnh thành công',
+    'photos.delete.error': 'Xóa hình ảnh thất bại',
+    'photos.delete.adminTitle': 'Xóa hình ảnh (Quản trị viên)',
+    'photos.delete.pendingTitle': 'Xóa hình ảnh đang chờ',
 
     // Voting
     'photos.votes.count': '{count} lượt thích',
@@ -2562,5 +2892,30 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'dashboard.actions.delete': 'Xoa',
     'dashboard.actions.deleteConfirm': 'Ban co chac chan muon xoa?',
     'dashboard.upvotes': 'luot thich',
+
+    // My Reviews
+    'reviews.title': 'Danh gia cua toi',
+    'reviews.subtitle': 'Cac quan cafe ban da danh gia',
+    'reviews.emptyState.title': 'Chua co danh gia',
+    'reviews.emptyState.message': 'Kham pha quan cafe va chia se suy nghi cua ban!',
+    'reviews.emptyState.explore': 'Kham pha quan cafe',
+    'reviews.emptyFiltered.title': 'Khong co danh gia phu hop',
+    'reviews.emptyFiltered.message': 'Khong co danh gia nao phu hop voi bo loc hien tai',
+    'reviews.emptyFiltered.clearFilter': 'Xoa bo loc',
+    'reviews.sort.label': 'Sap xep theo',
+    'reviews.sort.ratingHigh': 'Danh gia cao nhat',
+    'reviews.sort.ratingLow': 'Danh gia thap nhat',
+    'reviews.sort.dateNew': 'Moi nhat',
+    'reviews.sort.dateOld': 'Cu nhat',
+    'reviews.filter.minScore': 'Diem toi thieu',
+    'reviews.card.viewCafe': 'Xem quan cafe',
+    'reviews.card.ratedOn': 'Danh gia ngay',
+    'reviews.card.dimensions': 'Chi tiet danh gia',
+    'reviews.stats.total': 'Tong danh gia',
+    'reviews.stats.shown': 'Hien thi',
+    'reviews.stats.of': '/',
+    'reviews.stats.avgOverall': 'Danh gia trung binh',
+    'reviews.stats.avgDimensions': 'Theo tung tieu chi',
+    'reviews.popularCafes': 'Quan cafe pho bien de thu',
   },
 };
