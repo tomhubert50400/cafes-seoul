@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 14 of 18 (Favorites System)
-Plan: 3 of 4 in current phase
-Status: In progress
-Last activity: 2026-02-01 — Completed 14-03-PLAN.md
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 — Completed 14-04-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 
 ## Performance Metrics
 
@@ -35,9 +35,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 - Timeline: 1 day
 
 **Milestone v1.3:**
-- Plans completed: 4
+- Plans completed: 8
 - Phases: 13-18 (6 phases)
-- Status: In progress (Phase 14 in progress)
+- Status: In progress (Phase 14 complete)
 
 ## Accumulated Context
 
@@ -78,6 +78,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 - justToggled state prevents animation on initial render
 - Event propagation: preventDefault + stopPropagation for buttons inside Link
 - Fetch favorite IDs in parallel with main data using Promise.all
+- Auth-gated filter controls: visible but disabled with tooltip for logged-out users
+- Colored markers: Pass isFavorited prop to marker for red/blue styling
 
 ### Decisions Log
 
@@ -94,6 +96,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 | 14-02 | userId presence for conditional render | Simpler than separate isLoggedIn check |
 | 14-03 | Transform FavoriteWithCafe to CafeSummary | Reuse CafeCard for consistent display |
 | 14-03 | Heart button next to cafe name | Prominent placement, follows common patterns |
+| 14-04 | Disabled toggle for logged-out users | Better feature discoverability than hiding |
+| 14-04 | Red pins for favorites, blue for regular | Red matches heart color, blue is standard |
 
 ### Pending Todos
 
@@ -106,9 +110,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 14-03-PLAN.md
+Stopped at: Completed 14-04-PLAN.md (Phase 14 complete)
 Resume file: None
-Next action: Execute 14-04-PLAN.md
+Next action: Execute Phase 15
 
 ---
 *State initialized: 2026-01-27*
