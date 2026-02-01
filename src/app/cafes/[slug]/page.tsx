@@ -4,11 +4,13 @@ import { Header } from '@/components/header';
 import { transformCafe, transformReview, transformUserRating, getStorageUrl } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import { checkFavoriteAction } from '@/lib/actions/favorites';
+import { getCafeReviewsAction } from '@/lib/actions/reviews';
 import type { Cafe, CafeImage } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import type { UserRating } from '@/types/ratings';
 import type { PhotoWithVoteStatus, PhotoStatus } from '@/types/photos';
 import type { User, UserRole } from '@/types/user';
+import type { ReviewWithAuthor } from '@/types/reviews';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -215,6 +217,12 @@ export default async function CafeDetailPage({ params }: PageProps) {
   const { cafe, images } = result;
   const reviews = await getCafeReviews(cafe.id);
 
+  // Fetch text reviews (from cafe_ratings with review_text)
+  const textReviewsResult = await getCafeReviewsAction(cafe.id);
+  const textReviews: ReviewWithAuthor[] = textReviewsResult.success && textReviewsResult.reviews
+    ? textReviewsResult.reviews
+    : [];
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const userRating = await getUserRating(cafe.id, user?.id);
@@ -268,6 +276,7 @@ export default async function CafeDetailPage({ params }: PageProps) {
         cafe={cafe}
         images={images}
         reviews={reviews}
+        textReviews={textReviews}
         userRating={userRating}
         photos={photos}
         currentUser={currentUser}

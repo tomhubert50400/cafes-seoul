@@ -19,19 +19,22 @@ import type { UserRating } from '@/types/ratings';
 import { PhotosSection } from '@/app/cafes/[slug]/photos-section';
 import type { PhotoWithVoteStatus } from '@/types/photos';
 import type { User } from '@/types/user';
+import type { ReviewWithAuthor } from '@/types/reviews';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
+import { CafeReviewsList } from '@/components/reviews/cafe-reviews-list';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
   images: CafeImage[];
   reviews: Review[];
+  textReviews?: ReviewWithAuthor[];
   userRating?: UserRating | null;
   photos?: PhotoWithVoteStatus[];
   currentUser?: User | null;
   isFavorited?: boolean;
 }
 
-export function CafeDetailContent({ cafe, images, reviews, userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
+export function CafeDetailContent({ cafe, images, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
@@ -188,16 +191,31 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
               </TabsContent>
 
               <TabsContent value="reviews" className="mt-6">
-                {reviews.length > 0 ? (
-                  <div className="space-y-6">
-                    {reviews.map((review) => (
-                      <ReviewCard key={review.id} review={review} language={language} />
-                    ))}
+                {/* Text Reviews Section */}
+                <div className="mb-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <h2 className="text-lg font-semibold">{t('reviews.cafe.title')}</h2>
+                    {textReviews.length > 0 && (
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium">
+                        {textReviews.length}
+                      </span>
+                    )}
                   </div>
-                ) : (
-                  <div className="py-12 text-center">
-                    <p className="text-muted-foreground">{t('cafe.noReviews')}</p>
-                    <Button className="mt-4">{t('cafe.writeFirst')}</Button>
+                  <CafeReviewsList
+                    reviews={textReviews}
+                    userId={currentUser?.id || null}
+                  />
+                </div>
+
+                {/* Legacy Reviews (from reviews table) */}
+                {reviews.length > 0 && (
+                  <div className="border-t pt-8">
+                    <h3 className="text-lg font-semibold mb-4">{t('cafe.tabs.comments')}</h3>
+                    <div className="space-y-6">
+                      {reviews.map((review) => (
+                        <ReviewCard key={review.id} review={review} language={language} />
+                      ))}
+                    </div>
                   </div>
                 )}
               </TabsContent>
