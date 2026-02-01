@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ProfileWithPrivacy } from '@/types/profile';
+import type { ProfileWithPrivacy, PublicProfile } from '@/types/profile';
 
 /**
  * Get profile by user ID
@@ -68,4 +68,77 @@ export function getAvatarUrl(
     .getPublicUrl(avatarPath);
 
   return data.publicUrl;
+}
+
+/**
+ * Get public profile by user ID
+ * Returns null if profile is private or doesn't exist
+ * Only returns public-safe fields (no email, no private data)
+ */
+export async function getPublicProfile(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<{ profile: PublicProfile | null; isPrivate: boolean }> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select(`
+      id,
+      username,
+      display_name,
+      avatar_url,
+      bio,
+      total_reviews,
+      created_at,
+      is_private
+    `)
+    .eq('id', userId)
+    .single();
+
+  if (error || !data) {
+    return { profile: null, isPrivate: false };
+  }
+
+  // Check privacy setting
+  if (data.is_private) {
+    return { profile: null, isPrivate: true };
+  }
+
+  // Return public profile data (without is_private field)
+  const { is_private, ...publicData } = data;
+  return {
+    profile: publicData as PublicProfile,
+    isPrivate: false,
+  };
+}
+
+/**
+ * Get profile for display (checks ownership)
+ * Returns full profile if viewer is owner, public profile otherwise
+ */
+export async function getProfileForViewer(
+  supabase: SupabaseClient,
+  profileUserId: string,
+  viewerUserId: string | null
+): Promise<{
+  profile: PublicProfile | ProfileWithPrivacy | null;
+  isOwner: boolean;
+  isPrivate: boolean;
+}> {
+  // If viewer is owner, return full profile
+  if (viewerUserId === profileUserId) {
+    const profile = await getProfile(supabase, profileUserId);
+    return {
+      profile,
+      isOwner: true,
+      isPrivate: false,
+    };
+  }
+
+  // Otherwise return public profile
+  const { profile, isPrivate } = await getPublicProfile(supabase, profileUserId);
+  return {
+    profile,
+    isOwner: false,
+    isPrivate,
+  };
 }

@@ -21,7 +21,7 @@ export const ROUTES = {
   PROFILE_FAVORITES: '/profile/favorites',
   PROFILE_SUBMISSIONS: '/profile/submissions',
   PROFILE_SETTINGS: '/profile/settings',
-  USER_PROFILE: (username: string) => `/users/${username}`,
+  USER_PROFILE: (id: string) => `/user/${id}`,
 
   // API
   API: {
