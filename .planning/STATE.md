@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** Phase 17 - Password & Preferences
+**Current focus:** Phase 18 - Email Notifications
 
 ## Current Position
 
-Phase: 17 of 18 (Password & Preferences)
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-02-01 - Completed 17-03-PLAN.md (executed after 17-04)
+Phase: 18 of 18 (Email Notifications)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-02-01 - Completed 18-01-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase 18 [1/4 plans]
 
 ## Performance Metrics
 
@@ -35,9 +35,10 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 - Timeline: 1 day
 
 **Milestone v1.3:**
-- Plans completed: 17
+- Plans completed: 18
 - Phases: 13-18 (6 phases)
-- Status: In progress (Phase 17 complete, 5/6 phases)
+- Status: In progress (Phase 17 complete, Phase 18 started - 1/4 plans complete)
+- Average: ~3 min/plan (Phase 18-01: 2min)
 
 ## Accumulated Context
 
@@ -63,6 +64,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 - Rate limit reset at midnight KST
 - Upsert pattern with ON CONFLICT
 - Database triggers for aggregation
+- AFTER triggers for notification queueing (don't block main operations)
+- Partial indexes for efficient queue queries (WHERE sent_at IS NULL)
 
 **Ratings (Phase 13):**
 - WithImage type suffix for types including image URLs
@@ -136,6 +139,10 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 | 17-03 | URL query params for tab persistence | Browser navigation expectations; ?tab=security |
 | 17-03 | Security tab groups password+delete | Logical security-related grouping |
 | 17-03 | OAuth users see info message | Clear UX for unavailable password management |
+| 18-01 | AFTER triggers prevent blocking admin actions | Queue failure shouldn't prevent status updates (Pitfall 5) |
+| 18-01 | Service-role-only RLS on notification queue | Only Edge Functions need access, not public users |
+| 18-01 | Partial index on unsent notifications | Daily digest queries only WHERE sent_at IS NULL |
+| 18-01 | Exception handling in triggers | RAISE WARNING + RETURN NEW instead of failing
 
 ### Pending Todos
 
@@ -148,9 +155,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 17 verified complete
+Stopped at: Completed 18-01-PLAN.md
 Resume file: None
-Next action: Plan Phase 18 (Email Notifications)
+Next action: Execute 18-02 (Edge Function) or 18-03 (Daily Digest) or 18-04 (Unsubscribe)
 
 ---
 *State initialized: 2026-01-27*
@@ -163,3 +170,4 @@ Next action: Plan Phase 18 (Email Notifications)
 *Phase 15 completed: 2026-02-01*
 *Phase 16 completed: 2026-02-01*
 *Phase 17 completed: 2026-02-01*
+*Phase 18 started: 2026-02-01 (18-01 complete)*
