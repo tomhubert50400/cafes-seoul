@@ -171,3 +171,128 @@ export async function updatePrivacyAction(
     return { success: false, error: 'Failed to update privacy setting' };
   }
 }
+
+// ============================================
+// ACCOUNT DELETION ACTIONS
+// ============================================
+
+/**
+ * Schedule account for deletion with 7-day grace period
+ * User must type their email to confirm
+ */
+export async function scheduleAccountDeletionAction(
+  confirmEmail: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Not authenticated' };
+    }
+
+    // Verify email matches
+    if (user.email !== confirmEmail) {
+      return { success: false, error: 'Email does not match' };
+    }
+
+    // Calculate deletion date (7 days from now)
+    const deletionDate = new Date();
+    deletionDate.setDate(deletionDate.getDate() + 7);
+
+    // Update profile with scheduled deletion
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        scheduled_deletion_at: deletionDate.toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', user.id);
+
+    if (error) {
+      console.error('Error scheduling deletion:', error);
+      return { success: false, error: 'Failed to schedule deletion' };
+    }
+
+    // Sign out the user
+    await supabase.auth.signOut();
+
+    revalidatePath('/');
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error scheduling deletion:', err);
+    return { success: false, error: 'Failed to schedule deletion' };
+  }
+}
+
+/**
+ * Cancel scheduled account deletion
+ * Can be called by user during grace period
+ */
+export async function cancelAccountDeletionAction(): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Not authenticated' };
+    }
+
+    // Clear scheduled deletion
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        scheduled_deletion_at: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', user.id);
+
+    if (error) {
+      console.error('Error canceling deletion:', error);
+      return { success: false, error: 'Failed to cancel deletion' };
+    }
+
+    revalidatePath('/profile');
+    revalidatePath('/profile/settings');
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error canceling deletion:', err);
+    return { success: false, error: 'Failed to cancel deletion' };
+  }
+}
+
+/**
+ * Reactivate account on login (clears scheduled_deletion_at)
+ * Called from profile layout when user logs in during grace period
+ */
+export async function reactivateAccountIfScheduled(): Promise<void> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    // Check if account is scheduled for deletion
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('scheduled_deletion_at')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.scheduled_deletion_at) {
+      // User logged in during grace period - reactivate
+      await supabase
+        .from('profiles')
+        .update({
+          scheduled_deletion_at: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+    }
+  } catch (err) {
+    console.error('Error checking/reactivating account:', err);
+  }
+}

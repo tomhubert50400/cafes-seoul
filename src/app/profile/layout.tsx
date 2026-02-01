@@ -8,6 +8,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { reactivateAccountIfScheduled } from '@/lib/actions/profile';
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -32,6 +33,9 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   if (!user) {
     redirect(ROUTES.LOGIN + '?next=/profile');
   }
+
+  // If user was scheduled for deletion and logged back in, reactivate
+  await reactivateAccountIfScheduled();
 
   const lang = await getLanguageFromCookies();
 
