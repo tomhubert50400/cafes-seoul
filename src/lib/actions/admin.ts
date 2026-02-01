@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import type { SubmissionWithUser } from '@/types/submission';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { geocodeAddress } from '@/lib/kakao/geocode';
 
 // ============================================
 // HELPER: Verify admin role
@@ -82,29 +83,44 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
     return { success: false, error: 'Submission not found or already processed' };
   }
 
-  // 5. Create cafe from submission data
-  const { data: cafe, error: cafeError } = await supabase
-    .from('cafes')
-    .insert({
-      name: submission.name,
-      address: submission.address,
-      phone: submission.phone,
-      latitude: submission.latitude,
-      longitude: submission.longitude,
-      district_id: submission.district_id,
-      neighborhood_id: submission.neighborhood_id,
-      slug: generateSlug(submission.name.en || submission.name.ko || 'cafe'),
-      status: 'active',
-    })
-    .select('id')
-    .single();
+  // 5. Get coordinates - use submission data or geocode from address
+  let latitude = submission.latitude;
+  let longitude = submission.longitude;
 
-  if (cafeError) {
+  if (latitude == null || longitude == null) {
+    // Try to geocode from Korean address first, then English
+    const addressToGeocode = submission.address?.ko || submission.address?.en;
+    if (addressToGeocode) {
+      const geocoded = await geocodeAddress(addressToGeocode);
+      if (geocoded) {
+        latitude = geocoded.latitude;
+        longitude = geocoded.longitude;
+      }
+    }
+  }
+
+  // 6. Create cafe from submission data using raw SQL to handle PostGIS geometry
+  const slug = generateSlug(submission.name.en || submission.name.ko || 'cafe');
+  const { data: cafeResult, error: cafeError } = await supabase.rpc('create_cafe_from_submission', {
+    p_name: submission.name,
+    p_address: submission.address,
+    p_phone: submission.phone,
+    p_latitude: latitude,
+    p_longitude: longitude,
+    p_district_id: submission.district_id,
+    p_neighborhood_id: submission.neighborhood_id,
+    p_slug: slug,
+    p_kakao_place_id: submission.kakao_place_id || null,
+  });
+
+  if (cafeError || !cafeResult) {
     console.error('Error creating cafe:', cafeError);
     return { success: false, error: 'Failed to create cafe' };
   }
 
-  // 6. Update submission status
+  const cafe = { id: cafeResult };
+
+  // 7. Update submission status
   const { error: updateError } = await supabase
     .from('cafe_submissions')
     .update({
@@ -121,7 +137,7 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
     return { success: false, error: 'Failed to update submission status' };
   }
 
-  // 7. Revalidate paths
+  // 8. Revalidate paths
   revalidatePath('/admin/submissions');
   revalidatePath('/admin');
   revalidatePath('/cafes');
@@ -538,6 +554,250 @@ export async function getPendingPhotos(): Promise<{
 }
 
 // ============================================
+// DELETE CAFE
+// ============================================
+
+const deleteCafeSchema = z.object({
+  cafeId: z.string().uuid('Invalid cafe ID'),
+});
+
+/**
+ * Delete an approved cafe permanently
+ * This will cascade delete: photos, reviews, favorites, cafe_images
+ * cafe_submissions and reports will have their cafe_id set to NULL
+ * @param cafeId - ID of the cafe to delete
+ * @returns Success status or error
+ */
+export async function deleteCafe(cafeId: string): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication and admin role
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    if (!(await verifyAdminRole(supabase, user.id))) {
+      return { success: false, error: 'Unauthorized: Admin access required' };
+    }
+
+    // 2. Validate input
+    const validation = deleteCafeSchema.safeParse({ cafeId });
+    if (!validation.success) {
+      return { success: false, error: validation.error.issues[0].message };
+    }
+
+    // 3. Get cafe to verify it exists
+    const { data: cafe, error: fetchError } = await supabase
+      .from('cafes')
+      .select('id, name, slug')
+      .eq('id', cafeId)
+      .single();
+
+    if (fetchError || !cafe) {
+      return { success: false, error: 'Cafe not found' };
+    }
+
+    // 4. Delete cafe (cascades to photos, reviews, favorites, cafe_images)
+    const { error: deleteError } = await supabase
+      .from('cafes')
+      .delete()
+      .eq('id', cafeId);
+
+    if (deleteError) {
+      console.error('Error deleting cafe:', deleteError);
+      return { success: false, error: 'Failed to delete cafe' };
+    }
+
+    // 5. Revalidate paths
+    revalidatePath('/admin/cafes');
+    revalidatePath('/admin');
+    revalidatePath('/cafes');
+    revalidatePath(`/cafes/${cafe.slug}`);
+
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error deleting cafe:', err);
+    return { success: false, error: 'Failed to delete cafe' };
+  }
+}
+
+// ============================================
+// GET APPROVED CAFES FOR ADMIN
+// ============================================
+
+export interface AdminCafe {
+  id: string;
+  name: Record<string, string>;
+  slug: string;
+  address: Record<string, string>;
+  status: string;
+  overallRating: number;
+  totalRatings: number;
+  createdAt: string;
+}
+
+/**
+ * Get all approved/active cafes for admin management
+ * @returns List of cafes with basic info for admin table
+ */
+export async function getApprovedCafes(options?: {
+  offset?: number;
+  limit?: number;
+  search?: string;
+}): Promise<{
+  success: boolean;
+  cafes?: AdminCafe[];
+  total?: number;
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication and admin role
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    if (!(await verifyAdminRole(supabase, user.id))) {
+      return { success: false, error: 'Unauthorized: Admin access required' };
+    }
+
+    // 2. Build query
+    const limit = options?.limit ?? 1000; // Default to 1000 for admin panel
+    const offset = options?.offset || 0;
+
+    // Get total count
+    let countQuery = supabase
+      .from('cafes')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'active');
+
+    if (options?.search) {
+      countQuery = countQuery.or(`name->en.ilike.%${options.search}%,name->ko.ilike.%${options.search}%`);
+    }
+
+    const { count } = await countQuery;
+
+    // Get cafes
+    let cafesQuery = supabase
+      .from('cafes')
+      .select('id, name, slug, address, status, overall_rating, total_ratings, created_at')
+      .eq('status', 'active')
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    if (options?.search) {
+      cafesQuery = cafesQuery.or(`name->en.ilike.%${options.search}%,name->ko.ilike.%${options.search}%`);
+    }
+
+    const { data: cafes, error } = await cafesQuery;
+
+    if (error) {
+      console.error('Error fetching cafes:', error);
+      return { success: false, error: 'Failed to fetch cafes' };
+    }
+
+    // Transform to AdminCafe type
+    const transformedCafes: AdminCafe[] = (cafes || []).map((c) => ({
+      id: c.id,
+      name: c.name || {},
+      slug: c.slug,
+      address: c.address || {},
+      status: c.status,
+      overallRating: c.overall_rating || 0,
+      totalRatings: c.total_ratings || 0,
+      createdAt: c.created_at,
+    }));
+
+    return {
+      success: true,
+      cafes: transformedCafes,
+      total: count || 0,
+    };
+  } catch (err) {
+    console.error('Unexpected error fetching cafes:', err);
+    return { success: false, error: 'Failed to fetch cafes' };
+  }
+}
+
+// ============================================
+// SEARCH CAFES (server-side search for admin)
+// ============================================
+
+/**
+ * Search cafes by name or address (server-side)
+ * @param query - Search query string
+ * @returns Matching cafes
+ */
+export async function searchCafes(query: string): Promise<{
+  success: boolean;
+  cafes?: AdminCafe[];
+  total?: number;
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication and admin role
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    if (!(await verifyAdminRole(supabase, user.id))) {
+      return { success: false, error: 'Unauthorized: Admin access required' };
+    }
+
+    // 2. Sanitize query for ILIKE
+    const sanitizedQuery = query.trim().replace(/[%_]/g, '\\$&');
+    if (!sanitizedQuery) {
+      return { success: true, cafes: [], total: 0 };
+    }
+
+    // 3. Search cafes by name (en/ko) or address (en/ko)
+    const { data: cafes, error, count } = await supabase
+      .from('cafes')
+      .select('id, name, slug, address, status, overall_rating, total_ratings, created_at', { count: 'exact' })
+      .eq('status', 'active')
+      .or(`name->>en.ilike.%${sanitizedQuery}%,name->>ko.ilike.%${sanitizedQuery}%,address->>en.ilike.%${sanitizedQuery}%,address->>ko.ilike.%${sanitizedQuery}%`)
+      .order('name->>en', { ascending: true })
+      .limit(100);
+
+    if (error) {
+      console.error('Error searching cafes:', error);
+      return { success: false, error: 'Failed to search cafes' };
+    }
+
+    // Transform to AdminCafe type
+    const transformedCafes: AdminCafe[] = (cafes || []).map((c) => ({
+      id: c.id,
+      name: c.name || {},
+      slug: c.slug,
+      address: c.address || {},
+      status: c.status,
+      overallRating: c.overall_rating || 0,
+      totalRatings: c.total_ratings || 0,
+      createdAt: c.created_at,
+    }));
+
+    return {
+      success: true,
+      cafes: transformedCafes,
+      total: count || transformedCafes.length,
+    };
+  } catch (err) {
+    console.error('Unexpected error searching cafes:', err);
+    return { success: false, error: 'Failed to search cafes' };
+  }
+}
+
+// ============================================
 // GET PENDING SUBMISSIONS (for admin table)
 // ============================================
 
@@ -604,6 +864,7 @@ export async function getPendingSubmissions(options?: {
     longitude: s.longitude,
     districtId: s.district_id,
     neighborhoodId: s.neighborhood_id,
+    kakaoPlaceId: s.kakao_place_id,
     status: s.status,
     rejectionReason: s.rejection_reason,
     adminNotes: s.admin_notes,

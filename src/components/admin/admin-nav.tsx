@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Coffee, Image } from 'lucide-react'
+import { LayoutDashboard, Coffee, Image, Store } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface NavItem {
@@ -21,6 +21,11 @@ const navItems: NavItem[] = [
     href: '/admin/submissions',
     label: 'Cafe Submissions',
     icon: Coffee,
+  },
+  {
+    href: '/admin/cafes',
+    label: 'Manage Cafes',
+    icon: Store,
   },
   {
     href: '/admin/photos',
