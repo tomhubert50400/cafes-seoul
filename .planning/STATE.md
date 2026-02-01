@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 17 of 18 (Password & Preferences)
-Plan: 2 of 4 in current phase
-Status: In progress
-Last activity: 2026-02-01 - Completed 17-02-PLAN.md
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 - Completed 17-04-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [6/6 phases complete]
 
 ## Performance Metrics
 
@@ -128,6 +128,11 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 | 17-02 | Always return success on password reset | Prevent email enumeration attacks |
 | 17-02 | Global sign out after password change | Security - invalidate all existing sessions |
 | 17-02 | Reset page outside (auth) group | User arrives with valid session from reset link |
+| 17-04 | Optimistic UI for preference toggles | Immediate feedback improves perceived performance and UX |
+| 17-04 | Error revert pattern for toggles | If toggle fails, state automatically reverts to prevent sync issues |
+| 17-04 | Forgot password on login page | Improves discoverability vs. separate page; already familiar context |
+| 17-04 | Toast feedback 2s duration | Follows project pattern from 16-03 (CONTEXT.md specified 2s) |
+| 17-04 | Parallel data fetching in settings | Profile, language, preferences fetched simultaneously for performance |
 
 ### Pending Todos
 
@@ -140,9 +145,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 17-02-PLAN.md
+Stopped at: Completed 17-04-PLAN.md (Phase 17 Complete)
 Resume file: None
-Next action: Execute 17-03-PLAN.md
+Next action: Execute Phase 18 (Admin Features) or wrap up v1.3
 
 ---
 *State initialized: 2026-01-27*
@@ -154,3 +159,4 @@ Next action: Execute 17-03-PLAN.md
 *Phase 14 completed: 2026-02-01*
 *Phase 15 completed: 2026-02-01*
 *Phase 16 completed: 2026-02-01*
+*Phase 17 completed: 2026-02-01*
