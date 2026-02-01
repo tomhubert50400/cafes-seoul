@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { X, Star, MapPin, Navigation, ExternalLink, Heart } from 'lucide-react';
 import { CafeMarker } from './cafe-marker';
+import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { filterCafes } from '@/lib/utils/filter-cafes';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
@@ -121,13 +122,25 @@ export function CafeMap({
               className="relative"
             >
               <div className="bg-white rounded-xl shadow-xl border border-zinc-200 w-64 overflow-hidden">
-                {/* Close button */}
-                <button
-                  onClick={handleClose}
-                  className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
+                {/* Action buttons */}
+                <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+                  {userId && (
+                    <FavoriteButton
+                      cafeId={selectedCafe.id}
+                      initialIsFavorited={
+                        favoriteIds?.includes(selectedCafe.id) ?? false
+                      }
+                      size="sm"
+                      className="bg-black/50 hover:bg-black/70"
+                    />
+                  )}
+                  <button
+                    onClick={handleClose}
+                    className="p-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
 
                 {/* Photo */}
                 <div className="relative h-28 bg-zinc-100">
