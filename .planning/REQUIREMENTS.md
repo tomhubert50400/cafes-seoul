@@ -34,12 +34,12 @@ Requirements for Profile Enhancement milestone.
 
 ### Text Reviews
 
-- [ ] **TXT-01**: User can add optional text review when rating a cafe
+- [x] **TXT-01**: User can add optional text review when rating a cafe
 - [ ] **TXT-02**: User can add optional title to their review
-- [ ] **TXT-03**: User can edit their review text and title
-- [ ] **TXT-04**: Text reviews display on cafe detail page
-- [ ] **TXT-05**: Users can mark reviews as helpful (vote)
-- [ ] **TXT-06**: Review helpful count displays on cafe page
+- [x] **TXT-03**: User can edit their review text and title
+- [x] **TXT-04**: Text reviews display on cafe detail page
+- [x] **TXT-05**: Users can mark reviews as helpful (vote)
+- [x] **TXT-06**: Review helpful count displays on cafe page
 
 ### Email Notifications
 
@@ -99,12 +99,12 @@ Explicitly excluded for v1.3.
 | SET-04 | Phase 17 | Pending |
 | SET-05 | Phase 17 | Pending |
 | SET-06 | Phase 15 | Complete |
-| TXT-01 | Phase 16 | Pending |
-| TXT-02 | Phase 16 | Pending |
-| TXT-03 | Phase 16 | Pending |
-| TXT-04 | Phase 16 | Pending |
-| TXT-05 | Phase 16 | Pending |
-| TXT-06 | Phase 16 | Pending |
+| TXT-01 | Phase 16 | Complete |
+| TXT-02 | Future | Deferred |
+| TXT-03 | Phase 16 | Complete |
+| TXT-04 | Phase 16 | Complete |
+| TXT-05 | Phase 16 | Complete |
+| TXT-06 | Phase 16 | Complete |
 | NOTIF-01 | Phase 18 | Pending |
 | NOTIF-02 | Phase 18 | Pending |
 | NOTIF-03 | Phase 18 | Pending |
