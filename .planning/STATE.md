@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 14 of 18 (Favorites System)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-01 — Completed 14-01-PLAN.md
+Last activity: 2026-02-01 — Completed 14-02-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 
@@ -73,6 +73,12 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 - Expand/collapse cards use max-height transition for smooth animation
 - Empty states distinguish no-data vs filtered-empty for better UX guidance
 
+**Favorites (Phase 14):**
+- useOptimistic + useTransition + useState pattern for optimistic toggle
+- justToggled state prevents animation on initial render
+- Event propagation: preventDefault + stopPropagation for buttons inside Link
+- Fetch favorite IDs in parallel with main data using Promise.all
+
 ### Decisions Log
 
 | Phase | Decision | Rationale |
@@ -83,6 +89,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 | 13-02 | Dual-state empty component | Differentiates no-reviews vs filtered-to-zero for better UX |
 | 14-01 | Check-then-act pattern for toggle | RLS policies don't support upsert with delete in single operation |
 | 14-01 | maybeSingle() for existence check | Returns null instead of error when not found |
+| 14-02 | Track justToggled state separately | Prevents bounce animation on initial render |
+| 14-02 | Fetch favorites in parallel with cafes | Promise.all improves performance |
+| 14-02 | userId presence for conditional render | Simpler than separate isLoggedIn check |
 
 ### Pending Todos
 
@@ -95,9 +104,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 14-01-PLAN.md
+Stopped at: Completed 14-02-PLAN.md
 Resume file: None
-Next action: Execute 14-02-PLAN.md
+Next action: Execute 14-03-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
