@@ -309,209 +309,31 @@ npm install next-auth@beta @auth/core
 
 ## What NOT to Use
 
-### ❌ @supabase/auth-helpers-* packages
+### @supabase/auth-helpers-* packages
 **Status:** DEPRECATED (as of 2024)
 **Replacement:** @supabase/ssr
 
 **Rationale:** All framework-specific auth-helpers packages (auth-helpers-nextjs, auth-helpers-react, etc.) have been consolidated into @supabase/ssr. Using deprecated packages means missing security updates and bug fixes.
 
-### ❌ localStorage for session storage
+### localStorage for session storage
 **Status:** ANTI-PATTERN
 
 **Rationale:** Vulnerable to XSS attacks. Supabase's @supabase/ssr uses HTTP-only cookies for session storage, which cannot be accessed by client-side JavaScript and provides defense-in-depth security.
 
-### ❌ Client-side only authentication checks
+### Client-side only authentication checks
 **Status:** SECURITY VULNERABILITY
 
 **Rationale:** CVE-2025-29927 demonstrated that relying solely on middleware for authentication is insufficient. Always implement verification at data access points using Row-Level Security (RLS) policies in Supabase database.
 
-### ❌ Custom JWT parsing/validation
+### Custom JWT parsing/validation
 **Status:** UNNECESSARY
 
 **Rationale:** @supabase/ssr handles all JWT operations including validation, refresh, and parsing. Manual JWT handling increases risk of security vulnerabilities.
 
-### ❌ Mixing Supabase Auth with Firebase Auth or AWS Cognito
+### Mixing Supabase Auth with Firebase Auth or AWS Cognito
 **Status:** ARCHITECTURAL MISMATCH
 
 **Rationale:** Supabase Auth integrates deeply with Supabase's Row-Level Security (RLS) system. Using a different auth provider breaks this integration and requires manual user ID mapping in RLS policies.
-
----
-
-## Implementation Architecture
-
-### File Structure
-```
-src/
-├── app/
-│   ├── (auth)/
-│   │   ├── login/
-│   │   │   └── page.tsx          # Email + OAuth login UI
-│   │   ├── signup/
-│   │   │   └── page.tsx          # Email signup UI
-│   │   └── error/
-│   │       └── page.tsx          # Auth error page
-│   └── auth/
-│       └── confirm/
-│           └── route.ts          # Email verification handler
-├── lib/
-│   └── supabase/
-│       ├── client.ts             # Browser client (existing)
-│       ├── server.ts             # Server client (existing)
-│       └── middleware.ts         # Session refresh (existing)
-└── middleware.ts                 # App-level middleware (imports from lib)
-```
-
-### Authentication Flow Patterns
-
-**Email Signup Flow:**
-1. User submits email/password via form
-2. Server Action calls `supabase.auth.signUp()`
-3. Supabase sends verification email
-4. User clicks link → `/auth/confirm?token_hash=...&type=email`
-5. Route handler validates token and creates session
-6. Redirect to `/account` or dashboard
-
-**OAuth Flow (Google/Kakao):**
-1. User clicks "Login with Google" button
-2. Client-side calls `supabase.auth.signInWithOAuth({ provider: 'google' })`
-3. User redirected to OAuth provider
-4. OAuth provider redirects to Supabase callback URL
-5. Supabase creates session and redirects to app
-6. Middleware refreshes session on next request
-
-**Session Management:**
-- Middleware calls `supabase.auth.getUser()` on every request
-- Automatic token refresh handled by @supabase/ssr
-- HTTP-only cookies prevent XSS attacks
-- Protected routes checked in middleware
-
-### Security Best Practices
-
-**1. Row-Level Security (RLS)**
-Enable RLS on all tables that store user data:
-```sql
-ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users can view own profile"
-ON profiles FOR SELECT
-USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can update own profile"
-ON profiles FOR UPDATE
-USING (auth.uid() = user_id);
-```
-
-**Rationale:** Database-level authorization that applies across REST API, Edge Functions, and Realtime subscriptions. Cannot be bypassed by client-side code.
-
-**2. Middleware Session Validation**
-Existing middleware at `src/lib/supabase/middleware.ts` already implements:
-- Session refresh via `supabase.auth.getUser()`
-- Protected route redirection
-- Auth page redirection for logged-in users
-
-**3. Server-Side Verification**
-Always use server-side Supabase client for data access:
-```typescript
-import { createClient } from '@/lib/supabase/server'
-
-export async function getProfile() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Unauthorized')
-
-  const { data } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('user_id', user.id)
-    .single()
-
-  return data
-}
-```
-
-**4. PKCE Flow**
-Supabase automatically uses PKCE (Proof Key for Code Exchange) for OAuth flows when using @supabase/ssr, providing additional security for authorization code exchange.
-
----
-
-## Environment Variables Required
-
-### Existing Variables
-```bash
-NEXT_PUBLIC_SUPABASE_URL=https://[project-ref].supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-### No Additional Variables for Email/Google/Kakao
-OAuth credentials are configured in Supabase Dashboard, not environment variables.
-
-### Optional: Naver OAuth (if implementing Option 1)
-```bash
-NAVER_CLIENT_ID=your-naver-client-id
-NAVER_CLIENT_SECRET=your-naver-client-secret
-NEXTAUTH_SECRET=your-nextauth-secret
-NEXTAUTH_URL=http://localhost:3000
-```
-
----
-
-## Migration Path from Current State
-
-### Current State Analysis
-- ✅ @supabase/ssr already installed (v0.8.0)
-- ✅ @supabase/supabase-js installed (v2.91.1, minor update available)
-- ✅ Middleware configured with session refresh
-- ✅ Client/server utilities set up
-- ✅ Protected routes defined
-- ⚠️ Auth route group exists but empty
-
-### Required Changes
-
-**1. Update Packages (Low Risk)**
-```bash
-npm install @supabase/supabase-js@latest
-```
-
-**2. Configure Supabase Dashboard (Zero Code)**
-- Enable email provider with confirmation
-- Configure email template for `/auth/confirm` redirect
-- Add Google OAuth credentials
-- Add Kakao OAuth credentials
-
-**3. Implement Auth UI (New Code)**
-- Create login page with email + OAuth buttons
-- Create signup page with email form
-- Create error page for auth failures
-
-**4. Add Email Confirmation Handler (New Code)**
-- Create `/auth/confirm/route.ts` for token verification
-
-**5. Database Schema (New Code)**
-- Create `profiles` table with RLS policies
-- Link to `auth.users` via foreign key
-
-**No Breaking Changes:** Existing Supabase setup remains unchanged.
-
----
-
-## Quality Gate Checklist
-
-- [x] **Versions are current**
-  - @supabase/ssr v0.8.0 is latest (verified via npm, released Nov 2024)
-  - @supabase/supabase-js v2.93.1 is latest (verified via npm, released Jan 2026)
-  - Recommendations based on official Supabase docs and Context7 documentation
-
-- [x] **Rationale explains WHY, not just WHAT**
-  - Cookie-based auth reasoning (XSS prevention)
-  - @supabase/ssr consolidation reasoning (deprecated helpers)
-  - RLS importance reasoning (defense-in-depth)
-  - Naver workaround reasoning (native support gap)
-
-- [x] **Confidence levels assigned**
-  - Email + Google + Kakao: HIGH (native support, production-ready)
-  - Naver via NextAuth.js: MEDIUM-HIGH (proven but complex)
-  - Naver manual implementation: MEDIUM (custom code risks)
-  - Naver custom OIDC: LOW (uncertain timeline)
 
 ---
 
@@ -525,36 +347,317 @@ npm install @supabase/supabase-js@latest
 - [Kakao Developers REST API](https://developers.kakao.com/docs/latest/en/kakaologin/rest-api)
 
 ### Community Discussions
-- [Support Auth Provider: Naver · supabase · Discussion #35631](https://github.com/orgs/supabase/discussions/35631)
-- [Docs: update Kakao OAuth guide with new Kakao UI · Issue #41680](https://github.com/supabase/supabase/issues/41680)
-- [Naver sign-in does not adhere to OAuth 2.0 specs · Discussion #9313](https://github.com/nextauthjs/next-auth/discussions/9313)
-
-### Technical Articles
-- [🔐 Next.js + Supabase Cookie-Based Auth Workflow: The Best Auth Solution (2025 Guide)](https://the-shubham.medium.com/next-js-supabase-cookie-based-auth-workflow-the-best-auth-solution-2025-guide-f6738b4673c1)
-- [Complete Authentication Guide for Next.js App Router in 2025](https://clerk.com/articles/complete-authentication-guide-for-nextjs-app-router)
-- [Top 5 authentication solutions for secure Next.js apps in 2026](https://workos.com/blog/top-authentication-solutions-nextjs-2026)
+- [Support Auth Provider: Naver Discussion #35631](https://github.com/orgs/supabase/discussions/35631)
+- [Docs: update Kakao OAuth guide with new Kakao UI Issue #41680](https://github.com/supabase/supabase/issues/41680)
+- [Naver sign-in does not adhere to OAuth 2.0 specs Discussion #9313](https://github.com/nextauthjs/next-auth/discussions/9313)
 
 ---
 
-## Recommendations Summary
+# Profile Enhancement Stack Research
 
-### Do Use
-1. **@supabase/ssr v0.8.0** - Current standard for SSR auth
-2. **Email + Google + Kakao** - Native Supabase support, production-ready
-3. **Cookie-based sessions** - XSS protection via HTTP-only cookies
-4. **Row-Level Security** - Database-level authorization
-5. **Server-side verification** - Defense-in-depth security
-6. **PKCE flow** - Automatic via @supabase/ssr
+**Research Date:** 2026-02-01
+**Target:** Stack additions for profile enhancement milestone
+**Milestone:** Profile tabs, text reviews, favorites, settings, email notifications
 
-### Don't Use
-1. ❌ @supabase/auth-helpers-* (deprecated)
-2. ❌ localStorage for sessions (XSS vulnerable)
-3. ❌ Client-side only auth checks (insufficient)
-4. ❌ Custom JWT handling (unnecessary complexity)
-5. ❌ Mixed auth providers (breaks RLS integration)
+---
 
-### Naver OAuth Decision
-**MVP Phase:** Skip Naver, launch with Email + Google + Kakao
-**Future Phase:** Add Naver via NextAuth.js if user demand justifies complexity
+## Executive Summary
 
-**Rationale:** Focus engineering effort on high-confidence solutions. Add Naver after validating market demand.
+The profile enhancement features require minimal stack additions. Supabase Auth already includes password reset via `resetPasswordForEmail()` and `updateUser()` - no new libraries needed. Email notifications require Resend integration via Supabase Edge Functions. Avatar uploads use existing Supabase Storage patterns. Favorites and text reviews are pure database features with no new frontend dependencies.
+
+**Confidence:** HIGH
+
+---
+
+## Stack Additions
+
+### Email Service: Resend
+
+**Recommended:** `resend@6.9.1`
+**Required For:** Email notifications when submission status changes (approved/rejected)
+**Confidence:** HIGH (verified via [GitHub releases](https://github.com/resend/resend-node/releases))
+
+**Rationale:**
+- Official Supabase documentation recommends Resend for Edge Functions email integration
+- 748K+ weekly npm downloads, actively maintained (v6.9.1 released 2026-01-27)
+- Free tier supports 3,000 emails/month - sufficient for submission notifications
+- Simple API: single POST request with JSON payload
+- No SDK needed in Next.js - Edge Functions handle email sending server-side
+
+**Integration:**
+- Create Supabase Edge Function `send-notification-email`
+- Trigger via Database Webhook on `cafe_submissions` status change
+- Store `RESEND_API_KEY` in Supabase secrets
+- Does NOT require npm install in Next.js app - runs entirely in Supabase Edge Functions
+
+**Alternative Considered:** Nodemailer
+- Rejected: Requires SMTP server configuration, more complex setup
+- Resend is purpose-built for transactional email with better DX
+
+### Email Templates: React Email (Optional)
+
+**Recommended:** `@react-email/components@1.0.4` (Edge Function only)
+**Required For:** Beautiful HTML email templates
+**Confidence:** HIGH (verified via [npm](https://www.npmjs.com/package/@react-email/components))
+
+**Rationale:**
+- Build email templates with React components in Supabase Edge Functions
+- Supports Tailwind 4 (React Email 5.0)
+- Same component model as the app - consistent DX
+- Optional: Can start with plain HTML templates and add later
+
+**Integration:**
+- Install in Supabase Edge Functions project (not main Next.js app)
+- `supabase/functions/send-notification-email/package.json`
+- Compile to HTML at send time
+
+**Skip If:** Plain text emails are acceptable for MVP
+
+### Client-Side Image Compression (Optional)
+
+**Recommended:** `browser-image-compression@2.0.2`
+**Required For:** Avatar upload optimization before Supabase Storage upload
+**Confidence:** MEDIUM (last update 3 years ago, but stable and widely used)
+
+**Rationale:**
+- 392K weekly downloads, proven stable
+- Compress avatars client-side before upload (reduce bandwidth, faster uploads)
+- Supabase Pro plan includes server-side image transforms, but client-side is free
+- Reduces storage costs
+
+**Integration:**
+```typescript
+import imageCompression from 'browser-image-compression';
+
+const options = {
+  maxSizeMB: 0.5,           // Max 500KB
+  maxWidthOrHeight: 400,    // Avatar size
+  useWebWorker: true        // Non-blocking
+};
+const compressedFile = await imageCompression(file, options);
+```
+
+**Skip If:**
+- Using Supabase Pro plan with server-side image transformations
+- Avatars are already small (under 500KB typical)
+
+---
+
+## No Changes Needed
+
+### Password Reset Flow
+
+**Uses:** Existing `@supabase/supabase-js@2.93.1`
+**Confidence:** HIGH (verified via [Supabase docs](https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail))
+
+Supabase Auth already provides complete password reset:
+
+```typescript
+// Step 1: Request password reset email
+await supabase.auth.resetPasswordForEmail(email, {
+  redirectTo: `${origin}/auth/reset-password`,
+});
+
+// Step 2: User clicks email link, lands on reset page
+// The PASSWORD_RECOVERY event fires, user is authenticated
+
+// Step 3: Update password
+await supabase.auth.updateUser({ password: newPassword });
+```
+
+**Implementation Notes:**
+- Uses existing `/auth/confirm` route pattern (already handles `recovery` type)
+- Password validation uses existing `@zxcvbn-ts/core` for strength checking
+- Form validation uses existing `react-hook-form` + `zod`
+
+### Avatar Upload
+
+**Uses:** Existing Supabase Storage patterns from photo upload
+**Confidence:** HIGH
+
+Current codebase (`src/lib/photos/upload.ts`) already has:
+- `uploadPhotoToStorage()` - reusable pattern
+- `getPhotoPublicUrl()` - generate public URLs
+- Error handling, progress tracking
+
+**Implementation:**
+- Create `avatars` bucket in Supabase Storage (or use subfolder in existing bucket)
+- Storage path: `avatars/{userId}/avatar.{ext}`
+- Single file per user (overwrite on update)
+- Use existing image validation from `src/lib/photos/validation.ts`
+
+### Favorites System
+
+**Uses:** Pure database + existing patterns
+**Confidence:** HIGH
+
+**Database:** New `user_favorites` table
+```sql
+CREATE TABLE user_favorites (
+  user_id UUID REFERENCES auth.users(id),
+  cafe_id UUID REFERENCES cafes(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  PRIMARY KEY (user_id, cafe_id)
+);
+```
+
+**Frontend:**
+- Heart icon toggle uses existing Lucide React (`Heart`, `HeartOff`)
+- Optimistic updates use existing TanStack Query patterns
+- No new libraries needed
+
+### Text Reviews Extension
+
+**Uses:** Existing `cafe_ratings` table + Zod validation
+**Confidence:** HIGH
+
+Current schema supports extending with:
+```sql
+ALTER TABLE cafe_ratings ADD COLUMN review_text TEXT;
+ALTER TABLE cafe_ratings ADD COLUMN review_text_updated_at TIMESTAMPTZ;
+```
+
+**Frontend:**
+- Textarea component in rating form
+- Character limit validation with Zod
+- Display in cafe detail page
+- No new libraries needed
+
+### Notification Preferences
+
+**Uses:** Profiles table extension + Zod schemas
+**Confidence:** HIGH
+
+```sql
+ALTER TABLE profiles ADD COLUMN email_notifications BOOLEAN DEFAULT TRUE;
+ALTER TABLE profiles ADD COLUMN notification_prefs JSONB DEFAULT '{"submissions": true}';
+```
+
+**Frontend:**
+- Switch component (existing `@radix-ui/react-switch`)
+- Form handling with existing react-hook-form
+- No new libraries needed
+
+### Profile Editing
+
+**Uses:** Existing form patterns + Supabase
+**Confidence:** HIGH
+
+- Form: react-hook-form + Zod (existing)
+- Display name update: `profiles` table update
+- Email change: `supabase.auth.updateUser({ email })` (sends verification)
+- No new libraries needed
+
+---
+
+## Avoid
+
+### Do NOT Add: next-intl for Email Templates
+
+**Why Avoid:**
+- Edge Functions run in Deno, not Node.js
+- next-intl designed for Next.js, not portable
+- Email templates should have inline translations or use simple key-value lookup
+
+**Instead:** Create simple translation object in Edge Function:
+```typescript
+const translations = {
+  en: { subject: 'Your submission was approved!', ... },
+  ko: { subject: '제출이 승인되었습니다!', ... },
+};
+```
+
+### Do NOT Add: Nodemailer
+
+**Why Avoid:**
+- Requires SMTP configuration
+- Edge Functions better served by API-based providers (Resend)
+- Supabase docs don't recommend it for Edge Functions
+
+### Do NOT Add: NextAuth/Auth.js
+
+**Why Avoid:**
+- Supabase Auth already handles all auth flows
+- Would add complexity without benefit
+- Password reset, OAuth, session management all work with existing @supabase/ssr
+
+### Do NOT Add: sharp for Image Processing
+
+**Why Avoid:**
+- Native binary, complex deployment
+- browser-image-compression handles client-side compression
+- Supabase Pro has built-in image transforms
+- Edge Functions can use magick-wasm if server-side needed
+
+### Do NOT Add: AWS SES, SendGrid, Mailgun
+
+**Why Avoid:**
+- More complex API and setup than Resend
+- Supabase documentation specifically covers Resend integration
+- Free tiers have more restrictions
+
+---
+
+## Version Summary
+
+| Package | Version | Location | Purpose |
+|---------|---------|----------|---------|
+| resend | 6.9.1 | Edge Functions | Email API |
+| @react-email/components | 1.0.4 | Edge Functions (optional) | Email templates |
+| browser-image-compression | 2.0.2 | Next.js (optional) | Avatar optimization |
+
+## Existing Stack (Validated, No Changes)
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| @supabase/supabase-js | 2.93.1 | Database, Auth, Storage |
+| @supabase/ssr | 0.8.0 | Server-side sessions |
+| react-hook-form | 7.71.1 | Form handling |
+| zod | 4.3.6 | Validation |
+| @zxcvbn-ts/core | 3.0.4 | Password strength |
+| @radix-ui/react-switch | 1.2.6 | Toggle components |
+| lucide-react | 0.563.0 | Icons (Heart for favorites) |
+| sonner | 2.0.7 | Toast notifications |
+| @tanstack/react-query | 5.90.20 | Server state |
+
+---
+
+## Installation Commands
+
+### Next.js App (Optional)
+```bash
+# Only if client-side image compression needed
+npm install browser-image-compression@2.0.2
+```
+
+### Supabase Edge Functions
+```bash
+# In supabase/functions/send-notification-email/
+npm init -y
+npm install resend@6.9.1
+npm install @react-email/components@1.0.4  # Optional
+```
+
+### Supabase Secrets
+```bash
+supabase secrets set RESEND_API_KEY=re_xxxxxxxxxxxxx
+```
+
+---
+
+## Sources
+
+- [Supabase resetPasswordForEmail](https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail)
+- [Supabase Password-based Auth](https://supabase.com/docs/guides/auth/passwords)
+- [Supabase Send Email Hook](https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook)
+- [Supabase Sending Emails with Edge Functions](https://supabase.com/docs/guides/functions/examples/send-emails)
+- [Supabase Image Transformations](https://supabase.com/docs/guides/storage/serving/image-transformations)
+- [Resend + Supabase Edge Functions](https://resend.com/docs/send-with-supabase-edge-functions)
+- [React Email](https://react.email)
+- [Resend npm package](https://github.com/resend/resend-node/releases) - v6.9.1 (2026-01-27)
+- [@react-email/components npm](https://www.npmjs.com/package/@react-email/components) - v1.0.4
+- [browser-image-compression npm](https://www.npmjs.com/package/browser-image-compression) - v2.0.2
+
+---
+*Researched: 2026-02-01*
+*Confidence: HIGH - All recommendations verified against official documentation*

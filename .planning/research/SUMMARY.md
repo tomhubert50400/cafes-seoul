@@ -1,170 +1,202 @@
 # Project Research Summary
 
-**Project:** Cafes Seoul - Korean Cafe Discovery App
-**Domain:** Authentication (Supabase Auth + Next.js 16 App Router + Korean OAuth)
-**Researched:** 2026-01-27
+**Project:** Cafes Seoul - Profile Enhancement (v1.3)
+**Domain:** Profile features, favorites, reviews, settings, email notifications
+**Researched:** 2026-02-01
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Adding authentication to a Next.js 16 App Router + Supabase application requires cookie-based session management using `@supabase/ssr` (v0.8.0) with middleware-driven token refresh. The standard approach leverages Server Components for data fetching, Server Actions for auth mutations, and Route Handlers for OAuth callbacks. For Korean market coverage, Kakao OAuth is natively supported by Supabase, but **Naver OAuth is NOT natively supported** — requiring either a custom implementation or deferring to v2.
+Profile enhancement features for cafe discovery apps are well-established patterns with clear implementations. The Cafes Seoul codebase already has foundational infrastructure: existing `cafe_ratings` table (10-dimension ratings), `favorites` table with `list_name` and `notes` fields, `profiles` table with display name and preferences, and complete Supabase Auth with OAuth. The v1.3 milestone is primarily an integration task leveraging existing schema rather than greenfield development.
 
-The recommended v1 scope is Email/Password + Google + Kakao authentication, which covers 70%+ of users without the complexity of Naver workarounds. Critical risks include using `getSession()` instead of `getUser()` in server code (authentication bypass vulnerability), cookie size limits with PKCE flows, and Kakao's email scope restriction to business accounts only.
+The recommended approach is phased delivery starting with core profile tabs (My Reviews, Favorites list, Settings page), then extending with text reviews and password reset, and finally adding email notifications via Supabase Edge Functions with Resend. Minimal new dependencies are required: Resend for email (Edge Function only), optionally browser-image-compression for avatar optimization. All other features use existing patterns from the photos and ratings systems.
 
-Architecture follows Next.js 16 patterns: middleware refreshes sessions on every request, Server Components fetch protected data using `getUser()`, and Client Components handle interactive auth forms that submit to Server Actions. Build order must respect dependencies: foundation (middleware + clients) → email auth → OAuth → protected routes → UX polish.
+Key risks center on email notification infrastructure (first time implementing Edge Functions in this project) and avatar storage policies (new bucket with RLS). Password reset uses native Supabase Auth methods so risk is low. The favorites and reviews features are pure database queries with existing patterns.
 
 ## Key Findings
 
 ### Recommended Stack
 
-**Current packages are nearly up-to-date.** The project already has `@supabase/ssr@0.8.0` (latest) and `@supabase/supabase-js@2.91.1` (minor update available to 2.93.1). No additional packages are needed for Email/Password + Google + Kakao authentication.
+**Stack additions are minimal.** The existing Next.js 16 + Supabase stack handles all profile features natively.
 
-**Core technologies:**
-- `@supabase/ssr@0.8.0`: Cookie-based SSR auth for Next.js — consolidates deprecated auth-helpers, provides XSS protection via HTTP-only cookies
-- `@supabase/supabase-js@2.93.1`: Auth client with PKCE OAuth flow — handles token refresh, session management, JWT validation
-- Next.js 16 App Router: Server Components + Server Actions — secure server-side auth checks, zero client JS for data fetching
+**Core technologies (existing, validated):**
+- `@supabase/supabase-js@2.93.1`: Password reset via `resetPasswordForEmail()` and `updateUser()` - no new auth libraries needed
+- `@supabase/ssr@0.8.0`: Server-side session management already configured
+- `react-hook-form` + `zod`: Form handling for profile editing and review submission
+- Supabase Storage: Avatar uploads using existing photo patterns
 
-**Update required:**
-```bash
-npm install @supabase/supabase-js@latest
-```
+**New additions:**
+- `resend@6.9.1` (Edge Functions only): Email notifications for submission status changes - 3,000 free emails/month sufficient for this use case
+- `browser-image-compression@2.0.2` (optional): Client-side avatar compression before upload to reduce bandwidth
+
+**Explicitly avoid:**
+- NextAuth/Auth.js - Supabase Auth already handles password reset
+- Nodemailer - Resend is simpler for Edge Functions
+- sharp - Native binary complexity; use browser-image-compression instead
 
 ### Expected Features
 
 **Must have (table stakes):**
-- Multi-provider OAuth (Kakao, Google) — Korean users expect Kakao login as standard
-- Email/Password authentication — fallback for users without social accounts
-- Session management with refresh tokens — 15-min access tokens, 7-day refresh tokens with rotation
-- Account linking — users can log in with multiple providers using same email
-- Protected routes — browse public, contribute with account
-- Logout — clear session and invalidate tokens
+- My Reviews tab with list of user's ratings and cafe info
+- Heart icon toggle on cafe cards and detail page
+- Favorites list in profile with click-through to cafes
+- Settings page with profile editing (display name, bio)
+- Email notifications on submission approval/rejection
+
+**Should have (competitive):**
+- Optional text review field added to ratings
+- Password reset via email link (self-service)
+- Notification preferences toggle
+- Sort favorites by date added or rating
+- Avatar upload with image preview
 
 **Defer (v2+):**
-- Naver OAuth — NOT natively supported by Supabase, requires workaround or custom implementation
-- Magic link authentication — passwordless, but adds complexity without enough v1 value
-- MFA (TOTP) — explicitly out of scope per project requirements
-- Password reset — deferred per project scope, OAuth covers most users
-- Account deletion/data portability — required for mobile app store compliance (Phase 2)
+- Collections (named favorites lists) - schema supports it but adds UI complexity
+- Favorites on map view - requires geolocation integration
+- Delete account with cascading deletes - needs careful GDPR planning
+- In-app notification center - high complexity (WebSocket infrastructure)
+- Share collection via public link - privacy and URL generation complexity
 
 ### Architecture Approach
 
-Supabase Auth with Next.js 16 uses **cookie-based session management** where middleware handles automatic token refresh on every request, Server Components read cookies for data fetching, and Server Actions handle auth mutations (login, signup, logout). The architecture maintains Server Components as default, using Client Components only for interactive auth UI (forms, buttons).
+The profile enhancement follows a tab-based layout pattern already established in `/profile`. Each tab is a separate route segment (`/profile/reviews`, `/profile/favorites`, `/profile/settings`) using Next.js App Router conventions. Data fetching happens in Server Components with `getUser()` validation, while interactive forms use Client Components with Server Actions.
 
 **Major components:**
-1. **Middleware Layer** (`src/middleware.ts` + `src/lib/supabase/middleware.ts`) — automatic session refresh via `getUser()`, protected route redirects, runs on every request excluding static assets
-2. **Client Factories** (`src/lib/supabase/client.ts`, `src/lib/supabase/server.ts`) — browser client for Client Components, server client for Server Components/Actions with read-only cookie access
-3. **Server Actions** (`src/app/(auth)/login/actions.ts`) — handle auth mutations (login, signup, signout) with form data, call Supabase Auth API, revalidate cache, redirect
-4. **OAuth Callback Handler** (`src/app/auth/callback/route.ts`) — exchange authorization code for session, handle PKCE flow, redirect to app with session cookies
-5. **Protected Routes** — middleware checks auth state and redirects unauthenticated users to `/login?redirect=/protected-route`
+1. **Profile Tab Layout** - Existing layout with tab navigation; add new tab routes
+2. **Reviews List Component** - Displays `cafe_ratings` with optional text review; adapts existing ratings display pattern
+3. **Favorites Component** - Heart toggle button (reusable), favorites list with cafe cards
+4. **Settings Form** - Profile editing form with Supabase profile update; password reset trigger
+5. **Email Edge Function** - Supabase Edge Function triggered by database webhook on `cafe_submissions` status change
+
+**Data flow:**
+```
+Profile Page (Server Component)
+    -> getUser() validation
+    -> Fetch from profiles/ratings/favorites tables
+    -> Pass to Client Components for interactivity
+
+Heart Toggle (Client Component)
+    -> Optimistic UI update
+    -> Server Action inserts/deletes from favorites
+    -> TanStack Query cache invalidation
+
+Settings Form (Client Component)
+    -> react-hook-form + zod validation
+    -> Server Action updates profiles table
+    -> Password reset triggers Supabase email flow
+
+Submission Status Change (Database)
+    -> Database Webhook triggers Edge Function
+    -> Edge Function calls Resend API
+    -> Email sent to user
+```
 
 ### Critical Pitfalls
 
-1. **Using `getSession()` instead of `getUser()` in server code** — CRITICAL: `getSession()` does NOT validate JWT signature server-side, enabling authentication bypass. Always use `getUser()` in Server Components, Route Handlers, and middleware.
+1. **Using `getSession()` instead of `getUser()` in Server Components** - Always use `getUser()` for auth validation as it cryptographically verifies the JWT. `getSession()` only reads cookies without verification, enabling potential auth bypass.
 
-2. **Kakao `account_email` scope restriction** — CRITICAL: Email scope only available to Kakao Business accounts, NOT individual developer accounts. Test with non-business accounts, consider using Kakao user ID as primary identifier, provide alternative auth methods.
+2. **Avatar storage without proper RLS policies** - Create dedicated `avatars` bucket with policies restricting users to their own files. Path pattern: `avatars/{userId}/avatar.{ext}`. Without RLS, any user could overwrite another's avatar.
 
-3. **Cookie size limits with PKCE flows** — HIGH: OAuth cookies can exceed 4096-character browser limit, causing silent failures. Monitor cookie sizes, test all OAuth providers before launch.
+3. **Password reset email redirect URL not whitelisted** - Add all redirect URLs to Supabase Dashboard before testing. Include `http://localhost:3000/auth/reset-password` for development and production URL. Missing entries cause silent failures.
 
-4. **Wrong callback route for email verification** — MEDIUM: Email confirmations should use `/auth/confirm`, NOT `/auth/callback` (which is for OAuth). Create separate route handlers for each flow.
+4. **Email rate limiting during development** - Supabase limits to 2 emails/hour with built-in provider. Configure custom SMTP (Resend) early to avoid blocking QA testing of password reset and notifications.
 
-5. **Environment-specific OAuth redirects** — HIGH: Hardcoded redirect URLs break in production/preview. Use dynamic URL helper based on `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_VERCEL_URL`, or localhost. Whitelist all environments in Supabase Dashboard.
+5. **Hydration mismatch on auth state** - Avoid reading auth state differently between server and client. Fetch user in Server Component and pass to Client Components, or use skeleton loading states until client mount completes.
 
 ## Implications for Roadmap
 
 Based on research, suggested phase structure:
 
-### Phase 1: Auth Foundation
-**Rationale:** Middleware and client factories must be established before any auth flows. Existing setup is 90% complete — just needs verification and minor updates.
-**Delivers:** Cookie-based session management, automatic token refresh, protected route infrastructure
-**Addresses:** Session management (table stakes), protected routes (table stakes)
-**Avoids:** Pitfall #1 (getUser vs getSession), Pitfall #3 (middleware performance)
-**Estimated effort:** 1-2 hours (verify existing setup, update package, test token refresh)
+### Phase 1: Profile Foundation
+**Rationale:** Establishes the profile tab infrastructure that all other features depend on. No new dependencies required.
+**Delivers:** Working profile layout with My Reviews tab showing user's ratings
+**Addresses:** My Reviews list, pagination, empty states, click-through to cafes
+**Avoids:** No auth changes needed; uses existing middleware protection
 
-### Phase 2: Email/Password Authentication
-**Rationale:** Simplest auth flow, no external dependencies, validates core infrastructure before adding OAuth complexity.
-**Delivers:** Login/signup pages, email verification, Server Actions for auth mutations
-**Addresses:** Email/Password auth (table stakes), logout (table stakes)
-**Avoids:** Pitfall #4 (email callback route), Pitfall #8 (redirect URL allowlist)
-**Estimated effort:** 4-6 hours (UI components, Server Actions, email templates, testing)
+### Phase 2: Favorites System
+**Rationale:** High-visibility feature (heart icon) that touches multiple UI surfaces. Should come after profile foundation is solid.
+**Delivers:** Heart toggle on all cafe cards and detail pages, favorites tab in profile
+**Uses:** Existing `favorites` table schema, Lucide React icons, TanStack Query for optimistic updates
+**Avoids:** Defer collections (named lists) to v2 despite schema support - reduces UI scope
 
-### Phase 3: OAuth Integration (Google + Kakao)
-**Rationale:** Google and Kakao are natively supported by Supabase. Kakao is essential for Korean market, Google covers international users. Skip Naver in v1 due to lack of native support.
-**Delivers:** Social login buttons, OAuth callback handler, account linking, Supabase Dashboard configuration
-**Addresses:** Multi-provider OAuth (table stakes), account linking (table stakes)
-**Avoids:** Pitfall #2 (cookie sizes), Pitfall #5 (Kakao API keys), Pitfall #11 (environment redirects)
-**Uses:** `@supabase/ssr` OAuth methods, PKCE flow, Supabase Auth providers
-**Estimated effort:** 6-8 hours (OAuth setup, callback handler, provider config, testing all flows)
+### Phase 3: Settings & Profile Editing
+**Rationale:** Lower user-facing visibility than reviews/favorites but enables account management. Depends on profile layout from Phase 1.
+**Delivers:** Profile editing form, language preference, notification preferences
+**Uses:** Existing profiles table, react-hook-form patterns from submission forms
+**Implements:** Settings tab UI, profile update Server Actions
 
-### Phase 4: Protected Routes & User Profile
-**Rationale:** With auth working, implement route protection and basic profile management. This validates the full auth cycle (signup → login → protected content → logout).
-**Delivers:** Updated middleware with protected paths, profile page, user menu, logout button
-**Addresses:** Protected routes (table stakes), profile management (v1 optional)
-**Avoids:** Pitfall #10 (hydration errors), Pitfall #12 (signout cookie clearing)
-**Implements:** Server Component protection pattern, `getUser()` validation, middleware redirects
-**Estimated effort:** 3-4 hours (middleware updates, profile page, user menu component)
+### Phase 4: Password Reset & Avatar
+**Rationale:** Security-critical feature requiring email flow testing. Avatar upload reuses existing Storage patterns.
+**Delivers:** Self-service password reset, avatar upload with preview
+**Uses:** Supabase Auth `resetPasswordForEmail()`, Supabase Storage with new `avatars` bucket
+**Avoids:** Email rate limiting - test with custom SMTP from start
 
-### Phase 5: Auth UI/UX Polish
-**Rationale:** Final pass for production-ready UX — validation, loading states, error handling, redirect preservation.
-**Delivers:** Form validation, loading spinners, inline errors, toast notifications, redirect flow
-**Addresses:** Production UX requirements (not table stakes, but expected)
-**Estimated effort:** 4-5 hours (validation logic, pending UI, error display, redirect handling)
+### Phase 5: Text Reviews
+**Rationale:** Extends existing ratings with optional text. Lower priority than core profile features.
+**Delivers:** Text review field in rating form, display reviews on cafe pages
+**Uses:** Schema migration to add `review_text` column to `cafe_ratings`
+**Implements:** Extended rating form, review display component
+
+### Phase 6: Email Notifications
+**Rationale:** First Edge Function implementation - higher risk, should come last. Depends on notification preferences from Phase 3.
+**Delivers:** Email on submission approved/rejected
+**Uses:** Resend API via Supabase Edge Function, Database Webhook triggers
+**Implements:** Edge Function infrastructure, email templates
 
 ### Phase Ordering Rationale
 
-- **Foundation first** because middleware/client setup is required by all subsequent phases. Existing code reduces effort from 4-6 hours to 1-2 hours.
-- **Email/Password before OAuth** because it's simpler, has no external dependencies, and validates core infrastructure. If this fails, OAuth will also fail.
-- **Google + Kakao together** because both are natively supported and follow identical patterns. Implementing one makes the second trivial.
-- **Skip Naver in v1** because it's NOT natively supported by Supabase, requires custom implementation (6-10 extra hours), and Kakao already covers Korean users. Defer to v2 when Supabase adds custom OIDC support or if user demand justifies complexity.
-- **Protected routes after auth** because you need working login/signup flows to test route protection.
-- **Polish last** because it depends on all auth flows working correctly.
+- **Foundation first:** Profile tabs provide the container for all other features. Building the skeleton first prevents rework.
+- **Favorites early:** High-impact user-facing feature that adds value immediately. Heart icons are visible across the entire app.
+- **Settings before auth features:** Notification preferences must exist before building email notifications.
+- **Password reset before notifications:** Both use email, so password reset validates email infrastructure before more complex Edge Function work.
+- **Edge Functions last:** First-time infrastructure in this project. Isolating to final phase reduces risk of blocking other features.
 
 ### Research Flags
 
-**Phases with standard patterns (skip deeper research):**
-- **Phase 1 (Foundation):** Well-documented Supabase + Next.js patterns, existing codebase already 90% complete
-- **Phase 2 (Email/Password):** Standard Supabase Auth features, official docs cover all edge cases
-- **Phase 4 (Protected Routes):** Next.js middleware patterns, Supabase RLS documented extensively
-- **Phase 5 (Polish):** Standard UX patterns, no domain-specific research needed
+Phases likely needing deeper research during planning:
+- **Phase 6 (Email Notifications):** First Edge Function implementation in project. Need to verify Resend + Supabase Edge Function integration patterns, database webhook setup, and Deno runtime requirements.
+- **Phase 4 (Avatar):** Storage bucket RLS policies need careful design. Research existing photo bucket policies and adapt for single-file-per-user pattern.
 
-**Phases needing caution during execution:**
-- **Phase 3 (OAuth):** Kakao email scope restriction requires testing with non-business accounts. Research completed, but validate during implementation. Cookie size limits need monitoring during testing.
-
-**No phases require `/gsd:research-phase`** — all patterns are well-documented and research is complete.
+Phases with standard patterns (skip research-phase):
+- **Phase 1 (My Reviews):** Standard database query + list display. Existing ratings components can be adapted.
+- **Phase 2 (Favorites):** Common heart toggle pattern, existing table schema.
+- **Phase 3 (Settings):** Standard form with profile update. No new concepts.
+- **Phase 5 (Text Reviews):** Simple schema migration + textarea field.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Official Supabase docs + Context7, packages verified on npm, versions current |
-| Features | HIGH | Supabase Auth capabilities documented, Korean OAuth providers researched via Kakao Developers docs + community discussions |
-| Architecture | HIGH | Next.js 16 App Router patterns established, Supabase SSR architecture documented, existing codebase follows best practices |
-| Pitfalls | HIGH | GitHub issues + Supabase discussions provide concrete examples, warnings signs verified across multiple sources |
+| Stack | HIGH | Minimal additions; all packages verified via npm and official docs |
+| Features | HIGH | Well-established patterns from Yelp, Google Maps, specialty coffee apps |
+| Architecture | HIGH | Extends existing codebase patterns; profile layout already exists |
+| Pitfalls | HIGH | Auth pitfalls from v1.0 research still apply; email pitfalls documented |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Naver OAuth support status:** Confirmed NOT supported as of 2026-01-27. Decision: defer to v2. Validate again if Supabase announces custom OIDC support (rumored for 2026).
-- **Kakao email scope for non-business accounts:** Research indicates email scope requires Biz App registration. Validation needed: test with personal Kakao account during Phase 3 implementation. Fallback: use Kakao user ID as identifier instead of email.
-- **Cookie size limits in production:** Research shows Google OAuth cookies can exceed 4096 characters. Monitoring needed: inspect Set-Cookie headers during Phase 3 testing with DevTools.
+- **Edge Function deployment:** First-time infrastructure. Document deployment process during Phase 6 implementation.
+- **Email template i18n:** Need Korean and English versions of notification emails. Get translations reviewed before launch.
+- **Avatar file size limits:** Decide on max file size and whether to use client-side compression. Consider Supabase Pro image transforms if budget allows.
+- **Review moderation:** Text reviews may need moderation workflow. Defer to v2 or launch with admin review capability.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- [Supabase Auth Server-Side Guide](https://supabase.com/docs/guides/auth/server-side/nextjs) — Next.js 16 integration patterns
-- [Supabase @supabase/ssr package docs](https://supabase.com/docs/guides/auth/server-side/migrating-to-ssr-from-auth-helpers) — SSR client usage, migration guide
-- [Kakao Developers OAuth docs](https://developers.kakao.com/docs/latest/en/kakaologin/rest-api) — Kakao OAuth configuration, scope requirements
-- Supabase npm packages: `@supabase/ssr@0.8.0`, `@supabase/supabase-js@2.93.1` — verified versions
+- [Supabase resetPasswordForEmail](https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail) - Password reset API
+- [Supabase Sending Emails with Edge Functions](https://supabase.com/docs/guides/functions/examples/send-emails) - Resend integration pattern
+- [Supabase Storage Policies](https://supabase.com/docs/guides/storage/security/access-control) - RLS for avatars bucket
+- [Resend npm package v6.9.1](https://github.com/resend/resend-node/releases) - Latest verified version
 
 ### Secondary (MEDIUM confidence)
-- [Supabase GitHub discussions: Naver provider support](https://github.com/orgs/supabase/discussions/35631) — confirmed NOT supported, custom implementation required
-- [Supabase issues: Kakao email scope](https://github.com/supabase/supabase/issues/36878) — Business account requirement for email scope
-- OAuth 2.1/PKCE standards articles — security best practices, token lifetimes, refresh token rotation
+- [Farm and City Coffee App](https://mariandthecity.com/best-apps-to-find-cafes/) - Profile and reviews patterns
+- [Yelp Collections Feature](https://smartphones.gadgethacks.com/how-to-use-yelp-collections-find-new-places-keep-your-bookmarked-locations-more-organized-0194859/) - Favorites organization pattern
+- [Notification UX Best Practices](https://userpilot.com/blog/notification-ux/) - User control patterns
 
 ### Tertiary (LOW confidence)
-- Community articles on session management — token lifetime recommendations (15-30 min access, 7-14 day refresh)
-- Medium/Dev.to tutorials — validated against official docs before inclusion
+- React Email templates - Optional, can use plain HTML initially
 
 ---
-*Research completed: 2026-01-27*
+*Research completed: 2026-02-01*
 *Ready for roadmap: yes*
