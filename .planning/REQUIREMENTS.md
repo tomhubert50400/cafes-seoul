@@ -43,10 +43,10 @@ Requirements for Profile Enhancement milestone.
 
 ### Email Notifications
 
-- [ ] **NOTIF-01**: User receives email when cafe submission is approved
-- [ ] **NOTIF-02**: User receives email when cafe submission is rejected
-- [ ] **NOTIF-03**: User receives email when photo submission is approved
-- [ ] **NOTIF-04**: User receives email when photo submission is rejected
+- [x] **NOTIF-01**: User receives email when cafe submission is approved
+- [x] **NOTIF-02**: User receives email when cafe submission is rejected
+- [x] **NOTIF-03**: User receives email when photo submission is approved
+- [x] **NOTIF-04**: User receives email when photo submission is rejected
 
 ## Future Requirements
 
@@ -105,10 +105,10 @@ Explicitly excluded for v1.3.
 | TXT-04 | Phase 16 | Complete |
 | TXT-05 | Phase 16 | Complete |
 | TXT-06 | Phase 16 | Complete |
-| NOTIF-01 | Phase 18 | Pending |
-| NOTIF-02 | Phase 18 | Pending |
-| NOTIF-03 | Phase 18 | Pending |
-| NOTIF-04 | Phase 18 | Pending |
+| NOTIF-01 | Phase 18 | Complete |
+| NOTIF-02 | Phase 18 | Complete |
+| NOTIF-03 | Phase 18 | Complete |
+| NOTIF-04 | Phase 18 | Complete |
 
 **Coverage:**
 - v1.3 requirements: 26 total
