@@ -70,10 +70,13 @@ Plans:
   3. User can view all favorited cafes in a Favorites profile tab
   4. User can remove cafes from favorites (heart unfills)
   5. User can view their favorited cafes on an interactive map
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 14-01: TBD
+- [ ] 14-01-PLAN.md - Database schema, Supabase queries, Server Actions
+- [ ] 14-02-PLAN.md - FavoriteButton component, CafeCard integration
+- [ ] 14-03-PLAN.md - Favorites profile page, cafe detail integration
+- [ ] 14-04-PLAN.md - Map favorites filter and colored pins
 
 ### Phase 15: Settings & Profile
 **Goal**: User can manage their profile information and account
@@ -136,7 +139,7 @@ Plans:
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 13. Profile Foundation | v1.3 | 3/3 | Complete | 2026-02-01 |
-| 14. Favorites System | v1.3 | 0/TBD | Not started | - |
+| 14. Favorites System | v1.3 | 0/4 | Planned | - |
 | 15. Settings & Profile | v1.3 | 0/TBD | Not started | - |
 | 16. Text Reviews | v1.3 | 0/TBD | Not started | - |
 | 17. Password & Preferences | v1.3 | 0/TBD | Not started | - |
