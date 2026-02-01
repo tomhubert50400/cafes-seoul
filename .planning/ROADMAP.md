@@ -99,17 +99,21 @@ Plans:
 ### Phase 16: Text Reviews
 **Goal**: User can enhance ratings with optional text commentary
 **Depends on**: Phase 13 (My Reviews tab displays reviews)
-**Requirements**: TXT-01, TXT-02, TXT-03, TXT-04, TXT-05, TXT-06
+**Requirements**: TXT-01, TXT-03, TXT-04, TXT-05, TXT-06
 **Success Criteria** (what must be TRUE):
-  1. User can add optional text and title when rating a cafe
+  1. User can add optional text when rating a cafe
   2. User can edit their review text after submission
   3. Text reviews display on cafe detail page with author info
   4. Users can mark other reviews as helpful
   5. Review helpful count is visible on cafe page
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 16-01: TBD
+- [ ] 16-01-PLAN.md - Database schema, types, validation for review text and votes
+- [ ] 16-02-PLAN.md - Supabase queries and Server Actions for reviews
+- [ ] 16-03-PLAN.md - Cafe page review display with helpful voting
+- [ ] 16-04-PLAN.md - My Reviews inline editing with delete confirmation
+- [ ] 16-05-PLAN.md - Rating form review text integration and verification
 
 ### Phase 17: Password & Preferences
 **Goal**: User can manage security and notification settings
@@ -145,7 +149,7 @@ Plans:
 | 13. Profile Foundation | v1.3 | 3/3 | Complete | 2026-02-01 |
 | 14. Favorites System | v1.3 | 4/4 | Complete | 2026-02-01 |
 | 15. Settings & Profile | v1.3 | 5/5 | Complete | 2026-02-01 |
-| 16. Text Reviews | v1.3 | 0/TBD | Not started | - |
+| 16. Text Reviews | v1.3 | 0/5 | Planning complete | - |
 | 17. Password & Preferences | v1.3 | 0/TBD | Not started | - |
 | 18. Email Notifications | v1.3 | 0/TBD | Not started | - |
 
