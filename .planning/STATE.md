@@ -105,6 +105,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 | 15-03 | Dual sync display_name to profiles and auth.users | JWT consistency for display name |
 | 15-03 | FormProvider pattern for UnsavedChangesWarning | Access form isDirty state from separate component |
 | 15-03 | Character counter visible only when typing | Cleaner UI, less visual noise |
+| 15-04 | Reactivation in layout vs middleware | Profile layout for simplicity - covers all profile pages |
+| 15-04 | Sign out after scheduling deletion | Forces re-auth to cancel, adds friction against accidental reactivation |
 | 15-05 | ID-based public profile route (/user/[id]) | More stable than username which could change |
 | 15-05 | Optimistic privacy toggle | Better UX with instant feedback, revert on error |
 | 15-05 | Viewer-based profile access pattern | Different data returned based on viewer ownership |
