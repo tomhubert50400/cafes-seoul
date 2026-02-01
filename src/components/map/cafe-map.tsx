@@ -4,7 +4,7 @@ import { useMemo, useCallback } from 'react';
 import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import Image from 'next/image';
 import Link from 'next/link';
-import { X, Star, MapPin, Navigation, ExternalLink } from 'lucide-react';
+import { X, Star, MapPin, Navigation, ExternalLink, Heart } from 'lucide-react';
 import { CafeMarker } from './cafe-marker';
 import { filterCafes } from '@/lib/utils/filter-cafes';
 import { useI18n } from '@/lib/i18n';
@@ -32,9 +32,24 @@ export function CafeMap({
 
   // Filter cafes based on active filters
   const visibleCafes = useMemo(() => {
-    if (!filters) return cafes;
-    return filterCafes(cafes, filters);
-  }, [cafes, filters]);
+    let result = cafes;
+
+    // Apply existing filters first
+    if (filters) {
+      result = filterCafes(result, filters);
+    }
+
+    // Apply favorites filter
+    if (filters?.showFavoritesOnly && favoriteIds?.length) {
+      result = result.filter((cafe) => favoriteIds.includes(cafe.id));
+    }
+
+    return result;
+  }, [cafes, filters, favoriteIds]);
+
+  // Check if showing empty favorites state
+  const showEmptyFavorites =
+    filters?.showFavoritesOnly && visibleCafes.length === 0;
 
   const handleMarkerClick = useCallback((cafe: CafeSummary) => {
     onCafeSelect?.(cafe);
@@ -86,6 +101,7 @@ export function CafeMap({
               key={cafe.id}
               cafe={cafe}
               isSelected={selectedCafe?.id === cafe.id}
+              isFavorited={favoriteIds?.includes(cafe.id)}
               onClick={() => handleMarkerClick(cafe)}
             />
           ))}
@@ -193,6 +209,27 @@ export function CafeMap({
           </CustomOverlayMap>
         )}
       </Map>
+
+      {/* Empty favorites overlay */}
+      {showEmptyFavorites && (
+        <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-20 pointer-events-none">
+          <div className="text-center p-6 pointer-events-auto">
+            <Heart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold text-foreground mb-2">
+              {t('map.filters.noFavorites')}
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              {t('map.filters.browseCafes')}
+            </p>
+            <Link
+              href="/cafes"
+              className="inline-flex items-center justify-center px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+            >
+              {t('nav.cafes')}
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
