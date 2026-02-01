@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 16 of 18 (Text Reviews)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-02-01 — Completed Phase 15
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-02-01 — Completed 16-01-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 
@@ -110,6 +110,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 | 15-05 | ID-based public profile route (/user/[id]) | More stable than username which could change |
 | 15-05 | Optimistic privacy toggle | Better UX with instant feedback, revert on error |
 | 15-05 | Viewer-based profile access pattern | Different data returned based on viewer ownership |
+| 16-01 | Extend cafe_ratings vs separate reviews table | Maintains one-review-per-user-per-cafe constraint, simpler queries |
+| 16-01 | IS DISTINCT FROM in trigger | Handles NULL transitions correctly for review_edited_at |
+| 16-01 | Public SELECT on helpful_votes | Vote counts visible to all, only write ops restricted |
 
 ### Pending Todos
 
@@ -122,9 +125,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 15 complete
+Stopped at: Completed 16-01-PLAN.md
 Resume file: None
-Next action: /gsd:discuss-phase 16
+Next action: Execute 16-02-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
