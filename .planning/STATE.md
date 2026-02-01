@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** Phase 16 - Text Reviews
+**Current focus:** Phase 17 - Password & Preferences
 
 ## Current Position
 
-Phase: 16 of 18 (Text Reviews)
-Plan: 5 of 5 in current phase
-Status: Phase complete
-Last activity: 2026-02-01 - Completed 16-05-PLAN.md
+Phase: 17 of 18 (Password & Preferences)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-02-01 - Completed 17-01-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [4/6 phases]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases]
 
 ## Performance Metrics
 
@@ -35,9 +35,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [4/6 phases]
 - Timeline: 1 day
 
 **Milestone v1.3:**
-- Plans completed: 13
+- Plans completed: 14
 - Phases: 13-18 (6 phases)
-- Status: In progress (Phase 15 complete)
+- Status: In progress (Phase 17 in progress)
 
 ## Accumulated Context
 
@@ -123,6 +123,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [4/6 phases]
 | 16-05 | Collapsible review text section in rating form | Reduces form clutter while keeping feature discoverable |
 | 16-05 | Fetch profiles separately from ratings | Avoids FK constraint errors when profile row missing |
 | 16-05 | Username fallback for review author display | Handles null display_name gracefully |
+| 17-01 | Password min score 2 (Good) | Balance security and UX per RESEARCH.md recommendation |
+| 17-01 | Key-value notification preferences | Flexible schema, easier migrations than columns per type |
 
 ### Pending Todos
 
@@ -135,9 +137,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 16-05-PLAN.md
+Stopped at: Completed 17-01-PLAN.md
 Resume file: None
-Next action: Execute 17-01-PLAN.md
+Next action: Execute 17-02-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
