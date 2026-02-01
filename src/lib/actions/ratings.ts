@@ -7,13 +7,14 @@ import {
   upsertRating,
   getRatingByUserAndCafe,
   getUserRatings,
+  getUserRatingsWithImages,
   getCafeRatings,
   getCafeRatingsCount,
   deleteRating,
   updateCafeAverages,
 } from '@/lib/supabase/ratings';
 import type { RatingFormData } from '@/lib/validations/ratings';
-import type { UserRating } from '@/types/ratings';
+import type { UserRating, UserRatingWithImage } from '@/types/ratings';
 
 // ============================================
 // SUBMIT RATING
@@ -165,6 +166,42 @@ export async function getMyRatings(options?: { limit?: number; offset?: number }
     return { success: true, ratings };
   } catch (err) {
     console.error('Unexpected error fetching ratings:', err);
+    return { success: false, error: 'Failed to fetch ratings' };
+  }
+}
+
+// ============================================
+// GET MY RATINGS WITH IMAGES
+// ============================================
+
+/**
+ * Get all ratings by current user with cafe images
+ * Used for My Reviews page where thumbnails are needed
+ * Includes joined cafe information with primary image
+ * @returns Success status with ratings array including images
+ */
+export async function getMyRatingsWithImages(): Promise<{
+  success: boolean;
+  ratings?: UserRatingWithImage[];
+  error?: string;
+}> {
+  try {
+    // 1. Verify authentication
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    // 2. Get user's ratings with cafe images
+    const ratings = await getUserRatingsWithImages(supabase, user.id);
+
+    return { success: true, ratings };
+  } catch (err) {
+    console.error('Unexpected error fetching ratings with images:', err);
     return { success: false, error: 'Failed to fetch ratings' };
   }
 }
