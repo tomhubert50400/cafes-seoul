@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getProfile } from '@/lib/supabase/profiles';
 import { ProfileForm } from '@/components/profile/profile-form';
 import { PrivacyToggle } from '@/components/profile/privacy-toggle';
+import { DeleteAccountDialog } from '@/components/profile/delete-account-dialog';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { ROUTES } from '@/lib/constants/routes';
@@ -71,6 +72,28 @@ export default async function SettingsPage() {
     updateError: getTranslation(lang, 'settings.privacyUpdateError'),
   };
 
+  const deletionTranslations = {
+    dangerZone: getTranslation(lang, 'settings.dangerZone'),
+    deleteAccount: getTranslation(lang, 'settings.deleteAccount'),
+    deleteDescription: getTranslation(lang, 'settings.deleteDescription'),
+    deleteWarning: getTranslation(lang, 'settings.deleteWarning'),
+    typeEmail: getTranslation(lang, 'settings.typeEmail'),
+    emailPlaceholder: getTranslation(lang, 'settings.emailPlaceholder'),
+    cancel: getTranslation(lang, 'settings.cancel'),
+    confirmDelete: getTranslation(lang, 'settings.confirmDelete'),
+    deleting: getTranslation(lang, 'settings.deleting'),
+    deleteScheduled: getTranslation(lang, 'settings.deleteScheduled'),
+    deleteScheduledDescription: getTranslation(lang, 'settings.deleteScheduledDescription'),
+    cancelDeletion: getTranslation(lang, 'settings.cancelDeletion'),
+    canceling: getTranslation(lang, 'settings.canceling'),
+    deleteSuccess: getTranslation(lang, 'settings.deleteSuccess'),
+    deleteError: getTranslation(lang, 'settings.deleteError'),
+    cancelSuccess: getTranslation(lang, 'settings.cancelSuccess'),
+    cancelError: getTranslation(lang, 'settings.cancelError'),
+    emailMismatch: getTranslation(lang, 'settings.emailMismatch'),
+    gracePeriodInfo: getTranslation(lang, 'settings.gracePeriodInfo'),
+  };
+
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <ProfileForm
@@ -81,6 +104,11 @@ export default async function SettingsPage() {
       <PrivacyToggle
         isPrivate={profile.is_private ?? false}
         translations={privacyTranslations}
+      />
+      <DeleteAccountDialog
+        userEmail={user.email || ''}
+        scheduledDeletionAt={profile.scheduled_deletion_at}
+        translations={deletionTranslations}
       />
     </div>
   );

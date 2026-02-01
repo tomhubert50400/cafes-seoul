@@ -2886,6 +2886,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'publicProfile.memberSince': 'Thành viên từ',
     'publicProfile.editProfile': 'Chỉnh sửa hồ sơ',
 
+    // Account Deletion
+    'settings.dangerZone': 'Khu vực nguy hiểm',
+    'settings.deleteAccount': 'Xóa tài khoản',
+    'settings.deleteDescription': 'Xóa vĩnh viễn tài khoản và tất cả dữ liệu liên quan.',
+    'settings.deleteWarning': 'Hành động này không thể hoàn tác. Đánh giá của bạn sẽ được ẩn danh nhưng vẫn giữ lại. Mục yêu thích và dữ liệu cá nhân sẽ bị xóa.',
+    'settings.typeEmail': 'Nhập email của bạn để xác nhận',
+    'settings.emailPlaceholder': 'your@email.com',
+    'settings.confirmDelete': 'Xóa tài khoản của tôi',
+    'settings.deleting': 'Đang xóa...',
+    'settings.deleteScheduled': 'Tài khoản đã lên lịch xóa',
+    'settings.deleteScheduledDescription': 'Tài khoản của bạn sẽ bị xóa vĩnh viễn vào {date}.',
+    'settings.cancelDeletion': 'Hủy xóa',
+    'settings.canceling': 'Đang hủy...',
+    'settings.deleteSuccess': 'Đã lên lịch xóa tài khoản. Bạn có 7 ngày để thay đổi quyết định.',
+    'settings.deleteError': 'Xóa tài khoản thất bại',
+    'settings.cancelSuccess': 'Đã hủy xóa tài khoản',
+    'settings.cancelError': 'Hủy xóa thất bại',
+    'settings.emailMismatch': 'Email không khớp',
+    'settings.gracePeriodInfo': 'Bạn có 7 ngày để đăng nhập lại và hủy xóa. Sau đó, tài khoản của bạn sẽ bị xóa vĩnh viễn.',
+
     // Toast Notifications
     'auth.toast.error.title': 'Lỗi',
     'auth.toast.error.multiple': 'Phát hiện {count} lỗi',
