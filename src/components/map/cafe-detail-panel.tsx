@@ -129,8 +129,8 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
           cafeId={cafe.id}
           cafeName={cafeName}
           cafeSlug={cafe.slug}
-          variant="outline"
-          className="w-full"
+          className="w-full bg-foreground text-background hover:bg-foreground/90"
+          redirectToPage
         />
       </div>
     </div>

@@ -13,34 +13,21 @@ interface I18nContextType {
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
-function getInitialLanguage(): LanguageCode {
-  if (typeof window === 'undefined') return DEFAULT_LANGUAGE;
-
-  // Check cookie first
-  const cookie = document.cookie
-    .split('; ')
-    .find(row => row.startsWith(`${LANGUAGE_COOKIE_NAME}=`));
-
-  if (cookie) {
-    const value = cookie.split('=')[1] as LanguageCode;
-    if (value in SUPPORTED_LANGUAGES) return value;
-  }
-
-  // Check browser language
-  const browserLang = navigator.language.split('-')[0] as LanguageCode;
-  if (browserLang in SUPPORTED_LANGUAGES) return browserLang;
-
-  return DEFAULT_LANGUAGE;
+interface I18nProviderProps {
+  children: ReactNode;
+  initialLanguage?: LanguageCode;
 }
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<LanguageCode>(DEFAULT_LANGUAGE);
+export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
+  // Use initialLanguage from server to prevent hydration mismatch
+  const [language, setLanguageState] = useState<LanguageCode>(initialLanguage ?? DEFAULT_LANGUAGE);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLanguageState(getInitialLanguage());
     setMounted(true);
-  }, []);
+    // Sync html lang attribute with the language
+    document.documentElement.lang = language;
+  }, [language]);
 
   const setLanguage = useCallback((lang: LanguageCode) => {
     setLanguageState(lang);
@@ -54,22 +41,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return translations[language]?.[key] || translations[DEFAULT_LANGUAGE]?.[key] || key;
   }, [language]);
 
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return (
-      <I18nContext.Provider value={{
-        language: DEFAULT_LANGUAGE,
-        setLanguage: () => {},
-        t: (key) => translations[DEFAULT_LANGUAGE]?.[key] || key,
-        languages: SUPPORTED_LANGUAGES
-      }}>
-        {children}
-      </I18nContext.Provider>
-    );
-  }
+  // Use consistent value for both server and client render
+  const contextValue = {
+    language,
+    setLanguage: mounted ? setLanguage : () => {},
+    t,
+    languages: SUPPORTED_LANGUAGES
+  };
 
   return (
-    <I18nContext.Provider value={{ language, setLanguage, t, languages: SUPPORTED_LANGUAGES }}>
+    <I18nContext.Provider value={contextValue}>
       {children}
     </I18nContext.Provider>
   );

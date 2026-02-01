@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Flag } from '@/components/ui/flag';
 import { useI18n, LanguageCode } from '@/lib/i18n';
 
 export function LanguageSwitcher() {
@@ -26,7 +26,7 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="h-4 w-4" />
+          <Flag language={language} size={20} />
           <span className="hidden sm:inline">{currentLanguage.nativeName}</span>
         </Button>
       </DropdownMenuTrigger>
@@ -37,7 +37,7 @@ export function LanguageSwitcher() {
             onClick={() => handleLanguageChange(lang.code as LanguageCode)}
             className={language === lang.code ? 'bg-accent' : ''}
           >
-            <span className="mr-2">{lang.flag}</span>
+            <Flag language={lang.code} size={18} className="mr-2" />
             <span>{lang.nativeName}</span>
           </DropdownMenuItem>
         ))}

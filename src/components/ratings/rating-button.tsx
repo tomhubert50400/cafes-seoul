@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useI18n } from '@/lib/i18n';
@@ -17,6 +18,10 @@ interface RatingButtonProps {
   size?: 'default' | 'sm' | 'lg' | 'icon';
   className?: string;
   onRatingSubmitted?: () => void;
+  /** When true, navigates to cafe page with ?rate=true instead of opening modal directly */
+  redirectToPage?: boolean;
+  /** When true, auto-opens modal if ?rate=true is in URL (use on cafe detail page) */
+  autoOpenFromUrl?: boolean;
 }
 
 export function RatingButton({
@@ -28,19 +33,44 @@ export function RatingButton({
   size = 'default',
   className,
   onRatingSubmitted,
+  redirectToPage = false,
+  autoOpenFromUrl = false,
 }: RatingButtonProps) {
   const { t } = useI18n();
   const { user } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
+  // Auto-open modal if ?rate=true is in URL and autoOpenFromUrl is enabled
+  useEffect(() => {
+    if (autoOpenFromUrl && searchParams.get('rate') === 'true' && user) {
+      setIsOpen(true);
+      // Clean up the URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete('rate');
+      window.history.replaceState({}, '', url.pathname);
+    }
+  }, [autoOpenFromUrl, searchParams, user]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Stop propagation to prevent parent Link from triggering
+    e.preventDefault();
+    e.stopPropagation();
+
     if (!user) {
-      // Redirect to login with return URL
-      const returnUrl = encodeURIComponent(`/cafes/${cafeSlug}`);
+      // Redirect to login with return URL (include rate param)
+      const returnUrl = encodeURIComponent(`/cafes/${cafeSlug}?rate=true`);
       window.location.href = `/login?redirect=${returnUrl}`;
       return;
     }
-    setIsOpen(true);
+
+    if (redirectToPage) {
+      // Navigate to cafe page with rate param
+      router.push(`/cafes/${cafeSlug}?rate=true`);
+    } else {
+      setIsOpen(true);
+    }
   };
 
   const handleSuccess = () => {

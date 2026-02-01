@@ -87,6 +87,7 @@ export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsS
           existingRating={userRating}
           onRatingSubmitted={onRatingSubmitted}
           className="w-full sm:w-auto"
+          autoOpenFromUrl
         />
       </div>
 

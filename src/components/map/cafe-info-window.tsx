@@ -60,15 +60,14 @@ export function CafeInfoWindow({ cafe, onClose }: CafeInfoWindowProps) {
               showStars={true}
               size="sm"
             />
-            <div onClick={(e) => e.stopPropagation()}>
-              <RatingButton
-                cafeId={cafe.id}
-                cafeName={cafeName}
-                cafeSlug={cafe.slug}
-                variant="outline"
-                size="sm"
-              />
-            </div>
+            <RatingButton
+              cafeId={cafe.id}
+              cafeName={cafeName}
+              cafeSlug={cafe.slug}
+              size="sm"
+              className="bg-foreground text-background hover:bg-foreground/90"
+              redirectToPage
+            />
           </div>
 
           {/* Address */}

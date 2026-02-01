@@ -88,8 +88,9 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
             cafeId={cafe.id}
             cafeName={cafeName}
             cafeSlug={cafe.slug}
-            variant="ghost"
             size="sm"
+            className="bg-foreground text-background hover:bg-foreground/90"
+            redirectToPage
           />
         </div>
 
