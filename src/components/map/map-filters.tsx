@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { RatingSlider } from './rating-slider';
 import { FeatureToggle } from './feature-toggle';
-import { Wifi, Plug, Dog, Armchair, Car, X } from 'lucide-react';
+import { Wifi, Plug, Dog, Armchair, Car, X, Heart } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 import { useI18n } from '@/lib/i18n';
 import type { MapFilters } from '@/types/map';
 
@@ -11,9 +12,17 @@ interface MapFiltersProps {
   filters: MapFilters;
   onChange: (filters: MapFilters) => void;
   onClear: () => void;
+  isLoggedIn?: boolean;
+  favoritesCount?: number;
 }
 
-export function MapFiltersPanel({ filters, onChange, onClear }: MapFiltersProps) {
+export function MapFiltersPanel({
+  filters,
+  onChange,
+  onClear,
+  isLoggedIn = false,
+  favoritesCount = 0,
+}: MapFiltersProps) {
   const { t } = useI18n();
 
   const updateFilter = <K extends keyof MapFilters>(
@@ -58,6 +67,47 @@ export function MapFiltersPanel({ filters, onChange, onClear }: MapFiltersProps)
             <X className="h-4 w-4 mr-1" />
             {t('map.filters.clearAll')}
           </Button>
+        )}
+      </div>
+
+      {/* Favorites Toggle */}
+      <div className="rounded-lg border bg-muted/30 p-4">
+        <div
+          className={`flex items-center justify-between ${
+            !isLoggedIn ? 'cursor-not-allowed opacity-60' : ''
+          }`}
+          title={!isLoggedIn ? t('map.filters.favoritesOnlyTooltip') : undefined}
+        >
+          <div className="flex items-center gap-2">
+            <Heart
+              className={`h-4 w-4 ${
+                filters.showFavoritesOnly
+                  ? 'fill-red-500 text-red-500'
+                  : 'text-muted-foreground'
+              }`}
+            />
+            <span className="text-sm font-medium">
+              {t('map.filters.favoritesOnly')}
+            </span>
+            {favoritesCount > 0 && (
+              <span className="text-xs text-muted-foreground">
+                ({favoritesCount})
+              </span>
+            )}
+          </div>
+          <Switch
+            checked={filters.showFavoritesOnly || false}
+            onCheckedChange={(checked) =>
+              updateFilter('showFavoritesOnly', checked)
+            }
+            disabled={!isLoggedIn}
+            aria-label={t('map.filters.favoritesOnly')}
+          />
+        </div>
+        {!isLoggedIn && (
+          <p className="text-xs text-muted-foreground mt-2">
+            {t('map.filters.favoritesOnlyTooltip')}
+          </p>
         )}
       </div>
 

@@ -150,6 +150,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.isLaptopFriendly': 'Laptop Friendly',
     'map.filters.isPetFriendly': 'Pet Friendly',
     'map.filters.hasParking': 'Parking',
+    'map.filters.favoritesOnly': 'Show favorites only',
+    'map.filters.favoritesOnlyTooltip': 'Log in to filter by favorites',
+    'map.filters.noFavorites': 'No favorites to display',
+    'map.filters.browseCafes': 'Browse cafes to add favorites',
 
     // Map Detail
     'map.viewDetails': 'View Details',
@@ -742,6 +746,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.isLaptopFriendly': '노트북 가능',
     'map.filters.isPetFriendly': '반려동물 가능',
     'map.filters.hasParking': '주차',
+    'map.filters.favoritesOnly': '즐겨찾기만 보기',
+    'map.filters.favoritesOnlyTooltip': '로그인하여 즐겨찾기로 필터링하세요',
+    'map.filters.noFavorites': '표시할 즐겨찾기가 없습니다',
+    'map.filters.browseCafes': '카페를 둘러보고 즐겨찾기를 추가하세요',
 
     // Map Detail
     'map.viewDetails': '상세 보기',
@@ -1334,6 +1342,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.isLaptopFriendly': 'Laptop friendly',
     'map.filters.isPetFriendly': 'Animaux acceptés',
     'map.filters.hasParking': 'Parking',
+    'map.filters.favoritesOnly': 'Afficher les favoris uniquement',
+    'map.filters.favoritesOnlyTooltip': 'Connectez-vous pour filtrer par favoris',
+    'map.filters.noFavorites': 'Aucun favori à afficher',
+    'map.filters.browseCafes': 'Parcourir les cafés pour ajouter des favoris',
 
     // Map Detail
     'map.viewDetails': 'Voir les détails',
@@ -1926,6 +1938,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.isLaptopFriendly': '适合笔记本',
     'map.filters.isPetFriendly': '宠物友好',
     'map.filters.hasParking': '停车',
+    'map.filters.favoritesOnly': '仅显示收藏',
+    'map.filters.favoritesOnlyTooltip': '登录后可按收藏筛选',
+    'map.filters.noFavorites': '没有收藏可显示',
+    'map.filters.browseCafes': '浏览咖啡馆以添加收藏',
 
     // Map Detail
     'map.viewDetails': '查看详情',
@@ -2518,6 +2534,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.isLaptopFriendly': 'Thân thiện với laptop',
     'map.filters.isPetFriendly': 'Thân thiện với thú cưng',
     'map.filters.hasParking': 'Đỗ xe',
+    'map.filters.favoritesOnly': 'Chỉ hiện yêu thích',
+    'map.filters.favoritesOnlyTooltip': 'Đăng nhập để lọc theo yêu thích',
+    'map.filters.noFavorites': 'Không có yêu thích nào',
+    'map.filters.browseCafes': 'Duyệt quán để thêm yêu thích',
 
     // Map Detail
     'map.viewDetails': 'Xem chi tiết',

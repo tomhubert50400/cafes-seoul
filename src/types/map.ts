@@ -10,18 +10,21 @@ export interface MapFilters {
   quietnessMin?: number | null;
   priceValueMin?: number | null;
   comfortMin?: number | null;
-  
+
   // Boolean features
   hasWifi?: boolean;
   hasPowerOutlets?: boolean;
   isPetFriendly?: boolean;
   isLaptopFriendly?: boolean;
   hasParking?: boolean;
-  
+
   // Other filters
   priceRange?: number[];
   cafeTypes?: string[];
   districts?: number[];
+
+  // Favorites filter
+  showFavoritesOnly?: boolean;
 }
 
 // Map viewport bounds
