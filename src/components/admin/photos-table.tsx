@@ -44,7 +44,7 @@ export function PhotosTable({ photos, storageUrl, translations }: PhotosTablePro
 
   const getPhotoUrl = (storagePath: string, width?: number) => {
     const transformParams = width ? `?width=${width}&height=${width}&resize=cover` : '';
-    return `${storageUrl}/object/public/photos/${storagePath}${transformParams}`;
+    return `${storageUrl}/storage/v1/object/public/cafe-images/${storagePath}${transformParams}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -100,7 +100,7 @@ export function PhotosTable({ photos, storageUrl, translations }: PhotosTablePro
                 <span>{formatDate(photo.created_at)}</span>
                 <span>{formatFileSize(photo.file_size)}</span>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2">
                 <Button
                   variant="outline"
                   size="sm"

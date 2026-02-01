@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Camera, LogIn } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PhotoGallery } from '@/components/photos/photo-gallery';
-import { PhotoUpload } from '@/components/photos/photo-upload';
+import { PhotoUploadModal } from '@/components/photos/photo-upload-modal';
 import type { PhotoWithVoteStatus } from '@/types/photos';
 import type { User } from '@/types/user';
 
@@ -34,12 +34,9 @@ export function PhotosSection({
 }: PhotosSectionProps) {
   const { t } = useI18n();
   const router = useRouter();
-  const [hasNewUpload, setHasNewUpload] = useState(false);
 
   // Handle upload success - refresh the page to show new photo
   const handleUploadSuccess = useCallback(() => {
-    setHasNewUpload(true);
-    // Use router.refresh() to re-fetch server data
     router.refresh();
   }, [router]);
 
@@ -48,7 +45,7 @@ export function PhotosSection({
 
   return (
     <section id="photos" className="border-t border-border pt-8">
-      {/* Section Header */}
+      {/* Section Header with Upload Button */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-semibold flex items-center gap-2">
@@ -64,17 +61,15 @@ export function PhotosSection({
             </p>
           )}
         </div>
-      </div>
 
-      {/* Upload Area - Only for authenticated users */}
-      <div className="mb-8">
+        {/* Upload Button - Only for authenticated users */}
         {currentUser ? (
-          <PhotoUpload
+          <PhotoUploadModal
             cafeId={cafeId}
             onUploadSuccess={handleUploadSuccess}
           />
         ) : (
-          <GuestUploadPrompt />
+          <SignInButton />
         )}
       </div>
 
@@ -83,16 +78,17 @@ export function PhotosSection({
         cafeId={cafeId}
         initialPhotos={initialPhotos}
         currentUserId={currentUser?.id}
+        isAdmin={currentUser?.role === 'admin'}
       />
     </section>
   );
 }
 
 // ============================================
-// GUEST UPLOAD PROMPT
+// SIGN IN BUTTON FOR GUESTS
 // ============================================
 
-function GuestUploadPrompt() {
+function SignInButton() {
   const { t } = useI18n();
   const router = useRouter();
 
@@ -103,43 +99,14 @@ function GuestUploadPrompt() {
   };
 
   return (
-    <div
-      className={cn(
-        'relative rounded-lg border-2 border-dashed border-muted-foreground/25',
-        'p-8 text-center',
-        'hover:border-muted-foreground/40 transition-colors'
-      )}
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={handleSignIn}
+      className="gap-1.5"
     >
-      <div className="flex flex-col items-center gap-3">
-        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-          <LogIn className="h-6 w-6 text-muted-foreground" />
-        </div>
-
-        <div>
-          <p className="font-medium text-foreground">
-            {t('photos.guestPrompt.title') || 'Sign in to upload photos'}
-          </p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t('photos.guestPrompt.description') ||
-              'Share your favorite moments from this cafe'}
-          </p>
-        </div>
-
-        <button
-          onClick={handleSignIn}
-          className={cn(
-            'mt-2 inline-flex items-center gap-2',
-            'px-4 py-2 rounded-lg',
-            'bg-primary text-primary-foreground',
-            'hover:bg-primary/90',
-            'transition-colors',
-            'text-sm font-medium'
-          )}
-        >
-          <LogIn className="h-4 w-4" />
-          {t('photos.guestPrompt.button') || 'Sign In'}
-        </button>
-      </div>
-    </div>
+      <LogIn className="h-4 w-4" />
+      {t('photos.signInToUpload') || 'Sign in to add'}
+    </Button>
   );
 }

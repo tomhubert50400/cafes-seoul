@@ -18,6 +18,8 @@ interface PhotoGalleryProps {
   initialPhotos: PhotoWithVoteStatus[];
   /** Current user ID for filtering own photos */
   currentUserId?: string;
+  /** Whether the current user is an admin */
+  isAdmin?: boolean;
   /** Optional className for styling */
   className?: string;
 }
@@ -30,6 +32,7 @@ export function PhotoGallery({
   cafeId,
   initialPhotos,
   currentUserId,
+  isAdmin = false,
   className,
 }: PhotoGalleryProps) {
   const { t } = useI18n();
@@ -72,6 +75,14 @@ export function PhotoGallery({
             : photo
         )
       );
+    },
+    []
+  );
+
+  // Handle photo deletion
+  const handlePhotoDelete = useCallback(
+    (photoId: string) => {
+      setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== photoId));
     },
     []
   );
@@ -135,6 +146,8 @@ export function PhotoGallery({
             key={photo.id}
             photo={photo}
             onVoteChange={handleVoteChange}
+            onDelete={handlePhotoDelete}
+            isAdmin={isAdmin}
             // Prioritize loading first 6 images
             priority={index < 6}
           />

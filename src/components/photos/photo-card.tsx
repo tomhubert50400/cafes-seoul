@@ -1,8 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
+import { Trash2, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/lib/i18n';
 import { VoteButton, VoteButtonSkeleton } from './vote-button';
+import { deletePhoto } from '@/lib/actions/photos';
 import type { PhotoWithVoteStatus } from '@/types/photos';
 
 // ============================================
@@ -14,6 +19,10 @@ interface PhotoCardProps {
   photo: PhotoWithVoteStatus;
   /** Callback when vote changes */
   onVoteChange?: (photoId: string, newCount: number) => void;
+  /** Callback when photo is deleted */
+  onDelete?: (photoId: string) => void;
+  /** Whether the current user is an admin */
+  isAdmin?: boolean;
   /** Optional className for styling */
   className?: string;
   /** Priority loading for above-fold images */
@@ -27,12 +36,43 @@ interface PhotoCardProps {
 export function PhotoCard({
   photo,
   onVoteChange,
+  onDelete,
+  isAdmin = false,
   className,
   priority = false,
 }: PhotoCardProps) {
+  const { t } = useI18n();
+  const [isDeleting, setIsDeleting] = useState(false);
+
   // Handle vote change from VoteButton
   const handleVoteChange = (count: number, _hasVoted: boolean) => {
     onVoteChange?.(photo.id, count);
+  };
+
+  // Handle delete
+  const handleDelete = async () => {
+    if (isDeleting) return;
+    
+    // Confirm deletion
+    const confirmMessage = t('photos.delete.confirm') || 'Are you sure you want to delete this photo? This action cannot be undone.';
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const result = await deletePhoto(photo.id);
+      if (result.success) {
+        toast.success(t('photos.delete.success') || 'Photo deleted successfully');
+        onDelete?.(photo.id);
+      } else {
+        toast.error(result.error || t('photos.delete.error') || 'Failed to delete photo');
+      }
+    } catch {
+      toast.error(t('photos.delete.error') || 'Failed to delete photo');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   // Determine aspect ratio class based on photo dimensions (if available)
@@ -57,11 +97,14 @@ export function PhotoCard({
     }
   };
 
+  // Show delete button for admins or for own pending photos
+  const canDelete = isAdmin || (photo.isOwnPhoto && photo.status === 'pending');
+
   return (
     <div
       className={cn(
         // Layout
-        'relative overflow-hidden',
+        'relative overflow-hidden group',
         // Shape
         'rounded-lg',
         getAspectRatioClass(),
@@ -117,6 +160,42 @@ export function PhotoCard({
         initialHasVoted={photo.hasVoted}
         onVoteChange={handleVoteChange}
       />
+
+      {/* Delete button - always visible for admins, hover for own pending photos */}
+      {canDelete && (
+        <button
+          onClick={handleDelete}
+          disabled={isDeleting}
+          className={cn(
+            // Position - top left, but below status badge if it exists
+            'absolute z-10',
+            // If status badge is showing (own non-approved photo), position below it
+            photo.isOwnPhoto && photo.status !== 'approved'
+              ? 'top-10 left-2'
+              : 'top-2 left-2',
+            // Appearance
+            'p-2 rounded-full',
+            'bg-rose-500/60 hover:bg-rose-500/80',
+            'text-white',
+            'backdrop-blur-sm',
+            'border border-white/20',
+            'transition-all duration-200',
+            // Visibility - always visible for admins, hover for non-admins on desktop
+            isAdmin 
+              ? 'opacity-100' 
+              : 'opacity-100 md:opacity-0 md:group-hover:opacity-100',
+            // Disabled state
+            'disabled:opacity-50 disabled:cursor-not-allowed'
+          )}
+          title={isAdmin ? (t('photos.delete.adminTitle') || 'Delete photo (Admin)') : (t('photos.delete.pendingTitle') || 'Delete pending photo')}
+        >
+          {isDeleting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Trash2 className="h-4 w-4" />
+          )}
+        </button>
+      )}
 
       {/* Bottom gradient for better contrast */}
       <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />

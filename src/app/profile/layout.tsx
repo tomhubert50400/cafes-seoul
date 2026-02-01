@@ -44,7 +44,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
         </h1>
 
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="mb-8 w-full justify-start" variant="line">
+          <TabsList className="mb-8 w-full justify-start flex-wrap gap-2" variant="line">
             <TabsTrigger value="overview" asChild>
               <Link href={ROUTES.PROFILE}>
                 {getTranslation(lang, 'profile.overview')}

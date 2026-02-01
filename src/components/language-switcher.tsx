@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +12,15 @@ import {
 import { useI18n, LanguageCode } from '@/lib/i18n';
 
 export function LanguageSwitcher() {
+  const router = useRouter();
   const { language, setLanguage, languages } = useI18n();
   const currentLanguage = languages[language];
+
+  const handleLanguageChange = (langCode: LanguageCode) => {
+    setLanguage(langCode);
+    // Refresh to update server-rendered content with new language
+    router.refresh();
+  };
 
   return (
     <DropdownMenu>
@@ -26,7 +34,7 @@ export function LanguageSwitcher() {
         {Object.values(languages).map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code as LanguageCode)}
+            onClick={() => handleLanguageChange(lang.code as LanguageCode)}
             className={language === lang.code ? 'bg-accent' : ''}
           >
             <span className="mr-2">{lang.flag}</span>

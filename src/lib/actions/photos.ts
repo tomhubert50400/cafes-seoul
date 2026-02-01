@@ -146,7 +146,7 @@ export async function uploadPhoto(formData: FormData): Promise<UploadPhotoResult
       console.error('Error inserting photo record:', insertError);
       
       // Try to clean up the uploaded file
-      await supabase.storage.from('photos').remove([storagePath]);
+      await supabase.storage.from('cafe-images').remove([storagePath]);
       
       return { success: false, error: 'Failed to create photo record' };
     }
@@ -174,9 +174,22 @@ export async function uploadPhoto(formData: FormData): Promise<UploadPhotoResult
 // ============================================
 
 /**
- * Delete a user's pending photo
- * Only allowed for pending photos owned by the current user
- * Approved photos cannot be deleted (PHOTO-07 requirement)
+ * Helper to verify if user is admin
+ */
+async function isAdmin(supabase: Awaited<ReturnType<typeof createClient>>, userId: string): Promise<boolean> {
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .single();
+
+  return profile?.role === 'admin';
+}
+
+/**
+ * Delete a photo
+ * - Regular users can only delete their own pending photos
+ * - Admins can delete any photo (including approved ones)
  * @param photoId - ID of the photo to delete
  * @returns Success status or error
  */
@@ -192,7 +205,10 @@ export async function deletePhoto(photoId: string): Promise<DeletePhotoResult> {
       return { success: false, error: 'Authentication required' };
     }
 
-    // 2. Fetch the photo to verify ownership and status
+    // 2. Check if user is admin
+    const userIsAdmin = await isAdmin(supabase, user.id);
+
+    // 3. Fetch the photo to verify ownership and status
     const { data: photo, error: fetchError } = await supabase
       .from('photos')
       .select('user_id, status, storage_path, cafe_id')
@@ -203,18 +219,21 @@ export async function deletePhoto(photoId: string): Promise<DeletePhotoResult> {
       return { success: false, error: 'Photo not found' };
     }
 
-    // 3. Verify user owns the photo
-    if (photo.user_id !== user.id) {
-      return { success: false, error: 'You can only delete your own photos' };
-    }
+    // 4. Check permissions
+    if (!userIsAdmin) {
+      // Regular users can only delete their own pending photos
+      if (photo.user_id !== user.id) {
+        return { success: false, error: 'You can only delete your own photos' };
+      }
 
-    // 4. Verify photo status is pending (not approved)
-    if (photo.status !== 'pending') {
-      return { 
-        success: false, 
-        error: 'Only pending photos can be deleted. Approved photos are permanent.' 
-      };
+      if (photo.status !== 'pending') {
+        return { 
+          success: false, 
+          error: 'Only pending photos can be deleted. Approved photos are permanent.' 
+        };
+      }
     }
+    // Admins can delete any photo regardless of ownership or status
 
     // 5. Delete from Supabase Storage
     const { error: storageError } = await supabase.storage
@@ -227,15 +246,29 @@ export async function deletePhoto(photoId: string): Promise<DeletePhotoResult> {
     }
 
     // 6. Delete record from photos table (cascades to votes via foreign key)
-    const { error: deleteError } = await supabase
+    // Use .select() to verify deletion actually occurred (RLS may silently block)
+    let deleteQuery = supabase
       .from('photos')
       .delete()
-      .eq('id', photoId)
-      .eq('user_id', user.id);
+      .eq('id', photoId);
+
+    // Only add user_id filter for non-admins
+    if (!userIsAdmin) {
+      deleteQuery = deleteQuery.eq('user_id', user.id);
+    }
+
+    // Select the deleted row to confirm deletion happened
+    const { data: deletedRows, error: deleteError } = await deleteQuery.select('id');
 
     if (deleteError) {
       console.error('Error deleting photo record:', deleteError);
       return { success: false, error: 'Failed to delete photo' };
+    }
+
+    // If no rows were deleted, RLS blocked the operation
+    if (!deletedRows || deletedRows.length === 0) {
+      console.error('Delete blocked by RLS - no rows deleted for photoId:', photoId);
+      return { success: false, error: 'Permission denied: Unable to delete photo' };
     }
 
     // 7. Revalidate the cafe detail page
@@ -248,6 +281,9 @@ export async function deletePhoto(photoId: string): Promise<DeletePhotoResult> {
     if (cafe?.slug) {
       revalidatePath(`/cafes/${cafe.slug}`);
     }
+
+    // Also revalidate admin photos page
+    revalidatePath('/admin/photos');
 
     return { success: true };
   } catch (err) {
@@ -501,7 +537,7 @@ export async function getCafePhotos(
       upvote_count: photo.upvote_count,
       upvoteCount: photo.upvote_count,
       created_at: photo.created_at,
-      url: supabase.storage.from('cafes').getPublicUrl(photo.storage_path).data.publicUrl,
+      url: supabase.storage.from('cafe-images').getPublicUrl(photo.storage_path).data.publicUrl,
       hasVoted: userVotes.has(photo.id),
       isOwnPhoto: user ? photo.user_id === user.id : false,
     }));
@@ -598,7 +634,7 @@ export async function getMyPhotos(options?: {
       upvote_count: photo.upvote_count,
       upvoteCount: photo.upvote_count,
       created_at: photo.created_at,
-      url: supabase.storage.from('cafes').getPublicUrl(photo.storage_path).data.publicUrl,
+      url: supabase.storage.from('cafe-images').getPublicUrl(photo.storage_path).data.publicUrl,
       hasVoted: userVotes.has(photo.id),
       isOwnPhoto: true, // These are always the user's own photos
     }));

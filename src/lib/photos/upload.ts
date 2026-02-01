@@ -53,12 +53,12 @@ export async function uploadPhotoToStorage(
     const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
     const filename = `${timestamp}-${random}.${extension}`;
 
-    // Build storage path
-    const path = `photos/${cafeId}/${userId}/${filename}`;
+    // Build storage path (user-photos subfolder in cafe-images bucket)
+    const path = `user-photos/${cafeId}/${userId}/${filename}`;
 
-    // Upload to Supabase Storage
+    // Upload to Supabase Storage (using existing cafe-images bucket)
     const { error: uploadError } = await supabase.storage
-      .from('cafes')
+      .from('cafe-images')
       .upload(path, file, {
         contentType: file.type,
         cacheControl: '3600',
@@ -93,7 +93,7 @@ export function getPhotoPublicUrl(
   supabase: SupabaseClient,
   path: string
 ): string {
-  const { data } = supabase.storage.from('cafes').getPublicUrl(path);
+  const { data } = supabase.storage.from('cafe-images').getPublicUrl(path);
   return data.publicUrl;
 }
 

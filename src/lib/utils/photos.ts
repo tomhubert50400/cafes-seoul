@@ -25,13 +25,13 @@ function getSupabaseUrl(): string {
  * @returns Full public URL for the photo
  * @example
  * getPhotoUrl("cafes/123/456/photo.jpg")
- * // Returns: "https://project.supabase.co/storage/v1/object/public/photos/cafes/123/456/photo.jpg"
+ * // Returns: "https://project.supabase.co/storage/v1/object/public/cafe-images/user-photos/123/456/photo.jpg"
  */
 export function getPhotoUrl(storagePath: string): string {
   const supabaseUrl = getSupabaseUrl();
   // Remove leading slash if present
   const cleanPath = storagePath.startsWith('/') ? storagePath.slice(1) : storagePath;
-  return `${supabaseUrl}/storage/v1/object/public/photos/${cleanPath}`;
+  return `${supabaseUrl}/storage/v1/object/public/cafe-images/${cleanPath}`;
 }
 
 /**
@@ -62,7 +62,7 @@ export function getPhotoThumbnailUrl(
   params.set('resize', 'cover');
   params.set('quality', '80');
   
-  return `${supabaseUrl}/storage/v1/render/image/public/photos/${cleanPath}?${params.toString()}`;
+  return `${supabaseUrl}/storage/v1/render/image/public/cafe-images/${cleanPath}?${params.toString()}`;
 }
 
 /**
@@ -71,11 +71,11 @@ export function getPhotoThumbnailUrl(
  * @param url - Full photo URL
  * @returns Storage path or null if not a valid photo URL
  * @example
- * extractStoragePath("https://project.supabase.co/storage/v1/object/public/photos/cafes/123/photo.jpg")
+ * extractStoragePath("https://project.supabase.co/storage/v1/object/public/cafe-images/user-photos/123/photo.jpg")
  * // Returns: "cafes/123/photo.jpg"
  */
 export function extractStoragePath(url: string): string | null {
-  const match = url.match(/\/storage\/v1\/object\/public\/photos\/(.+)$/);
+  const match = url.match(/\/storage\/v1\/object\/public\/cafe-images\/(.+)$/);
   return match ? match[1] : null;
 }
 

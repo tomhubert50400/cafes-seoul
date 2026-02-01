@@ -71,7 +71,7 @@ export function PhotosList({
 
   // Build image URL with transform
   const getImageUrl = (storagePath: string) => {
-    return `${storageUrl}/storage/v1/object/public/photos/${storagePath}?width=200`;
+    return `${storageUrl}/storage/v1/object/public/cafe-images/${storagePath}?width=200`;
   };
 
   // Load more photos

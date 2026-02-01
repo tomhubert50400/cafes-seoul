@@ -24,32 +24,32 @@ export function SubmissionStatusCard({
   isDeleting = false,
   onDelete,
 }: SubmissionStatusCardProps) {
-  const { language } = useI18n();
-  
+  const { language, t } = useI18n();
+
   const name = getLocalizedText(submission.name, language);
   const address = getLocalizedText(submission.address, language);
-  
+
   const statusConfig = {
     pending: {
       icon: Clock,
       color: 'text-yellow-600',
       bgColor: 'bg-yellow-50',
       borderColor: 'border-yellow-200',
-      label: 'Pending Review',
+      label: t('mySubmissions.card.pendingReview'),
     },
     approved: {
       icon: CheckCircle,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200',
-      label: 'Approved',
+      label: t('mySubmissions.card.approved'),
     },
     declined: {
       icon: XCircle,
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       borderColor: 'border-red-200',
-      label: 'Declined',
+      label: t('mySubmissions.card.declined'),
     },
   };
   
@@ -77,18 +77,18 @@ export function SubmissionStatusCard({
       
       <CardContent className="pt-0">
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-          <span>Submitted: {new Date(submission.createdAt).toLocaleDateString()}</span>
-          {submission.phone && <span>Phone: {submission.phone}</span>}
+          <span>{t('mySubmissions.card.submitted')}: {new Date(submission.createdAt).toLocaleDateString()}</span>
+          {submission.phone && <span>{t('mySubmissions.card.phone')}: {submission.phone}</span>}
         </div>
-        
+
         {/* Rejection reason for declined */}
         {showRejectionReason && submission.status === 'declined' && submission.rejectionReason && (
           <div className="mt-3 rounded-md bg-red-50 border border-red-200 p-3 text-sm">
-            <p className="font-medium text-red-800">Reason:</p>
+            <p className="font-medium text-red-800">{t('mySubmissions.card.reason')}:</p>
             <p className="text-red-700 mt-1">{submission.rejectionReason}</p>
           </div>
         )}
-        
+
         {/* Actions for pending */}
         {showActions && submission.status === 'pending' && (
           <div className="mt-4 flex gap-2">
@@ -99,10 +99,10 @@ export function SubmissionStatusCard({
             >
               <Link href={`/profile/submissions/${submission.id}/edit`}>
                 <Pencil className="mr-1.5 h-3.5 w-3.5" />
-                Edit
+                {t('mySubmissions.card.edit')}
               </Link>
             </Button>
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -111,17 +111,17 @@ export function SubmissionStatusCard({
               disabled={isDeleting}
             >
               <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-              {isDeleting ? 'Deleting...' : 'Delete'}
+              {isDeleting ? t('mySubmissions.card.deleting') : t('mySubmissions.card.delete')}
             </Button>
           </div>
         )}
-        
+
         {/* Link to approved cafe */}
         {submission.status === 'approved' && submission.cafeId && (
           <div className="mt-4">
             <Button variant="link" size="sm" asChild className="px-0 h-auto">
               <Link href={`/cafes/${submission.cafeId}`}>
-                View Cafe Page
+                {t('mySubmissions.card.viewCafe')}
                 <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
               </Link>
             </Button>

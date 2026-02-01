@@ -8,7 +8,7 @@ function getPhotoUrl(storagePath: string): string {
   if (!supabaseUrl) {
     throw new Error('NEXT_PUBLIC_SUPABASE_URL not configured');
   }
-  return `${supabaseUrl}/storage/v1/object/public/photos/${storagePath}`;
+  return `${supabaseUrl}/storage/v1/object/public/cafe-images/${storagePath}`;
 }
 
 /**

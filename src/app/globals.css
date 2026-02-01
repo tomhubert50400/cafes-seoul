@@ -124,6 +124,17 @@
   }
 }
 
+/* Hide scrollbar while keeping scroll functionality */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Autofill detection animation for password managers */
 @keyframes onAutoFillStart {
   from { opacity: 0.99; }

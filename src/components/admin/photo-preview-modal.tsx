@@ -37,7 +37,7 @@ export function PhotoPreviewModal({
   if (!photo) return null;
 
   const getPhotoUrl = (storagePath: string) => {
-    return `${storageUrl}/object/public/photos/${storagePath}`;
+    return `${storageUrl}/storage/v1/object/public/cafe-images/${storagePath}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -92,17 +92,17 @@ export function PhotoPreviewModal({
           </div>
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={onClose}>
-            Close
+        <DialogFooter className="flex-col gap-2 sm:flex-col">
+          <Button onClick={onApprove} className="w-full">
+            <Check className="mr-2 h-4 w-4" />
+            {translations.approve}
           </Button>
-          <Button variant="destructive" onClick={onReject}>
+          <Button variant="destructive" onClick={onReject} className="w-full">
             <X className="mr-2 h-4 w-4" />
             {translations.reject}
           </Button>
-          <Button onClick={onApprove}>
-            <Check className="mr-2 h-4 w-4" />
-            {translations.approve}
+          <Button variant="outline" onClick={onClose} className="w-full">
+            Close
           </Button>
         </DialogFooter>
       </DialogContent>

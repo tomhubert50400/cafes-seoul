@@ -45,12 +45,24 @@ export default async function AdminPhotosPage() {
     // Supabase returns the joined data - handle both array and object cases
     const cafeData = photo.cafe as unknown;
     const cafe = Array.isArray(cafeData) ? cafeData[0] : cafeData;
-    const typedCafe = cafe as { name: string; slug: string } | null;
+    const typedCafe = cafe as { name: Record<string, string> | string; slug: string } | null;
+    
+    // Handle name as TranslatedText object or string
+    let cafeName: string | null = null;
+    if (typedCafe?.name) {
+      if (typeof typedCafe.name === 'string') {
+        cafeName = typedCafe.name;
+      } else {
+        // TranslatedText object - get the current language or fallback to English
+        cafeName = typedCafe.name[lang] || typedCafe.name['en'] || Object.values(typedCafe.name)[0] || null;
+      }
+    }
+    
     return {
       id: photo.id,
       storage_path: photo.storage_path,
       cafe_id: photo.cafe_id,
-      cafe_name: typedCafe?.name || null,
+      cafe_name: cafeName,
       cafe_slug: typedCafe?.slug || null,
       user_id: photo.user_id,
       created_at: photo.created_at,

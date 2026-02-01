@@ -29,7 +29,11 @@ const navItems: NavItem[] = [
   },
 ]
 
-export function AdminNav() {
+interface AdminNavProps {
+  onNavigate?: () => void;
+}
+
+export function AdminNav({ onNavigate }: AdminNavProps) {
   const pathname = usePathname()
 
   return (
@@ -45,6 +49,7 @@ export function AdminNav() {
           <Link
             key={item.href}
             href={item.href}
+            onClick={onNavigate}
             className={cn(
               'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
               isActive

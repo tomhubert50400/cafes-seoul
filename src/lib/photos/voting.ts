@@ -264,7 +264,7 @@ export async function getCafePhotos(
       })
       .map((photo) => ({
         id: photo.id,
-        url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/photos/${photo.storage_path}`,
+        url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/cafe-images/${photo.storage_path}`,
         upvoteCount: photo.upvote_count,
         hasVoted: userVotes.has(photo.id),
         status: photo.status as 'pending' | 'approved' | 'rejected',

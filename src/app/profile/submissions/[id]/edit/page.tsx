@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ArrowLeft, Clock } from 'lucide-react';
 
@@ -10,6 +11,19 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { SubmissionFormData } from '@/lib/validations/submission';
+import { getTranslation } from '@/lib/i18n/translations';
+import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
+
+async function getLanguageFromCookies(): Promise<LanguageCode> {
+  const cookieStore = await cookies();
+  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME);
+
+  if (langCookie?.value && ['en', 'ko', 'fr', 'zh', 'vi'].includes(langCookie.value)) {
+    return langCookie.value as LanguageCode;
+  }
+
+  return DEFAULT_LANGUAGE;
+}
 
 export const metadata: Metadata = {
   title: 'Edit Submission | Cafes Seoul',
@@ -47,6 +61,8 @@ export default async function EditSubmissionPage({ params }: EditSubmissionPageP
     redirect('/profile/submissions');
   }
 
+  const lang = await getLanguageFromCookies();
+
   // Transform submission data to form format
   const initialData: SubmissionFormData = {
     name: submission.name,
@@ -66,40 +82,40 @@ export default async function EditSubmissionPage({ params }: EditSubmissionPageP
           <Button variant="ghost" size="sm" asChild className="mb-4 -ml-2">
             <Link href="/profile/submissions">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Submissions
+              {getTranslation(lang, 'mySubmissions.edit.backToSubmissions')}
             </Link>
           </Button>
 
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold">Edit Submission</h1>
+            <h1 className="text-3xl font-bold">{getTranslation(lang, 'mySubmissions.edit.title')}</h1>
             <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-200">
               <Clock className="mr-1 h-3 w-3" />
-              Pending Review
+              {getTranslation(lang, 'mySubmissions.edit.pendingReview')}
             </Badge>
           </div>
 
           <p className="mt-2 text-muted-foreground">
-            Make changes to your cafe submission before it&apos;s reviewed by our team.
+            {getTranslation(lang, 'mySubmissions.edit.description')}
           </p>
         </div>
 
         {/* Submission info card */}
         <Card className="mb-6">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Submission Details</CardTitle>
+            <CardTitle className="text-base">{getTranslation(lang, 'mySubmissions.edit.submissionDetails')}</CardTitle>
             <CardDescription>
-              Submitted on {new Date(submission.createdAt).toLocaleDateString()}
+              {getTranslation(lang, 'mySubmissions.edit.submittedOn')} {new Date(submission.createdAt).toLocaleDateString()}
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <span>
-                <span className="font-medium text-foreground">Status:</span>{' '}
-                <span className="text-yellow-600">Pending Review</span>
+                <span className="font-medium text-foreground">{getTranslation(lang, 'mySubmissions.edit.status')}:</span>{' '}
+                <span className="text-yellow-600">{getTranslation(lang, 'mySubmissions.edit.pendingReview')}</span>
               </span>
               {submission.phone && (
                 <span>
-                  <span className="font-medium text-foreground">Phone:</span> {submission.phone}
+                  <span className="font-medium text-foreground">{getTranslation(lang, 'mySubmissions.edit.phone')}:</span> {submission.phone}
                 </span>
               )}
             </div>
@@ -115,10 +131,10 @@ export default async function EditSubmissionPage({ params }: EditSubmissionPageP
         {/* Help text */}
         <div className="mt-6 text-center text-sm text-muted-foreground">
           <p>
-            Once approved, your submission will become a public cafe page.
+            {getTranslation(lang, 'mySubmissions.edit.helpText')}
             {' '}
             <Link href="/profile/submissions" className="text-primary hover:underline">
-              Return to submissions
+              {getTranslation(lang, 'mySubmissions.edit.returnToSubmissions')}
             </Link>
           </p>
         </div>

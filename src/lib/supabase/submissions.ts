@@ -175,7 +175,31 @@ export async function getUserSubmissions(
       return [];
     }
 
-    return data.map(transformCafeSubmission);
+    const submissions = data.map(transformCafeSubmission);
+
+    // For approved submissions, fetch the linked cafe data to get full translations
+    const approvedWithCafeId = submissions.filter(s => s.status === 'approved' && s.cafeId);
+    if (approvedWithCafeId.length > 0) {
+      const cafeIds = approvedWithCafeId.map(s => s.cafeId).filter(Boolean) as string[];
+      const { data: cafes } = await supabase
+        .from('cafes')
+        .select('id, name, address, slug')
+        .in('id', cafeIds);
+
+      if (cafes) {
+        const cafeMap = new Map(cafes.map(c => [c.id, c]));
+        for (const submission of submissions) {
+          if (submission.cafeId && cafeMap.has(submission.cafeId)) {
+            const cafe = cafeMap.get(submission.cafeId)!;
+            // Use cafe's translated name/address instead of submission's original
+            submission.name = cafe.name as TranslatedText;
+            submission.address = cafe.address as TranslatedText;
+          }
+        }
+      }
+    }
+
+    return submissions;
   } catch (err) {
     console.error('Unexpected error fetching submissions:', err);
     return [];
