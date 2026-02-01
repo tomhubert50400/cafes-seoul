@@ -19,6 +19,7 @@ import type { UserRating } from '@/types/ratings';
 import { PhotosSection } from '@/app/cafes/[slug]/photos-section';
 import type { PhotoWithVoteStatus } from '@/types/photos';
 import type { User } from '@/types/user';
+import { FavoriteButton } from '@/components/favorites/favorite-button';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
@@ -26,9 +27,11 @@ interface CafeDetailContentProps {
   reviews: Review[];
   userRating?: UserRating | null;
   photos?: PhotoWithVoteStatus[];
+  currentUser?: User | null;
+  isFavorited?: boolean;
 }
 
-export function CafeDetailContent({ cafe, images, reviews, userRating, photos = [] }: CafeDetailContentProps) {
+export function CafeDetailContent({ cafe, images, reviews, userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
@@ -112,7 +115,16 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
           <div className="lg:col-span-2">
             {/* Header */}
             <div className="mb-6">
-              <h1 className="text-3xl font-bold">{cafeName}</h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl font-bold">{cafeName}</h1>
+                {currentUser && (
+                  <FavoriteButton
+                    cafeId={cafe.id}
+                    initialIsFavorited={isFavorited}
+                    size="lg"
+                  />
+                )}
+              </div>
 
               {/* Rating */}
               <div className="mt-4 flex items-center gap-4">
@@ -152,7 +164,7 @@ export function CafeDetailContent({ cafe, images, reviews, userRating, photos = 
                   <PhotosSection
                     cafeId={cafe.id}
                     initialPhotos={photos}
-                    currentUser={null} // Auth state inferred from photos, Sign In CTA shown for guests
+                    currentUser={currentUser}
                   />
                 </div>
 

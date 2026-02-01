@@ -3,10 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
 import { transformCafe, transformReview, transformUserRating, getStorageUrl } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
+import { checkFavoriteAction } from '@/lib/actions/favorites';
 import type { Cafe, CafeImage } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import type { UserRating } from '@/types/ratings';
 import type { PhotoWithVoteStatus, PhotoStatus } from '@/types/photos';
+import type { User, UserRole } from '@/types/user';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -162,7 +164,7 @@ async function getCafePhotos(
         upvote_count: photo.upvote_count,
         upvoteCount: photo.upvote_count,
         created_at: photo.created_at,
-        url: supabase.storage.from('photos').getPublicUrl(photo.storage_path).data.publicUrl,
+        url: supabase.storage.from('cafe-images').getPublicUrl(photo.storage_path).data.publicUrl,
         hasVoted: userVotes.has(photo.id),
         isOwnPhoto: photo.user_id === userId,
       }));
@@ -191,7 +193,7 @@ async function getCafePhotos(
         upvote_count: photo.upvote_count,
         upvoteCount: photo.upvote_count,
         created_at: photo.created_at,
-        url: supabase.storage.from('photos').getPublicUrl(photo.storage_path).data.publicUrl,
+        url: supabase.storage.from('cafe-images').getPublicUrl(photo.storage_path).data.publicUrl,
         hasVoted: false,
         isOwnPhoto: false,
       }));
@@ -218,6 +220,47 @@ export default async function CafeDetailPage({ params }: PageProps) {
   const userRating = await getUserRating(cafe.id, user?.id);
   const photos = await getCafePhotos(cafe.id, user?.id);
 
+  // Check if cafe is favorited by current user
+  let isFavorited = false;
+  if (user) {
+    const favoriteResult = await checkFavoriteAction(cafe.id);
+    isFavorited = favoriteResult.success && favoriteResult.isFavorited === true;
+  }
+
+  // Fetch user profile to get role
+  let currentUser: User | null = null;
+  if (user) {
+    // Use service role to fetch profile since regular users might not have SELECT permission on all fields
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id, role')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (profileError) {
+      console.error('Error fetching profile for role check:', profileError.message);
+    }
+
+    // Create currentUser with role from profile
+    currentUser = {
+      id: user.id,
+      email: user.email || '',
+      username: '',
+      displayName: null,
+      avatarUrl: null,
+      bio: null,
+      preferredLanguage: 'en',
+      isModerator: false,
+      isVerified: false,
+      role: (profile?.role as UserRole) || 'user',
+      roleUpdatedAt: null,
+      totalReviews: 0,
+      totalHelpfulVotes: 0,
+      createdAt: '',
+      updatedAt: '',
+    };
+  }
+
   return (
     <>
       <Header user={user} />
@@ -227,6 +270,8 @@ export default async function CafeDetailPage({ params }: PageProps) {
         reviews={reviews}
         userRating={userRating}
         photos={photos}
+        currentUser={currentUser}
+        isFavorited={isFavorited}
       />
     </>
   );
