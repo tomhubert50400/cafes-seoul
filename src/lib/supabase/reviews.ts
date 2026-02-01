@@ -183,7 +183,7 @@ export async function getCafeReviewsWithVotes(
     // Fetch author profiles separately (profiles.id = user_id)
     const { data: profiles, error: profileError } = await supabase
       .from('profiles')
-      .select('id, display_name, avatar_url, profile_public')
+      .select('id, display_name, avatar_url, is_private')
       .in('id', userIds);
 
     if (profileError) {
@@ -195,7 +195,7 @@ export async function getCafeReviewsWithVotes(
       id: string;
       display_name: string | null;
       avatar_url: string | null;
-      profile_public: boolean;
+      is_private: boolean;
     }>();
     profiles?.forEach((p) => profileMap.set(p.id, p));
 
@@ -230,7 +230,7 @@ export async function getCafeReviewsWithVotes(
         id: authorData?.id || row.user_id,
         displayName: authorData?.display_name || null,
         avatarUrl: authorData?.avatar_url || null,
-        profilePublic: authorData?.profile_public ?? false,
+        profilePublic: !(authorData?.is_private ?? true), // is_private = false means public
       };
 
       return {
