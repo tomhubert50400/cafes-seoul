@@ -123,10 +123,13 @@ Plans:
   1. User can request password reset email from settings
   2. User can set new password via emailed link
   3. User can toggle email notification preferences for submissions
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 17-01: TBD
+- [ ] 17-01-PLAN.md - Database schema, zxcvbn setup, password validation
+- [ ] 17-02-PLAN.md - Password reset Server Actions and landing page
+- [ ] 17-03-PLAN.md - Settings sub-tabs and Security section
+- [ ] 17-04-PLAN.md - Notification preferences UI and login forgot password
 
 ### Phase 18: Email Notifications
 **Goal**: User receives email updates on submission status changes
@@ -150,7 +153,7 @@ Plans:
 | 14. Favorites System | v1.3 | 4/4 | Complete | 2026-02-01 |
 | 15. Settings & Profile | v1.3 | 5/5 | Complete | 2026-02-01 |
 | 16. Text Reviews | v1.3 | 5/5 | Complete | 2026-02-01 |
-| 17. Password & Preferences | v1.3 | 0/TBD | Not started | - |
+| 17. Password & Preferences | v1.3 | 0/4 | Not started | - |
 | 18. Email Notifications | v1.3 | 0/TBD | Not started | - |
 
 ---
