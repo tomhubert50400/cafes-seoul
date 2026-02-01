@@ -9,12 +9,16 @@ interface CafeListProps {
   cafes: CafeSummary[];
   isLoading?: boolean;
   className?: string;
+  favoriteIds?: string[];
+  userId?: string;
 }
 
 export function CafeList({
   cafes,
   isLoading = false,
   className,
+  favoriteIds,
+  userId,
 }: CafeListProps) {
   const { t } = useI18n();
 
@@ -41,7 +45,12 @@ export function CafeList({
   return (
     <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-3', className)}>
       {cafes.map((cafe) => (
-        <CafeCard key={cafe.id} cafe={cafe} />
+        <CafeCard
+          key={cafe.id}
+          cafe={cafe}
+          isFavorited={favoriteIds?.includes(cafe.id)}
+          userId={userId}
+        />
       ))}
     </div>
   );

@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
+import { getFavoriteIdsAction } from '@/lib/actions/favorites';
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -54,13 +55,26 @@ function CafeListSkeleton() {
   );
 }
 
-async function CafeListWithData({ searchParams }: { searchParams: CafeListParams }) {
-  const { cafes, total, page, totalPages } = await getCafes(searchParams);
+async function CafeListWithData({
+  searchParams,
+  userId,
+}: {
+  searchParams: CafeListParams;
+  userId?: string;
+}) {
+  // Fetch cafes and favorites in parallel
+  const [cafesResult, favoritesResult] = await Promise.all([
+    getCafes(searchParams),
+    userId ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
+  ]);
+
+  const { cafes, total, page, totalPages } = cafesResult;
+  const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds : [];
 
   return (
     <div className="space-y-8">
       <ResultsInfo total={total} />
-      <CafeList cafes={cafes} />
+      <CafeList cafes={cafes} favoriteIds={favoriteIds} userId={userId} />
       <Pagination page={page} totalPages={totalPages} searchParams={searchParams as Record<string, string | number | boolean | undefined>} />
     </div>
   );
@@ -111,7 +125,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
         </Suspense>
 
         <Suspense fallback={<CafeListSkeleton />}>
-          <CafeListWithData searchParams={cafeListParams} />
+          <CafeListWithData searchParams={cafeListParams} userId={user?.id} />
         </Suspense>
       </main>
 
