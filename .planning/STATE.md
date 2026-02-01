@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 16 of 18 (Text Reviews)
-Plan: 2 of 4 in current phase
-Status: In progress
-Last activity: 2026-02-01 — Completed 16-02-PLAN.md
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 - Completed 16-04-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [4/6 phases]
 
 ## Performance Metrics
 
@@ -115,6 +115,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 | 16-01 | Public SELECT on helpful_votes | Vote counts visible to all, only write ops restricted |
 | 16-02 | getRatingById helper for multi-check actions | Single fetch for ownership, text existence, and cafeId |
 | 16-02 | Explicit vote deletion on text removal | Prevents orphaned votes, safer than relying on triggers |
+| 16-04 | Character counter visible only when typing | Follows 15-03 pattern for cleaner UI |
+| 16-04 | Extend UserRating type with review fields | Simpler than new type, data already in table |
 
 ### Pending Todos
 
@@ -127,9 +129,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 16-02-PLAN.md
+Stopped at: Completed 16-04-PLAN.md
 Resume file: None
-Next action: Execute 16-03-PLAN.md
+Next action: Execute 17-01-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
@@ -140,3 +142,4 @@ Next action: Execute 16-03-PLAN.md
 *Phase 13 completed: 2026-02-01*
 *Phase 14 completed: 2026-02-01*
 *Phase 15 completed: 2026-02-01*
+*Phase 16 completed: 2026-02-01*
