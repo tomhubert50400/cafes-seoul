@@ -960,6 +960,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': '비밀번호 강도',
     'auth.password.hint': '강하게 만드세요',
 
+    // Password reset
+    'password.resetTitle': '비밀번호 재설정',
+    'password.newPassword': '새 비밀번호',
+    'password.confirmPassword': '비밀번호 확인',
+    'password.updateButton': '비밀번호 변경',
+    'password.updating': '변경 중...',
+    'password.resetSuccess': '비밀번호가 변경되었습니다',
+    'password.resetError': '비밀번호 변경에 실패했습니다',
+    'password.passwordMismatch': '비밀번호가 일치하지 않습니다',
+    'password.linkExpired': '재설정 링크가 만료되었습니다',
+    'password.linkInvalid': '유효하지 않은 재설정 링크입니다',
+    'password.requestNewLink': '새 링크 요청',
+    'password.strength.weak': '약함',
+    'password.strength.fair': '보통',
+    'password.strength.good': '좋음',
+    'password.strength.strong': '강함',
+    'password.strength.veryStrong': '매우 강함',
+    'password.requirements': '비밀번호는 8자 이상이어야 합니다',
+    'password.tooWeak': '비밀번호가 너무 약합니다',
+
     'auth.error.usernameMin': '사용자 이름은 3자 이상이어야 합니다',
     'auth.error.usernameMax': '사용자 이름은 30자 이하여야 합니다',
     'auth.error.usernameInvalid': '영문, 숫자, 밑줄, 하이픈만 사용 가능합니다',
@@ -1055,6 +1075,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': '삭제 취소에 실패했습니다',
     'settings.emailMismatch': '이메일이 일치하지 않습니다',
     'settings.gracePeriodInfo': '7일 이내에 다시 로그인하면 삭제를 취소할 수 있습니다. 그 후에는 계정이 영구적으로 삭제됩니다.',
+
+    // Password Change (Settings)
+    'settings.changePassword': '비밀번호 변경',
+    'settings.changePasswordDescription': '이메일로 비밀번호 재설정 링크를 받으세요',
+    'settings.sendResetLink': '재설정 링크 보내기',
+    'settings.resetLinkSent': '재설정 링크가 이메일로 전송되었습니다',
+    'settings.noPasswordForOAuth': '소셜 로그인 계정은 비밀번호 관리를 사용할 수 없습니다',
 
     // Notification Preferences
     'settings.notificationsTitle': '이메일 알림',
@@ -1676,6 +1703,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': 'Force du mot de passe',
     'auth.password.hint': 'Rendez-le fort',
 
+    // Password reset
+    'password.resetTitle': 'Reinitialiser le mot de passe',
+    'password.newPassword': 'Nouveau mot de passe',
+    'password.confirmPassword': 'Confirmer le mot de passe',
+    'password.updateButton': 'Mettre a jour le mot de passe',
+    'password.updating': 'Mise a jour...',
+    'password.resetSuccess': 'Mot de passe mis a jour avec succes',
+    'password.resetError': 'Echec de la mise a jour du mot de passe',
+    'password.passwordMismatch': 'Les mots de passe ne correspondent pas',
+    'password.linkExpired': 'Le lien de reinitialisation a expire',
+    'password.linkInvalid': 'Lien de reinitialisation invalide',
+    'password.requestNewLink': 'Demander un nouveau lien',
+    'password.strength.weak': 'Faible',
+    'password.strength.fair': 'Moyen',
+    'password.strength.good': 'Bon',
+    'password.strength.strong': 'Fort',
+    'password.strength.veryStrong': 'Tres fort',
+    'password.requirements': 'Le mot de passe doit contenir au moins 8 caracteres',
+    'password.tooWeak': 'Le mot de passe est trop faible',
+
     'auth.error.usernameMin': 'Le nom d\'utilisateur doit contenir au moins 3 caractères',
     'auth.error.usernameMax': 'Le nom d\'utilisateur doit contenir au maximum 30 caractères',
     'auth.error.usernameInvalid': 'Le nom d\'utilisateur ne peut contenir que des lettres, chiffres, tirets et underscores',
@@ -1771,6 +1818,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': 'Échec de l\'annulation',
     'settings.emailMismatch': 'L\'email ne correspond pas',
     'settings.gracePeriodInfo': 'Vous avez 7 jours pour vous reconnecter et annuler la suppression. Après cela, votre compte sera définitivement supprimé.',
+
+    // Password Change (Settings)
+    'settings.changePassword': 'Changer le mot de passe',
+    'settings.changePasswordDescription': 'Demander un lien de reinitialisation par email',
+    'settings.sendResetLink': 'Envoyer le lien',
+    'settings.resetLinkSent': 'Lien de reinitialisation envoye a votre email',
+    'settings.noPasswordForOAuth': 'La gestion du mot de passe n\'est pas disponible pour les comptes de connexion sociale',
 
     // Notification Preferences
     'settings.notificationsTitle': 'Notifications par email',
@@ -2392,6 +2446,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': '密码强度',
     'auth.password.hint': '让它更强',
 
+    // Password reset
+    'password.resetTitle': '重置密码',
+    'password.newPassword': '新密码',
+    'password.confirmPassword': '确认密码',
+    'password.updateButton': '更新密码',
+    'password.updating': '更新中...',
+    'password.resetSuccess': '密码更新成功',
+    'password.resetError': '密码更新失败',
+    'password.passwordMismatch': '密码不匹配',
+    'password.linkExpired': '重置链接已过期',
+    'password.linkInvalid': '无效的重置链接',
+    'password.requestNewLink': '请求新链接',
+    'password.strength.weak': '弱',
+    'password.strength.fair': '一般',
+    'password.strength.good': '良好',
+    'password.strength.strong': '强',
+    'password.strength.veryStrong': '非常强',
+    'password.requirements': '密码至少需要8个字符',
+    'password.tooWeak': '密码太弱',
+
     'auth.error.usernameMin': '用户名至少需要3个字符',
     'auth.error.usernameMax': '用户名最多30个字符',
     'auth.error.usernameInvalid': '用户名只能包含字母、数字、下划线和连字符',
@@ -2487,6 +2561,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': '取消删除失败',
     'settings.emailMismatch': '邮箱不匹配',
     'settings.gracePeriodInfo': '您有7天时间重新登录并取消删除。之后，您的账户将被永久删除。',
+
+    // Password Change (Settings)
+    'settings.changePassword': '更改密码',
+    'settings.changePasswordDescription': '通过邮件请求密码重置链接',
+    'settings.sendResetLink': '发送重置链接',
+    'settings.resetLinkSent': '重置链接已发送到您的邮箱',
+    'settings.noPasswordForOAuth': '社交登录账户无法使用密码管理功能',
 
     // Notification Preferences
     'settings.notificationsTitle': '邮件通知',
@@ -3108,6 +3189,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': 'Độ mạnh mật khẩu',
     'auth.password.hint': 'Làm cho mạnh hơn',
 
+    // Password reset
+    'password.resetTitle': 'Dat lai mat khau',
+    'password.newPassword': 'Mat khau moi',
+    'password.confirmPassword': 'Xac nhan mat khau',
+    'password.updateButton': 'Cap nhat mat khau',
+    'password.updating': 'Dang cap nhat...',
+    'password.resetSuccess': 'Mat khau da duoc cap nhat thanh cong',
+    'password.resetError': 'Khong the cap nhat mat khau',
+    'password.passwordMismatch': 'Mat khau khong khop',
+    'password.linkExpired': 'Lien ket dat lai da het han',
+    'password.linkInvalid': 'Lien ket dat lai khong hop le',
+    'password.requestNewLink': 'Yeu cau lien ket moi',
+    'password.strength.weak': 'Yeu',
+    'password.strength.fair': 'Trung binh',
+    'password.strength.good': 'Tot',
+    'password.strength.strong': 'Manh',
+    'password.strength.veryStrong': 'Rat manh',
+    'password.requirements': 'Mat khau phai co it nhat 8 ky tu',
+    'password.tooWeak': 'Mat khau qua yeu',
+
     'auth.error.usernameMin': 'Tên người dùng phải có ít nhất 3 ký tự',
     'auth.error.usernameMax': 'Tên người dùng tối đa 30 ký tự',
     'auth.error.usernameInvalid': 'Tên người dùng chỉ được chứa chữ cái, số, gạch dưới và gạch ngang',
@@ -3203,6 +3304,13 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': 'Hủy xóa thất bại',
     'settings.emailMismatch': 'Email không khớp',
     'settings.gracePeriodInfo': 'Bạn có 7 ngày để đăng nhập lại và hủy xóa. Sau đó, tài khoản của bạn sẽ bị xóa vĩnh viễn.',
+
+    // Password Change (Settings)
+    'settings.changePassword': 'Doi mat khau',
+    'settings.changePasswordDescription': 'Yeu cau lien ket dat lai mat khau qua email',
+    'settings.sendResetLink': 'Gui lien ket dat lai',
+    'settings.resetLinkSent': 'Lien ket dat lai da duoc gui den email cua ban',
+    'settings.noPasswordForOAuth': 'Quan ly mat khau khong kha dung cho tai khoan dang nhap xa hoi',
 
     // Notification Preferences
     'settings.notificationsTitle': 'Thông báo qua email',
