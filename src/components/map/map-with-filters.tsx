@@ -12,9 +12,17 @@ import type { CafeSummary } from '@/types/cafe';
 
 interface MapWithFiltersProps {
   cafes: CafeSummary[];
+  favoriteIds?: string[];
+  isLoggedIn?: boolean;
+  userId?: string;
 }
 
-export function MapWithFilters({ cafes }: MapWithFiltersProps) {
+export function MapWithFilters({
+  cafes,
+  favoriteIds,
+  isLoggedIn,
+  userId,
+}: MapWithFiltersProps) {
   const { t } = useI18n();
   const { filters, updateFilter, clearFilters, activeFilterCount } = useMapFilters();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -36,6 +44,8 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
             });
           }}
           onClear={clearFilters}
+          isLoggedIn={isLoggedIn}
+          favoritesCount={favoriteIds?.length ?? 0}
         />
       </aside>
 
@@ -63,6 +73,8 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
                 });
               }}
               onClear={clearFilters}
+              isLoggedIn={isLoggedIn}
+              favoritesCount={favoriteIds?.length ?? 0}
             />
           </SheetContent>
         </Sheet>
@@ -76,6 +88,8 @@ export function MapWithFilters({ cafes }: MapWithFiltersProps) {
             filters={filters}
             selectedCafe={selectedCafe}
             onCafeSelect={handleCafeSelect}
+            favoriteIds={favoriteIds}
+            userId={userId}
           />
         </div>
       </main>

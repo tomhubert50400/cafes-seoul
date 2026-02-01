@@ -16,9 +16,18 @@ interface CafeMapProps {
   filters?: MapFilters;
   selectedCafe?: CafeSummary | null;
   onCafeSelect?: (cafe: CafeSummary | null) => void;
+  favoriteIds?: string[];
+  userId?: string;
 }
 
-export function CafeMap({ cafes, filters, selectedCafe, onCafeSelect }: CafeMapProps) {
+export function CafeMap({
+  cafes,
+  filters,
+  selectedCafe,
+  onCafeSelect,
+  favoriteIds,
+  userId,
+}: CafeMapProps) {
   const { t, language } = useI18n();
 
   // Filter cafes based on active filters

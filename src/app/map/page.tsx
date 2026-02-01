@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { getFavoriteIdsAction } from '@/lib/actions/favorites';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
@@ -39,19 +40,31 @@ async function getCafes(): Promise<CafeSummary[]> {
 }
 
 export default async function MapPage() {
-  const cafes = await getCafes();
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  // Fetch cafes and favorite IDs in parallel
+  const [cafes, favoriteResult] = await Promise.all([
+    getCafes(),
+    user ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
+  ]);
+
+  const favoriteIds = favoriteResult.success ? favoriteResult.cafeIds ?? [] : [];
 
   return (
     <div className="min-h-screen flex flex-col" style={{ height: '100vh' }}>
       <Header user={user} />
-      <main 
+      <main
         className="flex-1 relative overflow-hidden"
         style={{ height: 'calc(100vh - 56px)', minHeight: '500px' }}
       >
         <div className="absolute inset-0 w-full h-full">
-          <CafeMapWrapperDynamic cafes={cafes} />
+          <CafeMapWrapperDynamic
+            cafes={cafes}
+            favoriteIds={favoriteIds}
+            isLoggedIn={!!user}
+            userId={user?.id}
+          />
         </div>
         
         {/* Add Cafe Button - Floating Action Button */}
