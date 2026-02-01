@@ -116,7 +116,7 @@ export interface RatingInput {
   cafeId: string;
   /** Overall rating 1-5 (required) */
   overall: number;
-  
+
   // Optional dimensions (undefined = 0 = not rated)
   /** Drinks quality rating (undefined = not rated) */
   drinks?: number;
@@ -136,9 +136,12 @@ export interface RatingInput {
   lighting?: number;
   /** Power outlet availability rating (undefined = not rated) */
   outlets?: number;
-  
+
   /** Pet-friendly indicator (default: false) */
   petFriendly?: boolean;
+
+  /** Optional review text (max 500 chars) */
+  reviewText?: string;
 }
 
 /**

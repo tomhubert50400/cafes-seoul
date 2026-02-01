@@ -19,6 +19,12 @@ export const ratingFormSchema = z.object({
   petFriendly: z.boolean().default(false),
   lighting: z.number().int().min(0).max(5).default(0),
   outlets: z.number().int().min(0).max(5).default(0),
+  // Optional review text (max 500 chars)
+  reviewText: z
+    .string()
+    .max(500, { message: 'validation.reviewTextTooLong' })
+    .optional()
+    .or(z.literal('')),
 });
 
 /**
@@ -38,6 +44,7 @@ export type RatingFormData = {
   petFriendly: boolean;
   lighting: number;
   outlets: number;
+  reviewText?: string;
 };
 
 /**
@@ -74,5 +81,6 @@ export function toRatingInput(data: RatingFormData) {
     petFriendly: data.petFriendly,
     lighting: data.lighting || 0,
     outlets: data.outlets || 0,
+    reviewText: data.reviewText,
   };
 }
