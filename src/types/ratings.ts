@@ -45,12 +45,18 @@ export interface UserRating {
   /** Whether the user marked cafe as pet-friendly */
   petFriendly: boolean;
   
+  // Review text (Phase 16)
+  /** Optional review text content (max 500 chars) */
+  reviewText: string | null;
+  /** When review text was last edited (null if never edited) */
+  reviewEditedAt: string | null;
+
   // Metadata
   /** When the rating was first submitted */
   createdAt: string;
   /** When the rating was last updated */
   updatedAt: string;
-  
+
   // Joined data (populated when fetching with relations)
   /** User who made the rating (optional, from joined query) */
   user?: RatingUser;

@@ -1,15 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronDown, Star, ExternalLink, Coffee } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ChevronDown, Star, ExternalLink, Coffee, Pencil, Plus } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/lib/i18n';
 import { getLocalizedText } from '@/types/cafe';
 import { getDimensionLabel } from '@/lib/utils/ratings';
+import { deleteReviewTextAction } from '@/lib/actions/reviews';
+import { ReviewEditForm } from '@/components/reviews/review-edit-form';
+import { DeleteReviewTextDialog } from '@/components/reviews/delete-review-text-dialog';
 import type { UserRatingWithImage, OptionalRatingDimension } from '@/types/ratings';
 
 interface ReviewCardProps {
@@ -17,7 +23,10 @@ interface ReviewCardProps {
 }
 
 export function ReviewCard({ review }: ReviewCardProps) {
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const { language, t } = useI18n();
 
   const cafeName = getLocalizedText(review.cafe.name, language);
@@ -33,11 +42,52 @@ export function ReviewCard({ review }: ReviewCardProps) {
   ];
   const ratedDimensions = dimensions.filter(dim => review[dim] > 0);
 
+  const hasReviewText = !!review.reviewText;
+  const wasEdited = !!review.reviewEditedAt;
+
+  const handleSave = () => {
+    setIsEditing(false);
+    router.refresh();
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const handleDelete = () => {
+    startTransition(async () => {
+      const result = await deleteReviewTextAction(review.id);
+
+      if (result.success) {
+        toast.success(t('reviews.card.reviewDeleted'));
+        router.refresh();
+      } else {
+        toast.error(result.error || t('reviews.card.deleteError'));
+      }
+    });
+  };
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(true);
+    if (!expanded) {
+      setExpanded(true);
+    }
+  };
+
+  const handleAddReviewClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(true);
+    if (!expanded) {
+      setExpanded(true);
+    }
+  };
+
   return (
     <Card className="transition-shadow hover:shadow-md overflow-hidden">
       <CardHeader
         className="cursor-pointer pb-3 !block"
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => !isEditing && setExpanded(!expanded)}
       >
         <div className="flex items-start gap-3 w-full">
           {/* Cafe thumbnail */}
@@ -85,10 +135,62 @@ export function ReviewCard({ review }: ReviewCardProps) {
       <div
         className={cn(
           "overflow-hidden transition-all duration-200",
-          expanded ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          expanded ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
         )}
       >
         <CardContent className="pt-0 border-t">
+          {/* Review text section */}
+          <div className="mt-4">
+            {isEditing ? (
+              <ReviewEditForm
+                ratingId={review.id}
+                initialText={review.reviewText || ''}
+                onSave={handleSave}
+                onCancel={handleCancel}
+              />
+            ) : hasReviewText ? (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-sm font-medium text-muted-foreground">
+                      {t('reviews.card.yourReview')}
+                    </h4>
+                    {wasEdited && (
+                      <Badge variant="secondary" className="text-xs">
+                        {t('reviews.card.edited')}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleEditClick}
+                    >
+                      <Pencil className="h-4 w-4" />
+                      <span className="sr-only">{t('reviews.card.editReview')}</span>
+                    </Button>
+                    <DeleteReviewTextDialog
+                      onConfirm={handleDelete}
+                      isPending={isPending}
+                    />
+                  </div>
+                </div>
+                <p className="text-sm whitespace-pre-wrap">{review.reviewText}</p>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleAddReviewClick}
+                className="w-full"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                {t('reviews.card.addReview')}
+              </Button>
+            )}
+          </div>
+
           {/* Dimension scores */}
           {ratedDimensions.length > 0 && (
             <div className="mt-4">
