@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 15 of 18 (Settings & Profile)
-Plan: 1 of TBD in current phase
+Plan: 2 of TBD in current phase
 Status: In progress
-Last activity: 2026-02-01 — Completed 15-01-PLAN.md
+Last activity: 2026-02-01 — Completed 15-02-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 
@@ -100,6 +100,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [2/6 phases]
 | 14-04 | Red pins for favorites, blue for regular | Red matches heart color, blue is standard |
 | 15-01 | Snake_case Profile types separate from User types | Database-aligned types for settings operations |
 | 15-01 | Partial index on scheduled_deletion_at | Efficient cleanup queries without index bloat |
+| 15-02 | Deterministic color from userId hash | Same user always sees same avatar color |
+| 15-02 | 256px JPEG at 90% quality for cropped avatar | Balance of quality and file size |
 
 ### Pending Todos
 
@@ -112,9 +114,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 15-01-PLAN.md
+Stopped at: Completed 15-02-PLAN.md
 Resume file: None
-Next action: Execute 15-02-PLAN.md
+Next action: Execute 15-03-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
