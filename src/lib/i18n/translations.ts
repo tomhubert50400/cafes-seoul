@@ -589,6 +589,16 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'reviews.stats.avgOverall': 'Average rating',
     'reviews.stats.avgDimensions': 'Per dimension',
     'reviews.popularCafes': 'Popular cafes to try',
+
+    // Favorites
+    'favorites.title': 'Favorites',
+    'favorites.empty': 'No favorites yet',
+    'favorites.emptyDescription': 'Save your favorite cafes to find them easily later',
+    'favorites.browseCafes': 'Browse Cafes',
+    'favorites.sortBy': 'Sort by',
+    'favorites.sortDate': 'Date added',
+    'favorites.sortRating': 'Rating',
+    'favorites.sortNeighborhood': 'Neighborhood',
   },
 
   ko: {
@@ -1171,6 +1181,16 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'reviews.stats.avgOverall': '평균 평점',
     'reviews.stats.avgDimensions': '항목별 평균',
     'reviews.popularCafes': '인기 카페 둘러보기',
+
+    // Favorites
+    'favorites.title': '즐겨찾기',
+    'favorites.empty': '즐겨찾기가 없습니다',
+    'favorites.emptyDescription': '좋아하는 카페를 저장하여 나중에 쉽게 찾아보세요',
+    'favorites.browseCafes': '카페 둘러보기',
+    'favorites.sortBy': '정렬',
+    'favorites.sortDate': '추가일순',
+    'favorites.sortRating': '평점순',
+    'favorites.sortNeighborhood': '지역순',
   },
 
   fr: {
@@ -1753,6 +1773,16 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'reviews.stats.avgOverall': 'Note moyenne',
     'reviews.stats.avgDimensions': 'Par dimension',
     'reviews.popularCafes': 'Cafes populaires a decouvrir',
+
+    // Favorites
+    'favorites.title': 'Favoris',
+    'favorites.empty': 'Pas encore de favoris',
+    'favorites.emptyDescription': 'Enregistrez vos cafes preferes pour les retrouver facilement',
+    'favorites.browseCafes': 'Parcourir les cafes',
+    'favorites.sortBy': 'Trier par',
+    'favorites.sortDate': 'Date d\'ajout',
+    'favorites.sortRating': 'Note',
+    'favorites.sortNeighborhood': 'Quartier',
   },
 
   zh: {
@@ -2335,6 +2365,16 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'reviews.stats.avgOverall': '平均评分',
     'reviews.stats.avgDimensions': '各项平均',
     'reviews.popularCafes': '热门咖啡馆推荐',
+
+    // Favorites
+    'favorites.title': '收藏',
+    'favorites.empty': '暂无收藏',
+    'favorites.emptyDescription': '收藏您喜欢的咖啡馆，方便以后查找',
+    'favorites.browseCafes': '浏览咖啡馆',
+    'favorites.sortBy': '排序方式',
+    'favorites.sortDate': '添加日期',
+    'favorites.sortRating': '评分',
+    'favorites.sortNeighborhood': '地区',
   },
 
   vi: {
@@ -2917,5 +2957,15 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'reviews.stats.avgOverall': 'Danh gia trung binh',
     'reviews.stats.avgDimensions': 'Theo tung tieu chi',
     'reviews.popularCafes': 'Quan cafe pho bien de thu',
+
+    // Favorites
+    'favorites.title': 'Yeu thich',
+    'favorites.empty': 'Chua co yeu thich',
+    'favorites.emptyDescription': 'Luu cac quan cafe yeu thich de de dang tim lai sau',
+    'favorites.browseCafes': 'Kham pha quan cafe',
+    'favorites.sortBy': 'Sap xep theo',
+    'favorites.sortDate': 'Ngay them',
+    'favorites.sortRating': 'Danh gia',
+    'favorites.sortNeighborhood': 'Khu vuc',
   },
 };
