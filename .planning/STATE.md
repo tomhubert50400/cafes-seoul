@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 18 of 18 (Email Notifications)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-01 - Completed 18-01-PLAN.md
+Last activity: 2026-02-01 - Completed 18-02-PLAN.md
 
-Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase 18 [1/4 plans]
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase 18 [2/4 plans]
 
 ## Performance Metrics
 
@@ -35,10 +35,10 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase
 - Timeline: 1 day
 
 **Milestone v1.3:**
-- Plans completed: 18
+- Plans completed: 19
 - Phases: 13-18 (6 phases)
-- Status: In progress (Phase 17 complete, Phase 18 started - 1/4 plans complete)
-- Average: ~3 min/plan (Phase 18-01: 2min)
+- Status: In progress (Phase 17 complete, Phase 18 in progress - 2/4 plans complete)
+- Average: ~2.5 min/plan (Phase 18-01: 2min, 18-02: 2min)
 
 ## Accumulated Context
 
@@ -66,6 +66,13 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase
 - Database triggers for aggregation
 - AFTER triggers for notification queueing (don't block main operations)
 - Partial indexes for efficient queue queries (WHERE sent_at IS NULL)
+
+**Email (Phase 18):**
+- Table-based HTML layouts for email client compatibility
+- Translation objects for localized email content (5 languages)
+- HMAC-signed tokens for secure unsubscribe links
+- Opt-out model: notifications enabled by default
+- Service role in Edge Functions for full database access
 
 **Ratings (Phase 13):**
 - WithImage type suffix for types including image URLs
@@ -142,7 +149,11 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [5/6 phases] Phase
 | 18-01 | AFTER triggers prevent blocking admin actions | Queue failure shouldn't prevent status updates (Pitfall 5) |
 | 18-01 | Service-role-only RLS on notification queue | Only Edge Functions need access, not public users |
 | 18-01 | Partial index on unsent notifications | Daily digest queries only WHERE sent_at IS NULL |
-| 18-01 | Exception handling in triggers | RAISE WARNING + RETURN NEW instead of failing
+| 18-01 | Exception handling in triggers | RAISE WARNING + RETURN NEW instead of failing |
+| 18-02 | Table-based HTML email layout | Email clients don't support modern CSS (flexbox, grid) |
+| 18-02 | Opt-out notification model | Enabled by default if no preference exists, reduces friction |
+| 18-02 | Mark all as sent after processing | Prevents duplicate emails on retry (Pitfall 3) |
+| 18-02 | HMAC-signed unsubscribe tokens | Web Crypto API for tamper-proof 30-day tokens
 
 ### Pending Todos
 
@@ -155,9 +166,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 18-01-PLAN.md
+Stopped at: Completed 18-02-PLAN.md
 Resume file: None
-Next action: Execute 18-02 (Edge Function) or 18-03 (Daily Digest) or 18-04 (Unsubscribe)
+Next action: Execute 18-03 (Cron Job Scheduling) or 18-04 (Unsubscribe API Route)
 
 ---
 *State initialized: 2026-01-27*
