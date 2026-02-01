@@ -8,7 +8,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { reactivateAccountIfScheduled } from '@/lib/actions/profile';
+import { reactivateAccountIfScheduled, syncProfileFromAuthMetadata } from '@/lib/actions/profile';
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -36,6 +36,9 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
 
   // If user was scheduled for deletion and logged back in, reactivate
   await reactivateAccountIfScheduled();
+
+  // Sync profile from OAuth metadata if missing (for OAuth users)
+  await syncProfileFromAuthMetadata();
 
   const lang = await getLanguageFromCookies();
 

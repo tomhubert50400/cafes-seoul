@@ -1,9 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
+import { getProfile } from '@/lib/supabase/profiles';
 import {
   Card,
   CardContent,
@@ -13,7 +15,6 @@ import {
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { User } from '@supabase/supabase-js';
 
 async function getLanguageFromCookies(): Promise<LanguageCode> {
   const cookieStore = await cookies();
@@ -53,7 +54,35 @@ export default async function ProfilePage() {
     redirect(ROUTES.LOGIN + '?next=/profile');
   }
 
-  const lang = await getLanguageFromCookies();
+  // Fetch profile and activity stats in parallel
+  const [lang, profile, ratingsResult, favoritesResult] = await Promise.all([
+    getLanguageFromCookies(),
+    getProfile(supabase, user.id),
+    supabase
+      .from('cafe_ratings')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id),
+    supabase
+      .from('user_favorites')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id),
+  ]);
+
+  const reviewsCount = ratingsResult.count ?? 0;
+  const favoritesCount = favoritesResult.count ?? 0;
+
+  // Get avatar URL - handle both storage paths and full URLs (OAuth)
+  let avatarUrl: string | null = user.user_metadata?.avatar_url || null;
+  if (profile?.avatar_url) {
+    if (profile.avatar_url.startsWith('http://') || profile.avatar_url.startsWith('https://')) {
+      avatarUrl = profile.avatar_url;
+    } else {
+      const { data } = supabase.storage.from('avatars').getPublicUrl(profile.avatar_url);
+      avatarUrl = data.publicUrl;
+    }
+  }
+
+  const displayName = profile?.display_name || user.user_metadata?.name || user.email;
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -69,13 +98,13 @@ export default async function ProfilePage() {
           <div className="flex items-center gap-4">
             <Avatar size="lg">
               <AvatarImage
-                src={user.user_metadata?.avatar_url}
-                alt={user.user_metadata?.name || user.email || ''}
+                src={avatarUrl || undefined}
+                alt={displayName || ''}
               />
-              <AvatarFallback>{getInitials(user.email || '?')}</AvatarFallback>
+              <AvatarFallback>{getInitials(displayName || user.email || '?')}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-medium">{user.user_metadata?.name || user.email}</p>
+              <p className="font-medium">{displayName}</p>
               <p className="text-sm text-muted-foreground">{user.email}</p>
             </div>
           </div>
@@ -87,8 +116,10 @@ export default async function ProfilePage() {
             </p>
           </div>
 
-          <Button variant="outline" disabled>
-            {getTranslation(lang, 'profile.editProfile')}
+          <Button variant="outline" asChild>
+            <Link href={ROUTES.PROFILE_SETTINGS}>
+              {getTranslation(lang, 'profile.editProfile')}
+            </Link>
           </Button>
         </CardContent>
       </Card>
@@ -98,19 +129,25 @@ export default async function ProfilePage() {
         <CardHeader>
           <CardTitle>{getTranslation(lang, 'profile.activity')}</CardTitle>
           <CardDescription>
-            Your activity stats
+            {getTranslation(lang, 'profile.activityDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-lg border p-4 text-center">
-              <p className="text-3xl font-bold">0</p>
+            <Link
+              href={ROUTES.PROFILE_REVIEWS}
+              className="rounded-lg border p-4 text-center hover:bg-muted/50 transition-colors"
+            >
+              <p className="text-3xl font-bold">{reviewsCount}</p>
               <p className="text-sm text-muted-foreground">{getTranslation(lang, 'profile.reviews')}</p>
-            </div>
-            <div className="rounded-lg border p-4 text-center">
-              <p className="text-3xl font-bold">0</p>
+            </Link>
+            <Link
+              href={ROUTES.PROFILE_FAVORITES}
+              className="rounded-lg border p-4 text-center hover:bg-muted/50 transition-colors"
+            >
+              <p className="text-3xl font-bold">{favoritesCount}</p>
               <p className="text-sm text-muted-foreground">{getTranslation(lang, 'profile.favorites')}</p>
-            </div>
+            </Link>
           </div>
         </CardContent>
       </Card>

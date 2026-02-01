@@ -41,7 +41,7 @@ interface SignupFormProps {
 export function SignupForm({ oauthError }: SignupFormProps) {
   const { t } = useI18n()
   const [showPassword, setShowPassword] = useState(false)
-  const [touchedFields, setTouchedFields] = useState({ email: false, password: false })
+  const [touchedFields, setTouchedFields] = useState({ username: false, email: false, password: false })
   
   // Loading state management
   const [isLoading, setIsLoading] = useState(false)
@@ -64,6 +64,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
     resolver: zodResolver(createSignupSchema(t)),
     mode: 'onBlur',
     defaultValues: {
+      username: '',
       email: '',
       password: '',
     },
@@ -128,6 +129,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
   // Handle autofill detection using custom hook
   useAutofillDetection({
     fields: [
+      { id: 'username', name: 'username' },
       { id: 'email', name: 'email' },
       { id: 'password', name: 'password' },
     ],
@@ -152,6 +154,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
     
     try {
       const formData = new FormData()
+      formData.append('username', data.username)
       formData.append('email', data.email)
       formData.append('password', data.password)
       
@@ -168,7 +171,9 @@ export function SignupForm({ oauthError }: SignupFormProps) {
         
         // Focus the first invalid field
         setTimeout(() => {
-          if (result.errors?.email) {
+          if (result.errors?.username) {
+            setFocus('username')
+          } else if (result.errors?.email) {
             setFocus('email')
           } else if (result.errors?.password) {
             setFocus('password')
@@ -212,6 +217,42 @@ export function SignupForm({ oauthError }: SignupFormProps) {
           {oauthError}
         </div>
       )}
+
+      {/* Username field */}
+      <div className="space-y-2">
+        <label htmlFor="username" className="text-sm font-medium">
+          {t('auth.form.username')}
+        </label>
+        <Input
+          id="username"
+          type="text"
+          placeholder={t('auth.form.usernamePlaceholder')}
+          disabled={isLoading}
+          {...register('username', {
+            onChange: () => {
+              // Clear error immediately when user types, if field was touched
+              if (touchedFields.username && errors.username) {
+                clearErrors('username')
+              }
+            },
+            onBlur: async () => {
+              setTouchedFields(prev => ({ ...prev, username: true }))
+              await trigger('username')
+            },
+          })}
+          aria-invalid={errors.username ? 'true' : 'false'}
+          aria-describedby={errors.username ? 'username-error' : 'username-hint'}
+          className="transition-all duration-150"
+        />
+        <p id="username-hint" className="text-xs text-muted-foreground">
+          {t('auth.form.usernameHint')}
+        </p>
+        {errors.username && (
+          <p id="username-error" className="text-sm text-destructive animate-in fade-in slide-in-from-top-2 duration-200">
+            {errors.username.message}
+          </p>
+        )}
+      </div>
 
       {/* Email field */}
       <div className="space-y-2">

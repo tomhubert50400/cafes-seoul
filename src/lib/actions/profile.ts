@@ -7,7 +7,72 @@ import { profileFormSchema } from '@/lib/validations/profile';
 import type { ProfileFormData } from '@/lib/validations/profile';
 
 /**
+ * Sync profile from auth metadata (for OAuth users)
+ * Populates display_name and avatar_url from OAuth provider data if missing
+ */
+export async function syncProfileFromAuthMetadata(): Promise<{
+  success: boolean;
+  synced: boolean;
+  error?: string;
+}> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, synced: false, error: 'Not authenticated' };
+    }
+
+    // Get current profile
+    const profile = await getProfile(supabase, user.id);
+    if (!profile) {
+      return { success: false, synced: false, error: 'Profile not found' };
+    }
+
+    // Check if we need to sync (missing display_name or avatar_url)
+    const metadata = user.user_metadata;
+    const updates: { display_name?: string; avatar_url?: string } = {};
+
+    // Sync display_name from OAuth if profile doesn't have one
+    if (!profile.display_name) {
+      const oauthName = metadata?.full_name || metadata?.name;
+      if (oauthName) {
+        updates.display_name = oauthName;
+      }
+    }
+
+    // Sync avatar_url from OAuth if profile doesn't have one
+    if (!profile.avatar_url) {
+      const oauthAvatar = metadata?.avatar_url || metadata?.picture;
+      if (oauthAvatar) {
+        updates.avatar_url = oauthAvatar;
+      }
+    }
+
+    // Nothing to sync
+    if (Object.keys(updates).length === 0) {
+      return { success: true, synced: false };
+    }
+
+    // Update profile with OAuth data
+    const result = await updateProfile(supabase, user.id, updates);
+    if (!result.success) {
+      return { success: false, synced: false, error: result.error };
+    }
+
+    revalidatePath('/profile');
+    revalidatePath('/profile/settings');
+
+    return { success: true, synced: true };
+  } catch (err) {
+    console.error('Error syncing profile from auth metadata:', err);
+    return { success: false, synced: false, error: 'Failed to sync profile' };
+  }
+}
+
+/**
  * Get current user's profile
+ * Automatically syncs from auth metadata if profile data is missing (OAuth users)
  */
 export async function getMyProfile() {
   const supabase = await createClient();
@@ -17,6 +82,10 @@ export async function getMyProfile() {
     return { success: false, error: 'Not authenticated' };
   }
 
+  // First, sync any missing data from OAuth metadata
+  await syncProfileFromAuthMetadata();
+
+  // Then fetch the (potentially updated) profile
   const profile = await getProfile(supabase, user.id);
   return { success: true, profile };
 }

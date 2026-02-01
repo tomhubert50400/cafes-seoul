@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getProfile } from '@/lib/supabase/profiles';
+import { syncProfileFromAuthMetadata } from '@/lib/actions/profile';
 import { ProfileForm } from '@/components/profile/profile-form';
 import { PrivacyToggle } from '@/components/profile/privacy-toggle';
 import { DeleteAccountDialog } from '@/components/profile/delete-account-dialog';
@@ -28,6 +29,9 @@ export default async function SettingsPage() {
     redirect(ROUTES.LOGIN + '?next=/profile/settings');
   }
 
+  // Sync OAuth data to profile if missing (for OAuth users)
+  await syncProfileFromAuthMetadata();
+
   const [profile, lang] = await Promise.all([
     getProfile(supabase, user.id),
     getLanguageFromCookies(),
@@ -39,12 +43,19 @@ export default async function SettingsPage() {
   }
 
   // Get avatar URL if exists
+  // Handle both storage paths (uploaded) and full URLs (OAuth)
   let avatarUrl: string | null = null;
   if (profile.avatar_url) {
-    const { data } = supabase.storage
-      .from('avatars')
-      .getPublicUrl(profile.avatar_url);
-    avatarUrl = data.publicUrl;
+    // Check if it's already a full URL (OAuth avatar)
+    if (profile.avatar_url.startsWith('http://') || profile.avatar_url.startsWith('https://')) {
+      avatarUrl = profile.avatar_url;
+    } else {
+      // It's a storage path, get public URL
+      const { data } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(profile.avatar_url);
+      avatarUrl = data.publicUrl;
+    }
   }
 
   const translations = {

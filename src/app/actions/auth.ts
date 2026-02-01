@@ -17,6 +17,7 @@ export async function signup(
 ): Promise<ActionState | never> {
   // 1. Validate input with Zod
   const validatedFields = signupSchema.safeParse({
+    username: formData.get('username'),
     email: formData.get('email'),
     password: formData.get('password'),
   })
@@ -28,15 +29,18 @@ export async function signup(
     }
   }
 
-  const { email, password } = validatedFields.data
+  const { username, email, password } = validatedFields.data
 
-  // 2. Call Supabase Auth
+  // 2. Call Supabase Auth with username in metadata
   const supabase = await createClient()
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm`,
+      data: {
+        username,
+      },
     },
   })
 

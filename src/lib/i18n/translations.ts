@@ -189,6 +189,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'auth.loading.cancel': 'Cancel',
 
+    'auth.form.username': 'Username',
+    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernameHint': 'Letters, numbers, underscores, and hyphens only',
     'auth.form.email': 'Email',
     'auth.form.password': 'Password',
     'auth.form.showPassword': 'Show password',
@@ -214,6 +217,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': 'Password strength',
     'auth.password.hint': 'Make it strong',
 
+    'auth.error.usernameMin': 'Username must be at least 3 characters',
+    'auth.error.usernameMax': 'Username must be at most 30 characters',
+    'auth.error.usernameInvalid': 'Username can only contain letters, numbers, underscores, and hyphens',
     'auth.error.emailRequired': 'Email is required',
     'auth.error.emailInvalid': 'Invalid email address',
     'auth.error.passwordRequired': 'Password is required',
@@ -243,6 +249,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.settings': 'Settings',
     'profile.accountInfo': 'Account Information',
     'profile.activity': 'Activity',
+    'profile.activityDescription': 'Your contribution stats',
     'profile.memberSince': 'Member since',
     'profile.editProfile': 'Edit Profile',
     'profile.comingSoon': 'Coming Soon',
@@ -876,6 +883,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'auth.loading.cancel': '취소',
 
+    'auth.form.username': '사용자 이름',
+    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernameHint': '영문, 숫자, 밑줄, 하이픈만 사용 가능',
     'auth.form.email': '이메일',
     'auth.form.password': '비밀번호',
     'auth.form.showPassword': '비밀번호 표시',
@@ -901,6 +911,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': '비밀번호 강도',
     'auth.password.hint': '강하게 만드세요',
 
+    'auth.error.usernameMin': '사용자 이름은 3자 이상이어야 합니다',
+    'auth.error.usernameMax': '사용자 이름은 30자 이하여야 합니다',
+    'auth.error.usernameInvalid': '영문, 숫자, 밑줄, 하이픈만 사용 가능합니다',
     'auth.error.emailRequired': '이메일을 입력해주세요',
     'auth.error.emailInvalid': '올바른 이메일 형식이 아닙니다',
     'auth.error.passwordRequired': '비밀번호를 입력해주세요',
@@ -930,6 +943,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.settings': '설정',
     'profile.accountInfo': '계정 정보',
     'profile.activity': '활동',
+    'profile.activityDescription': '나의 기여 통계',
     'profile.memberSince': '가입일',
     'profile.editProfile': '프로필 수정',
     'profile.comingSoon': '준비 중',
@@ -1563,6 +1577,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'auth.loading.cancel': 'Annuler',
 
+    'auth.form.username': 'Nom d\'utilisateur',
+    'auth.form.usernamePlaceholder': 'votre_nom',
+    'auth.form.usernameHint': 'Lettres, chiffres, tirets et underscores uniquement',
     'auth.form.email': 'Email',
     'auth.form.password': 'Mot de passe',
     'auth.form.showPassword': 'Afficher le mot de passe',
@@ -1588,6 +1605,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': 'Force du mot de passe',
     'auth.password.hint': 'Rendez-le fort',
 
+    'auth.error.usernameMin': 'Le nom d\'utilisateur doit contenir au moins 3 caractères',
+    'auth.error.usernameMax': 'Le nom d\'utilisateur doit contenir au maximum 30 caractères',
+    'auth.error.usernameInvalid': 'Le nom d\'utilisateur ne peut contenir que des lettres, chiffres, tirets et underscores',
     'auth.error.emailRequired': 'L\'email est requis',
     'auth.error.emailInvalid': 'Adresse email invalide',
     'auth.error.passwordRequired': 'Le mot de passe est requis',
@@ -1617,6 +1637,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.settings': 'Paramètres',
     'profile.accountInfo': 'Informations du compte',
     'profile.activity': 'Activité',
+    'profile.activityDescription': 'Vos statistiques de contribution',
     'profile.memberSince': 'Membre depuis',
     'profile.editProfile': 'Modifier le profil',
     'profile.comingSoon': 'Bientôt disponible',
@@ -2250,6 +2271,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'auth.loading.cancel': '取消',
 
+    'auth.form.username': '用户名',
+    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernameHint': '仅限字母、数字、下划线和连字符',
     'auth.form.email': '邮箱',
     'auth.form.password': '密码',
     'auth.form.showPassword': '显示密码',
@@ -2275,6 +2299,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': '密码强度',
     'auth.password.hint': '让它更强',
 
+    'auth.error.usernameMin': '用户名至少需要3个字符',
+    'auth.error.usernameMax': '用户名最多30个字符',
+    'auth.error.usernameInvalid': '用户名只能包含字母、数字、下划线和连字符',
     'auth.error.emailRequired': '邮箱为必填项',
     'auth.error.emailInvalid': '邮箱地址无效',
     'auth.error.passwordRequired': '密码为必填项',
@@ -2304,6 +2331,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.settings': '设置',
     'profile.accountInfo': '账户信息',
     'profile.activity': '活动',
+    'profile.activityDescription': '您的贡献统计',
     'profile.memberSince': '加入时间',
     'profile.editProfile': '编辑资料',
     'profile.comingSoon': '即将推出',
@@ -2937,6 +2965,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     'auth.loading.cancel': 'Hủy',
 
+    'auth.form.username': 'Tên người dùng',
+    'auth.form.usernamePlaceholder': 'your_username',
+    'auth.form.usernameHint': 'Chỉ chữ cái, số, gạch dưới và gạch ngang',
     'auth.form.email': 'Email',
     'auth.form.password': 'Mật khẩu',
     'auth.form.showPassword': 'Hiện mật khẩu',
@@ -2962,6 +2993,9 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': 'Độ mạnh mật khẩu',
     'auth.password.hint': 'Làm cho mạnh hơn',
 
+    'auth.error.usernameMin': 'Tên người dùng phải có ít nhất 3 ký tự',
+    'auth.error.usernameMax': 'Tên người dùng tối đa 30 ký tự',
+    'auth.error.usernameInvalid': 'Tên người dùng chỉ được chứa chữ cái, số, gạch dưới và gạch ngang',
     'auth.error.emailRequired': 'Email là bắt buộc',
     'auth.error.emailInvalid': 'Địa chỉ email không hợp lệ',
     'auth.error.passwordRequired': 'Mật khẩu là bắt buộc',
@@ -2991,6 +3025,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.settings': 'Cài đặt',
     'profile.accountInfo': 'Thông tin tài khoản',
     'profile.activity': 'Hoạt động',
+    'profile.activityDescription': 'Thống kê đóng góp của bạn',
     'profile.memberSince': 'Thành viên từ',
     'profile.editProfile': 'Chỉnh sửa',
     'profile.comingSoon': 'Sắp ra mắt',
