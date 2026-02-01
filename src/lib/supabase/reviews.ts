@@ -151,7 +151,7 @@ export async function getCafeReviewsWithVotes(
   currentUserId: string | null
 ): Promise<ReviewWithAuthor[]> {
   try {
-    // Query ratings that have review text with author info
+    // Query ratings that have review text
     const { data: reviews, error } = await supabase
       .from('cafe_ratings')
       .select(`
@@ -161,13 +161,7 @@ export async function getCafeReviewsWithVotes(
         overall,
         review_text,
         review_edited_at,
-        created_at,
-        author:profiles!cafe_ratings_user_id_fkey(
-          id,
-          display_name,
-          avatar_url,
-          profile_public
-        )
+        created_at
       `)
       .eq('cafe_id', cafeId)
       .not('review_text', 'is', null)
@@ -182,8 +176,28 @@ export async function getCafeReviewsWithVotes(
       return [];
     }
 
-    // Get rating IDs for vote count and user vote check
+    // Get unique user IDs and rating IDs
+    const userIds = [...new Set(reviews.map((r) => r.user_id))];
     const ratingIds = reviews.map((r) => r.id);
+
+    // Fetch author profiles separately (profiles.id = user_id)
+    const { data: profiles, error: profileError } = await supabase
+      .from('profiles')
+      .select('id, display_name, avatar_url, profile_public')
+      .in('id', userIds);
+
+    if (profileError) {
+      console.error('Error fetching author profiles:', profileError);
+    }
+
+    // Create profile lookup map
+    const profileMap = new Map<string, {
+      id: string;
+      display_name: string | null;
+      avatar_url: string | null;
+      profile_public: boolean;
+    }>();
+    profiles?.forEach((p) => profileMap.set(p.id, p));
 
     // Get vote counts for all ratings
     const { data: voteCounts, error: countError } = await supabase
@@ -210,13 +224,7 @@ export async function getCafeReviewsWithVotes(
 
     // Transform to ReviewWithAuthor[]
     return reviews.map((row) => {
-      // Handle author join result
-      const authorData = row.author as unknown as {
-        id: string;
-        display_name: string | null;
-        avatar_url: string | null;
-        profile_public: boolean;
-      } | null;
+      const authorData = profileMap.get(row.user_id);
 
       const author: ReviewAuthor = {
         id: authorData?.id || row.user_id,
