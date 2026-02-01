@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 16 of 18 (Text Reviews)
-Plan: 4 of 4 in current phase
+Plan: 5 of 5 in current phase
 Status: Phase complete
-Last activity: 2026-02-01 - Completed 16-04-PLAN.md
+Last activity: 2026-02-01 - Completed 16-05-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [4/6 phases]
 
@@ -120,6 +120,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [4/6 phases]
 | 16-03 | Reviews tab shows text reviews with count badge | Text reviews are primary system |
 | 16-04 | Character counter visible only when typing | Follows 15-03 pattern for cleaner UI |
 | 16-04 | Extend UserRating type with review fields | Simpler than new type, data already in table |
+| 16-05 | Collapsible review text section in rating form | Reduces form clutter while keeping feature discoverable |
+| 16-05 | Fetch profiles separately from ratings | Avoids FK constraint errors when profile row missing |
+| 16-05 | Username fallback for review author display | Handles null display_name gracefully |
 
 ### Pending Todos
 
@@ -132,7 +135,7 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 16-04-PLAN.md
+Stopped at: Completed 16-05-PLAN.md
 Resume file: None
 Next action: Execute 17-01-PLAN.md
 
