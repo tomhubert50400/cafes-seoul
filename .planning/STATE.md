@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 16 of 18 (Text Reviews)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-01 — Completed 16-01-PLAN.md
+Last activity: 2026-02-01 — Completed 16-02-PLAN.md
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 
@@ -113,6 +113,8 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [3/6 phases]
 | 16-01 | Extend cafe_ratings vs separate reviews table | Maintains one-review-per-user-per-cafe constraint, simpler queries |
 | 16-01 | IS DISTINCT FROM in trigger | Handles NULL transitions correctly for review_edited_at |
 | 16-01 | Public SELECT on helpful_votes | Vote counts visible to all, only write ops restricted |
+| 16-02 | getRatingById helper for multi-check actions | Single fetch for ownership, text existence, and cafeId |
+| 16-02 | Explicit vote deletion on text removal | Prevents orphaned votes, safer than relying on triggers |
 
 ### Pending Todos
 
@@ -125,9 +127,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 16-01-PLAN.md
+Stopped at: Completed 16-02-PLAN.md
 Resume file: None
-Next action: Execute 16-02-PLAN.md
+Next action: Execute 16-03-PLAN.md
 
 ---
 *State initialized: 2026-01-27*
