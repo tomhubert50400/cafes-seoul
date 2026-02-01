@@ -6,12 +6,14 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useI18n } from '@/lib/i18n';
-import { ratingFormSchema, RatingFormData, toRatingInput } from '@/lib/validations/ratings';
+import { ratingFormSchema, RatingFormData } from '@/lib/validations/ratings';
 import { submitRating } from '@/lib/actions/ratings';
 import type { UserRating } from '@/types/ratings';
-import { Star, Loader2 } from 'lucide-react';
+import { Star, Loader2, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export interface RatingFormProps {
   cafeId: string;
@@ -46,6 +48,12 @@ export function RatingForm({
 
   const isUpdateMode = !!existingRating;
 
+  // State for collapsible review text section
+  // Default to expanded if there's existing review text
+  const [showReviewField, setShowReviewField] = useState(
+    !!existingRating?.reviewText
+  );
+
   // Prepare default values based on existing rating or empty defaults
   const defaultValues: RatingFormData = existingRating
     ? {
@@ -61,6 +69,7 @@ export function RatingForm({
         petFriendly: existingRating.petFriendly,
         lighting: existingRating.lighting,
         outlets: existingRating.outlets,
+        reviewText: existingRating.reviewText || '',
       }
     : {
         cafeId,
@@ -75,6 +84,7 @@ export function RatingForm({
         petFriendly: false,
         lighting: 0,
         outlets: 0,
+        reviewText: '',
       };
 
   const {
@@ -82,12 +92,15 @@ export function RatingForm({
     handleSubmit,
     formState: { errors },
     watch,
+    register,
   } = useForm({
     resolver: zodResolver(ratingFormSchema),
     defaultValues,
   });
 
   const overallValue = watch('overall');
+  const reviewTextValue = watch('reviewText') || '';
+  const charactersRemaining = 500 - reviewTextValue.length;
 
   async function handleFormSubmit(data: RatingFormData) {
     setIsSubmitting(true);
@@ -375,6 +388,47 @@ export function RatingForm({
                 </div>
               )}
             />
+          </div>
+
+          {/* Optional Review Text Section */}
+          <div className="pt-4 border-t">
+            <button
+              type="button"
+              onClick={() => setShowReviewField(!showReviewField)}
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ChevronDown
+                className={cn(
+                  'h-4 w-4 transition-transform duration-200',
+                  showReviewField && 'rotate-180'
+                )}
+              />
+              {t('rating.addReviewOptional')}
+            </button>
+
+            {showReviewField && (
+              <div className="mt-3 space-y-2">
+                <Textarea
+                  {...register('reviewText')}
+                  placeholder={t('rating.reviewPlaceholder')}
+                  maxLength={500}
+                  className="min-h-[100px] resize-none"
+                />
+                {reviewTextValue.length > 0 && (
+                  <p className="text-right text-xs text-muted-foreground">
+                    {t('rating.charactersRemaining').replace(
+                      '{count}',
+                      String(charactersRemaining)
+                    )}
+                  </p>
+                )}
+                {errors.reviewText && (
+                  <p className="text-sm text-destructive">
+                    {t(errors.reviewText.message || 'validation.reviewTextTooLong')}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Error Message */}

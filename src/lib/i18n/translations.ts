@@ -480,6 +480,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.beFirst': 'Be the first to rate this cafe',
     'rating.youRated': 'You rated this cafe',
 
+    // Review text (optional)
+    'rating.addReviewOptional': 'Add a review (optional)',
+    'rating.reviewPlaceholder': 'Share your experience at this cafe...',
+    'rating.charactersRemaining': '{count} characters remaining',
+
     // Photos
     'photos.title': 'Photos',
     'photos.photo': 'photo',
@@ -1161,6 +1166,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': '평가',
     'rating.beFirst': '첫 번째 평가자가 되세요',
     'rating.youRated': '평가하셨습니다',
+
+    // Review text (optional)
+    'rating.addReviewOptional': '리뷰 추가 (선택사항)',
+    'rating.reviewPlaceholder': '이 카페에서의 경험을 공유해주세요...',
+    'rating.charactersRemaining': '{count}자 남음',
 
     // Photos
     'photos.title': '사진',
@@ -1844,6 +1854,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.beFirst': 'Soyez le premier à évaluer',
     'rating.youRated': 'Vous avez évalué ce café',
 
+    // Review text (optional)
+    'rating.addReviewOptional': 'Ajouter un avis (facultatif)',
+    'rating.reviewPlaceholder': 'Partagez votre experience dans ce cafe...',
+    'rating.charactersRemaining': '{count} caracteres restants',
+
     // Photos
     'photos.title': 'Photos',
     'photos.photo': 'photo',
@@ -2526,6 +2541,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.beFirst': '成为第一个评价者',
     'rating.youRated': '您已评价此咖啡馆',
 
+    // Review text (optional)
+    'rating.addReviewOptional': '添加评论（可选）',
+    'rating.reviewPlaceholder': '分享您在这家咖啡馆的体验...',
+    'rating.charactersRemaining': '还剩 {count} 个字符',
+
     // Photos
     'photos.title': '照片',
     'photos.photo': '张照片',
@@ -3201,6 +3221,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'rating.sectionTitle': 'Đánh giá',
     'rating.beFirst': 'Hãy là ngườI đầu tiên đánh giá',
     'rating.youRated': 'Bạn đã đánh giá',
+
+    // Review text (optional)
+    'rating.addReviewOptional': 'Them danh gia (tuy chon)',
+    'rating.reviewPlaceholder': 'Chia se trai nghiem cua ban tai quan cafe nay...',
+    'rating.charactersRemaining': 'Con {count} ky tu',
 
     // Photos
     'photos.title': 'Hình ảnh',
