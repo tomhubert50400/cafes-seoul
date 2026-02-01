@@ -217,6 +217,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.password.label': 'Password strength',
     'auth.password.hint': 'Make it strong',
 
+    // Password reset
+    'password.resetTitle': 'Reset Password',
+    'password.newPassword': 'New Password',
+    'password.confirmPassword': 'Confirm Password',
+    'password.updateButton': 'Update Password',
+    'password.updating': 'Updating...',
+    'password.resetSuccess': 'Password updated successfully',
+    'password.resetError': 'Failed to update password',
+    'password.passwordMismatch': 'Passwords do not match',
+    'password.linkExpired': 'Reset link has expired',
+    'password.linkInvalid': 'Invalid reset link',
+    'password.requestNewLink': 'Request new link',
+    'password.strength.weak': 'Weak',
+    'password.strength.fair': 'Fair',
+    'password.strength.good': 'Good',
+    'password.strength.strong': 'Strong',
+    'password.strength.veryStrong': 'Very Strong',
+    'password.requirements': 'Password must be at least 8 characters',
+    'password.tooWeak': 'Password is too weak',
+
     'auth.error.usernameMin': 'Username must be at least 3 characters',
     'auth.error.usernameMax': 'Username must be at most 30 characters',
     'auth.error.usernameInvalid': 'Username can only contain letters, numbers, underscores, and hyphens',
@@ -239,6 +259,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.unavailable.kakao': 'Kakao login is temporarily unavailable',
     'auth.oauth.error.expired': 'Login took too long. Please try again.',
     'auth.oauth.error.default': 'OAuth authentication failed',
+
+    // Forgot Password
+    'auth.forgotPassword.link': 'Forgot password?',
+    'auth.forgotPassword.title': 'Reset Password',
+    'auth.forgotPassword.description': 'Enter your email address and we will send you a link to reset your password.',
+    'auth.forgotPassword.sendLink': 'Send Reset Link',
+    'auth.forgotPassword.sending': 'Sending...',
+    'auth.forgotPassword.linkSent': 'If that email exists in our system, a reset link has been sent.',
 
     // Profile Page
     'profile.title': 'Profile',
@@ -304,6 +332,27 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': 'Failed to cancel deletion',
     'settings.emailMismatch': 'Email does not match',
     'settings.gracePeriodInfo': 'You have 7 days to log back in and cancel the deletion. After that, your account will be permanently removed.',
+
+    // Password Change (Settings)
+    'settings.changePassword': 'Change Password',
+    'settings.changePasswordDescription': 'Request a password reset link via email',
+    'settings.sendResetLink': 'Send Reset Link',
+    'settings.resetLinkSent': 'Reset link sent to your email',
+    'settings.noPasswordForOAuth': 'Password management is not available for social login accounts',
+
+    // Notification Preferences
+    'settings.notificationsTitle': 'Email Notifications',
+    'settings.notificationsDescription': 'Choose which emails you want to receive',
+    'settings.cafeApproved': 'Cafe approved',
+    'settings.cafeApprovedDesc': 'When your cafe submission is approved',
+    'settings.cafeRejected': 'Cafe rejected',
+    'settings.cafeRejectedDesc': 'When your cafe submission is rejected',
+    'settings.photoApproved': 'Photo approved',
+    'settings.photoApprovedDesc': 'When your photo submission is approved',
+    'settings.photoRejected': 'Photo rejected',
+    'settings.photoRejectedDesc': 'When your photo submission is rejected',
+    'settings.notificationUpdateSuccess': 'Preference updated',
+    'settings.notificationUpdateError': 'Failed to update preference',
 
     // Profile validation errors
     'profile.error.displayNameMin': 'Display name must be at least 2 characters',
@@ -934,6 +983,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.error.expired': '로그인 시간이 초과되었습니다. 다시 시도해주세요.',
     'auth.oauth.error.default': 'OAuth 인증에 실패했습니다',
 
+    // Forgot Password
+    'auth.forgotPassword.link': '비밀번호를 잊으셨나요?',
+    'auth.forgotPassword.title': '비밀번호 재설정',
+    'auth.forgotPassword.description': '이메일 주소를 입력하시면 비밀번호 재설정 링크를 보내드립니다.',
+    'auth.forgotPassword.sendLink': '재설정 링크 보내기',
+    'auth.forgotPassword.sending': '전송 중...',
+    'auth.forgotPassword.linkSent': '해당 이메일이 등록되어 있다면 재설정 링크가 전송되었습니다.',
+
     // Profile Page
     'profile.title': '프로필',
     'profile.overview': '개요',
@@ -998,6 +1055,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': '삭제 취소에 실패했습니다',
     'settings.emailMismatch': '이메일이 일치하지 않습니다',
     'settings.gracePeriodInfo': '7일 이내에 다시 로그인하면 삭제를 취소할 수 있습니다. 그 후에는 계정이 영구적으로 삭제됩니다.',
+
+    // Notification Preferences
+    'settings.notificationsTitle': '이메일 알림',
+    'settings.notificationsDescription': '받고 싶은 이메일을 선택하세요',
+    'settings.cafeApproved': '카페 승인됨',
+    'settings.cafeApprovedDesc': '제출한 카페가 승인되었을 때',
+    'settings.cafeRejected': '카페 거절됨',
+    'settings.cafeRejectedDesc': '제출한 카페가 거절되었을 때',
+    'settings.photoApproved': '사진 승인됨',
+    'settings.photoApprovedDesc': '제출한 사진이 승인되었을 때',
+    'settings.photoRejected': '사진 거절됨',
+    'settings.photoRejectedDesc': '제출한 사진이 거절되었을 때',
+    'settings.notificationUpdateSuccess': '설정이 업데이트되었습니다',
+    'settings.notificationUpdateError': '설정 업데이트에 실패했습니다',
 
     // Profile validation errors
     'profile.error.displayNameMin': '표시 이름은 최소 2자 이상이어야 합니다',
@@ -1628,6 +1699,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.error.expired': 'La connexion a pris trop de temps. Veuillez réessayer.',
     'auth.oauth.error.default': 'L\'authentification OAuth a échoué',
 
+    // Forgot Password
+    'auth.forgotPassword.link': 'Mot de passe oublié ?',
+    'auth.forgotPassword.title': 'Réinitialiser le mot de passe',
+    'auth.forgotPassword.description': 'Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.',
+    'auth.forgotPassword.sendLink': 'Envoyer le lien',
+    'auth.forgotPassword.sending': 'Envoi en cours...',
+    'auth.forgotPassword.linkSent': 'Si cet email existe dans notre système, un lien de réinitialisation a été envoyé.',
+
     // Profile Page
     'profile.title': 'Profil',
     'profile.overview': 'Aperçu',
@@ -1692,6 +1771,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': 'Échec de l\'annulation',
     'settings.emailMismatch': 'L\'email ne correspond pas',
     'settings.gracePeriodInfo': 'Vous avez 7 jours pour vous reconnecter et annuler la suppression. Après cela, votre compte sera définitivement supprimé.',
+
+    // Notification Preferences
+    'settings.notificationsTitle': 'Notifications par email',
+    'settings.notificationsDescription': 'Choisissez les emails que vous souhaitez recevoir',
+    'settings.cafeApproved': 'Cafe approuve',
+    'settings.cafeApprovedDesc': 'Quand votre soumission de cafe est approuvee',
+    'settings.cafeRejected': 'Cafe refuse',
+    'settings.cafeRejectedDesc': 'Quand votre soumission de cafe est refusee',
+    'settings.photoApproved': 'Photo approuvee',
+    'settings.photoApprovedDesc': 'Quand votre soumission de photo est approuvee',
+    'settings.photoRejected': 'Photo refusee',
+    'settings.photoRejectedDesc': 'Quand votre soumission de photo est refusee',
+    'settings.notificationUpdateSuccess': 'Preference mise a jour',
+    'settings.notificationUpdateError': 'Echec de la mise a jour',
 
     // Profile validation errors
     'profile.error.displayNameMin': 'Le nom affiché doit contenir au moins 2 caractères',
@@ -2322,6 +2415,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.error.expired': '登录时间过长，请重试。',
     'auth.oauth.error.default': 'OAuth 认证失败',
 
+    // Forgot Password
+    'auth.forgotPassword.link': '忘记密码？',
+    'auth.forgotPassword.title': '重置密码',
+    'auth.forgotPassword.description': '输入您的邮箱地址，我们将向您发送重置密码的链接。',
+    'auth.forgotPassword.sendLink': '发送重置链接',
+    'auth.forgotPassword.sending': '发送中...',
+    'auth.forgotPassword.linkSent': '如果该邮箱存在于我们的系统中，重置链接已发送。',
+
     // Profile Page
     'profile.title': '个人资料',
     'profile.overview': '概览',
@@ -2386,6 +2487,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': '取消删除失败',
     'settings.emailMismatch': '邮箱不匹配',
     'settings.gracePeriodInfo': '您有7天时间重新登录并取消删除。之后，您的账户将被永久删除。',
+
+    // Notification Preferences
+    'settings.notificationsTitle': '邮件通知',
+    'settings.notificationsDescription': '选择您想要接收的邮件',
+    'settings.cafeApproved': '咖啡馆已批准',
+    'settings.cafeApprovedDesc': '当您提交的咖啡馆被批准时',
+    'settings.cafeRejected': '咖啡馆被拒绝',
+    'settings.cafeRejectedDesc': '当您提交的咖啡馆被拒绝时',
+    'settings.photoApproved': '照片已批准',
+    'settings.photoApprovedDesc': '当您提交的照片被批准时',
+    'settings.photoRejected': '照片被拒绝',
+    'settings.photoRejectedDesc': '当您提交的照片被拒绝时',
+    'settings.notificationUpdateSuccess': '设置已更新',
+    'settings.notificationUpdateError': '更新设置失败',
 
     // Profile validation errors
     'profile.error.displayNameMin': '显示名称至少需要2个字符',
@@ -3016,6 +3131,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'auth.oauth.error.expired': 'Đăng nhập mất quá lâu. Vui lòng thử lại.',
     'auth.oauth.error.default': 'Xác thực OAuth thất bại',
 
+    // Forgot Password
+    'auth.forgotPassword.link': 'Quên mật khẩu?',
+    'auth.forgotPassword.title': 'Đặt lại mật khẩu',
+    'auth.forgotPassword.description': 'Nhập địa chỉ email của bạn và chúng tôi sẽ gửi liên kết đặt lại mật khẩu.',
+    'auth.forgotPassword.sendLink': 'Gửi liên kết đặt lại',
+    'auth.forgotPassword.sending': 'Đang gửi...',
+    'auth.forgotPassword.linkSent': 'Nếu email đó tồn tại trong hệ thống, liên kết đặt lại đã được gửi.',
+
     // Profile Page
     'profile.title': 'Hồ sơ',
     'profile.overview': 'Tổng quan',
@@ -3080,6 +3203,20 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'settings.cancelError': 'Hủy xóa thất bại',
     'settings.emailMismatch': 'Email không khớp',
     'settings.gracePeriodInfo': 'Bạn có 7 ngày để đăng nhập lại và hủy xóa. Sau đó, tài khoản của bạn sẽ bị xóa vĩnh viễn.',
+
+    // Notification Preferences
+    'settings.notificationsTitle': 'Thông báo qua email',
+    'settings.notificationsDescription': 'Chọn email bạn muốn nhận',
+    'settings.cafeApproved': 'Quán cà phê đã duyệt',
+    'settings.cafeApprovedDesc': 'Khi quán cà phê bạn gửi được phê duyệt',
+    'settings.cafeRejected': 'Quán cà phê bị từ chối',
+    'settings.cafeRejectedDesc': 'Khi quán cà phê bạn gửi bị từ chối',
+    'settings.photoApproved': 'Ảnh đã duyệt',
+    'settings.photoApprovedDesc': 'Khi ảnh bạn gửi được phê duyệt',
+    'settings.photoRejected': 'Ảnh bị từ chối',
+    'settings.photoRejectedDesc': 'Khi ảnh bạn gửi bị từ chối',
+    'settings.notificationUpdateSuccess': 'Đã cập nhật cài đặt',
+    'settings.notificationUpdateError': 'Cập nhật cài đặt thất bại',
 
     // Toast Notifications
     'auth.toast.error.title': 'Lỗi',

@@ -2,10 +2,12 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getProfile } from '@/lib/supabase/profiles';
+import { getNotificationPreferences } from '@/lib/supabase/notifications';
 import { syncProfileFromAuthMetadata } from '@/lib/actions/profile';
 import { ProfileForm } from '@/components/profile/profile-form';
 import { PrivacyToggle } from '@/components/profile/privacy-toggle';
 import { DeleteAccountDialog } from '@/components/profile/delete-account-dialog';
+import { NotificationsSection } from '@/components/settings/notifications-section';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { ROUTES } from '@/lib/constants/routes';
@@ -32,9 +34,10 @@ export default async function SettingsPage() {
   // Sync OAuth data to profile if missing (for OAuth users)
   await syncProfileFromAuthMetadata();
 
-  const [profile, lang] = await Promise.all([
+  const [profile, lang, notificationPreferences] = await Promise.all([
     getProfile(supabase, user.id),
     getLanguageFromCookies(),
+    getNotificationPreferences(supabase, user.id),
   ]);
 
   if (!profile) {
@@ -105,12 +108,31 @@ export default async function SettingsPage() {
     gracePeriodInfo: getTranslation(lang, 'settings.gracePeriodInfo'),
   };
 
+  const notificationTranslations = {
+    title: getTranslation(lang, 'settings.notificationsTitle'),
+    description: getTranslation(lang, 'settings.notificationsDescription'),
+    cafeApproved: getTranslation(lang, 'settings.cafeApproved'),
+    cafeApprovedDesc: getTranslation(lang, 'settings.cafeApprovedDesc'),
+    cafeRejected: getTranslation(lang, 'settings.cafeRejected'),
+    cafeRejectedDesc: getTranslation(lang, 'settings.cafeRejectedDesc'),
+    photoApproved: getTranslation(lang, 'settings.photoApproved'),
+    photoApprovedDesc: getTranslation(lang, 'settings.photoApprovedDesc'),
+    photoRejected: getTranslation(lang, 'settings.photoRejected'),
+    photoRejectedDesc: getTranslation(lang, 'settings.photoRejectedDesc'),
+    updateSuccess: getTranslation(lang, 'settings.notificationUpdateSuccess'),
+    updateError: getTranslation(lang, 'settings.notificationUpdateError'),
+  };
+
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <ProfileForm
         profile={profile}
         avatarUrl={avatarUrl}
         translations={translations}
+      />
+      <NotificationsSection
+        initialPreferences={notificationPreferences}
+        translations={notificationTranslations}
       />
       <PrivacyToggle
         isPrivate={profile.is_private ?? false}
