@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 Phase: 17 of 18 (Password & Preferences)
 Plan: 4 of 4 in current phase
 Status: Phase complete
-Last activity: 2026-02-01 - Completed 17-04-PLAN.md
+Last activity: 2026-02-01 - Completed 17-03-PLAN.md (executed after 17-04)
 
 Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [6/6 phases complete]
 
@@ -133,6 +133,9 @@ Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [6/6 phases comple
 | 17-04 | Forgot password on login page | Improves discoverability vs. separate page; already familiar context |
 | 17-04 | Toast feedback 2s duration | Follows project pattern from 16-03 (CONTEXT.md specified 2s) |
 | 17-04 | Parallel data fetching in settings | Profile, language, preferences fetched simultaneously for performance |
+| 17-03 | URL query params for tab persistence | Browser navigation expectations; ?tab=security |
+| 17-03 | Security tab groups password+delete | Logical security-related grouping |
+| 17-03 | OAuth users see info message | Clear UX for unavailable password management |
 
 ### Pending Todos
 
@@ -145,7 +148,7 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 17-04-PLAN.md (Phase 17 Complete)
+Stopped at: Completed 17-03-PLAN.md (All Phase 17 plans complete)
 Resume file: None
 Next action: Execute Phase 18 (Admin Features) or wrap up v1.3
 
