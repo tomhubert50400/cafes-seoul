@@ -1,5 +1,34 @@
 # Project Milestones: Cafes Seoul
 
+## v1.3 Profile Enhancement (Shipped: 2026-02-01)
+
+**Delivered:** Enhanced user profile with reviews, favorites, settings, password reset, notification preferences, and email notifications for submission status changes
+
+**Phases completed:** 13-18 (25 plans total)
+
+**Key accomplishments:**
+- My Reviews tab with sorting, filtering, and per-dimension stats
+- Favorites system with heart toggles and map integration (red/blue pins)
+- Profile settings with avatar upload (crop), bio editing, account deletion
+- Public profiles at /user/[id] with privacy toggle
+- Text reviews with optional text when rating, inline editing, helpful voting
+- Password reset flow with strength meter (zxcvbn)
+- Notification preferences with 4 toggle switches and auto-save
+- Email notifications via Edge Function (daily digest at 9 AM KST)
+- One-click unsubscribe with HMAC-signed tokens
+
+**Stats:**
+- 129 files modified
+- +10,755 lines of TypeScript
+- 6 phases, 25 plans
+- 2 days (2026-02-01)
+
+**Git range:** `feat(13-01)` → `feat(18-04)`
+
+**What's next:** v1.4 or v2.0 — potential areas: Naver OAuth, review titles, favorites collections, data export, weekly digest emails
+
+---
+
 ## v1.2 Polish & Bug Fixes (Shipped: 2026-02-01)
 
 **Delivered:** Bug fixes for i18n, navigation, forms, layout, and auth issues identified after v1.1 release

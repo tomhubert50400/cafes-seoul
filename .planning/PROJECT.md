@@ -2,30 +2,23 @@
 
 ## What This Is
 
-Une application web pour découvrir des cafés à Seoul avec des critères de filtrage avancés (places assises, boissons, nourriture, température, terrasse, esthétique, etc.) que Kakao Map et Naver Map n'offrent pas. Les utilisateurs peuvent parcourir et filtrer les cafés sans compte, mais doivent se connecter pour contribuer.
-
-## Current Milestone: v1.3 Profile Enhancement
-
-**Goal:** Enhance user profile with reviews, favorites, and comprehensive settings
-
-**Target features:**
-- Profile tabs: My Reviews, Favorites, Settings
-- Text reviews with ratings (optional text when rating a cafe)
-- Favorites system with heart icon on cafe cards and detail pages
-- Settings: profile editing (name, avatar, bio), password reset, notification preferences
-- Email notifications for submission approval/rejection
+Une application web pour découvrir des cafés à Seoul avec des critères de filtrage avancés (places assises, boissons, nourriture, température, terrasse, esthétique, etc.) que Kakao Map et Naver Map n'offrent pas. Les utilisateurs peuvent parcourir et filtrer les cafés sans compte, mais doivent se connecter pour contribuer. Includes user profiles with reviews, favorites, settings, and email notifications.
 
 ## Current State
 
-**Latest Release:** v1.2 Polish & Bug Fixes (2026-02-01)
-**Codebase:** 23,200 lines TypeScript (Next.js 16 + Supabase)
+**Latest Release:** v1.3 Profile Enhancement (2026-02-01)
+**Codebase:** 32,470 lines TypeScript (Next.js 16 + Supabase)
 
-**Shipped in v1.2:**
-- Fixed rating cancel button i18n key (shows translated text in all 5 languages)
-- Added admin link to user dropdown for admin users
-- Simplified cafe submission form (address only, unified language tabs)
-- Fixed layout bugs (dashboard header, single header on submissions, mobile overflow)
-- Fixed photo upload auth detection using onAuthStateChange subscription
+**Shipped in v1.3:**
+- My Reviews tab with sorting, filtering, and per-dimension stats
+- Favorites system with heart toggles and map integration (red/blue pins)
+- Profile settings with avatar upload, bio editing, account deletion
+- Public profiles at /user/[id] with privacy toggle
+- Text reviews with optional text when rating, inline editing, helpful voting
+- Password reset flow with strength meter (zxcvbn)
+- Notification preferences with 4 toggle switches
+- Email notifications via Edge Function (daily digest at 9 AM KST)
+- One-click unsubscribe with HMAC-signed tokens
 
 **Rate limits:** 3 cafe submissions/day, unlimited ratings, 10 photo uploads/day
 
@@ -58,28 +51,33 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - ✓ Simplified cafe submission form — v1.2
 - ✓ Layout fixes (dashboard header, submissions header, mobile overflow) — v1.2
 - ✓ Photo upload auth detection fix — v1.2
-
-### Active (v1.3)
-
-- [ ] Profile tabs: My Reviews, Favorites, Settings
-- [ ] Text reviews with ratings (optional text when rating a cafe)
-- [ ] Favorites system with heart icon on cafe cards and detail pages
-- [ ] Settings: profile editing (name, avatar via Supabase Storage, bio)
-- [ ] Password reset via email link
-- [ ] Notification preferences (toggle email for submission status)
-- [ ] Email notifications for submission approval/rejection
+- ✓ My Reviews tab with sorting, filtering, and stats — v1.3
+- ✓ Favorites system with heart toggle and map integration — v1.3
+- ✓ Profile settings with avatar upload and account deletion — v1.3
+- ✓ Public profiles with privacy toggle — v1.3
+- ✓ Text reviews with helpful voting — v1.3
+- ✓ Password reset via email link — v1.3
+- ✓ Notification preferences with toggle switches — v1.3
+- ✓ Email notifications for submission status changes — v1.3
 
 ### Deferred (v1.4+)
 
 - [ ] Naver OAuth login
+- [ ] Review titles (TXT-02)
+- [ ] Favorites collections/lists
+- [ ] Language preference override
+- [ ] Data export
+- [ ] Weekly digest email
 
-### Out of Scope (deferred)
+### Out of Scope
 
 - 2FA — complexity not needed for cafe discovery
 - Pro features for cafe owners — future milestone (v2.0+)
 - Edit/delete after approval — approved content is permanent
-- Review comments — adds complexity without core value
+- Review comments/replies — adds moderation complexity
 - Gamification/rewards — evaluate after user adoption
+- Real-time in-app notifications — WebSocket complexity without core value
+- Social following — not aligned with cafe discovery focus
 
 ## Context
 
@@ -87,25 +85,29 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - Next.js 16 avec App Router et Server Components
 - Supabase déjà intégré pour database et storage
 - `@supabase/ssr` installé pour auth SSR
-- Structure auth prévue: `src/app/(auth)/` existe mais vide
-- Middleware Supabase existe: `src/lib/supabase/middleware.ts`
+- Edge Functions for email delivery (send-daily-digest)
+- pg_cron for scheduled tasks
 
 **OAuth Providers:**
 - Google: Standard, bien documenté
 - Kakao: Provider natif Supabase, nécessite config Kakao Developers
-- Naver: Provider natif Supabase, nécessite config Naver Developers
+- Naver: Provider natif Supabase (deferred), nécessite config Naver Developers
 
-**Key Patterns (from v1.2):**
+**Key Patterns (from v1.3):**
 - Client auth: use onAuthStateChange subscription, track userId in state
 - Nested layouts: child pages return content only, parent layout provides Header
 - Unified tab state: when multiple tab groups should sync, use shared controlled state
+- Optimistic UI: useTransition + useState + error revert for toggles
+- AFTER triggers: Queue notifications without blocking main operations
+- Table-based HTML: Email client compatibility over modern CSS
+- HMAC-signed tokens: Secure unsubscribe links with expiry
 
 ## Constraints
 
 - **Stack**: Next.js 16 + Supabase (déjà en place, pas de changement)
 - **Auth Provider**: Supabase Auth (déjà dans le projet)
 - **OAuth**: Doit supporter Google, Kakao, Naver (marchés coréen et international)
-- **UX**: Pages login/signup doivent supporter i18n existant (ko/en)
+- **UX**: Pages login/signup doivent supporter i18n existant (ko/en/fr/zh/vi)
 
 ## Key Decisions
 
@@ -113,9 +115,13 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 |----------|-----------|---------|
 | Supabase Auth plutôt que NextAuth | Déjà intégré, moins de config | ✓ Good |
 | 4 méthodes de connexion (email + 3 OAuth) | Couvrir users coréens (Kakao/Naver) et internationaux (Google/Email) | ✓ Good (Naver deferred) |
-| Pas de reset password en v1 | Scope minimal, OAuth couvre la plupart des cas | ✓ Good |
 | onAuthStateChange for client auth | Prevents race conditions with async getUser() in callbacks | ✓ Good (v1.2) |
 | Unified tab state pattern | Keep related UI elements synchronized | ✓ Good (v1.2) |
+| Extend cafe_ratings for text reviews | Maintains one-review-per-user-per-cafe, simpler queries | ✓ Good (v1.3) |
+| ID-based public profile route | More stable than username which could change | ✓ Good (v1.3) |
+| AFTER triggers for notifications | Don't block admin actions on queue failure | ✓ Good (v1.3) |
+| Opt-out notification model | Enabled by default reduces friction | ✓ Good (v1.3) |
+| Daily digest at 9 AM KST | Catches previous day activity at workday start | ✓ Good (v1.3) |
 
 ---
-*Last updated: 2026-02-01 after v1.3 milestone started*
+*Last updated: 2026-02-01 after v1.3 milestone shipped*
