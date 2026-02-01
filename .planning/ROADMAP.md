@@ -140,10 +140,13 @@ Plans:
   2. User receives email when cafe submission is rejected
   3. User receives email when photo submission is approved
   4. User receives email when photo submission is rejected
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 18-01: TBD
+- [ ] 18-01-PLAN.md - Database schema: pending_email_notifications table and triggers
+- [ ] 18-02-PLAN.md - Edge Function: send-daily-digest with email templates
+- [ ] 18-03-PLAN.md - Unsubscribe flow: API route, success/error pages
+- [ ] 18-04-PLAN.md - Cron job setup and end-to-end verification
 
 ## Progress
 
@@ -154,7 +157,7 @@ Plans:
 | 15. Settings & Profile | v1.3 | 5/5 | Complete | 2026-02-01 |
 | 16. Text Reviews | v1.3 | 5/5 | Complete | 2026-02-01 |
 | 17. Password & Preferences | v1.3 | 4/4 | Complete | 2026-02-01 |
-| 18. Email Notifications | v1.3 | 0/TBD | Not started | - |
+| 18. Email Notifications | v1.3 | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-02-01*
