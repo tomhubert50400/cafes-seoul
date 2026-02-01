@@ -87,10 +87,14 @@ Plans:
   2. User can upload or change their avatar image (stored in Supabase)
   3. User can write and edit a personal bio
   4. User can delete their account and all associated data
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 15-01: TBD
+- [ ] 15-01-PLAN.md - Database schema, avatars bucket, validation schemas
+- [ ] 15-02-PLAN.md - Avatar components: display with initials, upload with crop
+- [ ] 15-03-PLAN.md - Profile form, Server Actions, settings page
+- [ ] 15-04-PLAN.md - Account deletion with grace period
+- [ ] 15-05-PLAN.md - Public profiles and privacy toggle
 
 ### Phase 16: Text Reviews
 **Goal**: User can enhance ratings with optional text commentary
@@ -140,7 +144,7 @@ Plans:
 |-------|-----------|----------------|--------|-----------|
 | 13. Profile Foundation | v1.3 | 3/3 | Complete | 2026-02-01 |
 | 14. Favorites System | v1.3 | 4/4 | Complete | 2026-02-01 |
-| 15. Settings & Profile | v1.3 | 0/TBD | Not started | - |
+| 15. Settings & Profile | v1.3 | 0/5 | Planned | - |
 | 16. Text Reviews | v1.3 | 0/TBD | Not started | - |
 | 17. Password & Preferences | v1.3 | 0/TBD | Not started | - |
 | 18. Email Notifications | v1.3 | 0/TBD | Not started | - |
