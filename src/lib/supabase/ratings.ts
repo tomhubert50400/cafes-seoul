@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { UserRating, RatingInput } from '@/types/ratings';
-import { transformUserRating } from './transforms';
+import type { UserRating, RatingInput, UserRatingWithImage } from '@/types/ratings';
+import { transformUserRating, transformRatingCafeWithImage } from './transforms';
 
 // ============================================
 // RATING CRUD OPERATIONS
@@ -125,6 +125,48 @@ export async function getUserRatings(
     return data.map(transformUserRating);
   } catch (err) {
     console.error('Unexpected error fetching user ratings:', err);
+    return [];
+  }
+}
+
+/**
+ * Get all ratings for a user with cafe info INCLUDING primary image
+ * Used for My Reviews page where thumbnails are needed
+ * @returns Array of ratings with joined cafe data and images
+ */
+export async function getUserRatingsWithImages(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<UserRatingWithImage[]> {
+  try {
+    const { data, error } = await supabase
+      .from('cafe_ratings')
+      .select(`
+        *,
+        cafe:cafes!inner(
+          id,
+          name,
+          slug,
+          cafe_images(storage_path)
+        )
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching user ratings with images:', error);
+      return [];
+    }
+
+    return data.map(row => {
+      const baseRating = transformUserRating(row);
+      return {
+        ...baseRating,
+        cafe: transformRatingCafeWithImage(row.cafe),
+      };
+    });
+  } catch (err) {
+    console.error('Unexpected error fetching user ratings with images:', err);
     return [];
   }
 }

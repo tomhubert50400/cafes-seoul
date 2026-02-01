@@ -1,7 +1,7 @@
 import type { Cafe, CafeSummary, RatingBreakdown, OperatingHours, CafeType, CafeStatus, TranslatedText } from '@/types/cafe';
 import type { Review, ReviewUser, ReviewCafe, VisitPurpose, ReviewStatus } from '@/types/review';
 import type { User, UserProfile } from '@/types/user';
-import type { UserRating, RatingUser, RatingCafe } from '@/types/ratings';
+import type { UserRating, RatingUser, RatingCafe, RatingCafeWithImage } from '@/types/ratings';
 
 const CAFE_IMAGES_BUCKET = 'cafe-images';
 
@@ -312,5 +312,21 @@ export function transformRatingCafe(row: Record<string, unknown>): RatingCafe {
     id: row.id as string,
     name: name || {},
     slug: row.slug as string,
+  };
+}
+
+/**
+ * Transform database cafes row with images to RatingCafeWithImage type
+ */
+export function transformRatingCafeWithImage(row: Record<string, unknown>): RatingCafeWithImage {
+  const name = row.name as Record<string, string> | null;
+  const cafeImages = row.cafe_images as Array<{ storage_path: string }> | null;
+  const primaryImage = cafeImages?.[0]?.storage_path || null;
+
+  return {
+    id: row.id as string,
+    name: name || {},
+    slug: row.slug as string,
+    primaryImageUrl: getStorageUrl(primaryImage),
   };
 }

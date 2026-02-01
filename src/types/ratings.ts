@@ -85,6 +85,23 @@ export interface RatingCafe {
 }
 
 /**
+ * Extended cafe info including primary image for review display
+ */
+export interface RatingCafeWithImage extends RatingCafe {
+  /** Primary image URL for thumbnail display */
+  primaryImageUrl: string | null;
+}
+
+/**
+ * UserRating with extended cafe info including image
+ * Used in My Reviews list
+ */
+export interface UserRatingWithImage extends Omit<UserRating, 'cafe'> {
+  /** Cafe with image for thumbnail display */
+  cafe: RatingCafeWithImage;
+}
+
+/**
  * Input type for creating or updating a rating
  * Used in forms and API requests
  */
