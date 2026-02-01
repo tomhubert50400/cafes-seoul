@@ -34,7 +34,7 @@ See .planning/MILESTONES.md for details.
 
 **Milestone Goal:** Enhance user profile with reviews, favorites, and comprehensive settings
 
-- [ ] **Phase 13: Profile Foundation** - My Reviews tab with user's rating history
+- [x] **Phase 13: Profile Foundation** - My Reviews tab with user's rating history
 - [ ] **Phase 14: Favorites System** - Heart icons on cafe cards/detail, favorites list
 - [ ] **Phase 15: Settings & Profile** - Profile editing, avatar upload, account management
 - [ ] **Phase 16: Text Reviews** - Optional text reviews with ratings
@@ -56,9 +56,9 @@ See .planning/MILESTONES.md for details.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 13-01-PLAN.md - Data layer: extend ratings query for images, add translations
-- [ ] 13-02-PLAN.md - UI components: ReviewCard with expand, empty states
-- [ ] 13-03-PLAN.md - Integration: MyReviewsList, stats footer, page assembly
+- [x] 13-01-PLAN.md - Data layer: extend ratings query for images, add translations
+- [x] 13-02-PLAN.md - UI components: ReviewCard with expand, empty states
+- [x] 13-03-PLAN.md - Integration: MyReviewsList, stats footer, page assembly
 
 ### Phase 14: Favorites System
 **Goal**: User can save and manage favorite cafes across the application
@@ -135,7 +135,7 @@ Plans:
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 13. Profile Foundation | v1.3 | 0/3 | Planned | - |
+| 13. Profile Foundation | v1.3 | 3/3 | Complete | 2026-02-01 |
 | 14. Favorites System | v1.3 | 0/TBD | Not started | - |
 | 15. Settings & Profile | v1.3 | 0/TBD | Not started | - |
 | 16. Text Reviews | v1.3 | 0/TBD | Not started | - |

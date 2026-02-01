@@ -9,11 +9,11 @@ Requirements for Profile Enhancement milestone.
 
 ### My Reviews Tab
 
-- [ ] **REV-01**: User can view list of cafes they've rated with their scores
-- [ ] **REV-02**: User can see rating date and cafe details in review list
-- [ ] **REV-03**: User can navigate to cafe detail from review list
-- [ ] **REV-04**: User can filter/sort reviews by date or score
-- [ ] **REV-05**: User can see aggregated stats (average rating given, total count)
+- [x] **REV-01**: User can view list of cafes they've rated with their scores
+- [x] **REV-02**: User can see rating date and cafe details in review list
+- [x] **REV-03**: User can navigate to cafe detail from review list
+- [x] **REV-04**: User can filter/sort reviews by date or score
+- [x] **REV-05**: User can see aggregated stats (average rating given, total count)
 
 ### Favorites System
 
@@ -83,11 +83,11 @@ Explicitly excluded for v1.3.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REV-01 | Phase 13 | Pending |
-| REV-02 | Phase 13 | Pending |
-| REV-03 | Phase 13 | Pending |
-| REV-04 | Phase 13 | Pending |
-| REV-05 | Phase 13 | Pending |
+| REV-01 | Phase 13 | Complete |
+| REV-02 | Phase 13 | Complete |
+| REV-03 | Phase 13 | Complete |
+| REV-04 | Phase 13 | Complete |
+| REV-05 | Phase 13 | Complete |
 | FAV-01 | Phase 14 | Pending |
 | FAV-02 | Phase 14 | Pending |
 | FAV-03 | Phase 14 | Pending |
