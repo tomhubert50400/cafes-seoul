@@ -47,8 +47,8 @@ export function CafeReviewCard({ review, userId }: CafeReviewCardProps) {
       )
     : null;
 
-  // Display name fallback
-  const authorName = review.author.displayName || t('reviews.cafe.anonymous');
+  // Display name fallback to username
+  const authorName = review.author.displayName || review.author.username;
 
   return (
     <Card className="overflow-hidden">

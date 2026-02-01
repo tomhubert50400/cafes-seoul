@@ -183,7 +183,7 @@ export async function getCafeReviewsWithVotes(
     // Fetch author profiles separately (profiles.id = user_id)
     const { data: profiles, error: profileError } = await supabase
       .from('profiles')
-      .select('id, display_name, avatar_url, is_private')
+      .select('id, username, display_name, avatar_url, is_private')
       .in('id', userIds);
 
     if (profileError) {
@@ -193,6 +193,7 @@ export async function getCafeReviewsWithVotes(
     // Create profile lookup map
     const profileMap = new Map<string, {
       id: string;
+      username: string;
       display_name: string | null;
       avatar_url: string | null;
       is_private: boolean;
@@ -228,6 +229,7 @@ export async function getCafeReviewsWithVotes(
 
       const author: ReviewAuthor = {
         id: authorData?.id || row.user_id,
+        username: authorData?.username || 'user',
         displayName: authorData?.display_name || null,
         avatarUrl: authorData?.avatar_url || null,
         profilePublic: !(authorData?.is_private ?? true), // is_private = false means public

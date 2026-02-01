@@ -10,6 +10,8 @@
 export interface ReviewAuthor {
   /** User identifier */
   id: string;
+  /** User's username (always present) */
+  username: string;
   /** User's display name (may be null) */
   displayName: string | null;
   /** User's avatar URL (may be null) */
