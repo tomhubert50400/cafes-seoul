@@ -1,7 +1,7 @@
 # Requirements: Cafes Seoul v1.3
 
 **Defined:** 2026-02-01
-**Core Value:** Filtrage multi-critères avec notes 1-5 sur chaque dimension du café
+**Core Value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
 
 ## v1.3 Requirements
 
@@ -83,38 +83,38 @@ Explicitly excluded for v1.3.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REV-01 | TBD | Pending |
-| REV-02 | TBD | Pending |
-| REV-03 | TBD | Pending |
-| REV-04 | TBD | Pending |
-| REV-05 | TBD | Pending |
-| FAV-01 | TBD | Pending |
-| FAV-02 | TBD | Pending |
-| FAV-03 | TBD | Pending |
-| FAV-04 | TBD | Pending |
-| FAV-05 | TBD | Pending |
-| SET-01 | TBD | Pending |
-| SET-02 | TBD | Pending |
-| SET-03 | TBD | Pending |
-| SET-04 | TBD | Pending |
-| SET-05 | TBD | Pending |
-| SET-06 | TBD | Pending |
-| TXT-01 | TBD | Pending |
-| TXT-02 | TBD | Pending |
-| TXT-03 | TBD | Pending |
-| TXT-04 | TBD | Pending |
-| TXT-05 | TBD | Pending |
-| TXT-06 | TBD | Pending |
-| NOTIF-01 | TBD | Pending |
-| NOTIF-02 | TBD | Pending |
-| NOTIF-03 | TBD | Pending |
-| NOTIF-04 | TBD | Pending |
+| REV-01 | Phase 13 | Pending |
+| REV-02 | Phase 13 | Pending |
+| REV-03 | Phase 13 | Pending |
+| REV-04 | Phase 13 | Pending |
+| REV-05 | Phase 13 | Pending |
+| FAV-01 | Phase 14 | Pending |
+| FAV-02 | Phase 14 | Pending |
+| FAV-03 | Phase 14 | Pending |
+| FAV-04 | Phase 14 | Pending |
+| FAV-05 | Phase 14 | Pending |
+| SET-01 | Phase 15 | Pending |
+| SET-02 | Phase 15 | Pending |
+| SET-03 | Phase 15 | Pending |
+| SET-04 | Phase 17 | Pending |
+| SET-05 | Phase 17 | Pending |
+| SET-06 | Phase 15 | Pending |
+| TXT-01 | Phase 16 | Pending |
+| TXT-02 | Phase 16 | Pending |
+| TXT-03 | Phase 16 | Pending |
+| TXT-04 | Phase 16 | Pending |
+| TXT-05 | Phase 16 | Pending |
+| TXT-06 | Phase 16 | Pending |
+| NOTIF-01 | Phase 18 | Pending |
+| NOTIF-02 | Phase 18 | Pending |
+| NOTIF-03 | Phase 18 | Pending |
+| NOTIF-04 | Phase 18 | Pending |
 
 **Coverage:**
 - v1.3 requirements: 26 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 26
+- Mapped to phases: 26
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-01*
-*Last updated: 2026-02-01 after initial definition*
+*Traceability updated: 2026-02-01 (roadmap created)*

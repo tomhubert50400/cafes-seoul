@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** Planning next milestone
+**Current focus:** Phase 13 - Profile Foundation
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-02-01 — Milestone v1.3 started
+Phase: 13 of 18 (Profile Foundation)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
+Last activity: 2026-02-01 — Roadmap created for v1.3
 
-Progress: v1.0 ✓ → v1.1 ✓ → v1.2 ✓ → v1.3 ◆
+Progress: v1.0 [6 phases] v1.1 [5 phases] v1.2 [1 phase] v1.3 [0/6 phases]
 
 ## Performance Metrics
 
@@ -34,6 +34,11 @@ Progress: v1.0 ✓ → v1.1 ✓ → v1.2 ✓ → v1.3 ◆
 - Average: ~6 min/plan
 - Timeline: 1 day
 
+**Milestone v1.3:**
+- Plans completed: 0
+- Phases: 13-18 (6 phases)
+- Status: Roadmap created
+
 ## Accumulated Context
 
 ### Key Patterns (carry forward)
@@ -43,7 +48,7 @@ Progress: v1.0 ✓ → v1.1 ✓ → v1.2 ✓ → v1.3 ◆
 - `@supabase/ssr` for cookie-based sessions
 - Server Actions for auth mutations
 - `getUser()` not `getSession()` in server code
-- Client components: use onAuthStateChange subscription to track auth state, use tracked userId in callbacks instead of async getUser()
+- Client components: use onAuthStateChange subscription to track auth state
 
 **UI/UX:**
 - Sonner for toast notifications
@@ -59,10 +64,6 @@ Progress: v1.0 ✓ → v1.1 ✓ → v1.2 ✓ → v1.3 ◆
 - Upsert pattern with ON CONFLICT
 - Database triggers for aggregation
 
-**Map:**
-- Kakao Maps SDK with react-kakao-maps-sdk
-- Marker clustering for performance
-
 ### Pending Todos
 
 None
@@ -74,7 +75,7 @@ None
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: v1.2 milestone complete
+Stopped at: v1.3 roadmap created (6 phases: 13-18)
 Resume file: None
 Next action: /gsd:plan-phase 13
 
@@ -83,3 +84,4 @@ Next action: /gsd:plan-phase 13
 *v1.0 MVP shipped: 2026-01-29*
 *v1.1 User Contributions shipped: 2026-01-31*
 *v1.2 Polish & Bug Fixes shipped: 2026-02-01*
+*v1.3 roadmap created: 2026-02-01*
