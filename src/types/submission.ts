@@ -40,7 +40,10 @@ export interface CafeSubmission {
   
   /** Neighborhood reference (if known) */
   neighborhoodId: number | null;
-  
+
+  /** Kakao Place ID (if selected from Kakao search) */
+  kakaoPlaceId: string | null;
+
   /** Current submission status */
   status: SubmissionStatus;
   
@@ -88,9 +91,12 @@ export interface CafeSubmissionInput {
   
   /** District reference (if known) */
   districtId?: number;
-  
+
   /** Neighborhood reference (if known) */
   neighborhoodId?: number;
+
+  /** Kakao Place ID (if selected from Kakao search) */
+  kakaoPlaceId?: string;
 }
 
 /**

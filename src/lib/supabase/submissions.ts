@@ -39,6 +39,7 @@ export async function createSubmission(
         longitude: data.longitude || null,
         district_id: data.districtId || null,
         neighborhood_id: data.neighborhoodId || null,
+        kakao_place_id: data.kakaoPlaceId || null,
         status: 'pending',
       })
       .select()
@@ -90,6 +91,7 @@ export async function updateSubmission(
         longitude: data.longitude || null,
         district_id: data.districtId || null,
         neighborhood_id: data.neighborhoodId || null,
+        kakao_place_id: data.kakaoPlaceId || null,
         updated_at: new Date().toISOString(),
       })
       .eq('id', submissionId)

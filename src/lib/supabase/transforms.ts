@@ -208,6 +208,7 @@ export function transformCafeSubmission(row: Record<string, unknown>): CafeSubmi
     longitude: row.longitude ? parseFloat(row.longitude as string) : null,
     districtId: row.district_id as number | null,
     neighborhoodId: row.neighborhood_id as number | null,
+    kakaoPlaceId: row.kakao_place_id as string | null,
     status: row.status as SubmissionStatus,
     rejectionReason: row.rejection_reason as string | null,
     adminNotes: row.admin_notes as string | null,

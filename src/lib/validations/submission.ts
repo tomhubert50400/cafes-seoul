@@ -53,6 +53,7 @@ export const submissionSchema = z.object({
   longitude: z.number().min(-180).max(180).optional(),
   districtId: z.number().int().positive().optional(),
   neighborhoodId: z.number().int().positive().optional(),
+  kakaoPlaceId: z.string().optional(),
 });
 
 /**

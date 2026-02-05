@@ -20,15 +20,10 @@ export default async function AdminSubmissionsPage() {
   const supabase = await createClient();
   const lang = await getLanguageFromCookies();
 
-  // Fetch pending submissions with user info
+  // Fetch pending submissions
   const { data: submissions, error } = await supabase
     .from('cafe_submissions')
-    .select(
-      `
-      *,
-      user:profiles!user_id(id, email, display_name, avatar_url, role)
-    `
-    )
+    .select('*')
     .eq('status', 'pending')
     .order('created_at', { ascending: false });
 
@@ -36,33 +31,49 @@ export default async function AdminSubmissionsPage() {
     console.error('Error fetching submissions:', error);
   }
 
+  // Fetch profiles for all submitters
+  const userIds = [...new Set((submissions || []).map((s) => s.user_id))];
+  const { data: profiles } = userIds.length > 0
+    ? await supabase
+        .from('profiles')
+        .select('id, username, display_name, avatar_url, role')
+        .in('id', userIds)
+    : { data: [] };
+
+  // Create a map for quick profile lookup
+  const profileMap = new Map((profiles || []).map((p) => [p.id, p]));
+
   // Transform to SubmissionWithUser type
-  const transformedSubmissions: SubmissionWithUser[] = (submissions || []).map((s) => ({
-    id: s.id,
-    userId: s.user_id,
-    name: s.name,
-    address: s.address,
-    phone: s.phone,
-    latitude: s.latitude,
-    longitude: s.longitude,
-    districtId: s.district_id,
-    neighborhoodId: s.neighborhood_id,
-    status: s.status,
-    rejectionReason: s.rejection_reason,
-    adminNotes: s.admin_notes,
-    createdAt: s.created_at,
-    updatedAt: s.updated_at,
-    approvedAt: s.approved_at,
-    approvedBy: s.approved_by,
-    cafeId: s.cafe_id,
-    user: {
-      id: s.user?.id || '',
-      email: s.user?.email || '',
-      displayName: s.user?.display_name || null,
-      avatarUrl: s.user?.avatar_url || null,
-      role: s.user?.role,
-    },
-  }));
+  const transformedSubmissions: SubmissionWithUser[] = (submissions || []).map((s) => {
+    const profile = profileMap.get(s.user_id);
+    return {
+      id: s.id,
+      userId: s.user_id,
+      name: s.name,
+      address: s.address,
+      phone: s.phone,
+      latitude: s.latitude,
+      longitude: s.longitude,
+      districtId: s.district_id,
+      neighborhoodId: s.neighborhood_id,
+      kakaoPlaceId: s.kakao_place_id,
+      status: s.status,
+      rejectionReason: s.rejection_reason,
+      adminNotes: s.admin_notes,
+      createdAt: s.created_at,
+      updatedAt: s.updated_at,
+      approvedAt: s.approved_at,
+      approvedBy: s.approved_by,
+      cafeId: s.cafe_id,
+      user: {
+        id: profile?.id || s.user_id,
+        email: profile?.username || '',
+        displayName: profile?.display_name || null,
+        avatarUrl: profile?.avatar_url || null,
+        role: profile?.role,
+      },
+    };
+  });
 
   // Build translations object for client components
   const translationKeys = [

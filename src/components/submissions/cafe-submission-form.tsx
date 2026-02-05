@@ -1,22 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Phone, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, MapPin, Phone, ExternalLink } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useI18n } from '@/lib/i18n';
-import { submissionSchema, SubmissionFormData } from '@/lib/validations/submission';
+import type { SubmissionFormData } from '@/lib/validations/submission';
 import type { CafeSummary, TranslatedText } from '@/types/cafe';
 import type { SubmissionRateLimit } from '@/types/submission';
 import { DuplicateDetectionModal } from './duplicate-detection-modal';
 import { RateLimitBlock } from './rate-limit-block';
+import { KakaoPlaceSearch } from './kakao-place-search';
+import type { KakaoPlaceSearchResult } from '@/lib/kakao/geocode';
 
 export interface CafeSubmissionFormProps {
   /** Callback when form is submitted */
@@ -27,28 +24,17 @@ export interface CafeSubmissionFormProps {
   rateLimit?: SubmissionRateLimit | null;
   /** Loading state */
   isLoading?: boolean;
-  /** Initial data for edit mode */
-  initialData?: Partial<SubmissionFormData>;
-  /** Form mode */
+  /** Form mode - only 'create' is supported now */
   mode?: 'create' | 'edit';
   /** Success callback */
   onSuccess?: () => void;
 }
-
-const LANGUAGES = [
-  { code: 'en', label: 'English' },
-  { code: 'ko', label: 'Korean' },
-  { code: 'fr', label: 'French' },
-  { code: 'zh', label: 'Chinese' },
-  { code: 'vi', label: 'Vietnamese' },
-] as const;
 
 export function CafeSubmissionForm({
   onSubmit,
   onCheckDuplicates,
   rateLimit,
   isLoading = false,
-  initialData,
   mode = 'create',
   onSuccess,
 }: CafeSubmissionFormProps) {
@@ -56,30 +42,39 @@ export function CafeSubmissionForm({
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [duplicates, setDuplicates] = useState<CafeSummary[]>([]);
   const [pendingData, setPendingData] = useState<SubmissionFormData | null>(null);
-  const [activeLanguageTab, setActiveLanguageTab] = useState<'en' | 'ko'>('en');
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-  } = useForm<SubmissionFormData>({
-    resolver: zodResolver(submissionSchema),
-    mode: 'onSubmit',
-    defaultValues: {
-      name: initialData?.name || { en: '', ko: '' },
-      address: initialData?.address || { en: '', ko: '' },
-      phone: initialData?.phone || '',
-      districtId: initialData?.districtId,
-      neighborhoodId: initialData?.neighborhoodId,
-    },
-  });
+  const [selectedPlace, setSelectedPlace] = useState<KakaoPlaceSearchResult | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Check if rate limit has been reached
   const isRateLimited = rateLimit?.remaining === 0;
 
-  const handleFormSubmit = async (data: SubmissionFormData) => {
+  const handlePlaceSelect = (place: KakaoPlaceSearchResult) => {
+    setSelectedPlace(place);
+    setError(null);
+  };
+
+  const buildSubmissionData = (place: KakaoPlaceSearchResult): SubmissionFormData => ({
+    name: { ko: place.name },
+    address: { ko: place.roadAddress || place.address },
+    phone: place.phone || undefined,
+    latitude: place.latitude,
+    longitude: place.longitude,
+    kakaoPlaceId: place.id,
+  });
+
+  const handleSubmit = async () => {
+    if (!selectedPlace) {
+      setError(t('submissions.form.selectCafeFirst') || 'Please select a cafe from the search results');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
     try {
+      const data = buildSubmissionData(selectedPlace);
+
       // Check for duplicates before submitting
       const potentialDuplicates = await onCheckDuplicates(data.name, data.address);
 
@@ -87,34 +82,34 @@ export function CafeSubmissionForm({
         setDuplicates(potentialDuplicates);
         setPendingData(data);
         setShowDuplicateModal(true);
+        setIsSubmitting(false);
         return;
       }
 
       // No duplicates, proceed with submission
       await onSubmit(data);
       onSuccess?.();
-    } catch (error) {
-      setError('root', {
-        type: 'manual',
-        message: error instanceof Error ? error.message : 'Failed to submit cafe',
-      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to submit cafe');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleConfirmProceed = async () => {
     if (!pendingData) return;
 
+    setIsSubmitting(true);
     try {
       await onSubmit(pendingData);
       setShowDuplicateModal(false);
       setPendingData(null);
       setDuplicates([]);
       onSuccess?.();
-    } catch (error) {
-      setError('root', {
-        type: 'manual',
-        message: error instanceof Error ? error.message : 'Failed to submit cafe',
-      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to submit cafe');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -134,229 +129,97 @@ export function CafeSubmissionForm({
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
-            {mode === 'create' ? t('submissions.form.title') : t('submissions.form.updateTitle')}
+            {t('submissions.form.title')}
           </CardTitle>
-          <CardDescription>{t('submissions.form.subtitle')}</CardDescription>
+          <CardDescription>
+            {t('submissions.form.searchSubtitle') || 'Search for a cafe on Kakao Maps and submit it to our directory.'}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-6">
-          {errors.root && (
+          {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{errors.root.message}</AlertDescription>
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
           {rateLimit && rateLimit.remaining > 0 && (
             <Alert variant="default" className="bg-muted">
               <AlertDescription>
-                {rateLimit.remaining === 1 
+                {rateLimit.remaining === 1
                   ? t('submissions.rateLimit.remainingOne')
                   : t('submissions.rateLimit.remainingMany').replace('{count}', String(rateLimit.remaining))}
               </AlertDescription>
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-            {/* Cafe Name Section */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="text-base font-medium">
-                  {t('submissions.form.nameLabel')}
-                  <span className="text-destructive ml-1">*</span>
-                </Label>
-                <span className="text-xs text-muted-foreground">
-                  {t('submissions.form.requiredLanguages')}
-                </span>
+          {/* Kakao Place Search */}
+          <div className="space-y-2">
+            <KakaoPlaceSearch
+              onSelect={handlePlaceSelect}
+              placeholder={t('submissions.form.searchPlaceholder') || 'Search for a cafe...'}
+            />
+          </div>
+
+          {/* Selected Place Details */}
+          {selectedPlace && (
+            <div className="rounded-lg border bg-card p-4 space-y-3">
+              <div className="flex items-start justify-between">
+                <h3 className="font-semibold text-lg">{selectedPlace.name}</h3>
+                <a
+                  href={selectedPlace.kakaoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
               </div>
 
-              <Tabs value={activeLanguageTab} onValueChange={(v) => setActiveLanguageTab(v as 'en' | 'ko')}>
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="en">{t('submissions.form.englishTab')}</TabsTrigger>
-                  <TabsTrigger value="ko">{t('submissions.form.koreanTab')}</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="en" className="mt-2">
-                  <Controller
-                    name="name.en"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        value={field.value || ''}
-                        placeholder={t('submissions.form.namePlaceholderEn')}
-                        className={errors.name ? 'border-destructive' : ''}
-                      />
-                    )}
-                  />
-                </TabsContent>
-
-                <TabsContent value="ko" className="mt-2">
-                  <Controller
-                    name="name.ko"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        value={field.value || ''}
-                        placeholder={t('submissions.form.namePlaceholderKo')}
-                        className={errors.name ? 'border-destructive' : ''}
-                      />
-                    )}
-                  />
-                </TabsContent>
-              </Tabs>
-
-              {/* Optional languages */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                {LANGUAGES.slice(2).map((lang) => (
-                  <Controller
-                    key={lang.code}
-                    name={`name.${lang.code}` as `name.${typeof lang.code}`}
-                    control={control}
-                    render={({ field }) => (
-                      <div className="space-y-1">
-                        <Label className="text-xs text-muted-foreground">{lang.label}</Label>
-                        <Input
-                          {...field}
-                          value={field.value || ''}
-                          placeholder={t(`submissions.form.namePlaceholder${lang.code.toUpperCase()}` as const)}
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                    )}
-                  />
-                ))}
-              </div>
-
-              {errors.name && (
-                <p className="text-sm text-destructive">{t('submissions.form.nameRequired')}</p>
-              )}
-            </div>
-
-            {/* Address Section */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="text-base font-medium">
-                  {t('submissions.form.addressLabel')}
-                  <span className="text-destructive ml-1">*</span>
-                </Label>
-              </div>
-
-              <Tabs value={activeLanguageTab} onValueChange={(v) => setActiveLanguageTab(v as 'en' | 'ko')}>
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="en">{t('submissions.form.englishTab')}</TabsTrigger>
-                  <TabsTrigger value="ko">{t('submissions.form.koreanTab')}</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="en" className="mt-2">
-                  <Controller
-                    name="address.en"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        value={field.value || ''}
-                        placeholder={t('submissions.form.addressPlaceholderEn')}
-                        className={errors.address ? 'border-destructive' : ''}
-                      />
-                    )}
-                  />
-                </TabsContent>
-
-                <TabsContent value="ko" className="mt-2">
-                  <Controller
-                    name="address.ko"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        value={field.value || ''}
-                        placeholder={t('submissions.form.addressPlaceholderKo')}
-                        className={errors.address ? 'border-destructive' : ''}
-                      />
-                    )}
-                  />
-                </TabsContent>
-              </Tabs>
-
-              {/* Optional languages */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                {LANGUAGES.slice(2).map((lang) => (
-                  <Controller
-                    key={lang.code}
-                    name={`address.${lang.code}` as `address.${typeof lang.code}`}
-                    control={control}
-                    render={({ field }) => (
-                      <div className="space-y-1">
-                        <Label className="text-xs text-muted-foreground">{lang.label}</Label>
-                        <Input
-                          {...field}
-                          value={field.value || ''}
-                          placeholder={t(`submissions.form.addressPlaceholder${lang.code.toUpperCase()}` as const)}
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                    )}
-                  />
-                ))}
-              </div>
-
-              {errors.address && (
-                <p className="text-sm text-destructive">{t('submissions.form.addressRequired')}</p>
-              )}
-            </div>
-
-            {/* Phone Section */}
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-base font-medium">
-                {t('submissions.form.phoneLabel')}
-                <span className="text-muted-foreground ml-1 font-normal">
-                  ({t('submissions.form.optional')})
-                </span>
-              </Label>
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => (
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      {...field}
-                      id="phone"
-                      value={field.value || ''}
-                      placeholder={t('submissions.form.phonePlaceholder')}
-                      className={`pl-10 ${errors.phone ? 'border-destructive' : ''}`}
-                    />
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <div className="flex items-start gap-2">
+                  <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+                  <span>{selectedPlace.roadAddress || selectedPlace.address}</span>
+                </div>
+                {selectedPlace.phone && (
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 shrink-0" />
+                    <span>{selectedPlace.phone}</span>
                   </div>
                 )}
-              />
-              {errors.phone && (
-                <p className="text-sm text-destructive">{errors.phone.message}</p>
-              )}
-              <p className="text-xs text-muted-foreground">{t('submissions.form.phoneHelp')}</p>
-            </div>
+              </div>
 
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isSubmitting || isLoading}
-            >
-              {isSubmitting || isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {mode === 'create'
-                    ? t('submissions.form.submitting')
-                    : t('submissions.form.updating')}
-                </>
-              ) : mode === 'create' ? (
-                t('submissions.form.submitButton')
-              ) : (
-                t('submissions.form.updateButton')
+              {selectedPlace.category && (
+                <div className="text-xs text-muted-foreground">
+                  {selectedPlace.category}
+                </div>
               )}
-            </Button>
-          </form>
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <Button
+            type="button"
+            className="w-full"
+            disabled={!selectedPlace || isSubmitting || isLoading}
+            onClick={handleSubmit}
+          >
+            {isSubmitting || isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t('submissions.form.submitting')}
+              </>
+            ) : (
+              t('submissions.form.submitButton')
+            )}
+          </Button>
+
+          {!selectedPlace && (
+            <p className="text-xs text-center text-muted-foreground">
+              {t('submissions.form.selectToSubmit') || 'Search and select a cafe above to submit'}
+            </p>
+          )}
         </CardContent>
       </Card>
 
