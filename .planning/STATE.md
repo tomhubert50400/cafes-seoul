@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 19 of 19 (Style and Mobile Responsive Check)
-Plan: 01 of 05 - Complete
+Plan: 02 of 05 - Complete
 Status: In progress
-Last activity: 2026-02-07 - Completed 19-01-PLAN.md (Global Layout & Header Responsive)
+Last activity: 2026-02-07 - Completed 19-02-PLAN.md (Public Pages Responsive)
 
-Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] v1.4 [1] = 19 phases (74 plans shipped)
-Phase 19: █░░░░ (1/5 plans)
+Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] v1.4 [2] = 19 phases (75 plans shipped)
+Phase 19: ██░░░ (2/5 plans)
 
 ## Performance Metrics
 
@@ -62,6 +62,10 @@ Phase 19: █░░░░ (1/5 plans)
 - Viewport: Next.js viewport export (device-width, max-scale 5 for WCAG)
 - Touch targets: min-h-[44px] for AAA compliance (WCAG)
 - Responsive: overflow-x-hidden on body to prevent horizontal scroll
+- Mobile stacking: flex-col sm:flex-row for vertical layout on mobile
+- Responsive widths: w-full min-w-[Xpx] sm:w-[Xpx] for selects/buttons
+- Text overflow: break-words on user content, addresses, URLs
+- Mobile panels: max-h-[80vh] to prevent viewport overflow
 
 **Database:**
 - pg_trgm for fuzzy text search
@@ -87,6 +91,9 @@ Recent (Phase 19):
 - Use maximumScale: 5 for viewport (WCAG compliance - must allow zoom)
 - Use 44px touch targets (AAA) instead of 24px (AA) for better mobile UX
 - Exclude supabase/functions from Next.js TypeScript build (Deno runtime incompatibility)
+- Use flex-col sm:flex-row pattern for mobile stacking instead of hiding elements
+- Combine w-full with min-w on selects to prevent collapse while allowing mobile full-width
+- Set explicit h-12 w-12 on icon-only buttons for 44px touch targets
 
 ### Roadmap Evolution
 
@@ -103,9 +110,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-07
-Stopped at: Completed 19-01-PLAN.md (Global Layout & Header Responsive)
+Stopped at: Completed 19-02-PLAN.md (Public Pages Responsive)
 Resume file: None
-Next action: Continue with 19-02-PLAN.md (Cafes List Page)
+Next action: Continue with 19-03-PLAN.md (Profile Pages Responsive)
 
 ---
 *State initialized: 2026-01-27*
