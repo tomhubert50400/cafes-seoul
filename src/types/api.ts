@@ -44,13 +44,16 @@ export interface CafeListParams {
   hasParking?: boolean;
   hasOutdoorSeating?: boolean;
 
-  // Rating-specific filters (minimum values)
-  minFoodRating?: number;
-  minDrinkRating?: number;
-  minAmbianceRating?: number;
-  minWifiRating?: number;
-  minNoiseRating?: number;
-  minOutletRating?: number;
+  // Rating dimension filters (minimum values, 1-5)
+  seatingMin?: number;
+  wifiMin?: number;
+  foodMin?: number;
+  drinksMin?: number;
+  lightingMin?: number;
+  outletsMin?: number;
+  quietnessMin?: number;
+  priceValueMin?: number;
+  comfortMin?: number;
 
   // Sorting
   sortBy?: 'rating' | 'distance' | 'reviews' | 'newest';

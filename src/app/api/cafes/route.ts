@@ -24,6 +24,15 @@ export async function GET(request: NextRequest) {
     isLaptopFriendly: searchParams.get('isLaptopFriendly') === 'true' ? true : undefined,
     hasParking: searchParams.get('hasParking') === 'true' ? true : undefined,
     hasOutdoorSeating: searchParams.get('hasOutdoorSeating') === 'true' ? true : undefined,
+    seatingMin: searchParams.get('seatingMin') ? parseInt(searchParams.get('seatingMin')!) : undefined,
+    wifiMin: searchParams.get('wifiMin') ? parseInt(searchParams.get('wifiMin')!) : undefined,
+    foodMin: searchParams.get('foodMin') ? parseInt(searchParams.get('foodMin')!) : undefined,
+    drinksMin: searchParams.get('drinksMin') ? parseInt(searchParams.get('drinksMin')!) : undefined,
+    lightingMin: searchParams.get('lightingMin') ? parseInt(searchParams.get('lightingMin')!) : undefined,
+    outletsMin: searchParams.get('outletsMin') ? parseInt(searchParams.get('outletsMin')!) : undefined,
+    quietnessMin: searchParams.get('quietnessMin') ? parseInt(searchParams.get('quietnessMin')!) : undefined,
+    priceValueMin: searchParams.get('priceValueMin') ? parseInt(searchParams.get('priceValueMin')!) : undefined,
+    comfortMin: searchParams.get('comfortMin') ? parseInt(searchParams.get('comfortMin')!) : undefined,
     sortBy: (searchParams.get('sortBy') as CafeListParams['sortBy']) || 'rating',
     sortOrder: (searchParams.get('sortOrder') as CafeListParams['sortOrder']) || 'desc',
     q: searchParams.get('q') || undefined,
@@ -98,6 +107,17 @@ export async function GET(request: NextRequest) {
   if (params.hasOutdoorSeating) {
     query = query.eq('has_outdoor_seating', true);
   }
+
+  // Rating dimension filters
+  if (params.seatingMin) query = query.gte('rating_seating', params.seatingMin);
+  if (params.wifiMin) query = query.gte('rating_wifi', params.wifiMin);
+  if (params.foodMin) query = query.gte('rating_food', params.foodMin);
+  if (params.drinksMin) query = query.gte('rating_drinks', params.drinksMin);
+  if (params.lightingMin) query = query.gte('rating_lighting', params.lightingMin);
+  if (params.outletsMin) query = query.gte('rating_outlets', params.outletsMin);
+  if (params.quietnessMin) query = query.gte('rating_quietness', params.quietnessMin);
+  if (params.priceValueMin) query = query.gte('rating_price_value', params.priceValueMin);
+  if (params.comfortMin) query = query.gte('rating_comfort', params.comfortMin);
 
   if (params.q) {
     query = query.or(`name->>ko.ilike.%${params.q}%,name->>en.ilike.%${params.q}%,address->>ko.ilike.%${params.q}%`);

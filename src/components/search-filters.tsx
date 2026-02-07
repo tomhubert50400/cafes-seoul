@@ -1,8 +1,10 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -11,12 +13,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { MapFiltersPanel } from '@/components/map/map-filters';
 import { SEOUL_DISTRICTS } from '@/lib/constants/districts';
 import { CAFE_TYPE_LABELS, getLocalizedText } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
-import { FILTER_PRESETS } from '@/lib/filter-presets';
-import { PresetBadges } from '@/components/map/preset-badges';
+import { useMapFilters } from '@/hooks/use-map-filters';
+import type { MapFilters } from '@/types/map';
 
 const BOOLEAN_FILTER_MAP: Record<string, string> = {
   hasWifi: 'hasWifi',
@@ -26,6 +35,11 @@ const BOOLEAN_FILTER_MAP: Record<string, string> = {
   hasParking: 'hasParking',
 };
 
+const RATING_FILTER_KEYS: (keyof MapFilters)[] = [
+  'seatingMin', 'wifiMin', 'foodMin', 'drinksMin', 'lightingMin',
+  'outletsMin', 'quietnessMin', 'priceValueMin', 'comfortMin',
+];
+
 interface SearchFiltersProps {
   className?: string;
 }
@@ -34,6 +48,72 @@ export function SearchFilters({ className }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, language } = useI18n();
+  const {
+    filters,
+    updateFilter,
+    clearFilters: clearMapFilters,
+    applyPreset,
+    matchedPreset,
+    activeFilterCount,
+  } = useMapFilters();
+
+  // Sync URL params -> hook state on mount / URL change
+  const isInitRef = useRef(false);
+  useEffect(() => {
+    const newFilters: Partial<MapFilters> = {};
+
+    // Boolean filters
+    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
+      const val = searchParams.get(urlParam) === 'true';
+      if (val) newFilters[filterKey as keyof MapFilters] = true as never;
+    }
+
+    // Rating filters
+    for (const key of RATING_FILTER_KEYS) {
+      const val = searchParams.get(key as string);
+      if (val) newFilters[key] = parseInt(val) as never;
+    }
+
+    // Apply all at once
+    for (const [key, value] of Object.entries(newFilters)) {
+      updateFilter(key as keyof MapFilters, value as MapFilters[keyof MapFilters]);
+    }
+
+    isInitRef.current = true;
+  }, []); // Only on mount
+
+  // Sync hook state -> URL params when filters change
+  const prevFiltersRef = useRef(filters);
+  useEffect(() => {
+    if (!isInitRef.current) return;
+    if (prevFiltersRef.current === filters) return;
+    prevFiltersRef.current = filters;
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Sync boolean filters
+    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
+      const val = filters[filterKey as keyof MapFilters];
+      if (val === true) {
+        params.set(urlParam, 'true');
+      } else {
+        params.delete(urlParam);
+      }
+    }
+
+    // Sync rating filters
+    for (const key of RATING_FILTER_KEYS) {
+      const val = filters[key] as number | null;
+      if (val != null && val > 0) {
+        params.set(key as string, String(val));
+      } else {
+        params.delete(key as string);
+      }
+    }
+
+    params.delete('page');
+    router.push(`?${params.toString()}`);
+  }, [filters, router, searchParams]);
 
   const updateParams = useCallback(
     (key: string, value: string | null) => {
@@ -49,86 +129,26 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     [router, searchParams]
   );
 
-  const clearFilters = useCallback(() => {
+  const clearAllFilters = useCallback(() => {
+    clearMapFilters();
     router.push('?');
-  }, [router]);
+  }, [router, clearMapFilters]);
 
-  const matchedPresetId = useMemo(() => {
-    const currentBooleans: Record<string, boolean> = {};
-    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
-      currentBooleans[filterKey] = searchParams.get(urlParam) === 'true';
-    }
-
-    const hasExtraFilters = !!(
-      searchParams.get('district') ||
-      searchParams.get('cafeType') ||
-      searchParams.get('q')
-    );
-    if (hasExtraFilters) return null;
-
-    for (const preset of FILTER_PRESETS) {
-      const presetBooleanKeys = Object.keys(BOOLEAN_FILTER_MAP).filter(
-        key => preset.filters[key as keyof typeof preset.filters] === true
-      );
-
-      if (presetBooleanKeys.length === 0) continue;
-
-      const presetBooleansMatch = presetBooleanKeys.every(
-        key => currentBooleans[key] === true
-      );
-
-      const extraBooleansOff = Object.keys(BOOLEAN_FILTER_MAP)
-        .filter(key => !presetBooleanKeys.includes(key))
-        .every(key => currentBooleans[key] === false);
-
-      if (presetBooleansMatch && extraBooleansOff) {
-        return preset.id;
+  const handleFilterChange = (newFilters: MapFilters) => {
+    for (const key of Object.keys(newFilters) as (keyof MapFilters)[]) {
+      if (JSON.stringify(newFilters[key]) !== JSON.stringify(filters[key])) {
+        updateFilter(key, newFilters[key]);
       }
     }
-
-    return null;
-  }, [searchParams]);
-
-  const handlePresetSelect = useCallback((presetId: string) => {
-    const preset = FILTER_PRESETS.find(p => p.id === presetId);
-    if (!preset) return;
-
-    // If this preset is already active, deselect it (clear all)
-    if (matchedPresetId === presetId) {
-      const params = new URLSearchParams();
-      const currentSort = searchParams.get('sortBy');
-      if (currentSort) params.set('sortBy', currentSort);
-      router.push(`?${params.toString()}`);
-      return;
-    }
-
-    const params = new URLSearchParams();
-
-    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
-      if (preset.filters[filterKey as keyof typeof preset.filters] === true) {
-        params.set(urlParam, 'true');
-      }
-    }
-
-    // Preserve current sort preference
-    const currentSort = searchParams.get('sortBy');
-    if (currentSort) params.set('sortBy', currentSort);
-
-    router.push(`?${params.toString()}`);
-  }, [router, searchParams, matchedPresetId]);
+  };
 
   const hasActiveFilters =
     searchParams.get('district') ||
-    searchParams.get('cafeType');
+    searchParams.get('cafeType') ||
+    activeFilterCount > 0;
 
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Preset Badges */}
-      <PresetBadges
-        onPresetSelect={handlePresetSelect}
-        matchedPresetId={matchedPresetId}
-      />
-
       {/* Search bar */}
       <div className="flex gap-2">
         <Input
@@ -197,14 +217,39 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           </SelectContent>
         </Select>
 
+        {/* Adjust Filters Sheet */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2 shrink-0 min-h-[44px]">
+              <SlidersHorizontal className="h-4 w-4" />
+              <span>{t('roulette.adjustFilters')}</span>
+              {activeFilterCount > 0 && (
+                <Badge variant="secondary" className="h-5 min-w-5 px-1.5">
+                  {activeFilterCount}
+                </Badge>
+              )}
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[340px] sm:w-[400px] overflow-y-auto max-h-screen" aria-describedby={undefined}>
+            <SheetTitle className="sr-only">{t('roulette.adjustFilters')}</SheetTitle>
+            <MapFiltersPanel
+              filters={filters}
+              onChange={handleFilterChange}
+              onClear={clearAllFilters}
+              isLoggedIn={false}
+              applyPreset={applyPreset}
+              matchedPresetId={matchedPreset?.id ?? null}
+            />
+          </SheetContent>
+        </Sheet>
+
         {/* Clear filters */}
         {hasActiveFilters && (
-          <Button variant="ghost" size="sm" onClick={clearFilters}>
+          <Button variant="ghost" size="sm" onClick={clearAllFilters}>
             {t('filter.clearAll')}
           </Button>
         )}
       </div>
-
     </div>
   );
 }
