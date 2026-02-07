@@ -25,12 +25,12 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
+        <Button variant="ghost" size="sm" className="gap-2 min-h-[44px]">
           <Flag language={language} size={20} />
           <span className="hidden sm:inline">{currentLanguage.nativeName}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="max-h-[80vh] overflow-y-auto">
         {Object.values(languages).map((lang) => (
           <DropdownMenuItem
             key={lang.code}

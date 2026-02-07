@@ -27,19 +27,19 @@ export function Header({ user }: HeaderProps = {}) {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto relative flex h-14 max-w-6xl items-center justify-between px-4">
         {/* Logo - icon only on mobile, icon + name on desktop */}
-        <Link href={ROUTES.HOME} className="flex items-center gap-2 z-10">
+        <Link href={ROUTES.HOME} className="flex items-center gap-2 z-10 min-h-[44px]">
           <CoffeeIcon className="h-6 w-6" />
           <span className="font-semibold hidden md:inline">{t('site.name')}</span>
         </Link>
 
         {/* Navigation - centered absolutely */}
-        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-4 md:gap-6">
+        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 md:gap-6">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                'text-sm font-medium transition-colors hover:text-foreground',
+                'text-sm font-medium transition-colors hover:text-foreground whitespace-nowrap min-h-[44px] flex items-center',
                 pathname === item.href ? 'text-foreground' : 'text-muted-foreground'
               )}
             >
@@ -55,17 +55,17 @@ export function Header({ user }: HeaderProps = {}) {
             <UserMenu user={user} />
           ) : (
             <div className="hidden md:flex items-center gap-2">
-              <Button variant="ghost" size="sm" asChild>
+              <Button variant="ghost" size="sm" asChild className="min-h-[44px]">
                 <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
               </Button>
-              <Button size="sm" asChild>
+              <Button size="sm" asChild className="min-h-[44px]">
                 <Link href={ROUTES.SIGNUP}>{t('nav.signup')}</Link>
               </Button>
             </div>
           )}
           {/* Mobile auth - single button */}
           {!user && (
-            <Button size="sm" asChild className="md:hidden">
+            <Button size="sm" asChild className="md:hidden min-h-[44px]">
               <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
             </Button>
           )}

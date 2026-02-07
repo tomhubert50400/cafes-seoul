@@ -13,7 +13,7 @@ export function Footer() {
             <CoffeeIcon className="h-5 w-5" />
             <span className="font-semibold">{t('site.name')}</span>
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground text-center md:text-left break-words">
             {t('footer.rights')}
           </p>
         </div>
