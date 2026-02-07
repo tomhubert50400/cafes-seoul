@@ -4,7 +4,7 @@ import { useMemo, useCallback } from 'react';
 import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import Image from 'next/image';
 import Link from 'next/link';
-import { X, Star, MapPin, Navigation, ExternalLink, Heart } from 'lucide-react';
+import { X, Star, MapPin, Navigation, ExternalLink, Heart, Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
 import { CafeMarker } from './cafe-marker';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { filterCafes } from '@/lib/utils/filter-cafes';
@@ -188,6 +188,31 @@ export function CafeMap({
                       <span className="text-xs text-zinc-500">{t('rating.noRatings')}</span>
                     )}
                   </div>
+
+                  {/* Feature icons */}
+                  {(() => {
+                    const features = [
+                      { key: 'hasWifi', icon: Wifi, active: selectedCafe.hasWifi },
+                      { key: 'hasPowerOutlets', icon: Plug, active: selectedCafe.hasPowerOutlets },
+                      { key: 'isLaptopFriendly', icon: Laptop, active: selectedCafe.isLaptopFriendly },
+                      { key: 'isPetFriendly', icon: PawPrint, active: selectedCafe.isPetFriendly },
+                      { key: 'hasParking', icon: Car, active: selectedCafe.hasParking },
+                    ];
+                    const activeFeatures = features.filter(f => f.active);
+                    if (activeFeatures.length === 0) return null;
+                    return (
+                      <div className="flex gap-1.5">
+                        {activeFeatures.map(({ key, icon: Icon }) => (
+                          <div
+                            key={key}
+                            className="p-1 rounded-full border border-green-600 bg-green-50 text-green-600"
+                          >
+                            <Icon className="h-3 w-3" />
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
 
                   {/* Address */}
                   <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">
