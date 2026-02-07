@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-import { RatingStars } from '@/components/rating-stars';
+import { Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
 import { RatingDisplay } from '@/components/ratings/rating-display';
 import { RatingButton } from '@/components/ratings/rating-button';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
@@ -95,21 +94,31 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
         </div>
 
         {/* Features */}
-        <div className="mt-auto flex flex-wrap gap-1">
+        <div className="mt-auto flex gap-1.5">
           {cafe.hasWifi && (
-            <Badge variant="outline" className="text-xs">
-              {t('feature.wifi')}
-            </Badge>
+            <div className="p-1.5 rounded-full border border-muted-foreground/30">
+              <Wifi className="h-3.5 w-3.5 text-muted-foreground" />
+            </div>
           )}
           {cafe.hasPowerOutlets && (
-            <Badge variant="outline" className="text-xs">
-              {t('feature.outlets')}
-            </Badge>
+            <div className="p-1.5 rounded-full border border-muted-foreground/30">
+              <Plug className="h-3.5 w-3.5 text-muted-foreground" />
+            </div>
+          )}
+          {cafe.isLaptopFriendly && (
+            <div className="p-1.5 rounded-full border border-muted-foreground/30">
+              <Laptop className="h-3.5 w-3.5 text-muted-foreground" />
+            </div>
           )}
           {cafe.isPetFriendly && (
-            <Badge variant="outline" className="text-xs">
-              {t('feature.pet')}
-            </Badge>
+            <div className="p-1.5 rounded-full border border-muted-foreground/30">
+              <PawPrint className="h-3.5 w-3.5 text-muted-foreground" />
+            </div>
+          )}
+          {cafe.hasParking && (
+            <div className="p-1.5 rounded-full border border-muted-foreground/30">
+              <Car className="h-3.5 w-3.5 text-muted-foreground" />
+            </div>
           )}
         </div>
 
