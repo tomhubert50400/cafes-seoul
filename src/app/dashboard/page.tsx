@@ -176,7 +176,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">{t('dashboard.title')}</h1>
       </div>
 
       {isNewUser ? (
@@ -186,11 +186,11 @@ export default async function DashboardPage() {
           <p className="mt-2 text-muted-foreground">
             {t('dashboard.welcome.subtitle')}
           </p>
-          <div className="mt-6 flex justify-center gap-4">
-            <Button asChild>
+          <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+            <Button asChild className="w-full sm:w-auto min-h-[44px]">
               <Link href={ROUTES.CAFES}>{t('dashboard.welcome.browse')}</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" asChild className="w-full sm:w-auto min-h-[44px]">
               <Link href={ROUTES.MAP}>{t('dashboard.welcome.submit')}</Link>
             </Button>
           </div>
