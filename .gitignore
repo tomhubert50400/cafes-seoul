@@ -41,3 +41,6 @@ _console*.log
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project overview
+project-overview.json

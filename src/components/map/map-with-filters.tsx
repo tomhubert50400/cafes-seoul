@@ -65,7 +65,7 @@ export function MapWithFilters({
               )}
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] sm:w-80 p-0 overflow-y-auto">
+          <SheetContent side="left" className="w-full max-[419px]:w-full min-[420px]:w-80 p-0 overflow-y-auto">
             <SheetTitle className="sr-only">{t('map.filters.title')}</SheetTitle>
             <MapFiltersPanel
               filters={filters}

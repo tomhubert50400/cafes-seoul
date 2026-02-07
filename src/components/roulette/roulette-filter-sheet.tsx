@@ -44,7 +44,7 @@ export function RouletteFilterSheet({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2 shrink-0 min-h-[44px]">
+        <Button variant="outline" size="sm" className="gap-2 shrink-0 h-9">
           <SlidersHorizontal className="h-4 w-4" />
           <span>{t('roulette.adjustFilters')}</span>
           {activeFilterCount > 0 && (
@@ -63,6 +63,7 @@ export function RouletteFilterSheet({
           isLoggedIn={false}
           applyPreset={applyPreset}
           matchedPresetId={matchedPresetId}
+          className="min-[319px]:pl-8 min-[340px]:pl-4"
         />
       </SheetContent>
     </Sheet>
