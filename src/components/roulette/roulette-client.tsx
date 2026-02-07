@@ -13,7 +13,6 @@ import { RouletteIdle } from './roulette-idle';
 import { RouletteSpinner } from './roulette-spinner';
 import { RouletteResult } from './roulette-result';
 import { RouletteFilterSheet } from './roulette-filter-sheet';
-import { PresetBadges } from '@/components/map/preset-badges';
 import type { CafeSummary } from '@/types/cafe';
 
 type Phase = 'idle' | 'spinning' | 'result';
@@ -131,12 +130,6 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
         <p className="text-muted-foreground mt-2">{t('roulette.subtitle')}</p>
       </div>
 
-      {/* Preset badges */}
-      <PresetBadges
-        onPresetSelect={applyPreset}
-        matchedPresetId={matchedPreset?.id ?? null}
-      />
-
       {/* Filter bar */}
       <div className="flex items-center justify-between gap-2">
         <p className="text-sm text-muted-foreground shrink-0">
@@ -147,6 +140,8 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
           activeFilterCount={activeFilterCount}
           onUpdateFilter={updateFilter}
           onClearFilters={clearFilters}
+          applyPreset={applyPreset}
+          matchedPresetId={matchedPreset?.id ?? null}
         />
       </div>
 

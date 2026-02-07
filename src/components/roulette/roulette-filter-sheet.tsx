@@ -18,6 +18,8 @@ interface RouletteFilterSheetProps {
   activeFilterCount: number;
   onUpdateFilter: <K extends keyof MapFilters>(key: K, value: MapFilters[K]) => void;
   onClearFilters: () => void;
+  applyPreset?: (presetId: string) => void;
+  matchedPresetId?: string | null;
 }
 
 export function RouletteFilterSheet({
@@ -25,6 +27,8 @@ export function RouletteFilterSheet({
   activeFilterCount,
   onUpdateFilter,
   onClearFilters,
+  applyPreset,
+  matchedPresetId,
 }: RouletteFilterSheetProps) {
   const { t } = useI18n();
 
@@ -57,6 +61,8 @@ export function RouletteFilterSheet({
           onChange={handleChange}
           onClear={onClearFilters}
           isLoggedIn={false}
+          applyPreset={applyPreset}
+          matchedPresetId={matchedPresetId}
         />
       </SheetContent>
     </Sheet>
