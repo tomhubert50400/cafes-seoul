@@ -38,6 +38,16 @@ export function HeroSection() {
           </Button>
         </form>
 
+        {/* Roulette CTA */}
+        <div className="mt-8">
+          <Button size="lg" asChild className="h-12 px-8 max-w-full whitespace-normal text-center">
+            <Link href={ROUTES.ROULETTE}>
+              <Dice5 className="h-4 w-4 shrink-0" />
+              <span>{t('home.rouletteCta')}</span>
+            </Link>
+          </Button>
+        </div>
+
         {/* Popular searches */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2 px-2">
           <span className="text-sm text-muted-foreground">{t('home.hero.popular')}</span>
@@ -51,16 +61,6 @@ export function HeroSection() {
               </Badge>
             </Link>
           ))}
-        </div>
-
-        {/* Roulette CTA */}
-        <div className="mt-8">
-          <Link href={ROUTES.ROULETTE}>
-            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-              <Dice5 className="h-4 w-4" />
-              {t('home.rouletteCta')}
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

@@ -25,15 +25,15 @@ export function Header({ user }: HeaderProps = {}) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto relative flex h-14 max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto flex h-14 max-w-6xl items-center px-4">
         {/* Logo - icon only on mobile, icon + name on desktop */}
-        <Link href={ROUTES.HOME} className="flex items-center gap-2 z-10 min-h-[44px]">
+        <Link href={ROUTES.HOME} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-2.5">
           <CoffeeIcon className="h-6 w-6" />
           <span className="font-semibold hidden md:inline">{t('site.name')}</span>
         </Link>
 
-        {/* Navigation - centered absolutely */}
-        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 md:gap-6">
+        {/* Navigation - centered on desktop, slightly left on mobile */}
+        <nav className="flex flex-1 items-center justify-center gap-2 md:flex-none md:gap-6">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
@@ -49,7 +49,7 @@ export function Header({ user }: HeaderProps = {}) {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-1 md:gap-2 z-10">
+        <div className="flex items-center gap-1 md:gap-2 shrink-0 md:flex-1 md:justify-end">
           <LanguageSwitcher />
           {user ? (
             <UserMenu user={user} />
