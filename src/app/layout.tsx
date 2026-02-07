@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
@@ -28,6 +28,13 @@ export const metadata: Metadata = {
   description: "서울의 베스트 카페를 찾아보세요. Discover the best cafes in Seoul.",
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -41,7 +48,7 @@ export default async function RootLayout({
   return (
     <html lang={initialLanguage} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased overflow-x-hidden`}
       >
         <I18nProvider initialLanguage={initialLanguage}>
           {children}

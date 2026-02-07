@@ -1,6 +1,6 @@
 // supabase/functions/send-daily-digest/email-templates.ts
 
-import { generateUnsubscribeToken } from './unsubscribe.ts'
+import { generateUnsubscribeToken } from './unsubscribe'
 
 interface Notification {
   id: string
