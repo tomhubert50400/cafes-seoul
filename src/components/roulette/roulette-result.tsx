@@ -1,0 +1,160 @@
+'use client';
+
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car } from 'lucide-react';
+import { StaticMap } from 'react-kakao-maps-sdk';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { RatingDisplay } from '@/components/ratings/rating-display';
+import { MapProvider } from '@/components/map/map-provider';
+import { useI18n } from '@/lib/i18n';
+import { getLocalizedText } from '@/types/cafe';
+import { getDistrictById } from '@/lib/constants/districts';
+import { ROUTES } from '@/lib/constants/routes';
+import type { CafeSummary } from '@/types/cafe';
+import type { MapFilters } from '@/types/map';
+
+interface RouletteResultProps {
+  cafe: CafeSummary;
+  filters: MapFilters;
+  onSpinAgain: () => void;
+  onAdjustFilters: () => void;
+}
+
+const FEATURE_BADGES = [
+  { key: 'hasWifi' as const, filterKey: 'hasWifi' as const, icon: Wifi, label: 'WiFi' },
+  { key: 'hasPowerOutlets' as const, filterKey: 'hasPowerOutlets' as const, icon: Plug, label: 'Outlets' },
+  { key: 'isPetFriendly' as const, filterKey: 'isPetFriendly' as const, icon: Dog, label: 'Pet Friendly' },
+  { key: 'isLaptopFriendly' as const, filterKey: 'isLaptopFriendly' as const, icon: Armchair, label: 'Laptop' },
+  { key: 'hasParking' as const, filterKey: 'hasParking' as const, icon: Car, label: 'Parking' },
+] as const;
+
+export function RouletteResult({
+  cafe,
+  filters,
+  onSpinAgain,
+  onAdjustFilters,
+}: RouletteResultProps) {
+  const { t, language } = useI18n();
+  const district = getDistrictById(cafe.districtId);
+  const cafeName = getLocalizedText(cafe.name, language);
+  const districtName = district ? getLocalizedText(district.name, language) : '';
+
+  // Filter for matched boolean features that were active in filters
+  const matchedFeatures = FEATURE_BADGES.filter(
+    (f) => filters[f.filterKey] && cafe[f.key]
+  );
+
+  const directionsUrl = `https://map.kakao.com/link/to/${encodeURIComponent(cafeName)},${cafe.latitude},${cafe.longitude}`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card className="overflow-hidden">
+        <CardContent className="p-0">
+          {/* Header */}
+          <div className="px-4 py-5 sm:p-6 text-center">
+            <h2 className="text-2xl font-bold mb-1">{t('roulette.matchTitle')}</h2>
+            <p className="text-muted-foreground text-sm">{t('roulette.matchSubtitle')}</p>
+          </div>
+
+          {/* Cafe image */}
+          {cafe.primaryImageUrl ? (
+            <div className="aspect-video w-full overflow-hidden">
+              <img
+                src={cafe.primaryImageUrl}
+                alt={cafeName}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video w-full bg-muted flex items-center justify-center">
+              <span className="text-muted-foreground">No image</span>
+            </div>
+          )}
+
+          {/* Details */}
+          <div className="px-4 py-5 sm:p-6 space-y-4">
+            {/* Name + district */}
+            <div>
+              <h3 className="text-xl font-semibold">{cafeName}</h3>
+              {districtName && (
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                  <MapPin className="h-3.5 w-3.5" />
+                  {districtName}
+                </p>
+              )}
+            </div>
+
+            {/* Rating */}
+            <RatingDisplay
+              overallRating={cafe.overallRating}
+              totalRatings={cafe.totalRatings}
+            />
+
+            {/* Matched filter tags */}
+            {matchedFeatures.length > 0 && (
+              <div>
+                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
+                  {t('roulette.matchedFilters')}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {matchedFeatures.map((f) => (
+                    <Badge key={f.key} variant="secondary" className="gap-1">
+                      <f.icon className="h-3 w-3" />
+                      {f.label}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Static map */}
+            <div className="rounded-lg overflow-hidden border h-[200px]">
+              <MapProvider>
+                <StaticMap
+                  center={{ lat: cafe.latitude, lng: cafe.longitude }}
+                  level={3}
+                  style={{ width: '100%', height: '100%' }}
+                  marker={{
+                    position: { lat: cafe.latitude, lng: cafe.longitude },
+                  }}
+                />
+              </MapProvider>
+            </div>
+
+            {/* Actions */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
+              <Button asChild className="gap-2 min-w-0 min-h-[44px]">
+                <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                  <Navigation className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{t('roulette.getDirections')}</span>
+                </a>
+              </Button>
+              <Button variant="outline" asChild className="min-w-0 min-h-[44px]">
+                <Link href={ROUTES.CAFE_DETAIL(cafe.slug)}>
+                  <span className="truncate">{t('roulette.viewProfile')}</span>
+                </Link>
+              </Button>
+            </div>
+
+            {/* Footer buttons */}
+            <div className="flex flex-col gap-2 pt-2 border-t">
+              <Button variant="ghost" onClick={onSpinAgain}>
+                {t('roulette.spinAgain')}
+              </Button>
+              <Button variant="ghost" onClick={onAdjustFilters}>
+                {t('roulette.adjustFilters')}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+}
