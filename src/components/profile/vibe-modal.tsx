@@ -25,6 +25,9 @@ import {
   Wifi, Plug, Dog, Armchair, Car,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { FILTER_PRESETS } from '@/lib/filter-presets';
+import { translations } from '@/lib/i18n/translations';
+import { SUPPORTED_LANGUAGES, type LanguageCode } from '@/lib/i18n/languages';
 import type { UserVibe } from '@/types/vibes';
 import type { MapFilters } from '@/types/map';
 
@@ -58,10 +61,30 @@ export function VibeModal({
   // Reset state every time the modal opens with new data
   useEffect(() => {
     if (!open) return;
-    setName(existingVibe?.name || '');
-    setIcon(existingVibe?.icon || 'Sparkles');
-    setFilters(existingVibe?.filters || {});
+    if (existingVibe) {
+      // For default presets, show translated name if user hasn't customized it
+      let initialName = existingVibe.name;
+      if (existingVibe.defaultPresetId) {
+        const preset = FILTER_PRESETS.find((p) => p.id === existingVibe.defaultPresetId);
+        if (preset) {
+          const knownTranslations = (Object.keys(SUPPORTED_LANGUAGES) as LanguageCode[])
+            .map((lc) => translations[lc]?.[preset.labelKey])
+            .filter(Boolean);
+          if (knownTranslations.includes(existingVibe.name)) {
+            initialName = t(preset.labelKey);
+          }
+        }
+      }
+      setName(initialName);
+      setIcon(existingVibe.icon);
+      setFilters(existingVibe.filters || {});
+    } else {
+      setName('');
+      setIcon('Sparkles');
+      setFilters({});
+    }
     setSaving(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, existingVibe]);
 
   const updateFilter = <K extends keyof MapFilters>(key: K, value: MapFilters[K]) => {

@@ -10,9 +10,6 @@ import { ResultsInfo } from '@/components/cafes/results-info';
 import { Pagination } from '@/components/cafes/pagination';
 import { fetchCafes } from '@/lib/api/cafes';
 import { createClient } from '@/lib/supabase/server';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Plus } from 'lucide-react';
 import { RouletteCta } from '@/components/roulette/roulette-cta';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
@@ -59,9 +56,11 @@ function CafeListSkeleton() {
 async function CafeListWithData({
   searchParams,
   userId,
+  favoritesOnly,
 }: {
   searchParams: CafeListParams;
   userId?: string;
+  favoritesOnly?: boolean;
 }) {
   // Fetch cafes and favorites in parallel
   const [cafesResult, favoritesResult] = await Promise.all([
@@ -70,13 +69,23 @@ async function CafeListWithData({
   ]);
 
   const { cafes, total, page, totalPages } = cafesResult;
-  const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds : [];
+  const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
+
+  // Filter to only favorites if requested
+  const displayCafes = favoritesOnly && favoriteIds.length > 0
+    ? cafes.filter((cafe) => favoriteIds.includes(cafe.id))
+    : favoritesOnly
+      ? []
+      : cafes;
+  const displayTotal = favoritesOnly ? displayCafes.length : total;
 
   return (
     <div className="space-y-8">
-      <ResultsInfo total={total} />
-      <CafeList cafes={cafes} favoriteIds={favoriteIds} userId={userId} />
-      <Pagination page={page} totalPages={totalPages} searchParams={searchParams as Record<string, string | number | boolean | undefined>} />
+      <ResultsInfo total={displayTotal} />
+      <CafeList cafes={displayCafes} favoriteIds={favoriteIds} userId={userId} />
+      {!favoritesOnly && (
+        <Pagination page={page} totalPages={totalPages} searchParams={searchParams as Record<string, string | number | boolean | undefined>} />
+      )}
     </div>
   );
 }
@@ -120,15 +129,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
       <Header user={user} />
       <main className="mx-auto max-w-6xl px-4 py-8">
         {/* Header with Add Cafe button */}
-        <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-          <CafesPageHeader />
-          <Button asChild className="shrink-0">
-            <Link href="/submit">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Cafe
-            </Link>
-          </Button>
-        </div>
+        <CafesPageHeader />
 
         {/* Roulette CTA */}
         <div className="mb-6">
@@ -140,7 +141,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
         </Suspense>
 
         <Suspense fallback={<CafeListSkeleton />}>
-          <CafeListWithData searchParams={cafeListParams} userId={user?.id} />
+          <CafeListWithData searchParams={cafeListParams} userId={user?.id} favoritesOnly={params.favoritesOnly === 'true'} />
         </Suspense>
       </main>
 

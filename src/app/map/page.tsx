@@ -1,8 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import { Header } from '@/components/header';
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
 import { getFavoriteIdsAction } from '@/lib/actions/favorites';
+import { getTranslation } from '@/lib/i18n/translations';
+import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
@@ -43,6 +46,12 @@ export default async function MapPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  const cookieStore = await cookies();
+  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME);
+  const lang: LanguageCode = (langCookie?.value && ['en', 'ko', 'fr', 'zh', 'vi'].includes(langCookie.value))
+    ? langCookie.value as LanguageCode
+    : DEFAULT_LANGUAGE;
+
   // Fetch cafes and favorite IDs in parallel
   const [cafes, favoriteResult] = await Promise.all([
     getCafes(),
@@ -72,7 +81,7 @@ export default async function MapPage() {
           <Button asChild size="lg" className="h-12 w-12 shadow-lg sm:h-auto sm:w-auto">
             <Link href="/submit">
               <Plus className="h-5 w-5 sm:mr-2" />
-              <span className="hidden sm:inline">Add Cafe</span>
+              <span className="hidden sm:inline">{getTranslation(lang, 'cafes.addCafe')}</span>
             </Link>
           </Button>
         </div>

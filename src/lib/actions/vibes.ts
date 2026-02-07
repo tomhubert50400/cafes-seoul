@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import {
   ensureUserVibes,
@@ -11,7 +12,16 @@ import {
 } from '@/lib/supabase/vibes';
 import { vibeFormSchema } from '@/lib/validations/vibes';
 import { MAX_VIBES } from '@/lib/validations/vibes';
+import { DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
+import type { LanguageCode } from '@/lib/i18n/languages';
 import type { UserVibe, VibeActionResult } from '@/types/vibes';
+
+async function getLang(): Promise<LanguageCode> {
+  const cookieStore = await cookies();
+  const val = cookieStore.get(LANGUAGE_COOKIE_NAME)?.value;
+  if (val && ['en', 'ko', 'fr', 'zh', 'vi'].includes(val)) return val as LanguageCode;
+  return DEFAULT_LANGUAGE;
+}
 
 // ============================================
 // GET VIBES ACTION (auto-seeds defaults)
@@ -32,7 +42,8 @@ export async function getVibesAction(): Promise<{
       return { success: false, error: 'Authentication required' };
     }
 
-    const vibes = await ensureUserVibes(supabase, user.id);
+    const lang = await getLang();
+    const vibes = await ensureUserVibes(supabase, user.id, lang);
     return { success: true, vibes };
   } catch (err) {
     console.error('Unexpected error fetching vibes:', err);

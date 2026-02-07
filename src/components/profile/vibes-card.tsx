@@ -28,6 +28,9 @@ import {
   Plus, Pencil, Trash2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { FILTER_PRESETS } from '@/lib/filter-presets';
+import { translations } from '@/lib/i18n/translations';
+import { SUPPORTED_LANGUAGES } from '@/lib/i18n/languages';
 import type { UserVibe } from '@/types/vibes';
 import type { LanguageCode } from '@/lib/i18n/languages';
 
@@ -101,6 +104,19 @@ export function VibesCard({ initialVibes, lang }: VibesCardProps) {
           <div className="space-y-2">
             {vibes.map((vibe) => {
               const Icon = ICON_MAP[vibe.icon];
+              // For default presets, show translated name unless user has customized it
+              const preset = vibe.defaultPresetId
+                ? FILTER_PRESETS.find((p) => p.id === vibe.defaultPresetId)
+                : null;
+              let displayName = vibe.name;
+              if (preset) {
+                const knownTranslations = (Object.keys(SUPPORTED_LANGUAGES) as LanguageCode[])
+                  .map((lc) => translations[lc]?.[preset.labelKey])
+                  .filter(Boolean);
+                if (knownTranslations.includes(vibe.name)) {
+                  displayName = t(preset.labelKey);
+                }
+              }
               return (
                 <div
                   key={vibe.id}
@@ -108,7 +124,7 @@ export function VibesCard({ initialVibes, lang }: VibesCardProps) {
                 >
                   <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                     {Icon && <Icon className="h-5 w-5 shrink-0 text-muted-foreground" />}
-                    <span className="font-medium text-sm truncate">{vibe.name}</span>
+                    <span className="font-medium text-sm truncate">{displayName}</span>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     <Button

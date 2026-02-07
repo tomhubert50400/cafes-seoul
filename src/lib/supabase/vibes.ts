@@ -1,5 +1,6 @@
 import { FILTER_PRESETS } from '@/lib/filter-presets';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { LanguageCode } from '@/lib/i18n/languages';
 import type { UserVibe, CreateVibeInput, UpdateVibeInput } from '@/types/vibes';
 
 // ============================================
@@ -60,24 +61,25 @@ export async function getVibeCount(
 // ============================================
 
 /**
- * Seeds the 3 built-in presets as user vibes for a new user.
- * Only call when the user has 0 vibes.
+ * Seeds the 2 built-in presets as user vibes for a new user.
+ * Uses translated names based on the user's language.
  */
 export async function seedDefaultVibes(
   supabase: SupabaseClient,
-  userId: string
+  userId: string,
+  lang: LanguageCode = 'en'
 ): Promise<UserVibe[]> {
   try {
-    const defaultIds = ['work_study', 'aesthetic_date'];
-    const defaultNames: Record<string, string> = {
-      work_study: 'Work',
-      aesthetic_date: 'Date Spot',
+    const seedNames: Record<string, Record<LanguageCode, string>> = {
+      work_study: { en: 'Work', ko: '작업 & 공부', fr: 'Travail', zh: '工作学习', vi: 'Làm việc' },
+      aesthetic_date: { en: 'Date Spot', ko: '데이트', fr: 'Date', zh: '约会', vi: 'Hẹn hò' },
     };
 
+    const defaultIds = ['work_study', 'aesthetic_date'];
     const defaults = FILTER_PRESETS.filter((p) => defaultIds.includes(p.id));
     const rows = defaults.map((preset, i) => ({
       user_id: userId,
-      name: defaultNames[preset.id] || preset.id,
+      name: seedNames[preset.id]?.[lang] || seedNames[preset.id]?.en || preset.id,
       icon: preset.icon,
       filters: preset.filters,
       default_preset_id: preset.id,
@@ -107,11 +109,12 @@ export async function seedDefaultVibes(
 
 export async function ensureUserVibes(
   supabase: SupabaseClient,
-  userId: string
+  userId: string,
+  lang: LanguageCode = 'en'
 ): Promise<UserVibe[]> {
   const vibes = await getUserVibes(supabase, userId);
   if (vibes.length > 0) return vibes;
-  return seedDefaultVibes(supabase, userId);
+  return seedDefaultVibes(supabase, userId, lang);
 }
 
 // ============================================

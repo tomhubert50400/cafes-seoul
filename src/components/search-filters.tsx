@@ -25,6 +25,7 @@ import { CAFE_TYPE_LABELS, getLocalizedText } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { useMapFilters } from '@/hooks/use-map-filters';
+import { useAuth } from '@/lib/auth';
 import type { MapFilters } from '@/types/map';
 import type { UserVibe } from '@/types/vibes';
 
@@ -34,6 +35,7 @@ const BOOLEAN_FILTER_MAP: Record<string, string> = {
   isPetFriendly: 'isPetFriendly',
   isLaptopFriendly: 'isLaptopFriendly',
   hasParking: 'hasParking',
+  showFavoritesOnly: 'favoritesOnly',
 };
 
 const RATING_FILTER_KEYS: (keyof MapFilters)[] = [
@@ -49,6 +51,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, language } = useI18n();
+  const { user } = useAuth();
   const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const {
     filters,
@@ -232,7 +235,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
               filters={filters}
               onChange={handleFilterChange}
               onClear={clearAllFilters}
-              isLoggedIn={false}
+              isLoggedIn={!!user}
               applyPreset={applyPreset}
               matchedPresetId={matchedPreset?.id ?? null}
               presets={allPresets}

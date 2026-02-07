@@ -56,9 +56,10 @@ export default async function ProfilePage() {
     redirect(ROUTES.LOGIN + '?next=/profile');
   }
 
+  const lang = await getLanguageFromCookies();
+
   // Fetch profile, activity stats, and vibes in parallel
-  const [lang, profile, ratingsResult, favoritesResult, userVibes] = await Promise.all([
-    getLanguageFromCookies(),
+  const [profile, ratingsResult, favoritesResult, userVibes] = await Promise.all([
     getProfile(supabase, user.id),
     supabase
       .from('cafe_ratings')
@@ -68,7 +69,7 @@ export default async function ProfilePage() {
       .from('user_favorites')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id),
-    ensureUserVibes(supabase, user.id),
+    ensureUserVibes(supabase, user.id, lang),
   ]);
 
   const reviewsCount = ratingsResult.count ?? 0;
