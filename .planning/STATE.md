@@ -5,16 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** Planning next milestone
+**Current focus:** v1.4 Style & Responsive
 
 ## Current Position
 
-Phase: 18 of 18 (v1.3 complete)
-Plan: All plans complete
-Status: Milestone shipped
-Last activity: 2026-02-01 - v1.3 Profile Enhancement shipped
+Phase: 19 of 19 (Style and Mobile Responsive Check)
+Plan: 01 of 05 - Complete
+Status: In progress
+Last activity: 2026-02-07 - Completed 19-01-PLAN.md (Global Layout & Header Responsive)
 
-Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] = 18 phases, 73 plans total
+Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] v1.4 [1] = 19 phases (74 plans shipped)
+Phase 19: █░░░░ (1/5 plans)
 
 ## Performance Metrics
 
@@ -58,6 +59,9 @@ Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] = 18 phases, 73 plans total
 - Unified tab state: When multiple tab groups should sync, use shared controlled state
 - Nested layouts: child pages return content only, parent layout provides Header
 - Optimistic UI: useTransition + useState + error revert for toggles
+- Viewport: Next.js viewport export (device-width, max-scale 5 for WCAG)
+- Touch targets: min-h-[44px] for AAA compliance (WCAG)
+- Responsive: overflow-x-hidden on body to prevent horizontal scroll
 
 **Database:**
 - pg_trgm for fuzzy text search
@@ -79,6 +83,15 @@ Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] = 18 phases, 73 plans total
 
 See PROJECT.md Key Decisions table for full history.
 
+Recent (Phase 19):
+- Use maximumScale: 5 for viewport (WCAG compliance - must allow zoom)
+- Use 44px touch targets (AAA) instead of 24px (AA) for better mobile UX
+- Exclude supabase/functions from Next.js TypeScript build (Deno runtime incompatibility)
+
+### Roadmap Evolution
+
+- Phase 19 added: Style and mobile responsive check (v1.4)
+
 ### Pending Todos
 
 None
@@ -89,10 +102,10 @@ None
 
 ## Session Continuity
 
-Last session: 2026-02-01
-Stopped at: v1.3 milestone completed and archived
+Last session: 2026-02-07
+Stopped at: Completed 19-01-PLAN.md (Global Layout & Header Responsive)
 Resume file: None
-Next action: `/gsd:new-milestone` to start v1.4 or v2.0
+Next action: Continue with 19-02-PLAN.md (Cafes List Page)
 
 ---
 *State initialized: 2026-01-27*
