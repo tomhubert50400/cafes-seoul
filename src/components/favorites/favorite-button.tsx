@@ -93,7 +93,7 @@ export function FavoriteButton({
       onClick={handleToggle}
       disabled={isPending}
       className={cn(
-        'flex items-center justify-center rounded-full bg-background/80 backdrop-blur-sm transition-colors hover:bg-background disabled:opacity-50',
+        'flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition-colors hover:bg-black/50 disabled:opacity-50',
         buttonSizeMap[size],
         className
       )}
@@ -114,7 +114,7 @@ export function FavoriteButton({
           sizeMap[size],
           optimisticIsFavorited
             ? 'fill-red-500 text-red-500'
-            : 'text-muted-foreground'
+            : 'text-white'
         )}
       />
     </motion.button>

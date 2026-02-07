@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { RatingDisplay } from '@/components/ratings/rating-display';
 import { MapProvider } from '@/components/map/map-provider';
+import { DirectionsChooser } from '@/components/directions-chooser';
 import { useI18n } from '@/lib/i18n';
 import { getLocalizedText } from '@/types/cafe';
 import { getDistrictById } from '@/lib/constants/districts';
@@ -47,7 +48,6 @@ export function RouletteResult({
     (f) => filters[f.filterKey] && cafe[f.key]
   );
 
-  const directionsUrl = `https://map.kakao.com/link/to/${encodeURIComponent(cafeName)},${cafe.latitude},${cafe.longitude}`;
 
   return (
     <motion.div
@@ -130,12 +130,17 @@ export function RouletteResult({
 
             {/* Actions */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
-              <Button asChild className="gap-2 min-w-0 min-h-[44px]">
-                <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                  <Navigation className="h-4 w-4 shrink-0" />
-                  <span className="truncate">{t('roulette.getDirections')}</span>
-                </a>
-              </Button>
+              <DirectionsChooser
+                address={cafe.address.ko || cafe.address.en || ''}
+                latitude={cafe.latitude}
+                longitude={cafe.longitude}
+                trigger={
+                  <Button className="gap-2 min-w-0 min-h-[44px]">
+                    <Navigation className="h-4 w-4 shrink-0" />
+                    <span className="truncate">{t('roulette.getDirections')}</span>
+                  </Button>
+                }
+              />
               <Button variant="outline" asChild className="min-w-0 min-h-[44px]">
                 <Link href={ROUTES.CAFE_DETAIL(cafe.slug)}>
                   <span className="truncate">{t('roulette.viewProfile')}</span>

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { X, Star, MapPin, Navigation, ExternalLink, Heart, Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
 import { CafeMarker } from './cafe-marker';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
+import { DirectionsChooser } from '@/components/directions-chooser';
 import { filterCafes } from '@/lib/utils/filter-cafes';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
@@ -66,9 +67,6 @@ export function CafeMap({
     : '';
   const selectedCafeAddress = selectedCafe
     ? (selectedCafe.address[language] || selectedCafe.address.ko || selectedCafe.address.en)
-    : '';
-  const kakaoDirectionsUrl = selectedCafe
-    ? `https://map.kakao.com/link/to/${encodeURIComponent(selectedCafeName)},${selectedCafe.latitude},${selectedCafe.longitude}`
     : '';
 
   return (
@@ -229,15 +227,17 @@ export function CafeMap({
                   </Link>
 
                   {/* Get directions button */}
-                  <a
-                    href={kakaoDirectionsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 w-full py-2 px-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium rounded-lg transition-colors"
-                  >
-                    <Navigation className="h-3.5 w-3.5" />
-                    {t('map.getDirections')}
-                  </a>
+                  <DirectionsChooser
+                    address={selectedCafe.address.ko || selectedCafe.address.en || selectedCafeAddress}
+                    latitude={selectedCafe.latitude}
+                    longitude={selectedCafe.longitude}
+                    trigger={
+                      <button className="flex items-center justify-center gap-1.5 w-full py-2 px-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium rounded-lg transition-colors">
+                        <Navigation className="h-3.5 w-3.5" />
+                        {t('map.getDirections')}
+                      </button>
+                    }
+                  />
                 </div>
               </div>
 

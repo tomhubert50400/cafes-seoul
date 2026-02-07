@@ -109,7 +109,7 @@ export function MapFiltersPanel({
               {t('map.filters.favoritesOnly')}
             </span>
             {favoritesCount > 0 && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground mr-1">
                 ({favoritesCount})
               </span>
             )}

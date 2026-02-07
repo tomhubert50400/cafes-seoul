@@ -8,6 +8,7 @@ import { CafeStaticMap } from '@/components/map/cafe-static-map';
 import { MapProvider } from '@/components/map/map-provider';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DirectionsChooser } from '@/components/directions-chooser';
 import { useI18n } from '@/lib/i18n';
 import { getDistrictById } from '@/lib/constants/districts';
 import { EXTERNAL_URLS } from '@/lib/constants/routes';
@@ -287,31 +288,21 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                     </a>
                   </Button>
                 )}
-                {cafe.kakaoPlaceId && (
-                  <Button variant="outline" size="sm" asChild className="flex-1">
-                    <a
-                      href={`${EXTERNAL_URLS.KAKAO_MAP}/link/map/${cafe.kakaoPlaceId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t('cafe.kakaoMap')}
-                    </a>
-                  </Button>
-                )}
               </div>
 
               {/* Get me there button */}
               {cafe.latitude && cafe.longitude && (
-                <Button asChild className="mt-3 w-full">
-                  <a
-                    href={`${EXTERNAL_URLS.KAKAO_MAP}/link/to/${encodeURIComponent(cafeName)},${cafe.latitude},${cafe.longitude}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <NavigationIcon className="mr-2 h-4 w-4" />
-                    {t('map.getDirections')}
-                  </a>
-                </Button>
+                <DirectionsChooser
+                  address={cafe.address.ko || cafe.address.en || cafeAddress}
+                  latitude={cafe.latitude}
+                  longitude={cafe.longitude}
+                  trigger={
+                    <Button className="mt-3 w-full">
+                      <NavigationIcon className="mr-2 h-4 w-4" />
+                      {t('map.getDirections')}
+                    </Button>
+                  }
+                />
               )}
             </div>
 

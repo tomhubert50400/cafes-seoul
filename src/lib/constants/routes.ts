@@ -42,5 +42,6 @@ export const ROUTES = {
 export const EXTERNAL_URLS = {
   KAKAO_MAP: 'https://map.kakao.com',
   NAVER_MAP: 'https://map.naver.com',
+  GOOGLE_MAPS: 'https://www.google.com/maps',
   INSTAGRAM: (handle: string) => `https://instagram.com/${handle}`,
 } as const;
