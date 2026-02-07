@@ -20,9 +20,9 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
   const cafeAddress = cafe.address[language] || cafe.address.ko || cafe.address.en;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full max-h-[80vh] flex-col md:max-h-full">
       {/* Header */}
-      <div className="flex items-start justify-between p-4 border-b">
+      <div className="flex items-start justify-between border-b p-4">
         <div className="flex-1 pr-2">
           <h2 className="text-lg font-semibold line-clamp-2">{cafeName}</h2>
           <div className="mt-1">
@@ -38,7 +38,7 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
           variant="ghost"
           size="icon"
           onClick={onClose}
-          className="shrink-0"
+          className="h-11 w-11 shrink-0"
         >
           <X className="h-4 w-4" />
           <span className="sr-only">{t('common.close')}</span>
@@ -50,7 +50,7 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
         {/* Address */}
         <div className="flex items-start gap-2 text-sm text-muted-foreground">
           <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-          <span>{cafeAddress}</span>
+          <span className="break-words">{cafeAddress}</span>
         </div>
 
         {/* Features */}

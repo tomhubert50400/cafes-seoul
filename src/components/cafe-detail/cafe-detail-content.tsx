@@ -231,7 +231,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
               <div className="space-y-3 text-sm">
                 <div className="flex gap-3">
                   <MapPinIcon className="h-5 w-5 shrink-0 text-muted-foreground" />
-                  <div>
+                  <div className="break-words">
                     <p>{cafeAddress}</p>
                   </div>
                 </div>
@@ -239,7 +239,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                 {cafe.phone && (
                   <div className="flex gap-3">
                     <PhoneIcon className="h-5 w-5 shrink-0 text-muted-foreground" />
-                    <a href={`tel:${cafe.phone}`} className="hover:underline">
+                    <a href={`tel:${cafe.phone}`} className="break-words hover:underline">
                       {cafe.phone}
                     </a>
                   </div>
@@ -252,7 +252,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                       href={cafe.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="truncate hover:underline"
+                      className="break-words hover:underline"
                     >
                       {cafe.website.replace(/^https?:\/\//, '')}
                     </a>
@@ -266,7 +266,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                       href={EXTERNAL_URLS.INSTAGRAM(cafe.instagramHandle)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:underline"
+                      className="break-words hover:underline"
                     >
                       @{cafe.instagramHandle}
                     </a>
@@ -418,8 +418,8 @@ function ReviewCard({ review, language }: { review: Review; language: string }) 
         <RatingStars rating={review.ratingOverall} size="sm" />
       </div>
 
-      {review.title && <h3 className="mb-2 font-medium">{review.title}</h3>}
-      {review.content && <p className="text-sm text-muted-foreground">{review.content}</p>}
+      {review.title && <h3 className="mb-2 break-words font-medium">{review.title}</h3>}
+      {review.content && <p className="break-words text-sm text-muted-foreground">{review.content}</p>}
 
       <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
         <span>{t('cafe.helpful')} {review.helpfulCount}</span>

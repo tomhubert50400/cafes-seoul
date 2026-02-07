@@ -69,9 +69,9 @@ export default async function MapPage() {
         
         {/* Add Cafe Button - Floating Action Button */}
         <div className="absolute bottom-6 right-6 z-50">
-          <Button asChild size="lg" className="shadow-lg">
+          <Button asChild size="lg" className="h-12 w-12 shadow-lg sm:h-auto sm:w-auto">
             <Link href="/submit">
-              <Plus className="h-5 w-5 mr-2" />
+              <Plus className="h-5 w-5 sm:mr-2" />
               <span className="hidden sm:inline">Add Cafe</span>
             </Link>
           </Button>
