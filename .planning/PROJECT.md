@@ -6,19 +6,16 @@ Une application web pour découvrir des cafés à Seoul avec des critères de fi
 
 ## Current State
 
-**Latest Release:** v1.3 Profile Enhancement (2026-02-01)
-**Codebase:** 32,470 lines TypeScript (Next.js 16 + Supabase)
+**Latest Release:** v1.4 Style & Responsive (2026-02-07)
+**Codebase:** ~34,000 lines TypeScript (Next.js 16 + Supabase)
 
-**Shipped in v1.3:**
-- My Reviews tab with sorting, filtering, and per-dimension stats
-- Favorites system with heart toggles and map integration (red/blue pins)
-- Profile settings with avatar upload, bio editing, account deletion
-- Public profiles at /user/[id] with privacy toggle
-- Text reviews with optional text when rating, inline editing, helpful voting
-- Password reset flow with strength meter (zxcvbn)
-- Notification preferences with 4 toggle switches
-- Email notifications via Edge Function (daily digest at 9 AM KST)
-- One-click unsubscribe with HMAC-signed tokens
+**Shipped in v1.4:**
+- WCAG AAA touch targets (44px minimum) on all interactive elements
+- Viewport metadata with proper mobile rendering (maximumScale: 5)
+- Mobile-first responsive layouts across all 38 routes (320px+)
+- Roulette spinner animation containment for narrow viewports
+- Admin panel mobile card layout for complex data tables
+- Global overflow prevention (overflow-x-hidden on body)
 
 **Rate limits:** 3 cafe submissions/day, unlimited ratings, 10 photo uploads/day
 
@@ -93,7 +90,7 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - Kakao: Provider natif Supabase, nécessite config Kakao Developers
 - Naver: Provider natif Supabase (deferred), nécessite config Naver Developers
 
-**Key Patterns (from v1.3):**
+**Key Patterns (from v1.4):**
 - Client auth: use onAuthStateChange subscription, track userId in state
 - Nested layouts: child pages return content only, parent layout provides Header
 - Unified tab state: when multiple tab groups should sync, use shared controlled state
@@ -101,6 +98,10 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - AFTER triggers: Queue notifications without blocking main operations
 - Table-based HTML: Email client compatibility over modern CSS
 - HMAC-signed tokens: Secure unsubscribe links with expiry
+- Touch targets: min-h-[44px] for WCAG AAA on all interactive elements
+- Mobile stacking: flex-col sm:flex-row, w-full sm:w-auto patterns
+- Viewport: maximumScale 5, never disable zoom (WCAG)
+- Overflow: overflow-x-hidden on body, overflow-hidden on animation containers
 
 ## Constraints
 
@@ -122,6 +123,11 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 | AFTER triggers for notifications | Don't block admin actions on queue failure | ✓ Good (v1.3) |
 | Opt-out notification model | Enabled by default reduces friction | ✓ Good (v1.3) |
 | Daily digest at 9 AM KST | Catches previous day activity at workday start | ✓ Good (v1.3) |
+| 44px AAA touch targets (not 24px AA) | Better mobile UX, higher accessibility standard | ✓ Good (v1.4) |
+| maximumScale: 5 viewport | WCAG requires allowing zoom; never disable | ✓ Good (v1.4) |
+| flex-col sm:flex-row for mobile stacking | Show all content on mobile instead of hiding | ✓ Good (v1.4) |
+| Input h-11 (44px) globally | Consistent touch targets across all forms | ✓ Good (v1.4) |
+| Admin mobile card layout pattern | Complex tables unusable on mobile; cards solve it | ✓ Good (v1.4) |
 
 ---
-*Last updated: 2026-02-01 after v1.3 milestone shipped*
+*Last updated: 2026-02-07 after v1.4 milestone shipped*

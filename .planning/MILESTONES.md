@@ -1,5 +1,31 @@
 # Project Milestones: Cafes Seoul
 
+## v1.4 Style & Responsive (Shipped: 2026-02-07)
+
+**Delivered:** Comprehensive mobile responsive audit and fix across all 38 routes with WCAG AAA touch targets, proper viewport metadata, and no horizontal overflow at 320px
+
+**Phases completed:** 19 (5 plans total)
+
+**Key accomplishments:**
+- Viewport metadata with WCAG-compliant settings (maximumScale: 5, pinch-to-zoom enabled)
+- WCAG AAA touch targets (44px minimum) on all interactive elements across every page
+- Mobile-first responsive layouts on all public, auth, profile, and admin pages
+- Roulette spinner animation containment at 320px with overflow-hidden
+- Admin panel mobile card layout for complex data tables
+- Visual inspection with 3 hotfixes (header nav overlap, CTA text truncation, icon compression)
+
+**Stats:**
+- 43 files modified
+- +1,670 lines of TypeScript
+- 1 phase, 5 plans
+- 6 days from v1.3 to v1.4
+
+**Git range:** `feat(19-01)` → `docs(phase-19)`
+
+**What's next:** Project complete for v1.x scope, or plan v2.0 with new features (Naver OAuth, favorites collections, weekly digest, pro features)
+
+---
+
 ## v1.3 Profile Enhancement (Shipped: 2026-02-01)
 
 **Delivered:** Enhanced user profile with reviews, favorites, settings, password reset, notification preferences, and email notifications for submission status changes
