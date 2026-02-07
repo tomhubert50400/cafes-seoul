@@ -154,6 +154,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.favoritesOnlyTooltip': 'Log in to filter by favorites',
     'map.filters.noFavorites': 'No favorites to display',
     'map.filters.browseCafes': 'Browse cafes to add favorites',
+    'map.presets.title': 'Quick Vibes',
+    'map.presets.workStudy': 'Work & Study',
+    'map.presets.aestheticDate': 'Date Spot',
+    'map.presets.quickStop': 'Quick Stop',
 
     // Map Detail
     'map.viewDetails': 'View Details',
@@ -938,6 +942,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.favoritesOnlyTooltip': '로그인하여 즐겨찾기로 필터링하세요',
     'map.filters.noFavorites': '표시할 즐겨찾기가 없습니다',
     'map.filters.browseCafes': '카페를 둘러보고 즐겨찾기를 추가하세요',
+    'map.presets.title': '분위기 찾기',
+    'map.presets.workStudy': '작업 & 공부',
+    'map.presets.aestheticDate': '데이트',
+    'map.presets.quickStop': '간단히',
 
     // Map Detail
     'map.viewDetails': '상세 보기',
@@ -1722,6 +1730,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.favoritesOnlyTooltip': 'Connectez-vous pour filtrer par favoris',
     'map.filters.noFavorites': 'Aucun favori à afficher',
     'map.filters.browseCafes': 'Parcourir les cafés pour ajouter des favoris',
+    'map.presets.title': 'Ambiances',
+    'map.presets.workStudy': 'Travail & Etude',
+    'map.presets.aestheticDate': 'Rendez-vous',
+    'map.presets.quickStop': 'Rapide',
 
     // Map Detail
     'map.viewDetails': 'Voir les détails',
@@ -2506,6 +2518,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.favoritesOnlyTooltip': '登录后可按收藏筛选',
     'map.filters.noFavorites': '没有收藏可显示',
     'map.filters.browseCafes': '浏览咖啡馆以添加收藏',
+    'map.presets.title': '快速筛选',
+    'map.presets.workStudy': '工作学习',
+    'map.presets.aestheticDate': '约会',
+    'map.presets.quickStop': '快速',
 
     // Map Detail
     'map.viewDetails': '查看详情',
@@ -3290,6 +3306,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'map.filters.favoritesOnlyTooltip': 'Đăng nhập để lọc theo yêu thích',
     'map.filters.noFavorites': 'Không có yêu thích nào',
     'map.filters.browseCafes': 'Duyệt quán để thêm yêu thích',
+    'map.presets.title': 'Tim nhanh',
+    'map.presets.workStudy': 'Lam viec & Hoc',
+    'map.presets.aestheticDate': 'Hen ho',
+    'map.presets.quickStop': 'Ghe nhanh',
 
     // Map Detail
     'map.viewDetails': 'Xem chi tiết',
