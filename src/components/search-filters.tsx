@@ -53,25 +53,6 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     router.push('?');
   }, [router]);
 
-  const handlePresetSelect = useCallback((presetId: string) => {
-    const preset = FILTER_PRESETS.find(p => p.id === presetId);
-    if (!preset) return;
-
-    const params = new URLSearchParams();
-
-    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
-      if (preset.filters[filterKey as keyof typeof preset.filters] === true) {
-        params.set(urlParam, 'true');
-      }
-    }
-
-    // Preserve current sort preference
-    const currentSort = searchParams.get('sortBy');
-    if (currentSort) params.set('sortBy', currentSort);
-
-    router.push(`?${params.toString()}`);
-  }, [router, searchParams]);
-
   const matchedPresetId = useMemo(() => {
     const currentBooleans: Record<string, boolean> = {};
     for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
@@ -107,6 +88,34 @@ export function SearchFilters({ className }: SearchFiltersProps) {
 
     return null;
   }, [searchParams]);
+
+  const handlePresetSelect = useCallback((presetId: string) => {
+    const preset = FILTER_PRESETS.find(p => p.id === presetId);
+    if (!preset) return;
+
+    // If this preset is already active, deselect it (clear all)
+    if (matchedPresetId === presetId) {
+      const params = new URLSearchParams();
+      const currentSort = searchParams.get('sortBy');
+      if (currentSort) params.set('sortBy', currentSort);
+      router.push(`?${params.toString()}`);
+      return;
+    }
+
+    const params = new URLSearchParams();
+
+    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
+      if (preset.filters[filterKey as keyof typeof preset.filters] === true) {
+        params.set(urlParam, 'true');
+      }
+    }
+
+    // Preserve current sort preference
+    const currentSort = searchParams.get('sortBy');
+    if (currentSort) params.set('sortBy', currentSort);
+
+    router.push(`?${params.toString()}`);
+  }, [router, searchParams, matchedPresetId]);
 
   const hasActiveFilters =
     searchParams.get('district') ||

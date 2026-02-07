@@ -53,8 +53,14 @@ export function useMapFilters() {
     const preset = FILTER_PRESETS.find((p) => p.id === presetId);
     if (!preset) return;
 
-    // Reset to defaults first, then apply preset filters (replace behavior)
-    setFilters({ ...DEFAULT_FILTERS, ...preset.filters });
+    setFilters((prev) => {
+      // If this preset is already active, deselect it (clear to defaults)
+      const currentMatch = getMatchedPreset(prev);
+      if (currentMatch?.id === presetId) return DEFAULT_FILTERS;
+
+      // Otherwise apply preset (reset to defaults first)
+      return { ...DEFAULT_FILTERS, ...preset.filters };
+    });
   }, []);
 
   const matchedPreset = useMemo(
