@@ -30,9 +30,12 @@ export interface MapFilters {
 // Filter preset definition
 export interface FilterPreset {
   id: string;
-  labelKey: string; // i18n key like 'map.presets.workStudy'
+  labelKey: string; // i18n key like 'map.presets.workStudy' or direct display name for user vibes
   icon: string;     // lucide-react icon name as string (resolved in component)
   filters: Partial<MapFilters>;
+  isUserVibe?: boolean;
+  isDefaultOverride?: boolean;
+  userVibeId?: string;
 }
 
 // Map viewport bounds

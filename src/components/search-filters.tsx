@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,6 +26,7 @@ import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { useMapFilters } from '@/hooks/use-map-filters';
 import type { MapFilters } from '@/types/map';
+import type { UserVibe } from '@/types/vibes';
 
 const BOOLEAN_FILTER_MAP: Record<string, string> = {
   hasWifi: 'hasWifi',
@@ -48,6 +49,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, language } = useI18n();
+  const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const {
     filters,
     updateFilter,
@@ -55,7 +57,18 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     applyPreset,
     matchedPreset,
     activeFilterCount,
-  } = useMapFilters();
+    allPresets,
+  } = useMapFilters(userVibes);
+
+  useEffect(() => {
+    import('@/lib/actions/vibes').then(({ getVibesAction }) => {
+      getVibesAction().then((result) => {
+        if (result.success && result.vibes) {
+          setUserVibes(result.vibes);
+        }
+      });
+    });
+  }, []);
 
   // Sync URL params -> hook state on mount / URL change
   const isInitRef = useRef(false);
@@ -222,6 +235,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
               isLoggedIn={false}
               applyPreset={applyPreset}
               matchedPresetId={matchedPreset?.id ?? null}
+              presets={allPresets}
               className="min-[319px]:pl-8 min-[340px]:pl-4"
             />
           </SheetContent>

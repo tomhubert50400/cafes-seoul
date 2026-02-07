@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
@@ -9,6 +9,7 @@ import { CafeMap } from './cafe-map';
 import { useMapFilters } from '@/hooks/use-map-filters';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
+import type { UserVibe } from '@/types/vibes';
 
 interface MapWithFiltersProps {
   cafes: CafeSummary[];
@@ -24,7 +25,19 @@ export function MapWithFilters({
   userId,
 }: MapWithFiltersProps) {
   const { t } = useI18n();
-  const { filters, updateFilter, clearFilters, applyPreset, matchedPreset, activeFilterCount } = useMapFilters();
+  const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
+  const { filters, updateFilter, clearFilters, applyPreset, matchedPreset, activeFilterCount, allPresets } = useMapFilters(userVibes);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    import('@/lib/actions/vibes').then(({ getVibesAction }) => {
+      getVibesAction().then((result) => {
+        if (result.success && result.vibes) {
+          setUserVibes(result.vibes);
+        }
+      });
+    });
+  }, [isLoggedIn]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
 
@@ -46,6 +59,7 @@ export function MapWithFilters({
           onClear={clearFilters}
           applyPreset={applyPreset}
           matchedPresetId={matchedPreset?.id ?? null}
+          presets={allPresets}
           isLoggedIn={isLoggedIn}
           favoritesCount={favoriteIds?.length ?? 0}
         />
@@ -78,6 +92,7 @@ export function MapWithFilters({
               onClose={() => setMobileFiltersOpen(false)}
               applyPreset={applyPreset}
               matchedPresetId={matchedPreset?.id ?? null}
+              presets={allPresets}
               isLoggedIn={isLoggedIn}
               favoritesCount={favoriteIds?.length ?? 0}
             />

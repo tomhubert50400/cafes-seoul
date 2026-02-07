@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sheet';
 import { MapFiltersPanel } from '@/components/map/map-filters';
 import { useI18n } from '@/lib/i18n';
-import type { MapFilters } from '@/types/map';
+import type { MapFilters, FilterPreset } from '@/types/map';
 
 interface RouletteFilterSheetProps {
   filters: MapFilters;
@@ -20,6 +20,7 @@ interface RouletteFilterSheetProps {
   onClearFilters: () => void;
   applyPreset?: (presetId: string) => void;
   matchedPresetId?: string | null;
+  presets?: FilterPreset[];
 }
 
 export function RouletteFilterSheet({
@@ -29,6 +30,7 @@ export function RouletteFilterSheet({
   onClearFilters,
   applyPreset,
   matchedPresetId,
+  presets,
 }: RouletteFilterSheetProps) {
   const { t } = useI18n();
 
@@ -63,6 +65,7 @@ export function RouletteFilterSheet({
           isLoggedIn={false}
           applyPreset={applyPreset}
           matchedPresetId={matchedPresetId}
+          presets={presets}
           className="min-[319px]:pl-8 min-[340px]:pl-4"
         />
       </SheetContent>

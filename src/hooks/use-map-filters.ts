@@ -2,8 +2,14 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import type { MapFilters, FilterPreset } from '@/types/map';
+import type { UserVibe } from '@/types/vibes';
 import { hasActiveFilters, getActiveFilterCount } from '@/lib/utils/filter-cafes';
-import { FILTER_PRESETS, getMatchedPreset } from '@/lib/filter-presets';
+import {
+  FILTER_PRESETS,
+  getMatchedPreset,
+  getMatchedPresetFromList,
+  mergePresetsWithUserVibes,
+} from '@/lib/filter-presets';
 
 const DEFAULT_FILTERS: MapFilters = {
   seatingMin: null,
@@ -26,8 +32,13 @@ const DEFAULT_FILTERS: MapFilters = {
   showFavoritesOnly: false,
 };
 
-export function useMapFilters() {
+export function useMapFilters(userVibes?: UserVibe[]) {
   const [filters, setFilters] = useState<MapFilters>(DEFAULT_FILTERS);
+
+  const allPresets = useMemo<FilterPreset[]>(() => {
+    if (!userVibes || userVibes.length === 0) return FILTER_PRESETS;
+    return mergePresetsWithUserVibes(userVibes);
+  }, [userVibes]);
 
   const updateFilter = useCallback(<K extends keyof MapFilters>(
     key: K,
@@ -50,22 +61,19 @@ export function useMapFilters() {
   const activeCount = useMemo(() => getActiveFilterCount(filters), [filters]);
 
   const applyPreset = useCallback((presetId: string) => {
-    const preset = FILTER_PRESETS.find((p) => p.id === presetId);
+    const preset = allPresets.find((p) => p.id === presetId);
     if (!preset) return;
 
     setFilters((prev) => {
-      // If this preset is already active, deselect it (clear to defaults)
-      const currentMatch = getMatchedPreset(prev);
+      const currentMatch = getMatchedPresetFromList(prev, allPresets);
       if (currentMatch?.id === presetId) return DEFAULT_FILTERS;
-
-      // Otherwise apply preset (reset to defaults first)
       return { ...DEFAULT_FILTERS, ...preset.filters };
     });
-  }, []);
+  }, [allPresets]);
 
   const matchedPreset = useMemo(
-    () => getMatchedPreset(filters),
-    [filters]
+    () => getMatchedPresetFromList(filters, allPresets),
+    [filters, allPresets]
   );
 
   return {
@@ -77,5 +85,6 @@ export function useMapFilters() {
     matchedPreset,
     hasActiveFilters: hasActive,
     activeFilterCount: activeCount,
+    allPresets,
   };
 }

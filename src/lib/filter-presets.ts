@@ -1,4 +1,5 @@
 import type { MapFilters, FilterPreset } from '@/types/map';
+import type { UserVibe } from '@/types/vibes';
 
 /**
  * Predefined filter presets for common cafe vibe scenarios.
@@ -164,4 +165,72 @@ export function getMatchedPreset(filters: MapFilters): FilterPreset | null {
     }
   }
   return null;
+}
+
+/**
+ * Like getMatchedPreset but searches a dynamic preset list.
+ */
+export function getMatchedPresetFromList(
+  filters: MapFilters,
+  presets: FilterPreset[]
+): FilterPreset | null {
+  for (const preset of presets) {
+    if (matchesPreset(filters, preset.filters)) {
+      return preset;
+    }
+  }
+  return null;
+}
+
+/**
+ * Merges the 3 built-in presets with user vibes.
+ * - Default overrides replace the matching built-in preset
+ * - Custom vibes are appended after the defaults
+ */
+export function mergePresetsWithUserVibes(
+  userVibes: UserVibe[]
+): FilterPreset[] {
+  // Build a map of default overrides
+  const overrides = new Map<string, UserVibe>();
+  const customVibes: UserVibe[] = [];
+
+  for (const vibe of userVibes) {
+    if (vibe.defaultPresetId) {
+      overrides.set(vibe.defaultPresetId, vibe);
+    } else {
+      customVibes.push(vibe);
+    }
+  }
+
+  // Map built-in presets, applying overrides
+  const merged: FilterPreset[] = FILTER_PRESETS.map((preset) => {
+    const override = overrides.get(preset.id);
+    if (override) {
+      return {
+        id: preset.id,
+        labelKey: override.name,
+        icon: override.icon,
+        filters: override.filters,
+        isUserVibe: true,
+        isDefaultOverride: true,
+        userVibeId: override.id,
+      };
+    }
+    return preset;
+  });
+
+  // Append custom vibes
+  for (const vibe of customVibes) {
+    merged.push({
+      id: `custom_${vibe.id}`,
+      labelKey: vibe.name,
+      icon: vibe.icon,
+      filters: vibe.filters,
+      isUserVibe: true,
+      isDefaultOverride: false,
+      userVibeId: vibe.id,
+    });
+  }
+
+  return merged;
 }

@@ -4,28 +4,46 @@ import { useState } from 'react';
 import { FILTER_PRESETS } from '@/lib/filter-presets';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
-import { Laptop, Heart, Zap, Plus, Minus } from 'lucide-react';
+import {
+  Laptop, Heart, Zap, Plus, Minus,
+  Sparkles, Coffee, BookOpen, Music, Sun, Moon,
+  Leaf, Palette, Camera, Headphones,
+} from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import type { FilterPreset } from '@/types/map';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Laptop,
   Heart,
   Zap,
+  Sparkles,
+  Coffee,
+  BookOpen,
+  Music,
+  Sun,
+  Moon,
+  Leaf,
+  Palette,
+  Camera,
+  Headphones,
 };
 
 interface PresetBadgesProps {
   onPresetSelect: (presetId: string) => void;
   matchedPresetId?: string | null;
+  presets?: FilterPreset[];
   className?: string;
 }
 
 export function PresetBadges({
   onPresetSelect,
   matchedPresetId,
+  presets,
   className,
 }: PresetBadgesProps) {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
+  const presetList = presets || FILTER_PRESETS;
 
   return (
     <div className={cn('w-full', className)}>
@@ -39,9 +57,10 @@ export function PresetBadges({
       </button>
       {expanded && (
         <div className="flex flex-wrap gap-2 mt-2">
-          {FILTER_PRESETS.map((preset) => {
+          {presetList.map((preset) => {
             const Icon = ICON_MAP[preset.icon];
             const isActive = matchedPresetId === preset.id;
+            const label = preset.isUserVibe ? preset.labelKey : t(preset.labelKey);
 
             return (
               <button
@@ -60,7 +79,7 @@ export function PresetBadges({
                 )}
               >
                 {Icon && <Icon className="h-4 w-4" />}
-                <span>{t(preset.labelKey)}</span>
+                <span>{label}</span>
               </button>
             );
           })}

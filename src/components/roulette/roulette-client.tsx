@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Search, X, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,7 @@ import { RouletteSpinner } from './roulette-spinner';
 import { RouletteResult } from './roulette-result';
 import { RouletteFilterSheet } from './roulette-filter-sheet';
 import type { CafeSummary } from '@/types/cafe';
+import type { UserVibe } from '@/types/vibes';
 
 type Phase = 'idle' | 'spinning' | 'result';
 
@@ -45,6 +46,7 @@ function selectRandomCafe(
 
 export function RouletteClient({ cafes }: RouletteClientProps) {
   const { t, language } = useI18n();
+  const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const {
     filters,
     updateFilter,
@@ -52,7 +54,18 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
     applyPreset,
     matchedPreset,
     activeFilterCount,
-  } = useMapFilters();
+    allPresets,
+  } = useMapFilters(userVibes);
+
+  useEffect(() => {
+    import('@/lib/actions/vibes').then(({ getVibesAction }) => {
+      getVibesAction().then((result) => {
+        if (result.success && result.vibes) {
+          setUserVibes(result.vibes);
+        }
+      });
+    });
+  }, []);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
@@ -142,6 +155,7 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
           onClearFilters={clearFilters}
           applyPreset={applyPreset}
           matchedPresetId={matchedPreset?.id ?? null}
+          presets={allPresets}
         />
       </div>
 

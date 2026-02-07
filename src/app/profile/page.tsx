@@ -6,6 +6,8 @@ import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { getProfile } from '@/lib/supabase/profiles';
+import { getUserVibes } from '@/lib/supabase/vibes';
+import { VibesCard } from '@/components/profile/vibes-card';
 import {
   Card,
   CardContent,
@@ -54,8 +56,8 @@ export default async function ProfilePage() {
     redirect(ROUTES.LOGIN + '?next=/profile');
   }
 
-  // Fetch profile and activity stats in parallel
-  const [lang, profile, ratingsResult, favoritesResult] = await Promise.all([
+  // Fetch profile, activity stats, and vibes in parallel
+  const [lang, profile, ratingsResult, favoritesResult, userVibes] = await Promise.all([
     getLanguageFromCookies(),
     getProfile(supabase, user.id),
     supabase
@@ -66,6 +68,7 @@ export default async function ProfilePage() {
       .from('user_favorites')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id),
+    getUserVibes(supabase, user.id),
   ]);
 
   const reviewsCount = ratingsResult.count ?? 0;
@@ -86,6 +89,9 @@ export default async function ProfilePage() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
+      {/* My Vibes Card */}
+      <VibesCard initialVibes={userVibes} lang={lang} />
+
       {/* Account Information Card */}
       <Card>
         <CardHeader>
