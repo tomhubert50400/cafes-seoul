@@ -27,7 +27,7 @@ export function PresetBadges({
 
   return (
     <div className={cn('w-full', className)}>
-      <div className="flex gap-2 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory">
+      <div className="flex flex-wrap gap-2">
         {FILTER_PRESETS.map((preset) => {
           const Icon = ICON_MAP[preset.icon];
           const isActive = matchedPresetId === preset.id;
@@ -39,7 +39,7 @@ export function PresetBadges({
               onClick={() => onPresetSelect(preset.id)}
               aria-pressed={isActive}
               className={cn(
-                'snap-start shrink-0 min-h-[44px] px-4 py-2 rounded-full',
+                'min-h-[44px] px-4 py-2 rounded-full',
                 'border-2 font-medium text-sm transition-colors',
                 'flex items-center gap-2',
                 'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
