@@ -16,7 +16,7 @@ export const VIBE_ICON_OPTIONS = [
   'Zap',
 ] as const;
 
-export const MAX_CUSTOM_VIBES = 4;
+export const MAX_VIBES = 4;
 
 export const vibeFormSchema = z.object({
   name: z

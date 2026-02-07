@@ -53,10 +53,10 @@ export function UserMenu({ user }: UserMenuProps) {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <button
-          className="relative flex h-8 w-8 items-center justify-center rounded-full outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-primary"
+          className="relative flex h-9 w-9 items-center justify-center rounded-full outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="Open user menu"
         >
-          <Avatar size="sm">
+          <Avatar>
             <AvatarImage src={avatarUrl} alt={displayName} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>

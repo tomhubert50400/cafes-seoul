@@ -6,7 +6,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { getProfile } from '@/lib/supabase/profiles';
-import { getUserVibes } from '@/lib/supabase/vibes';
+import { ensureUserVibes } from '@/lib/supabase/vibes';
 import { VibesCard } from '@/components/profile/vibes-card';
 import {
   Card,
@@ -68,7 +68,7 @@ export default async function ProfilePage() {
       .from('user_favorites')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id),
-    getUserVibes(supabase, user.id),
+    ensureUserVibes(supabase, user.id),
   ]);
 
   const reviewsCount = ratingsResult.count ?? 0;
@@ -89,9 +89,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {/* My Vibes Card */}
-      <VibesCard initialVibes={userVibes} lang={lang} />
-
       {/* Account Information Card */}
       <Card>
         <CardHeader>
@@ -157,6 +154,9 @@ export default async function ProfilePage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* My Vibes Card */}
+      <VibesCard initialVibes={userVibes} lang={lang} />
     </div>
   );
 }

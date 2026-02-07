@@ -3,18 +3,18 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import {
-  getUserVibes,
-  getCustomVibeCount,
+  ensureUserVibes,
+  getVibeCount,
   createVibe,
   updateVibe,
   deleteVibe,
 } from '@/lib/supabase/vibes';
 import { vibeFormSchema } from '@/lib/validations/vibes';
-import { MAX_CUSTOM_VIBES } from '@/lib/validations/vibes';
+import { MAX_VIBES } from '@/lib/validations/vibes';
 import type { UserVibe, VibeActionResult } from '@/types/vibes';
 
 // ============================================
-// GET VIBES ACTION
+// GET VIBES ACTION (auto-seeds defaults)
 // ============================================
 
 export async function getVibesAction(): Promise<{
@@ -32,7 +32,7 @@ export async function getVibesAction(): Promise<{
       return { success: false, error: 'Authentication required' };
     }
 
-    const vibes = await getUserVibes(supabase, user.id);
+    const vibes = await ensureUserVibes(supabase, user.id);
     return { success: true, vibes };
   } catch (err) {
     console.error('Unexpected error fetching vibes:', err);
@@ -48,7 +48,6 @@ export async function createVibeAction(data: {
   name: string;
   icon: string;
   filters: Record<string, unknown>;
-  defaultPresetId?: string | null;
 }): Promise<VibeActionResult> {
   try {
     const supabase = await createClient();
@@ -66,19 +65,16 @@ export async function createVibeAction(data: {
       return { success: false, error: parsed.error.issues[0]?.message || 'Invalid input' };
     }
 
-    // For custom vibes (not default overrides), enforce max count
-    if (!data.defaultPresetId) {
-      const count = await getCustomVibeCount(supabase, user.id);
-      if (count >= MAX_CUSTOM_VIBES) {
-        return { success: false, error: `Maximum ${MAX_CUSTOM_VIBES} custom vibes reached` };
-      }
+    // Enforce total max vibes
+    const count = await getVibeCount(supabase, user.id);
+    if (count >= MAX_VIBES) {
+      return { success: false, error: `Maximum ${MAX_VIBES} vibes reached` };
     }
 
     const vibe = await createVibe(supabase, user.id, {
       name: parsed.data.name,
       icon: parsed.data.icon,
       filters: parsed.data.filters as Record<string, unknown>,
-      defaultPresetId: data.defaultPresetId || null,
     });
 
     if (!vibe) {

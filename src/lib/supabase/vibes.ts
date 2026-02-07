@@ -1,3 +1,4 @@
+import { FILTER_PRESETS } from '@/lib/filter-presets';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { UserVibe, CreateVibeInput, UpdateVibeInput } from '@/types/vibes';
 
@@ -29,10 +30,10 @@ export async function getUserVibes(
 }
 
 // ============================================
-// GET CUSTOM VIBE COUNT
+// GET VIBE COUNT (total)
 // ============================================
 
-export async function getCustomVibeCount(
+export async function getVibeCount(
   supabase: SupabaseClient,
   userId: string
 ): Promise<number> {
@@ -40,11 +41,10 @@ export async function getCustomVibeCount(
     const { count, error } = await supabase
       .from('user_vibes')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .is('default_preset_id', null);
+      .eq('user_id', userId);
 
     if (error) {
-      console.error('Error counting custom vibes:', error);
+      console.error('Error counting vibes:', error);
       return 0;
     }
 
@@ -53,6 +53,65 @@ export async function getCustomVibeCount(
     console.error('Unexpected error counting vibes:', err);
     return 0;
   }
+}
+
+// ============================================
+// SEED DEFAULT VIBES
+// ============================================
+
+/**
+ * Seeds the 3 built-in presets as user vibes for a new user.
+ * Only call when the user has 0 vibes.
+ */
+export async function seedDefaultVibes(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<UserVibe[]> {
+  try {
+    const defaultIds = ['work_study', 'aesthetic_date'];
+    const defaultNames: Record<string, string> = {
+      work_study: 'Work',
+      aesthetic_date: 'Date Spot',
+    };
+
+    const defaults = FILTER_PRESETS.filter((p) => defaultIds.includes(p.id));
+    const rows = defaults.map((preset, i) => ({
+      user_id: userId,
+      name: defaultNames[preset.id] || preset.id,
+      icon: preset.icon,
+      filters: preset.filters,
+      default_preset_id: preset.id,
+      position: i,
+    }));
+
+    const { data, error } = await supabase
+      .from('user_vibes')
+      .insert(rows)
+      .select();
+
+    if (error) {
+      console.error('Error seeding default vibes:', error);
+      return [];
+    }
+
+    return (data || []).map(transformVibe);
+  } catch (err) {
+    console.error('Unexpected error seeding vibes:', err);
+    return [];
+  }
+}
+
+// ============================================
+// ENSURE USER VIBES (seed if empty)
+// ============================================
+
+export async function ensureUserVibes(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<UserVibe[]> {
+  const vibes = await getUserVibes(supabase, userId);
+  if (vibes.length > 0) return vibes;
+  return seedDefaultVibes(supabase, userId);
 }
 
 // ============================================
@@ -72,7 +131,7 @@ export async function createVibe(
         name: input.name,
         icon: input.icon,
         filters: input.filters,
-        default_preset_id: input.defaultPresetId || null,
+        default_preset_id: null,
         position: 0,
       })
       .select()

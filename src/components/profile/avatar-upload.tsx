@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { X, ZoomIn } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/lib/i18n';
 
 interface AvatarUploadProps {
   currentAvatarUrl: string | null;
@@ -26,6 +27,7 @@ export function AvatarUpload({
   onCancel,
   className,
 }: AvatarUploadProps) {
+  const { t } = useI18n();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -169,7 +171,7 @@ export function AvatarUpload({
 
   // Show upload trigger (click avatar area to select file)
   return (
-    <div className={className}>
+    <div className={cn('flex flex-col items-center', className)}>
       <input
         ref={fileInputRef}
         type="file"
@@ -207,7 +209,7 @@ export function AvatarUpload({
         </div>
       </button>
       <p className="mt-2 text-xs text-muted-foreground">
-        Click to upload (max 5MB)
+        {t('profile.avatarUploadHint')}
       </p>
     </div>
   );

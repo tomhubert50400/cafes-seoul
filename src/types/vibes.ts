@@ -16,7 +16,6 @@ export interface CreateVibeInput {
   name: string;
   icon: string;
   filters: Partial<MapFilters>;
-  defaultPresetId?: string | null;
 }
 
 export interface UpdateVibeInput {

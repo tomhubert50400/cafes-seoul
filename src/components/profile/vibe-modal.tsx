@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { UserVibe } from '@/types/vibes';
-import type { MapFilters, FilterPreset } from '@/types/map';
+import type { MapFilters } from '@/types/map';
 
 const ICON_COMPONENT_MAP: Record<string, LucideIcon> = {
   Sparkles, Coffee, BookOpen, Music, Sun, Moon,
@@ -34,9 +34,8 @@ const ICON_COMPONENT_MAP: Record<string, LucideIcon> = {
 };
 
 interface VibeModalProps {
-  mode: 'create' | 'edit' | 'customize';
+  mode: 'create' | 'edit';
   existingVibe?: UserVibe;
-  defaultPreset?: FilterPreset;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
@@ -45,7 +44,6 @@ interface VibeModalProps {
 export function VibeModal({
   mode,
   existingVibe,
-  defaultPreset,
   open,
   onOpenChange,
   onSuccess,
@@ -60,11 +58,11 @@ export function VibeModal({
   // Reset state every time the modal opens with new data
   useEffect(() => {
     if (!open) return;
-    setName(existingVibe?.name || (defaultPreset ? t(defaultPreset.labelKey) : ''));
-    setIcon(existingVibe?.icon || defaultPreset?.icon || 'Sparkles');
-    setFilters(existingVibe?.filters || defaultPreset?.filters || {});
+    setName(existingVibe?.name || '');
+    setIcon(existingVibe?.icon || 'Sparkles');
+    setFilters(existingVibe?.filters || {});
     setSaving(false);
-  }, [open, existingVibe, defaultPreset, t]);
+  }, [open, existingVibe]);
 
   const updateFilter = <K extends keyof MapFilters>(key: K, value: MapFilters[K]) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -93,7 +91,6 @@ export function VibeModal({
           name: name.trim(),
           icon,
           filters: filters as Record<string, unknown>,
-          defaultPresetId: mode === 'customize' ? defaultPreset?.id : null,
         });
         if (result.success) {
           toast.success(t('vibes.saveSuccess'));
@@ -140,7 +137,7 @@ export function VibeModal({
           {/* Icon grid */}
           <div className="space-y-2">
             <Label>{t('vibes.iconLabel')}</Label>
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-5 gap-1 sm:grid-cols-7 sm:gap-1">
               {VIBE_ICON_OPTIONS.map((iconName) => {
                 const IconComponent = ICON_COMPONENT_MAP[iconName];
                 if (!IconComponent) return null;
@@ -150,14 +147,14 @@ export function VibeModal({
                     type="button"
                     onClick={() => setIcon(iconName)}
                     className={cn(
-                      'flex items-center justify-center p-2.5 rounded-lg border-2 transition-colors',
-                      'min-h-[44px] min-w-[44px]',
+                      'flex items-center justify-center p-1.5 sm:p-2.5 rounded-md sm:rounded-lg border-2 transition-colors',
+                      'min-h-[36px] min-w-[36px] sm:min-h-[44px] sm:min-w-[44px]',
                       icon === iconName
                         ? 'border-primary bg-primary/10'
                         : 'border-border hover:border-primary/50'
                     )}
                   >
-                    <IconComponent className="h-5 w-5" />
+                    <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>
                 );
               })}

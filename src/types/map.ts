@@ -34,7 +34,6 @@ export interface FilterPreset {
   icon: string;     // lucide-react icon name as string (resolved in component)
   filters: Partial<MapFilters>;
   isUserVibe?: boolean;
-  isDefaultOverride?: boolean;
   userVibeId?: string;
 }
 

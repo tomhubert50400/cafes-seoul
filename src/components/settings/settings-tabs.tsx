@@ -32,8 +32,8 @@ export function SettingsTabs({ activeTab, translations }: SettingsTabsProps) {
   }
 
   return (
-    <div className="border-b overflow-x-auto">
-      <nav className="-mb-px flex space-x-4 sm:space-x-8" aria-label="Settings tabs">
+    <div className="border-t border-b pt-2">
+      <nav className="-mb-px flex justify-center gap-x-2 sm:gap-x-8" aria-label="Settings tabs">
         {tabs.map((tab) => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -49,7 +49,7 @@ export function SettingsTabs({ activeTab, translations }: SettingsTabsProps) {
               key={tab.id}
               onClick={() => handleTabClick(tab.id)}
               className={cn(
-                'flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors whitespace-nowrap min-h-[44px]',
+                'flex items-center gap-1 sm:gap-2 py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors whitespace-nowrap min-h-[44px]',
                 isActive
                   ? 'border-primary text-primary'
                   : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/50'
