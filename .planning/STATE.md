@@ -5,17 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-07)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** All milestones shipped (v1.0-v1.4)
+**Current focus:** All milestones shipped (v1.0-v1.5)
 
 ## Current Position
 
-Phase: 20 of 20 — Vibe Search Assistant (in progress)
-Plan: 02 of 03 (20-02-PLAN.md complete)
-Status: In progress
-Last activity: 2026-02-07 — Completed 20-02-PLAN.md (preset hook & UI)
+Phase: 20 of 20 — All phases complete
+Status: Idle (no active milestone)
+Last activity: 2026-02-07 — v1.5 Vibe Search milestone shipped
 
-Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] v1.4 [1] v2.0 [2/3] = 19.67 phases (80 plans shipped)
-Progress bar: ████████████████████░ 97.6% (80/82 plans)
+Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] v1.4 [1] v1.5 [1] = 20 phases (81 plans shipped)
 
 ## Performance Metrics
 
@@ -44,10 +42,10 @@ Progress bar: ████████████████████░ 97
 - Phase: 19 (1 phase)
 - Timeline: 1 day
 
-**Milestone v2.0 (in progress):**
-- Plans completed: 2 / 3
-- Phase: 20 (vibe-search-assistant)
-- Started: 2026-02-07
+**Milestone v1.5:**
+- Plans completed: 3
+- Phase: 20 (1 phase)
+- Timeline: 1 day
 
 ## Accumulated Context
 
@@ -64,9 +62,9 @@ None
 ## Session Continuity
 
 Last session: 2026-02-07
-Stopped at: Completed 20-02-PLAN.md (preset hook & UI)
+Stopped at: v1.5 milestone complete
 Resume file: None
-Next action: Execute 20-03-PLAN.md (map & list integration)
+Next action: /gsd:new-milestone when ready for next version
 
 ---
 *State initialized: 2026-01-27*
@@ -75,3 +73,4 @@ Next action: Execute 20-03-PLAN.md (map & list integration)
 *v1.2 Polish & Bug Fixes shipped: 2026-02-01*
 *v1.3 Profile Enhancement shipped: 2026-02-01*
 *v1.4 Style & Responsive shipped: 2026-02-07*
+*v1.5 Vibe Search shipped: 2026-02-07*

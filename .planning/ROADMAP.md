@@ -7,6 +7,7 @@
 - v1.2 Polish & Bug Fixes - Phase 12 (shipped 2026-02-01)
 - v1.3 Profile Enhancement - Phases 13-18 (shipped 2026-02-01)
 - v1.4 Style & Responsive - Phase 19 (shipped 2026-02-07)
+- v1.5 Vibe Search - Phase 20 (shipped 2026-02-07)
 
 ## Phases
 
@@ -46,22 +47,22 @@ See .planning/milestones/v1.4-ROADMAP.md for details.
 </details>
 
 <details>
-<summary>v1.5 Vibe Search (Phase 20) - IN PROGRESS</summary>
+<summary>v1.5 Vibe Search (Phase 20) - SHIPPED 2026-02-07</summary>
 
 ### Phase 20: Vibe Search Assistant
-Smart filter presets — selecting a "vibe" auto-adjusts existing filter sliders/toggles, user can still refine manually. Horizontal scrollable badge bar above cafe list. Visual feedback when current filters match a preset.
+Smart filter presets — selecting a "vibe" auto-adjusts existing filter sliders/toggles, user can still refine manually. Collapsible badge section in filter panels. Visual feedback when current filters match a preset.
 
 **Goal:** Let users quickly find cafes matching common use-cases (work/study, date/aesthetic, quick stop) without manually configuring 9+ filter dimensions.
 
 **Plans:** 3 plans
 
 Plans:
-- [ ] 20-01-PLAN.md — Preset definitions, matching logic, and i18n translations
-- [ ] 20-02-PLAN.md — Hook extension and PresetBadges UI component
-- [ ] 20-03-PLAN.md — Integration into map and cafes list pages
+- [x] 20-01-PLAN.md — Preset definitions, matching logic, and i18n translations
+- [x] 20-02-PLAN.md — Hook extension and PresetBadges UI component
+- [x] 20-03-PLAN.md — Integration into map, cafes list, and roulette pages
 
 **Success criteria:**
-- Preset badge bar renders above cafe list on both /cafes and /map pages
+- Preset badges available in filter panels on /cafes, /map, and roulette pages
 - Selecting a preset applies correct filter values to existing filter system
 - Users can modify individual filters after preset selection
 - Visual indicator shows when filters match a known preset
@@ -77,13 +78,13 @@ Plans:
 | 7-11 | v1.1 | 24/24 | Complete | 2026-01-31 |
 | 12 | v1.2 | 4/4 | Complete | 2026-02-01 |
 | 13-18 | v1.3 | 25/25 | Complete | 2026-02-01 |
-
 | 19 | v1.4 | 5/5 | Complete | 2026-02-07 |
-| 20 | v1.5 | 0/3 | In Progress | - |
+| 20 | v1.5 | 3/3 | Complete | 2026-02-07 |
 
-**Total:** 19 phases shipped (78 plans)
+**Total:** 20 phases shipped (81 plans)
 
 ---
 *Roadmap created: 2026-01-27*
 *v1.3 shipped: 2026-02-01*
 *v1.4 shipped: 2026-02-07*
+*v1.5 shipped: 2026-02-07*

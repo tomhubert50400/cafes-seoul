@@ -185,23 +185,6 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           </SelectContent>
         </Select>
 
-        {/* Cafe Type */}
-        <Select
-          value={searchParams.get('cafeType') || ''}
-          onValueChange={(value) => updateParams('cafeType', value || null)}
-        >
-          <SelectTrigger className="w-full min-w-[140px] sm:w-[140px]">
-            <SelectValue placeholder={t('filter.cafeType')} />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(CAFE_TYPE_LABELS).map(([key, label]) => (
-              <SelectItem key={key} value={key}>
-                {label.ko}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
         {/* Sort */}
         <Select
           value={searchParams.get('sortBy') || 'rating'}
@@ -220,7 +203,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
         {/* Adjust Filters Sheet */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2 shrink-0 min-h-[44px]">
+            <Button variant="outline" size="sm" className="gap-2 shrink-0 h-9">
               <SlidersHorizontal className="h-4 w-4" />
               <span>{t('roulette.adjustFilters')}</span>
               {activeFilterCount > 0 && (
@@ -239,6 +222,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
               isLoggedIn={false}
               applyPreset={applyPreset}
               matchedPresetId={matchedPreset?.id ?? null}
+              className="min-[319px]:pl-8 min-[340px]:pl-4"
             />
           </SheetContent>
         </Sheet>
