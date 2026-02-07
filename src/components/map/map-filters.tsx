@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { RatingSlider } from './rating-slider';
 import { FeatureToggle } from './feature-toggle';
+import { PresetBadges } from './preset-badges';
 import { Wifi, Plug, Dog, Armchair, Car, X, Heart } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { useI18n } from '@/lib/i18n';
@@ -15,6 +16,8 @@ interface MapFiltersProps {
   onClose?: () => void;
   isLoggedIn?: boolean;
   favoritesCount?: number;
+  applyPreset?: (presetId: string) => void;
+  matchedPresetId?: string | null;
 }
 
 export function MapFiltersPanel({
@@ -24,6 +27,8 @@ export function MapFiltersPanel({
   onClose,
   isLoggedIn = false,
   favoritesCount = 0,
+  applyPreset,
+  matchedPresetId,
 }: MapFiltersProps) {
   const { t } = useI18n();
 
@@ -48,7 +53,20 @@ export function MapFiltersPanel({
   }).length;
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-6 p-4 min-[320px]:pl-8 min-[340px]:pl-4">
+      {/* Preset Badges */}
+      {applyPreset && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+            {t('map.presets.title')}
+          </h3>
+          <PresetBadges
+            onPresetSelect={applyPreset}
+            matchedPresetId={matchedPresetId}
+          />
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

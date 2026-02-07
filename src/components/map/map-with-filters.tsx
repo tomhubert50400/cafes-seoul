@@ -24,7 +24,7 @@ export function MapWithFilters({
   userId,
 }: MapWithFiltersProps) {
   const { t } = useI18n();
-  const { filters, updateFilter, clearFilters, activeFilterCount } = useMapFilters();
+  const { filters, updateFilter, clearFilters, applyPreset, matchedPreset, activeFilterCount } = useMapFilters();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
 
@@ -44,6 +44,8 @@ export function MapWithFilters({
             });
           }}
           onClear={clearFilters}
+          applyPreset={applyPreset}
+          matchedPresetId={matchedPreset?.id ?? null}
           isLoggedIn={isLoggedIn}
           favoritesCount={favoriteIds?.length ?? 0}
         />
@@ -74,6 +76,8 @@ export function MapWithFilters({
               }}
               onClear={clearFilters}
               onClose={() => setMobileFiltersOpen(false)}
+              applyPreset={applyPreset}
+              matchedPresetId={matchedPreset?.id ?? null}
               isLoggedIn={isLoggedIn}
               favoritesCount={favoriteIds?.length ?? 0}
             />
