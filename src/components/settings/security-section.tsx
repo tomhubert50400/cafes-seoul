@@ -52,15 +52,16 @@ export function SecuritySection({
       </CardHeader>
       <CardContent>
         {hasPasswordAuth ? (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Mail className="h-4 w-4" />
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground break-words">
+              <Mail className="h-4 w-4 shrink-0" />
               <span>{userEmail}</span>
             </div>
             <Button
               onClick={handleSendResetLink}
               disabled={isPending || hasSent}
               variant="outline"
+              className="w-full sm:w-auto min-h-[44px]"
             >
               {hasSent ? t.resetLinkSent : t.sendResetLink}
             </Button>

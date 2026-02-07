@@ -46,33 +46,33 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Header user={user} />
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <h1 className="mb-8 text-3xl font-bold">
+        <h1 className="mb-8 text-2xl md:text-3xl font-bold">
           {getTranslation(lang, 'profile.title')}
         </h1>
 
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="mb-8 w-full justify-start flex-wrap gap-2" variant="line">
-            <TabsTrigger value="overview" asChild>
+          <TabsList className="mb-8 w-full justify-start overflow-x-auto flex-nowrap sm:flex-wrap gap-2" variant="line">
+            <TabsTrigger value="overview" asChild className="min-h-[44px]">
               <Link href={ROUTES.PROFILE}>
                 {getTranslation(lang, 'profile.overview')}
               </Link>
             </TabsTrigger>
-            <TabsTrigger value="reviews" asChild>
+            <TabsTrigger value="reviews" asChild className="min-h-[44px]">
               <Link href={ROUTES.PROFILE_REVIEWS}>
                 {getTranslation(lang, 'profile.reviews')}
               </Link>
             </TabsTrigger>
-            <TabsTrigger value="favorites" asChild>
+            <TabsTrigger value="favorites" asChild className="min-h-[44px]">
               <Link href={ROUTES.PROFILE_FAVORITES}>
                 {getTranslation(lang, 'profile.favorites')}
               </Link>
             </TabsTrigger>
-            <TabsTrigger value="submissions" asChild>
+            <TabsTrigger value="submissions" asChild className="min-h-[44px]">
               <Link href={ROUTES.PROFILE_SUBMISSIONS}>
                 {getTranslation(lang, 'profile.submissions')}
               </Link>
             </TabsTrigger>
-            <TabsTrigger value="settings" asChild>
+            <TabsTrigger value="settings" asChild className="min-h-[44px]">
               <Link href={ROUTES.PROFILE_SETTINGS}>
                 {getTranslation(lang, 'profile.settings')}
               </Link>

@@ -96,10 +96,10 @@ export function NotificationsSection({
       <CardContent className="space-y-4">
         {NOTIFICATION_CONFIG.map((config, index) => (
           <div key={config.type}>
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between gap-4 min-h-[44px]">
               <Label
                 htmlFor={`notification-${config.type}`}
-                className="flex flex-col gap-1 cursor-pointer"
+                className="flex flex-col gap-1 cursor-pointer flex-1"
               >
                 <span className="font-medium">{t[config.labelKey]}</span>
                 <span className="text-sm font-normal text-muted-foreground">
@@ -111,6 +111,7 @@ export function NotificationsSection({
                 checked={preferences[config.type]}
                 onCheckedChange={(checked) => handleToggle(config.type, checked)}
                 disabled={isPending && updatingType === config.type}
+                className="shrink-0"
               />
             </div>
             {index < NOTIFICATION_CONFIG.length - 1 && (

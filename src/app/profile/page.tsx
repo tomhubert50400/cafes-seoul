@@ -116,7 +116,7 @@ export default async function ProfilePage() {
             </p>
           </div>
 
-          <Button variant="outline" asChild>
+          <Button variant="outline" asChild className="w-full sm:w-auto min-h-[44px]">
             <Link href={ROUTES.PROFILE_SETTINGS}>
               {getTranslation(lang, 'profile.editProfile')}
             </Link>
