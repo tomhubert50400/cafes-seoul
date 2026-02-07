@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car } from 'lucide-react';
+import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car, RotateCw } from 'lucide-react';
 import { StaticMap } from 'react-kakao-maps-sdk';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -55,7 +55,7 @@ export function RouletteResult({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden py-0 gap-0">
         <CardContent className="p-0">
           {/* Header */}
           <div className="px-4 py-5 sm:p-6 text-center">
@@ -144,12 +144,10 @@ export function RouletteResult({
             </div>
 
             {/* Footer buttons */}
-            <div className="flex flex-col gap-2 pt-2 border-t">
-              <Button variant="ghost" onClick={onSpinAgain}>
+            <div className="flex flex-col gap-2 border-t">
+              <Button onClick={onSpinAgain} className="min-h-[44px]">
+                <RotateCw className="h-4 w-4" />
                 {t('roulette.spinAgain')}
-              </Button>
-              <Button variant="ghost" onClick={onAdjustFilters}>
-                {t('roulette.adjustFilters')}
               </Button>
             </div>
           </div>

@@ -35,7 +35,7 @@ export function MapWithFilters({
   return (
     <div className="flex h-full">
       {/* Desktop Filter Sidebar */}
-      <aside className="hidden md:block w-80 border-r bg-background overflow-y-auto shrink-0">
+      <aside className="hidden md:block w-80 border-r bg-background overflow-y-auto scrollbar-hide shrink-0">
         <MapFiltersPanel
           filters={filters}
           onChange={(newFilters) => {
@@ -63,7 +63,7 @@ export function MapWithFilters({
               )}
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] sm:w-80 p-0">
+          <SheetContent side="left" className="w-[300px] sm:w-80 p-0 overflow-y-auto">
             <SheetTitle className="sr-only">{t('map.filters.title')}</SheetTitle>
             <MapFiltersPanel
               filters={filters}
@@ -73,6 +73,7 @@ export function MapWithFilters({
                 });
               }}
               onClear={clearFilters}
+              onClose={() => setMobileFiltersOpen(false)}
               isLoggedIn={isLoggedIn}
               favoritesCount={favoriteIds?.length ?? 0}
             />

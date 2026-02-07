@@ -12,6 +12,7 @@ interface MapFiltersProps {
   filters: MapFilters;
   onChange: (filters: MapFilters) => void;
   onClear: () => void;
+  onClose?: () => void;
   isLoggedIn?: boolean;
   favoritesCount?: number;
 }
@@ -20,6 +21,7 @@ export function MapFiltersPanel({
   filters,
   onChange,
   onClear,
+  onClose,
   isLoggedIn = false,
   favoritesCount = 0,
 }: MapFiltersProps) {
@@ -32,7 +34,7 @@ export function MapFiltersPanel({
     onChange({ ...filters, [key]: value });
   };
 
-  const hasActiveFilters = 
+  const hasActiveFilters =
     Object.values(filters).some((value) => {
       if (Array.isArray(value)) return value.length > 0;
       if (typeof value === 'number') return value > 0;
@@ -73,18 +75,16 @@ export function MapFiltersPanel({
       {/* Favorites Toggle */}
       <div className="rounded-lg border bg-muted/30 p-4">
         <div
-          className={`flex items-center justify-between ${
-            !isLoggedIn ? 'cursor-not-allowed opacity-60' : ''
-          }`}
+          className={`flex items-center justify-between ${!isLoggedIn ? 'cursor-not-allowed opacity-60' : ''
+            }`}
           title={!isLoggedIn ? t('map.filters.favoritesOnlyTooltip') : undefined}
         >
           <div className="flex items-center gap-2">
             <Heart
-              className={`h-4 w-4 ${
-                filters.showFavoritesOnly
-                  ? 'fill-red-500 text-red-500'
-                  : 'text-muted-foreground'
-              }`}
+              className={`h-4 w-4 ${filters.showFavoritesOnly
+                ? 'fill-red-500 text-red-500'
+                : 'text-muted-foreground'
+                }`}
             />
             <span className="text-sm font-medium">
               {t('map.filters.favoritesOnly')}

@@ -42,7 +42,7 @@ export function RouletteFilterSheet({
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2 shrink-0 min-h-[44px]">
           <SlidersHorizontal className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('roulette.adjustFilters')}</span>
+          <span>{t('roulette.adjustFilters')}</span>
           {activeFilterCount > 0 && (
             <Badge variant="secondary" className="h-5 min-w-5 px-1.5">
               {activeFilterCount}

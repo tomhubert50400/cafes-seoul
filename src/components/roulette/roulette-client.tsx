@@ -1,9 +1,14 @@
 'use client';
 
 import { useState, useMemo, useCallback, useRef } from 'react';
+import { Search, X, MapPin } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { useI18n } from '@/lib/i18n';
 import { useMapFilters } from '@/hooks/use-map-filters';
 import { filterCafes } from '@/lib/utils/filter-cafes';
+import { SEOUL_DISTRICTS } from '@/lib/constants/districts';
+import { getLocalizedText } from '@/types/cafe';
 import { RouletteIdle } from './roulette-idle';
 import { RouletteSpinner } from './roulette-spinner';
 import { RouletteResult } from './roulette-result';
@@ -39,7 +44,7 @@ function selectRandomCafe(
 }
 
 export function RouletteClient({ cafes }: RouletteClientProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const {
     filters,
     updateFilter,
@@ -50,10 +55,29 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
   const [phase, setPhase] = useState<Phase>('idle');
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
   const recentIdsRef = useRef<Set<string>>(new Set());
+  const [selectedDistrictId, setSelectedDistrictId] = useState<number | null>(null);
+  const [districtSearch, setDistrictSearch] = useState('');
 
-  const filteredCafes = useMemo(
-    () => filterCafes(cafes, { ...filters, showFavoritesOnly: false }),
-    [cafes, filters]
+  const filteredCafes = useMemo(() => {
+    let result = filterCafes(cafes, { ...filters, showFavoritesOnly: false });
+    if (selectedDistrictId !== null) {
+      result = result.filter((c) => c.districtId === selectedDistrictId);
+    }
+    return result;
+  }, [cafes, filters, selectedDistrictId]);
+
+  const matchingDistricts = useMemo(() => {
+    if (!districtSearch.trim()) return SEOUL_DISTRICTS;
+    const q = districtSearch.toLowerCase();
+    return SEOUL_DISTRICTS.filter((d) =>
+      Object.values(d.name).some((v) => v.toLowerCase().includes(q)) ||
+      d.slug.includes(q)
+    );
+  }, [districtSearch]);
+
+  const selectedDistrict = useMemo(
+    () => selectedDistrictId !== null ? SEOUL_DISTRICTS.find((d) => d.id === selectedDistrictId) : null,
+    [selectedDistrictId]
   );
 
   const handleSpin = useCallback(() => {
@@ -77,9 +101,19 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
   }, []);
 
   const handleSpinAgain = useCallback(() => {
-    setPhase('idle');
-    setSelectedCafe(null);
-  }, []);
+    if (filteredCafes.length === 0) return;
+
+    const winner = selectRandomCafe(filteredCafes, recentIdsRef.current);
+    recentIdsRef.current.add(winner.id);
+
+    if (recentIdsRef.current.size > Math.floor(filteredCafes.length / 2)) {
+      recentIdsRef.current.clear();
+      recentIdsRef.current.add(winner.id);
+    }
+
+    setSelectedCafe(winner);
+    setPhase('spinning');
+  }, [filteredCafes]);
 
   const handleAdjustFilters = useCallback(() => {
     setPhase('idle');
@@ -105,6 +139,55 @@ export function RouletteClient({ cafes }: RouletteClientProps) {
           onUpdateFilter={updateFilter}
           onClearFilters={clearFilters}
         />
+      </div>
+
+      {/* District search */}
+      <div className="space-y-2">
+        {selectedDistrict ? (
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="gap-1.5 py-1.5 px-3 text-sm">
+              <MapPin className="h-3.5 w-3.5" />
+              {getLocalizedText(selectedDistrict.name, language)}
+            </Badge>
+            <button
+              onClick={() => {
+                setSelectedDistrictId(null);
+                setDistrictSearch('');
+              }}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder={t('roulette.districtSearch')}
+              value={districtSearch}
+              onChange={(e) => setDistrictSearch(e.target.value)}
+              className="pl-9 h-10"
+            />
+          </div>
+        )}
+        {!selectedDistrict && districtSearch.trim() && matchingDistricts.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {matchingDistricts.map((d) => (
+              <Badge
+                key={d.id}
+                variant="outline"
+                className="cursor-pointer hover:bg-accent transition-colors py-1 px-2.5"
+                onClick={() => {
+                  setSelectedDistrictId(d.id);
+                  setDistrictSearch('');
+                }}
+              >
+                {getLocalizedText(d.name, language)}
+              </Badge>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Phase content */}

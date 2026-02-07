@@ -1,0 +1,448 @@
+{
+  "name": "Cafés Seoul",
+  "version": "1.4.0-dev",
+  "description": "A web application for discovering cafes in Seoul with advanced multi-criteria filtering that Kakao Map and Naver Map don't offer. Users can browse, rate, review, and submit cafes with a 10-dimension rating system.",
+  "repository": "cafes-seoul",
+  "status": "active-development",
+  "goal": "Enable users to find the perfect cafe in Seoul by filtering on specific dimensions (seating, wifi quality, food, drinks, lighting, outlets, quietness, price value, comfort) with ratings from 1-5 on each. The app fills a gap left by existing Korean map services which only offer basic search.",
+  "coreValue": "Multi-criteria filtering with 1-5 ratings on each cafe dimension, allowing users to find exactly the type of cafe they are looking for.",
+  "targetAudience": [
+    "Expats and international visitors in Seoul looking for cafes",
+    "Korean locals who want detailed cafe information beyond basic listings",
+    "Remote workers and students seeking specific cafe amenities (wifi, outlets, quiet environment)",
+    "Cafe enthusiasts who want to discover and rate cafes"
+  ],
+  "languages": {
+    "supported": [
+      "en",
+      "ko",
+      "fr",
+      "zh",
+      "vi"
+    ],
+    "default": "en",
+    "details": {
+      "en": "English",
+      "ko": "한국어 (Korean)",
+      "fr": "Français (French)",
+      "zh": "中文 (Chinese)",
+      "vi": "Tiếng Việt (Vietnamese)"
+    },
+    "implementation": "Client-side i18n with cookie-based language persistence, full translation files for all UI strings"
+  },
+  "stack": {
+    "framework": "Next.js 16 (App Router, Server Components, Server Actions)",
+    "language": "TypeScript",
+    "runtime": "Node.js",
+    "ui": {
+      "styling": "Tailwind CSS 4",
+      "components": "shadcn/ui (Radix UI primitives)",
+      "animations": "Framer Motion",
+      "icons": "Lucide React",
+      "toasts": "Sonner"
+    },
+    "backend": {
+      "database": "Supabase (PostgreSQL)",
+      "auth": "Supabase Auth (email/password, Google OAuth, Kakao OAuth)",
+      "storage": "Supabase Storage (photos, avatars)",
+      "edgeFunctions": "Supabase Edge Functions (Deno runtime)",
+      "scheduling": "pg_cron for daily digest emails"
+    },
+    "maps": {
+      "provider": "Kakao Maps",
+      "sdk": "react-kakao-maps-sdk",
+      "features": [
+        "Interactive map",
+        "Marker clustering",
+        "Static maps",
+        "Custom overlays",
+        "Directions links"
+      ]
+    },
+    "stateManagement": {
+      "global": "Zustand",
+      "server": "TanStack React Query",
+      "forms": "React Hook Form + Zod validation"
+    },
+    "security": {
+      "passwordStrength": "zxcvbn-ts",
+      "unsubscribeTokens": "HMAC-signed with expiry"
+    }
+  },
+  "features": {
+    "cafeDiscovery": {
+      "description": "Browse, search, and filter cafes in Seoul",
+      "capabilities": [
+        "Paginated cafe list with search by name/address",
+        "Filter by district, cafe type, price range",
+        "Filter by boolean features (wifi, outlets, pet-friendly, laptop-friendly, parking)",
+        "Filter by minimum rating on any of 9 dimensions",
+        "Detailed cafe profile pages with photos, ratings, and reviews",
+        "25 Seoul districts with localized names (ko, en, fr, zh, vi)"
+      ]
+    },
+    "interactiveMap": {
+      "description": "Kakao Maps integration with advanced filtering",
+      "capabilities": [
+        "Full-screen interactive map with cafe markers",
+        "Marker clustering for dense areas",
+        "Sidebar filter panel (desktop) / slide-out sheet (mobile)",
+        "9 rating dimension sliders + 5 feature toggles",
+        "Favorites filter (show only favorited cafes)",
+        "Cafe info popups with photo, rating, directions link",
+        "Color-coded markers (red for favorites, blue for others)"
+      ]
+    },
+    "ratingSystem": {
+      "description": "10-dimension rating system for comprehensive cafe evaluation",
+      "dimensions": [
+        "Seating",
+        "WiFi",
+        "Food",
+        "Drinks",
+        "Lighting",
+        "Outlets",
+        "Quietness",
+        "Price/Value",
+        "Comfort",
+        "Overall (auto-calculated)"
+      ],
+      "scale": "1-5 stars per dimension",
+      "features": [
+        "One rating per user per cafe (upsert pattern)",
+        "Automatic aggregate calculation via database triggers",
+        "Visual star rating display"
+      ]
+    },
+    "reviews": {
+      "description": "Text reviews with community engagement",
+      "capabilities": [
+        "Optional text when submitting a rating",
+        "Inline editing of review text",
+        "Helpful voting system",
+        "My Reviews tab with sorting and filtering",
+        "Per-dimension review statistics"
+      ]
+    },
+    "cafeSubmission": {
+      "description": "Community-driven cafe additions with moderation",
+      "capabilities": [
+        "Submit new cafes with Kakao Place search integration",
+        "Duplicate detection before submission",
+        "Admin approval workflow (pending → approved/rejected)",
+        "Rate limit: 3 submissions per day per user",
+        "Edit submissions before approval"
+      ]
+    },
+    "photoSystem": {
+      "description": "Photo uploads with moderation and community voting",
+      "capabilities": [
+        "Upload photos for any cafe",
+        "Image cropping before upload",
+        "Admin moderation (approve/reject with reason)",
+        "Community voting on photos",
+        "Rate limit: 10 uploads per day per user"
+      ]
+    },
+    "authentication": {
+      "description": "Multi-method auth with SSR cookie-based sessions",
+      "methods": [
+        "Email/password",
+        "Google OAuth",
+        "Kakao OAuth"
+      ],
+      "features": [
+        "Email verification flow",
+        "Password reset with strength meter (zxcvbn)",
+        "Persistent sessions via @supabase/ssr",
+        "Protected routes for authenticated features",
+        "Role-based access (user, pro, admin)"
+      ]
+    },
+    "userProfiles": {
+      "description": "Public and private user profiles",
+      "capabilities": [
+        "Avatar upload with cropping",
+        "Bio and display name editing",
+        "Public profile page at /user/[id]",
+        "Privacy toggle (public/private profile)",
+        "Account deletion with confirmation"
+      ]
+    },
+    "favorites": {
+      "description": "Bookmark and filter favorite cafes",
+      "capabilities": [
+        "Heart toggle on cafe cards and detail pages",
+        "Favorites list in profile",
+        "Filter map to show only favorites",
+        "Optimistic UI with error revert"
+      ]
+    },
+    "coffeeRoulette": {
+      "description": "Random cafe discovery feature",
+      "capabilities": [
+        "Animated spinning wheel to pick a random cafe",
+        "Respects all active filters (rating dimensions, features)",
+        "District search to limit to a specific area",
+        "Weighted random selection (higher-rated cafes more likely)",
+        "Avoids recently shown cafes",
+        "Direct spin-again without returning to idle state",
+        "Get directions link to Kakao Maps"
+      ]
+    },
+    "notifications": {
+      "description": "Email notification system",
+      "capabilities": [
+        "Notification preferences with 4 toggle switches",
+        "Daily digest email at 9 AM KST via Edge Function + pg_cron",
+        "Submission status change notifications",
+        "One-click unsubscribe with HMAC-signed tokens",
+        "Localized email templates (5 languages)",
+        "Opt-out model (enabled by default)"
+      ]
+    },
+    "adminPanel": {
+      "description": "Administration dashboard for content moderation",
+      "capabilities": [
+        "Admin stats overview (cafes, submissions, photos)",
+        "Cafe management (edit, delete)",
+        "Submission moderation (approve/reject with feedback)",
+        "Photo moderation (approve/reject with reason)",
+        "Recent activity feed",
+        "Responsive: mobile card layout + desktop table layout"
+      ]
+    },
+    "dashboard": {
+      "description": "User contribution dashboard",
+      "capabilities": [
+        "Contribution statistics",
+        "Submissions list with status",
+        "Ratings history",
+        "Photos list"
+      ]
+    }
+  },
+  "pages": {
+    "public": [
+      {
+        "path": "/",
+        "description": "Homepage with hero, search bar, roulette CTA, and popular neighborhoods"
+      },
+      {
+        "path": "/cafes",
+        "description": "Cafe listing with search, filters, and pagination"
+      },
+      {
+        "path": "/cafes/[slug]",
+        "description": "Cafe detail page with photos, ratings, reviews, map"
+      },
+      {
+        "path": "/map",
+        "description": "Interactive Kakao Map with filter sidebar"
+      },
+      {
+        "path": "/roulette",
+        "description": "Coffee roulette random cafe picker"
+      },
+      {
+        "path": "/user/[id]",
+        "description": "Public user profile"
+      }
+    ],
+    "auth": [
+      {
+        "path": "/login",
+        "description": "Login page (email + OAuth)"
+      },
+      {
+        "path": "/signup",
+        "description": "Signup page (email + OAuth)"
+      },
+      {
+        "path": "/verify-email",
+        "description": "Email verification confirmation"
+      },
+      {
+        "path": "/reset-password",
+        "description": "Password reset with strength meter"
+      }
+    ],
+    "authenticated": [
+      {
+        "path": "/dashboard",
+        "description": "User contribution dashboard"
+      },
+      {
+        "path": "/submit",
+        "description": "Cafe submission form"
+      },
+      {
+        "path": "/profile",
+        "description": "User profile with tabs (reviews, favorites, submissions)"
+      },
+      {
+        "path": "/profile/settings",
+        "description": "Account settings (profile, security, notifications)"
+      },
+      {
+        "path": "/profile/reviews",
+        "description": "My reviews list"
+      },
+      {
+        "path": "/profile/favorites",
+        "description": "My favorites list"
+      },
+      {
+        "path": "/profile/submissions",
+        "description": "My submissions list"
+      },
+      {
+        "path": "/profile/submissions/[id]/edit",
+        "description": "Edit pending submission"
+      }
+    ],
+    "admin": [
+      {
+        "path": "/admin",
+        "description": "Admin dashboard with stats and recent activity"
+      },
+      {
+        "path": "/admin/cafes",
+        "description": "Cafe management table"
+      },
+      {
+        "path": "/admin/submissions",
+        "description": "Submission moderation queue"
+      },
+      {
+        "path": "/admin/photos",
+        "description": "Photo moderation queue"
+      }
+    ]
+  },
+  "database": {
+    "provider": "Supabase (PostgreSQL)",
+    "keyTables": [
+      "cafes",
+      "cafe_images",
+      "cafe_ratings",
+      "cafe_reviews",
+      "cafe_submissions",
+      "user_favorites",
+      "profiles",
+      "notification_preferences",
+      "notification_queue",
+      "review_helpful_votes"
+    ],
+    "patterns": [
+      "pg_trgm for fuzzy text search",
+      "Database triggers for rating aggregation",
+      "AFTER triggers for notification queueing",
+      "Partial indexes for efficient queue queries",
+      "Rate limit reset at midnight KST",
+      "Upsert pattern with ON CONFLICT for ratings"
+    ]
+  },
+  "designPatterns": {
+    "authentication": "Supabase Auth with @supabase/ssr for cookie-based SSR sessions. getUser() (not getSession()) in server code. onAuthStateChange subscription in client components.",
+    "serverActions": "Next.js Server Actions for all data mutations (ratings, reviews, submissions, photos, favorites, profile updates).",
+    "optimisticUI": "useTransition + useState + error revert for toggle interactions (favorites, helpful votes).",
+    "i18n": "Client-side translation with cookie-based language persistence. TranslatedText type (Record<string, string>) for database content. getLocalizedText() helper with fallback chain.",
+    "responsiveDesign": "Mobile-first approach. 44px touch targets (WCAG AAA). flex-col sm:flex-row for mobile stacking. overflow-x-hidden on body. max-h-[80vh] for mobile panels.",
+    "errorHandling": "Server Actions return { success, error } objects. Client-side toast notifications via Sonner.",
+    "codeOrganization": "Feature-based component folders (auth, map, roulette, ratings, reviews, photos, favorites, profile, admin, submissions). Shared UI in components/ui (shadcn)."
+  },
+  "accessibility": {
+    "touchTargets": "44px minimum (WCAG AAA)",
+    "viewport": "device-width, max-scale 5 (allows zoom per WCAG)",
+    "responsive": "Fully usable from 320px to desktop",
+    "ariaLabels": "On interactive elements, sr-only text for screen readers",
+    "keyboardNavigation": "Radix UI primitives provide built-in keyboard support"
+  },
+  "milestones": {
+    "v1.0": {
+      "name": "MVP",
+      "shipped": "2026-01-29",
+      "phases": "1-6 (20 plans)",
+      "highlights": [
+        "Cafe browsing and search",
+        "Authentication (email + OAuth)",
+        "Interactive map with filters",
+        "Multilingual support (5 languages)"
+      ]
+    },
+    "v1.1": {
+      "name": "User Contributions",
+      "shipped": "2026-01-31",
+      "phases": "7-11 (24 plans)",
+      "highlights": [
+        "10-dimension rating system",
+        "Cafe submission with moderation",
+        "Photo uploads with voting",
+        "Admin panel",
+        "User dashboard"
+      ]
+    },
+    "v1.2": {
+      "name": "Polish & Bug Fixes",
+      "shipped": "2026-02-01",
+      "phases": "12 (4 plans)",
+      "highlights": [
+        "Rating cancel i18n fix",
+        "Admin link in dropdown",
+        "Simplified submission form",
+        "Layout fixes"
+      ]
+    },
+    "v1.3": {
+      "name": "Profile Enhancement",
+      "shipped": "2026-02-01",
+      "phases": "13-18 (25 plans)",
+      "highlights": [
+        "User profiles with avatar",
+        "Favorites system",
+        "Text reviews with helpful voting",
+        "Password reset",
+        "Email notifications with daily digest",
+        "Notification preferences"
+      ]
+    },
+    "v1.4": {
+      "name": "Style & Responsive",
+      "status": "in-progress",
+      "phases": "19 (5 plans)",
+      "highlights": [
+        "Mobile responsive audit (320px+)",
+        "44px touch targets",
+        "Responsive layouts for all pages",
+        "Coffee roulette district search"
+      ]
+    }
+  },
+  "futureWork": [
+    "Naver OAuth login",
+    "Review titles",
+    "Favorites collections/lists",
+    "Language preference override",
+    "Data export",
+    "Weekly digest email",
+    "Pro features for cafe owners (v2.0+)"
+  ],
+  "outOfScope": [
+    "Two-factor authentication",
+    "Edit/delete after admin approval",
+    "Review comments/replies",
+    "Gamification/rewards",
+    "Real-time in-app notifications (WebSocket)",
+    "Social following system"
+  ],
+  "codebaseStats": {
+    "totalLines": "~32,500+ TypeScript",
+    "phases": 19,
+    "plansShipped": 77,
+    "pages": 24,
+    "components": "123+",
+    "serverActions": 9,
+    "translations": "5 languages, ~800 keys each"
+  }
+}

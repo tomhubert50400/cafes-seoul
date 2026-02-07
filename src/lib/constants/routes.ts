@@ -4,6 +4,7 @@ export const ROUTES = {
   CAFES: '/cafes',
   CAFE_DETAIL: (slug: string) => `/cafes/${slug}`,
   MAP: '/map',
+  ROULETTE: '/roulette',
   DISTRICTS: '/districts',
   DISTRICT_DETAIL: (slug: string) => `/districts/${slug}`,
 
