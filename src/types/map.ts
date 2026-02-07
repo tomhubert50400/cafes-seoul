@@ -27,6 +27,14 @@ export interface MapFilters {
   showFavoritesOnly?: boolean;
 }
 
+// Filter preset definition
+export interface FilterPreset {
+  id: string;
+  labelKey: string; // i18n key like 'map.presets.workStudy'
+  icon: string;     // lucide-react icon name as string (resolved in component)
+  filters: Partial<MapFilters>;
+}
+
 // Map viewport bounds
 export interface ViewportBounds {
   north: number;
