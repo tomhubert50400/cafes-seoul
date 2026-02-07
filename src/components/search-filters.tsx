@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,16 @@ import { SEOUL_DISTRICTS } from '@/lib/constants/districts';
 import { CAFE_TYPE_LABELS, getLocalizedText } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
+import { FILTER_PRESETS } from '@/lib/filter-presets';
+import { PresetBadges } from '@/components/map/preset-badges';
+
+const BOOLEAN_FILTER_MAP: Record<string, string> = {
+  hasWifi: 'hasWifi',
+  hasPowerOutlets: 'hasOutlets',
+  isPetFriendly: 'isPetFriendly',
+  isLaptopFriendly: 'isLaptopFriendly',
+  hasParking: 'hasParking',
+};
 
 interface SearchFiltersProps {
   className?: string;
@@ -43,12 +53,73 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     router.push('?');
   }, [router]);
 
+  const handlePresetSelect = useCallback((presetId: string) => {
+    const preset = FILTER_PRESETS.find(p => p.id === presetId);
+    if (!preset) return;
+
+    const params = new URLSearchParams();
+
+    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
+      if (preset.filters[filterKey as keyof typeof preset.filters] === true) {
+        params.set(urlParam, 'true');
+      }
+    }
+
+    // Preserve current sort preference
+    const currentSort = searchParams.get('sortBy');
+    if (currentSort) params.set('sortBy', currentSort);
+
+    router.push(`?${params.toString()}`);
+  }, [router, searchParams]);
+
+  const matchedPresetId = useMemo(() => {
+    const currentBooleans: Record<string, boolean> = {};
+    for (const [filterKey, urlParam] of Object.entries(BOOLEAN_FILTER_MAP)) {
+      currentBooleans[filterKey] = searchParams.get(urlParam) === 'true';
+    }
+
+    const hasExtraFilters = !!(
+      searchParams.get('district') ||
+      searchParams.get('cafeType') ||
+      searchParams.get('q')
+    );
+    if (hasExtraFilters) return null;
+
+    for (const preset of FILTER_PRESETS) {
+      const presetBooleanKeys = Object.keys(BOOLEAN_FILTER_MAP).filter(
+        key => preset.filters[key as keyof typeof preset.filters] === true
+      );
+
+      if (presetBooleanKeys.length === 0) continue;
+
+      const presetBooleansMatch = presetBooleanKeys.every(
+        key => currentBooleans[key] === true
+      );
+
+      const extraBooleansOff = Object.keys(BOOLEAN_FILTER_MAP)
+        .filter(key => !presetBooleanKeys.includes(key))
+        .every(key => currentBooleans[key] === false);
+
+      if (presetBooleansMatch && extraBooleansOff) {
+        return preset.id;
+      }
+    }
+
+    return null;
+  }, [searchParams]);
+
   const hasActiveFilters =
     searchParams.get('district') ||
     searchParams.get('cafeType');
 
   return (
     <div className={cn('space-y-4', className)}>
+      {/* Preset Badges */}
+      <PresetBadges
+        onPresetSelect={handlePresetSelect}
+        matchedPresetId={matchedPresetId}
+      />
+
       {/* Search bar */}
       <div className="flex gap-2">
         <Input
