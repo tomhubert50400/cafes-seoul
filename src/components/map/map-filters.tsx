@@ -7,6 +7,7 @@ import { PresetBadges } from './preset-badges';
 import { Wifi, Plug, Dog, Armchair, Car, X, Heart } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { useI18n } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
 import type { MapFilters } from '@/types/map';
 
 interface MapFiltersProps {
@@ -18,6 +19,7 @@ interface MapFiltersProps {
   favoritesCount?: number;
   applyPreset?: (presetId: string) => void;
   matchedPresetId?: string | null;
+  className?: string;
 }
 
 export function MapFiltersPanel({
@@ -29,6 +31,7 @@ export function MapFiltersPanel({
   favoritesCount = 0,
   applyPreset,
   matchedPresetId,
+  className,
 }: MapFiltersProps) {
   const { t } = useI18n();
 
@@ -53,18 +56,13 @@ export function MapFiltersPanel({
   }).length;
 
   return (
-    <div className="space-y-6 p-4 min-[320px]:pl-8 min-[340px]:pl-4">
+    <div className={cn("space-y-6 p-4", className)}>
       {/* Preset Badges */}
       {applyPreset && (
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-            {t('map.presets.title')}
-          </h3>
-          <PresetBadges
-            onPresetSelect={applyPreset}
-            matchedPresetId={matchedPresetId}
-          />
-        </div>
+        <PresetBadges
+          onPresetSelect={applyPreset}
+          matchedPresetId={matchedPresetId}
+        />
       )}
 
       {/* Header */}
