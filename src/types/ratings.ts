@@ -41,9 +41,17 @@ export interface UserRating {
   /** Power outlet availability rating 0-5 */
   outlets: number;
   
-  // Additional indicators
+  // Boolean feature indicators
+  /** Whether the user marked cafe as having wifi */
+  hasWifi: boolean;
+  /** Whether the user marked cafe as having power outlets */
+  hasPowerOutlets: boolean;
+  /** Whether the user marked cafe as laptop-friendly */
+  isLaptopFriendly: boolean;
   /** Whether the user marked cafe as pet-friendly */
   petFriendly: boolean;
+  /** Whether the user marked cafe as having parking */
+  hasParking: boolean;
   
   // Review text (Phase 16)
   /** Optional review text content (max 500 chars) */
@@ -137,8 +145,16 @@ export interface RatingInput {
   /** Power outlet availability rating (undefined = not rated) */
   outlets?: number;
 
+  /** Wifi indicator (default: false) */
+  hasWifi?: boolean;
+  /** Power outlets indicator (default: false) */
+  hasPowerOutlets?: boolean;
+  /** Laptop-friendly indicator (default: false) */
+  isLaptopFriendly?: boolean;
   /** Pet-friendly indicator (default: false) */
   petFriendly?: boolean;
+  /** Parking indicator (default: false) */
+  hasParking?: boolean;
 
   /** Optional review text (max 500 chars) */
   reviewText?: string;
@@ -350,7 +366,11 @@ export function createEmptyRatingInput(cafeId: string): RatingInput {
     food: 0,
     lighting: 0,
     outlets: 0,
+    hasWifi: false,
+    hasPowerOutlets: false,
+    isLaptopFriendly: false,
     petFriendly: false,
+    hasParking: false,
   };
 }
 
@@ -372,6 +392,10 @@ export function toDatabaseRating(input: RatingInput): Record<string, unknown> {
     food: input.food ?? 0,
     lighting: input.lighting ?? 0,
     outlets: input.outlets ?? 0,
+    has_wifi: input.hasWifi ?? false,
+    has_power_outlets: input.hasPowerOutlets ?? false,
+    is_laptop_friendly: input.isLaptopFriendly ?? false,
     pet_friendly: input.petFriendly ?? false,
+    has_parking: input.hasParking ?? false,
   };
 }

@@ -16,7 +16,11 @@ export const ratingFormSchema = z.object({
   seating: z.number().int().min(0).max(5).default(0),
   comfort: z.number().int().min(0).max(5).default(0),
   food: z.number().int().min(0).max(5).default(0),
+  hasWifi: z.boolean().default(false),
+  hasPowerOutlets: z.boolean().default(false),
+  isLaptopFriendly: z.boolean().default(false),
   petFriendly: z.boolean().default(false),
+  hasParking: z.boolean().default(false),
   lighting: z.number().int().min(0).max(5).default(0),
   outlets: z.number().int().min(0).max(5).default(0),
   // Optional review text (max 500 chars)
@@ -41,7 +45,11 @@ export type RatingFormData = {
   seating: number;
   comfort: number;
   food: number;
+  hasWifi: boolean;
+  hasPowerOutlets: boolean;
+  isLaptopFriendly: boolean;
   petFriendly: boolean;
+  hasParking: boolean;
   lighting: number;
   outlets: number;
   reviewText?: string;
@@ -61,7 +69,7 @@ export function hasOptionalRatings(data: RatingFormData): boolean {
     data.food,
     data.lighting,
     data.outlets,
-  ].some(v => v > 0) || data.petFriendly;
+  ].some(v => v > 0) || data.hasWifi || data.hasPowerOutlets || data.isLaptopFriendly || data.petFriendly || data.hasParking;
 }
 
 /**
@@ -78,7 +86,11 @@ export function toRatingInput(data: RatingFormData) {
     seating: data.seating || 0,
     comfort: data.comfort || 0,
     food: data.food || 0,
+    hasWifi: data.hasWifi,
+    hasPowerOutlets: data.hasPowerOutlets,
+    isLaptopFriendly: data.isLaptopFriendly,
     petFriendly: data.petFriendly,
+    hasParking: data.hasParking,
     lighting: data.lighting || 0,
     outlets: data.outlets || 0,
     reviewText: data.reviewText,

@@ -3,6 +3,7 @@
 import { RatingDisplay } from './rating-display';
 import { RatingButton } from './rating-button';
 import { useI18n } from '@/lib/i18n';
+import { Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
 import type { Cafe } from '@/types/cafe';
 import type { UserRating } from '@/types/ratings';
 import { RATING_DIMENSION_LABELS } from '@/types/ratings';
@@ -85,11 +86,43 @@ export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsS
           cafeName={cafe.name[language] || cafe.name.en}
           cafeSlug={cafe.slug}
           existingRating={userRating}
+          cafeFeatures={{
+            hasWifi: cafe.hasWifi,
+            hasPowerOutlets: cafe.hasPowerOutlets,
+            isLaptopFriendly: cafe.isLaptopFriendly,
+            isPetFriendly: cafe.isPetFriendly,
+            hasParking: cafe.hasParking,
+          }}
           onRatingSubmitted={onRatingSubmitted}
           className="w-full sm:w-auto"
           autoOpenFromUrl
         />
       </div>
+
+      {/* Boolean Feature Icons */}
+      {hasRatings && (() => {
+        const features = [
+          { key: 'hasWifi', icon: Wifi, active: cafe.hasWifi },
+          { key: 'hasPowerOutlets', icon: Plug, active: cafe.hasPowerOutlets },
+          { key: 'isLaptopFriendly', icon: Laptop, active: cafe.isLaptopFriendly },
+          { key: 'isPetFriendly', icon: PawPrint, active: cafe.isPetFriendly },
+          { key: 'hasParking', icon: Car, active: cafe.hasParking },
+        ];
+        const activeFeatures = features.filter(f => f.active);
+        if (activeFeatures.length === 0) return null;
+        return (
+          <div className="flex gap-2">
+            {activeFeatures.map(({ key, icon: Icon }) => (
+              <div
+                key={key}
+                className="p-2 rounded-full border border-green-600 bg-green-50 text-green-600 dark:border-green-400 dark:bg-green-950 dark:text-green-400"
+              >
+                <Icon className="h-4 w-4" />
+              </div>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Breakdown - Grid Layout */}
       {hasRatings && (

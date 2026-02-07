@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useI18n } from '@/lib/i18n';
 import { useAuth } from '@/lib/auth';
 import { RatingForm } from './rating-form';
+import type { CafeFeatures } from './rating-form';
 import type { UserRating } from '@/types/ratings';
 
 interface RatingButtonProps {
@@ -14,6 +15,7 @@ interface RatingButtonProps {
   cafeName: string;
   cafeSlug: string;
   existingRating?: UserRating | null;
+  cafeFeatures?: CafeFeatures;
   variant?: 'default' | 'outline' | 'ghost' | 'secondary';
   size?: 'default' | 'sm' | 'lg' | 'icon';
   className?: string;
@@ -29,6 +31,7 @@ export function RatingButton({
   cafeName,
   cafeSlug,
   existingRating,
+  cafeFeatures,
   variant = 'default',
   size = 'default',
   className,
@@ -98,6 +101,7 @@ export function RatingButton({
             cafeId={cafeId}
             cafeName={cafeName}
             existingRating={existingRating}
+            cafeFeatures={cafeFeatures}
             onSuccess={handleSuccess}
             onCancel={() => setIsOpen(false)}
           />

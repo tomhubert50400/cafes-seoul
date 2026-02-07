@@ -31,7 +31,11 @@ export async function upsertRating(
           seating: data.seating ?? 0,
           comfort: data.comfort ?? 0,
           food: data.food ?? 0,
+          has_wifi: data.hasWifi ?? false,
+          has_power_outlets: data.hasPowerOutlets ?? false,
+          is_laptop_friendly: data.isLaptopFriendly ?? false,
           pet_friendly: data.petFriendly ?? false,
+          has_parking: data.hasParking ?? false,
           lighting: data.lighting ?? 0,
           outlets: data.outlets ?? 0,
           review_text: data.reviewText || null,
@@ -343,7 +347,11 @@ async function updateCafeAveragesFallback(
         food:avg(nullif(food, 0))::float,
         lighting:avg(nullif(lighting, 0))::float,
         outlets:avg(nullif(outlets, 0))::float,
-        pet_friendly_percent:avg(case when pet_friendly then 1.0 else 0.0 end)::float,
+        wifi_pct:avg(case when has_wifi then 1.0 else 0.0 end)::float,
+        outlets_pct:avg(case when has_power_outlets then 1.0 else 0.0 end)::float,
+        laptop_pct:avg(case when is_laptop_friendly then 1.0 else 0.0 end)::float,
+        pet_pct:avg(case when pet_friendly then 1.0 else 0.0 end)::float,
+        parking_pct:avg(case when has_parking then 1.0 else 0.0 end)::float,
         count:count(*)::int
       `
       )
@@ -357,13 +365,14 @@ async function updateCafeAveragesFallback(
 
     // Cast via unknown to handle Supabase parser limitations with complex SQL
     const statsData = (stats as unknown) as Record<string, unknown> | null;
+    const totalCount = (statsData?.count as number) || 0;
 
     // Update the cafes table with calculated averages
     const { error: updateError } = await supabase
       .from('cafes')
       .update({
         overall_rating: (statsData?.overall as number) || 0,
-        total_ratings: (statsData?.count as number) || 0,
+        total_ratings: totalCount,
         rating_drinks: statsData?.drinks as number | null,
         rating_wifi: statsData?.wifi as number | null,
         rating_price_value: statsData?.price_value as number | null,
@@ -373,9 +382,12 @@ async function updateCafeAveragesFallback(
         rating_food: statsData?.food as number | null,
         rating_lighting: statsData?.lighting as number | null,
         rating_outlets: statsData?.outlets as number | null,
-        rating_pet_friendly: statsData?.pet_friendly_percent
-          ? (statsData.pet_friendly_percent as number) >= 0.5
-          : null,
+        // Aggregate booleans: true if >= 50% of raters said yes
+        has_wifi: totalCount > 0 && (statsData?.wifi_pct as number) >= 0.5 ? true : undefined,
+        has_power_outlets: totalCount > 0 && (statsData?.outlets_pct as number) >= 0.5 ? true : undefined,
+        is_laptop_friendly: totalCount > 0 && (statsData?.laptop_pct as number) >= 0.5 ? true : undefined,
+        is_pet_friendly: totalCount > 0 && (statsData?.pet_pct as number) >= 0.5 ? true : undefined,
+        has_parking: totalCount > 0 && (statsData?.parking_pct as number) >= 0.5 ? true : undefined,
         updated_at: new Date().toISOString(),
       })
       .eq('id', cafeId);

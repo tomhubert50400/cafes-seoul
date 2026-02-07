@@ -3,7 +3,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,14 +10,23 @@ import { useI18n } from '@/lib/i18n';
 import { ratingFormSchema, RatingFormData } from '@/lib/validations/ratings';
 import { submitRating } from '@/lib/actions/ratings';
 import type { UserRating } from '@/types/ratings';
-import { Star, Loader2, ChevronDown } from 'lucide-react';
+import { Star, Loader2, Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+
+export interface CafeFeatures {
+  hasWifi: boolean;
+  hasPowerOutlets: boolean;
+  isLaptopFriendly: boolean;
+  isPetFriendly: boolean;
+  hasParking: boolean;
+}
 
 export interface RatingFormProps {
   cafeId: string;
   cafeName: string;
   existingRating?: UserRating | null;
+  cafeFeatures?: CafeFeatures;
   onSuccess?: () => void;
   onCancel?: () => void;
 }
@@ -39,6 +47,7 @@ export function RatingForm({
   cafeId,
   cafeName,
   existingRating,
+  cafeFeatures,
   onSuccess,
   onCancel,
 }: RatingFormProps) {
@@ -48,11 +57,6 @@ export function RatingForm({
 
   const isUpdateMode = !!existingRating;
 
-  // State for collapsible review text section
-  // Default to expanded if there's existing review text
-  const [showReviewField, setShowReviewField] = useState(
-    !!existingRating?.reviewText
-  );
 
   // Prepare default values based on existing rating or empty defaults
   const defaultValues: RatingFormData = existingRating
@@ -66,7 +70,11 @@ export function RatingForm({
         seating: existingRating.seating,
         comfort: existingRating.comfort,
         food: existingRating.food,
+        hasWifi: existingRating.hasWifi,
+        hasPowerOutlets: existingRating.hasPowerOutlets,
+        isLaptopFriendly: existingRating.isLaptopFriendly,
         petFriendly: existingRating.petFriendly,
+        hasParking: existingRating.hasParking,
         lighting: existingRating.lighting,
         outlets: existingRating.outlets,
         reviewText: existingRating.reviewText || '',
@@ -81,7 +89,11 @@ export function RatingForm({
         seating: 0,
         comfort: 0,
         food: 0,
-        petFriendly: false,
+        hasWifi: cafeFeatures?.hasWifi ?? false,
+        hasPowerOutlets: cafeFeatures?.hasPowerOutlets ?? false,
+        isLaptopFriendly: cafeFeatures?.isLaptopFriendly ?? false,
+        petFriendly: cafeFeatures?.isPetFriendly ?? false,
+        hasParking: cafeFeatures?.hasParking ?? false,
         lighting: 0,
         outlets: 0,
         reviewText: '',
@@ -368,66 +380,62 @@ export function RatingForm({
               )}
             />
 
-            {/* Pet Friendly Toggle */}
-            <Controller
-              name="petFriendly"
-              control={control}
-              render={({ field }) => (
-                <div className="flex items-center justify-between gap-3 rounded-lg border p-3 sm:p-4 mt-4">
-                  <div className="min-w-0 flex-1">
-                    <Label className="font-medium">{t('rating.petFriendly')}</Label>
-                    <p className="text-xs sm:text-sm text-muted-foreground">
-                      {t('rating.petFriendlyDescription')}
-                    </p>
-                  </div>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    className="shrink-0"
-                  />
-                </div>
-              )}
-            />
+          </div>
+
+          {/* Boolean Feature Icons */}
+          <div className="flex justify-center gap-3 pt-4 mb-4 border-t">
+            {([
+              { name: 'hasWifi' as const, icon: Wifi },
+              { name: 'hasPowerOutlets' as const, icon: Plug },
+              { name: 'isLaptopFriendly' as const, icon: Laptop },
+              { name: 'petFriendly' as const, icon: PawPrint },
+              { name: 'hasParking' as const, icon: Car },
+            ]).map(({ name, icon: Icon }) => (
+              <Controller
+                key={name}
+                name={name}
+                control={control}
+                render={({ field }) => (
+                  <button
+                    type="button"
+                    onClick={() => field.onChange(!field.value)}
+                    className={cn(
+                      'p-2 sm:p-3 rounded-full border-2 transition-all',
+                      field.value
+                        ? 'border-green-500 bg-green-50 text-green-600 dark:bg-green-950 dark:text-green-400 dark:border-green-600'
+                        : 'border-muted text-muted-foreground hover:border-muted-foreground/50'
+                    )}
+                  >
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </button>
+                )}
+              />
+            ))}
           </div>
 
           {/* Optional Review Text Section */}
-          <div className="pt-4 border-t">
-            <button
-              type="button"
-              onClick={() => setShowReviewField(!showReviewField)}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ChevronDown
-                className={cn(
-                  'h-4 w-4 transition-transform duration-200',
-                  showReviewField && 'rotate-180'
-                )}
-              />
+          <div className="pt-4 border-t space-y-2">
+            <p className="text-sm text-muted-foreground">
               {t('rating.addReviewOptional')}
-            </button>
-
-            {showReviewField && (
-              <div className="mt-3 space-y-2">
-                <Textarea
-                  {...register('reviewText')}
-                  placeholder={t('rating.reviewPlaceholder')}
-                  maxLength={500}
-                  className="min-h-[100px] resize-none"
-                />
-                {reviewTextValue.length > 0 && (
-                  <p className="text-right text-xs text-muted-foreground">
-                    {t('rating.charactersRemaining').replace(
-                      '{count}',
-                      String(charactersRemaining)
-                    )}
-                  </p>
+            </p>
+            <Textarea
+              {...register('reviewText')}
+              placeholder={t('rating.reviewPlaceholder')}
+              maxLength={500}
+              className="min-h-[100px] resize-none"
+            />
+            {reviewTextValue.length > 0 && (
+              <p className="text-right text-xs text-muted-foreground">
+                {t('rating.charactersRemaining').replace(
+                  '{count}',
+                  String(charactersRemaining)
                 )}
-                {errors.reviewText && (
-                  <p className="text-sm text-destructive">
-                    {t(errors.reviewText.message || 'validation.reviewTextTooLong')}
-                  </p>
-                )}
-              </div>
+              </p>
+            )}
+            {errors.reviewText && (
+              <p className="text-sm text-destructive">
+                {t(errors.reviewText.message || 'validation.reviewTextTooLong')}
+              </p>
             )}
           </div>
 

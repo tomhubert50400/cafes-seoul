@@ -15,7 +15,7 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-zinc-100 to-background dark:from-zinc-900 dark:to-background">
-      <div className="mx-auto max-w-6xl px-4 py-12 text-center md:py-20 lg:py-32">
+      <div className="mx-auto max-w-6xl px-4 pt-4 text-center md:pt-8 lg:pt-12">
         <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
           {t('home.hero.title1')} <span className="text-primary">{t('home.hero.title2')}</span>
           <br />
