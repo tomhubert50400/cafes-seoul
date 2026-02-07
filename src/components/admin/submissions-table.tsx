@@ -41,6 +41,67 @@ export function SubmissionsTable({ submissions, translations }: SubmissionsTable
 
   return (
     <>
+      <div className="w-full overflow-hidden">
+        {/* Mobile: Card Layout */}
+        <div className="divide-y md:hidden">
+          {submissions.map((submission) => (
+            <div key={submission.id} className="p-4 space-y-3">
+              {/* Name */}
+              <div className="min-w-0">
+                <div className="font-medium truncate">
+                  {submission.name.en || submission.name.ko}
+                </div>
+                {submission.name.ko && submission.name.en && (
+                  <div className="text-sm text-muted-foreground truncate">
+                    {submission.name.ko}
+                  </div>
+                )}
+              </div>
+
+              {/* Address */}
+              <div className="text-sm text-muted-foreground line-clamp-2">
+                {submission.address.en || submission.address.ko}
+              </div>
+
+              {/* Submitter & Date */}
+              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <span>{submission.user.displayName || submission.user.email}</span>
+                <span>{formatDate(submission.createdAt)}</span>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700 flex-1 min-h-[44px]"
+                  onClick={() => setApproveModalSubmission(submission)}
+                >
+                  <Check className="size-4" />
+                  <span className="ml-1">{translations['admin.approve.button']}</span>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="min-h-[44px]"
+                  onClick={() => setEditModalSubmission(submission)}
+                >
+                  <Pencil className="size-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  className="min-h-[44px]"
+                  onClick={() => setRejectModalSubmission(submission)}
+                >
+                  <X className="size-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: Table Layout */}
+        <div className="hidden md:block overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
@@ -113,6 +174,8 @@ export function SubmissionsTable({ submissions, translations }: SubmissionsTable
           ))}
         </TableBody>
       </Table>
+        </div>
+      </div>
 
       {/* Approve Modal */}
       {approveModalSubmission && (

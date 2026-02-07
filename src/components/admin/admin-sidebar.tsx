@@ -16,7 +16,7 @@ export function AdminSidebar() {
         <Button
           variant="outline"
           size="icon"
-          className="fixed left-4 top-[4.5rem] z-50 bg-background shadow-md"
+          className="fixed left-4 top-[4.5rem] z-50 bg-background shadow-md h-12 w-12"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
         >
