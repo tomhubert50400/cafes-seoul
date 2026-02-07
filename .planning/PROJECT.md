@@ -6,16 +6,17 @@ Une application web pour découvrir des cafés à Seoul avec des critères de fi
 
 ## Current State
 
-**Latest Release:** v1.4 Style & Responsive (2026-02-07)
-**Codebase:** ~34,000 lines TypeScript (Next.js 16 + Supabase)
+**Latest Release:** v1.5 Vibe Search (2026-02-07)
+**Codebase:** ~34,800 lines TypeScript (Next.js 16 + Supabase)
 
-**Shipped in v1.4:**
-- WCAG AAA touch targets (44px minimum) on all interactive elements
-- Viewport metadata with proper mobile rendering (maximumScale: 5)
-- Mobile-first responsive layouts across all 38 routes (320px+)
-- Roulette spinner animation containment for narrow viewports
-- Admin panel mobile card layout for complex data tables
-- Global overflow prevention (overflow-x-hidden on body)
+**Shipped in v1.5:**
+- 3 smart filter presets (Work/Study, Aesthetic/Date, Quick Stop)
+- Preset matching engine with shallow field comparison + extra-filter detection
+- Collapsible PresetBadges component (+/- toggle, hidden by default)
+- Integration across map, cafes list, and roulette pages (inside filter sheets)
+- Full filter sheet on cafes list page with 9 rating dimension server-side filters
+- Preset toggle behavior (click again to deselect)
+- i18n for preset labels in 5 languages
 
 **Rate limits:** 3 cafe submissions/day, unlimited ratings, 10 photo uploads/day
 
@@ -56,8 +57,11 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - ✓ Password reset via email link — v1.3
 - ✓ Notification preferences with toggle switches — v1.3
 - ✓ Email notifications for submission status changes — v1.3
+- ✓ WCAG AAA touch targets and mobile responsive layouts — v1.4
+- ✓ Smart filter presets (vibes) for quick cafe discovery — v1.5
+- ✓ Full filter sheet on cafes list page with server-side rating filters — v1.5
 
-### Deferred (v1.4+)
+### Deferred (v2.0+)
 
 - [ ] Naver OAuth login
 - [ ] Review titles (TXT-02)
@@ -102,6 +106,9 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 - Mobile stacking: flex-col sm:flex-row, w-full sm:w-auto patterns
 - Viewport: maximumScale 5, never disable zoom (WCAG)
 - Overflow: overflow-x-hidden on body, overflow-hidden on animation containers
+- Filter presets: Partial<MapFilters> definitions with shallow matching + extra-filter detection
+- Collapsible UI: useState(false) + Plus/Minus toggle for progressive disclosure
+- Bidirectional URL sync: useEffect with refs to prevent infinite loops (search-filters)
 
 ## Constraints
 
@@ -128,6 +135,11 @@ Filtrage multi-critères avec notes 1-5 sur chaque dimension du café - permetta
 | flex-col sm:flex-row for mobile stacking | Show all content on mobile instead of hiding | ✓ Good (v1.4) |
 | Input h-11 (44px) globally | Consistent touch targets across all forms | ✓ Good (v1.4) |
 | Admin mobile card layout pattern | Complex tables unusable on mobile; cards solve it | ✓ Good (v1.4) |
+| Inline DEFAULT_FILTER_VALUES in filter-presets | Avoids circular dependency with use-map-filters | ✓ Good (v1.5) |
+| Collapsible PresetBadges hidden by default | Cleaner initial UI, vibes are opt-in discovery | ✓ Good (v1.5) |
+| flex-wrap for preset badges (no scroll) | All badges visible at once, no scroll management | ✓ Good (v1.5) |
+| Presets inside filter sheets, not page surface | Consistent UX, presets are a filter refinement | ✓ Good (v1.5) |
+| Full MapFiltersPanel on cafes list page | Same filter experience across all pages | ✓ Good (v1.5) |
 
 ---
-*Last updated: 2026-02-07 after v1.4 milestone shipped*
+*Last updated: 2026-02-07 after v1.5 milestone shipped*

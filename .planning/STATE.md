@@ -5,13 +5,13 @@
 See: .planning/PROJECT.md (updated 2026-02-07)
 
 **Core value:** Filtrage multi-criteres avec notes 1-5 sur chaque dimension du cafe
-**Current focus:** All milestones shipped (v1.0-v1.5)
+**Current focus:** v1.5 archived — planning next milestone
 
 ## Current Position
 
-Phase: 20 of 20 — All phases complete
-Status: Idle (no active milestone)
-Last activity: 2026-02-07 — v1.5 Vibe Search milestone shipped
+Phase: None active
+Status: Milestone v1.5 archived, ready for next milestone
+Last activity: 2026-02-07 — v1.5 archived
 
 Progress: v1.0 [6] v1.1 [5] v1.2 [1] v1.3 [6] v1.4 [1] v1.5 [1] = 20 phases (81 plans shipped)
 
@@ -62,7 +62,7 @@ None
 ## Session Continuity
 
 Last session: 2026-02-07
-Stopped at: v1.5 milestone complete
+Stopped at: v1.5 milestone archived
 Resume file: None
 Next action: /gsd:new-milestone when ready for next version
 

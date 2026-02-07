@@ -1,5 +1,31 @@
 # Project Milestones: Cafes Seoul
 
+## v1.5 Vibe Search (Shipped: 2026-02-07)
+
+**Delivered:** Smart filter presets ("vibes") that let users quickly find cafes matching common use-cases without manually configuring 9+ filter dimensions
+
+**Phases completed:** 20 (3 plans total)
+
+**Key accomplishments:**
+- Smart filter preset system with 3 vibes (Work/Study, Aesthetic/Date, Quick Stop)
+- Preset matching engine with shallow field comparison and extra-filter detection
+- Collapsible PresetBadges component with +/- toggle, hidden by default
+- Integration across all 3 pages (map, cafes list, roulette) inside filter sheets
+- Full filter sheet on cafes list page with 9 rating dimension server-side filters
+- i18n support for preset labels in 5 languages (ko/en/fr/zh/vi)
+
+**Stats:**
+- 25 files modified
+- +797 lines of TypeScript
+- 1 phase, 3 plans
+- Same day as v1.4 (2026-02-07)
+
+**Git range:** `feat(20-01)` → `docs(20)`
+
+**What's next:** Project complete for v1.x scope, or plan v2.0 with new features
+
+---
+
 ## v1.4 Style & Responsive (Shipped: 2026-02-07)
 
 **Delivered:** Comprehensive mobile responsive audit and fix across all 38 routes with WCAG AAA touch targets, proper viewport metadata, and no horizontal overflow at 320px
