@@ -13,6 +13,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { RouletteCta } from '@/components/roulette/roulette-cta';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
 import { getFavoriteIdsAction } from '@/lib/actions/favorites';
@@ -110,7 +111,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
       <Header user={user} />
       <main className="mx-auto max-w-6xl px-4 py-8">
         {/* Header with Add Cafe button */}
-        <div className="flex items-start justify-between mb-8">
+        <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <CafesPageHeader />
           <Button asChild className="shrink-0">
             <Link href="/submit">
@@ -118,6 +119,11 @@ export default async function CafesPage({ searchParams }: PageProps) {
               Add Cafe
             </Link>
           </Button>
+        </div>
+
+        {/* Roulette CTA */}
+        <div className="mb-6">
+          <RouletteCta translationKey="cafes.rouletteCta" />
         </div>
 
         <Suspense fallback={null}>

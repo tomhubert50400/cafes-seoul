@@ -73,7 +73,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           value={searchParams.get('district') || ''}
           onValueChange={(value) => updateParams('district', value || null)}
         >
-          <SelectTrigger className="w-[140px]">
+          <SelectTrigger className="w-full min-w-[140px] sm:w-[140px]">
             <SelectValue placeholder={t('filter.district')} />
           </SelectTrigger>
           <SelectContent>
@@ -90,7 +90,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           value={searchParams.get('cafeType') || ''}
           onValueChange={(value) => updateParams('cafeType', value || null)}
         >
-          <SelectTrigger className="w-[140px]">
+          <SelectTrigger className="w-full min-w-[140px] sm:w-[140px]">
             <SelectValue placeholder={t('filter.cafeType')} />
           </SelectTrigger>
           <SelectContent>
@@ -107,7 +107,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           value={searchParams.get('sortBy') || 'rating'}
           onValueChange={(value) => updateParams('sortBy', value)}
         >
-          <SelectTrigger className="w-[140px]">
+          <SelectTrigger className="w-full min-w-[140px] sm:w-[140px]">
             <SelectValue placeholder={t('filter.sort')} />
           </SelectTrigger>
           <SelectContent>
