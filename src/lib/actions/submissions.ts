@@ -13,6 +13,7 @@ import {
   incrementRateLimit,
   findDuplicateCafes,
   getSubmissionStatistics,
+  checkKakaoPlaceIdExists,
 } from '@/lib/supabase/submissions';
 import type {
   CafeSubmission,
