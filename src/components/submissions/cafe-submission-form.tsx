@@ -78,7 +78,21 @@ export function CafeSubmissionForm({
     try {
       const data = buildSubmissionData(selectedPlace);
 
-      // Check for duplicates before submitting
+      // Check for exact kakao_place_id duplicate (blocking)
+      if (onCheckKakaoPlaceId && data.kakaoPlaceId) {
+        const kakaoResult = await onCheckKakaoPlaceId(data.kakaoPlaceId);
+        if (kakaoResult.exists) {
+          setError(
+            kakaoResult.foundIn === 'cafes'
+              ? t('submissions.duplicateKakao.existsInDirectory')
+              : t('submissions.duplicateKakao.alreadySubmitted')
+          );
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      // Check for fuzzy duplicates before submitting
       const potentialDuplicates = await onCheckDuplicates(data.name, data.address);
 
       if (potentialDuplicates.length > 0) {
