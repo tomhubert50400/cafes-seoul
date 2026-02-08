@@ -15,6 +15,7 @@ import {
   getSubmissionStatistics,
   checkKakaoPlaceIdExists,
 } from '@/lib/supabase/submissions';
+import { approveSubmission } from '@/lib/actions/admin';
 import type {
   CafeSubmission,
   SubmissionStatus,
