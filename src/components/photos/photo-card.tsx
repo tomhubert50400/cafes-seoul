@@ -191,8 +191,8 @@ export function PhotoCardSkeleton() {
       className={cn(
         // Layout
         'relative overflow-hidden',
-        // Shape - use portrait as default skeleton
-        'rounded-lg aspect-[3/4]',
+        // Shape - square skeleton
+        'rounded-lg aspect-square',
         // Background
         'bg-zinc-200 dark:bg-zinc-800',
         // Animation
