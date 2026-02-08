@@ -65,14 +65,18 @@ export async function submitCafe(
       return { success: false, error: 'Authentication required' };
     }
 
-    // 2. Check rate limit
-    const rateCheck = await incrementRateLimit(supabase, user.id);
-    if (!rateCheck.success) {
-      return {
-        success: false,
-        error: rateCheck.error,
-        rateLimit: rateCheck.rateLimit,
-      };
+    // 2. Check rate limit (skip for admins)
+    const userIsAdmin = await isAdmin(supabase, user.id);
+    let rateCheck: { success: boolean; rateLimit?: SubmissionRateLimit; error?: string } = { success: true };
+    if (!userIsAdmin) {
+      rateCheck = await incrementRateLimit(supabase, user.id);
+      if (!rateCheck.success) {
+        return {
+          success: false,
+          error: rateCheck.error,
+          rateLimit: rateCheck.rateLimit,
+        };
+      }
     }
 
     // 3. Validate input
