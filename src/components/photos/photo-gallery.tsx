@@ -187,12 +187,7 @@ export function PhotoGallery({
                 <span>{t('photos.loading') || 'Loading...'}</span>
               </>
             ) : (
-              <>
-                <span>{t('photos.showMore') || 'Show more'}</span>
-                <span className="text-zinc-500">
-                  ({photos.length - displayCount} remaining)
-                </span>
-              </>
+              <span>+{photos.length - displayCount}</span>
             )}
           </button>
         </div>
