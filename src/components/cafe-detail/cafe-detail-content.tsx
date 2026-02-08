@@ -216,15 +216,6 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                   }}
                 />
 
-                {/* Photos Section */}
-                <div id="photos-section">
-                  <PhotosSection
-                    cafeId={cafe.id}
-                    initialPhotos={photos}
-                    currentUser={currentUser}
-                  />
-                </div>
-
                 {/* Operating hours */}
                 {Object.keys(cafe.operatingHours).length > 0 && (
                   <div>
