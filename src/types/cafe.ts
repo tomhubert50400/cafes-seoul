@@ -128,16 +128,6 @@ export type CafeType =
 
 export type CafeStatus = 'pending' | 'active' | 'closed' | 'flagged';
 
-export interface CafeImage {
-  id: string;
-  cafeId: string;
-  storagePath: string;
-  thumbnailPath: string | null;
-  altText: TranslatedText | null;
-  isPrimary: boolean;
-  createdAt: string;
-}
-
 export interface District {
   id: number;
   name: TranslatedText;
