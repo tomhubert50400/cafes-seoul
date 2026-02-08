@@ -227,7 +227,7 @@ export function PhotoCardError({
         'relative overflow-hidden',
         'flex flex-col items-center justify-center',
         // Shape
-        'rounded-lg aspect-[3/4]',
+        'rounded-lg aspect-square',
         // Background
         'bg-zinc-100 dark:bg-zinc-800',
         // Border
