@@ -299,17 +299,23 @@ export async function insertPhotoRecord(
   data: PhotoInsertData
 ): Promise<{ success: boolean; photoId?: string; error?: string }> {
   try {
+    const userIsAdmin = await isAdmin(supabase, data.userId);
+    const insertData: Record<string, unknown> = {
+      cafe_id: data.cafeId,
+      user_id: data.userId,
+      storage_path: data.storagePath,
+      file_size: data.fileSize,
+      mime_type: data.mimeType,
+      status: userIsAdmin ? 'approved' : 'pending',
+      upvote_count: 0,
+    };
+    if (userIsAdmin) {
+      insertData.approved_at = new Date().toISOString();
+      insertData.approved_by = data.userId;
+    }
     const { data: result, error } = await supabase
       .from('photos')
-      .insert({
-        cafe_id: data.cafeId,
-        user_id: data.userId,
-        storage_path: data.storagePath,
-        file_size: data.fileSize,
-        mime_type: data.mimeType,
-        status: 'pending',
-        upvote_count: 0,
-      })
+      .insert(insertData)
       .select('id')
       .single();
 
