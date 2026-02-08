@@ -98,6 +98,20 @@ export function getPhotoPublicUrl(
 }
 
 // ============================================
+// ADMIN CHECK
+// ============================================
+
+async function isAdmin(supabase: SupabaseClient, userId: string): Promise<boolean> {
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .single();
+
+  return profile?.role === 'admin';
+}
+
+// ============================================
 // LIMIT CHECKS
 // ============================================
 
