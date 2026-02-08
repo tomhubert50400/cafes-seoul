@@ -248,6 +248,11 @@ export async function checkAllUploadLimits(
   userId: string,
   cafeId: string
 ): Promise<LimitCheckResult> {
+  // Admins have no limits
+  if (await isAdmin(supabase, userId)) {
+    return { canUpload: true, remainingDaily: 999, remainingCafe: 999 };
+  }
+
   // Check daily limit first
   const dailyCheck = await checkDailyLimit(supabase, userId);
 
