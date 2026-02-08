@@ -32,30 +32,28 @@ export async function GET(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // Fetch images separately
-  const { data: images } = await supabase
-    .from('cafe_images')
-    .select('id, storage_path, thumbnail_path, alt_text, is_primary, created_at')
+  // Fetch approved photos
+  const { data: photos } = await supabase
+    .from('photos')
+    .select('id, storage_path, upvote_count, created_at')
     .eq('cafe_id', cafe.id)
-    .eq('is_approved', true)
-    .order('is_primary', { ascending: false })
-    .order('created_at', { ascending: true });
+    .eq('status', 'approved')
+    .order('upvote_count', { ascending: false })
+    .order('created_at', { ascending: false });
 
   const transformedCafe = transformCafe(cafe);
-  const transformedImages: CafeImage[] = (images || []).map((img) => ({
-    id: img.id,
-    cafeId: cafe.id,
-    storagePath: getStorageUrl(img.storage_path) || '',
-    thumbnailPath: getStorageUrl(img.thumbnail_path),
-    altText: img.alt_text || {},
-    isPrimary: img.is_primary,
-    createdAt: img.created_at,
+  const transformedPhotos = (photos || []).map((photo) => ({
+    id: photo.id,
+    storagePath: getStorageUrl(photo.storage_path) || '',
+    url: getStorageUrl(photo.storage_path) || '',
+    upvoteCount: photo.upvote_count,
+    createdAt: photo.created_at,
   }));
 
   return NextResponse.json({
     data: {
       ...transformedCafe,
-      images: transformedImages,
+      photos: transformedPhotos,
     },
   });
 }
