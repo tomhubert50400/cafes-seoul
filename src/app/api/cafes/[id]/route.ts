@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { transformCafe, getStorageUrl } from '@/lib/supabase/transforms';
-import type { CafeImage } from '@/types/cafe';
 
 export async function GET(
   request: NextRequest,
