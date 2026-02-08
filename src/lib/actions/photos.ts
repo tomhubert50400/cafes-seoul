@@ -133,17 +133,23 @@ export async function uploadPhoto(formData: FormData): Promise<UploadPhotoResult
       return { success: false, error: 'Failed to upload photo to storage' };
     }
 
-    // 9. Insert record to photos table with pending status
+    // 7. Insert record to photos table (auto-approved for admins)
+    const photoStatus = userIsAdmin ? 'approved' : 'pending';
+    const insertData: Record<string, unknown> = {
+      user_id: user.id,
+      cafe_id: cafeId,
+      storage_path: storagePath,
+      status: photoStatus,
+      file_size: file.size,
+      mime_type: file.type,
+    };
+    if (userIsAdmin) {
+      insertData.approved_at = new Date().toISOString();
+      insertData.approved_by = user.id;
+    }
     const { data: photo, error: insertError } = await supabase
       .from('photos')
-      .insert({
-        user_id: user.id,
-        cafe_id: cafeId,
-        storage_path: storagePath,
-        status: 'pending',
-        file_size: file.size,
-        mime_type: file.type,
-      })
+      .insert(insertData)
       .select('id')
       .single();
 
