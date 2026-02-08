@@ -383,6 +383,15 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
               </div>
             )}
           </div>
+
+          {/* Photos Section - after sidebar on mobile, below main on desktop */}
+          <div className="order-3 lg:col-span-2" id="photos-section">
+            <PhotosSection
+              cafeId={cafe.id}
+              initialPhotos={photos}
+              currentUser={currentUser}
+            />
+          </div>
         </div>
       </main>
 
