@@ -152,7 +152,8 @@ export async function getUserRatingsWithImages(
           id,
           name,
           slug,
-          cafe_images(storage_path)
+          cafe_images(storage_path),
+          photos(storage_path, upvote_count, status)
         )
       `)
       .eq('user_id', userId)
