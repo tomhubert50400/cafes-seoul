@@ -37,7 +37,8 @@ export async function GET(request: NextRequest) {
       has_power_outlets,
       is_pet_friendly,
       is_laptop_friendly,
-      cafe_images(storage_path)
+      cafe_images(storage_path),
+      photos(storage_path, upvote_count, status)
     `)
     .neq('status', 'closed')
     .or(`name_ko.ilike.%${q}%,name_en.ilike.%${q}%,address_ko.ilike.%${q}%,specialties.cs.{${q}}`)
