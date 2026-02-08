@@ -87,10 +87,10 @@ export async function submitCafe(
       return { success: false, error: result.error };
     }
 
-    // 5. Revalidate profile submissions page
+    // 6. Revalidate profile submissions page
     revalidatePath('/profile/submissions');
 
-    // 6. Return success with rate limit info
+    // 7. Return success with rate limit info
     return {
       success: true,
       submission: result,
