@@ -691,6 +691,21 @@ export async function getPhotoUploadStatus(): Promise<{
       return { success: false, error: 'Authentication required' };
     }
 
+    // Admins have no limits
+    const userIsAdmin = await isAdmin(supabase, user.id);
+    if (userIsAdmin) {
+      return {
+        success: true,
+        status: {
+          dailyLimit: Infinity,
+          dailyUsed: 0,
+          dailyRemaining: Infinity,
+          resetAt: new Date().toISOString(),
+          lastUploadAt: null,
+        },
+      };
+    }
+
     // Get rate limit record
     const { data: limitRecord, error } = await supabase
       .from('photo_upload_limits')
