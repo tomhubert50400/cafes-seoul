@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Copy, Mail, MessageCircle, Check } from 'lucide-react';
+import { Share2, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 import {
   Dialog,
@@ -31,22 +31,17 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
     {
       name: 'WhatsApp',
       href: `https://wa.me/?text=${encodeURIComponent(message)}`,
-      icon: <MessageCircle className="h-5 w-5 text-[#25D366]" />,
+      icon: '/icons/whatsapp.svg',
     },
     {
       name: 'Telegram',
       href: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(cafeName)}`,
-      icon: <MessageCircle className="h-5 w-5 text-[#0088cc]" />,
+      icon: '/icons/telegram.svg',
     },
     {
       name: 'KakaoTalk',
       href: `https://story.kakao.com/share?url=${encodeURIComponent(url)}`,
-      icon: <MessageCircle className="h-5 w-5 text-[#FEE500]" />,
-    },
-    {
-      name: t('share.email'),
-      href: `mailto:?subject=${encodeURIComponent(cafeName)}&body=${encodeURIComponent(message)}`,
-      icon: <Mail className="h-5 w-5 text-muted-foreground" />,
+      icon: '/icons/kakaotalk.svg',
     },
   ];
 
@@ -57,7 +52,6 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
       toast.success(t('share.linkCopied'));
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback for older browsers
       const textarea = document.createElement('textarea');
       textarea.value = url;
       document.body.appendChild(textarea);
@@ -89,7 +83,13 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
             >
-              {option.icon}
+              <img
+                src={option.icon}
+                alt=""
+                width={24}
+                height={24}
+                className="shrink-0"
+              />
               <span className="text-sm font-medium">{option.name}</span>
             </a>
           ))}
@@ -98,9 +98,9 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
             className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent text-left"
           >
             {copied ? (
-              <Check className="h-5 w-5 text-green-500" />
+              <Check className="h-6 w-6 text-green-500" />
             ) : (
-              <Copy className="h-5 w-5 text-muted-foreground" />
+              <Copy className="h-6 w-6 text-muted-foreground" />
             )}
             <span className="text-sm font-medium">{t('share.copyLink')}</span>
           </button>
