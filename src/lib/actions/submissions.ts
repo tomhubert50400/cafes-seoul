@@ -228,6 +228,33 @@ export async function checkDuplicateSubmissions(
 }
 
 // ============================================
+// CHECK KAKAO PLACE ID DUPLICATE
+// ============================================
+
+/**
+ * Check if a kakao_place_id already exists in cafes or submissions
+ * No authentication required - can be checked before submission
+ */
+export async function checkKakaoPlaceIdDuplicate(
+  kakaoPlaceId: string
+): Promise<{
+  success: boolean;
+  exists?: boolean;
+  foundIn?: string;
+  error?: string;
+}> {
+  try {
+    const supabase = await createClient();
+    const result = await checkKakaoPlaceIdExists(supabase, kakaoPlaceId);
+
+    return { success: true, exists: result.exists, foundIn: result.foundIn };
+  } catch (err) {
+    console.error('Unexpected error checking kakao place id:', err);
+    return { success: false, error: 'Failed to check for duplicates' };
+  }
+}
+
+// ============================================
 // GET MY SUBMISSIONS
 // ============================================
 
