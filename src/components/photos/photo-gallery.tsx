@@ -37,16 +37,29 @@ export function PhotoGallery({
 }: PhotoGalleryProps) {
   const { t } = useI18n();
 
+  // Page size: 4 on mobile, 6 on desktop
+  const [pageSize, setPageSize] = useState(6);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 767px)');
+    if (mql.matches) setPageSize(4);
+    const handler = (e: MediaQueryListEvent) => setPageSize(e.matches ? 4 : 6);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
   // State
   const [photos, setPhotos] = useState<PhotoWithVoteStatus[]>(initialPhotos);
-  const [displayCount, setDisplayCount] = useState(6);
+  const [displayCount, setDisplayCount] = useState(pageSize);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Sync displayCount when pageSize changes (only on first page)
+  useEffect(() => {
+    setDisplayCount((prev) => (prev <= 6 ? pageSize : prev));
+  }, [pageSize]);
+
   // Calculate if there are more photos to show
-  // On mobile, first page shows 4 (items 5-6 hidden via CSS), so hasMore if > 4
-  const hasMore = displayCount <= 6
-    ? photos.length > 4
-    : photos.length > displayCount;
+  const hasMore = photos.length > displayCount;
 
   // Get currently displayed photos, sorted by most liked first
   const displayedPhotos = useMemo(() => {
