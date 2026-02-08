@@ -207,24 +207,6 @@ export default async function CafeDetailPage({ params }: PageProps) {
   const userRating = await getUserRating(cafe.id, user?.id);
   const photos = await getCafePhotos(cafe.id, user?.id);
 
-  // If no cafe_images, use the top approved photo as the main gallery image
-  if (images.length === 0 && photos.length > 0) {
-    const topApproved = photos
-      .filter((p) => p.status === 'approved')
-      .sort((a, b) => (b.upvote_count || 0) - (a.upvote_count || 0));
-    if (topApproved.length > 0) {
-      images = topApproved.map((p) => ({
-        id: p.id,
-        cafeId: cafe.id,
-        storagePath: p.url,
-        thumbnailPath: null,
-        altText: {},
-        isPrimary: false,
-        createdAt: p.created_at,
-      }));
-    }
-  }
-
   // Check if cafe is favorited by current user
   let isFavorited = false;
   if (user) {
