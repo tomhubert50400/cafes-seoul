@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Coffee, Image, Store } from 'lucide-react'
+import { LayoutDashboard, Coffee, Image, Store, Mail } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface NavItem {
@@ -31,6 +31,11 @@ const navItems: NavItem[] = [
     href: '/admin/photos',
     label: 'Photos',
     icon: Image,
+  },
+  {
+    href: '/admin/messages',
+    label: 'Messages',
+    icon: Mail,
   },
 ]
 

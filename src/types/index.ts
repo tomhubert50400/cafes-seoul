@@ -6,3 +6,4 @@ export * from './api';
 export * from './map';
 export * from './ratings';
 export * from './photos';
+export * from './contact';
