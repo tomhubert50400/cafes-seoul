@@ -302,16 +302,12 @@ async function importPhotos(): Promise<void> {
       continue;
     }
 
-    const { error: dbError } = await supabase.from("cafe_images").insert({
+    const { error: dbError } = await supabase.from("photos").insert({
       cafe_id: cafe.id,
+      user_id: null,
       storage_path: storagePath,
-      is_primary: true,
-      is_approved: true,
-      upload_source: "google_places",
-      alt_text: {
-        ko: `${cafe.name.ko} 사진`,
-        en: `Photo of ${cafe.name.en || cafe.name.ko}`,
-      },
+      status: "approved",
+      upvote_count: 0,
     });
 
     if (dbError) {
