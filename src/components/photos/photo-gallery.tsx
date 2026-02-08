@@ -73,15 +73,10 @@ export function PhotoGallery({
     if (isLoading || !hasMore) return;
 
     setIsLoading(true);
-
-    // Simulate loading delay for smooth UX
-    // In a real implementation, this would fetch more photos from API
     await new Promise((resolve) => setTimeout(resolve, 300));
-
-    // Increment display count by 6
-    setDisplayCount((prev) => prev + 6);
+    setDisplayCount((prev) => prev + pageSize);
     setIsLoading(false);
-  }, [isLoading, hasMore]);
+  }, [isLoading, hasMore, pageSize]);
 
   // Handle vote change from a photo card
   const handleVoteChange = useCallback(
