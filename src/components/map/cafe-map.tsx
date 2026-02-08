@@ -154,7 +154,7 @@ export function CafeMap({
                       <MapPin className="h-6 w-6" />
                       <p className="text-xs mt-1">{t('cafe.noImage')}</p>
                       <Link
-                        href={`/cafes/${selectedCafe.slug}#photos-section`}
+                        href={`/cafes/${selectedCafe.slug}?upload=true#photos-section`}
                         className="text-xs text-primary hover:underline mt-0.5"
                       >
                         {t('cafe.addFirstPhoto')}
@@ -187,8 +187,8 @@ export function CafeMap({
                     )}
                   </div>
 
-                  {/* Feature icons */}
-                  {(() => {
+                  {/* Feature icons - only show when confirmed by user reviews */}
+                  {selectedCafe.totalRatings > 0 && (() => {
                     const features = [
                       { key: 'hasWifi', icon: Wifi, active: selectedCafe.hasWifi },
                       { key: 'hasPowerOutlets', icon: Plug, active: selectedCafe.hasPowerOutlets },

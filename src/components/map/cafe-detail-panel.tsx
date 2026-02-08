@@ -53,8 +53,8 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
           <span className="break-words">{cafeAddress}</span>
         </div>
 
-        {/* Features */}
-        {(cafe.hasWifi || cafe.hasPowerOutlets || cafe.isPetFriendly) && (
+        {/* Features - only show when confirmed by user reviews */}
+        {cafe.totalRatings > 0 && (cafe.hasWifi || cafe.hasPowerOutlets || cafe.isPetFriendly) && (
           <div className="flex flex-wrap gap-2">
             {cafe.hasWifi && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">

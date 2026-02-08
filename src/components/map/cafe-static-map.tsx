@@ -1,6 +1,6 @@
 'use client';
 
-import { StaticMap } from 'react-kakao-maps-sdk';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import type { Cafe } from '@/types/cafe';
 
 interface CafeStaticMapProps {
@@ -17,14 +17,17 @@ export function CafeStaticMap({
   const center = { lat: cafe.latitude, lng: cafe.longitude };
   
   return (
-    <StaticMap
+    <Map
       center={center}
       style={{ width, height }}
       level={3}
-      marker={{
-        position: center,
-        text: cafe.name.ko || cafe.name.en || '',
-      }}
-    />
+      draggable={true}
+      zoomable={true}
+    >
+      <MapMarker
+        position={center}
+        title={cafe.name.ko || cafe.name.en || ''}
+      />
+    </Map>
   );
 }

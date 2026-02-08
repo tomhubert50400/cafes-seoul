@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal, Search, X, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -20,8 +20,8 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { MapFiltersPanel } from '@/components/map/map-filters';
-import { SEOUL_DISTRICTS } from '@/lib/constants/districts';
-import { CAFE_TYPE_LABELS, getLocalizedText } from '@/types/cafe';
+import { SEOUL_DISTRICTS, POPULAR_NEIGHBORHOODS } from '@/lib/constants/districts';
+import { getLocalizedText } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { useMapFilters } from '@/hooks/use-map-filters';
@@ -147,6 +147,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
 
   const clearAllFilters = useCallback(() => {
     clearMapFilters();
+    setLocationSearch('');
     router.push('?');
   }, [router, clearMapFilters]);
 
@@ -158,8 +159,89 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     }
   };
 
+  // --- Location search state ---
+  const [locationSearch, setLocationSearch] = useState('');
+  const [showAllAreas, setShowAllAreas] = useState(false);
+  const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
+  const locationRef = useRef<HTMLDivElement>(null);
+
+  const activeDistrict = searchParams.get('district') || null;
+  const activeNeighborhood = searchParams.get('neighborhood') || null;
+  const hasLocationFilter = !!activeDistrict || !!activeNeighborhood;
+
+  // Resolve active location label for display
+  const activeLocationLabel = useMemo(() => {
+    if (activeNeighborhood) {
+      const n = POPULAR_NEIGHBORHOODS.find((nb) => nb.slug === activeNeighborhood);
+      return n ? getLocalizedText(n.name, language) : null;
+    }
+    if (activeDistrict) {
+      const d = SEOUL_DISTRICTS.find((dt) => dt.slug === activeDistrict);
+      return d ? getLocalizedText(d.name, language) : null;
+    }
+    return null;
+  }, [activeDistrict, activeNeighborhood, language]);
+
+  const matchingDistricts = useMemo(() => {
+    if (!locationSearch.trim()) return [];
+    const q = locationSearch.toLowerCase();
+    return SEOUL_DISTRICTS.filter(
+      (d) =>
+        Object.values(d.name).some((v) => v.toLowerCase().includes(q)) ||
+        d.slug.includes(q)
+    );
+  }, [locationSearch]);
+
+  const matchingNeighborhoods = useMemo(() => {
+    if (!locationSearch.trim()) return [];
+    const q = locationSearch.toLowerCase();
+    return POPULAR_NEIGHBORHOODS.filter(
+      (n) =>
+        Object.values(n.name).some((v) => v.toLowerCase().includes(q)) ||
+        n.slug.includes(q)
+    );
+  }, [locationSearch]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (locationRef.current && !locationRef.current.contains(e.target as Node)) {
+        setLocationDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  const selectLocation = useCallback(
+    (type: 'district' | 'neighborhood', slug: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('page');
+      if (type === 'neighborhood') {
+        params.set('neighborhood', slug);
+        params.delete('district');
+      } else {
+        params.set('district', slug);
+        params.delete('neighborhood');
+      }
+      router.push(`?${params.toString()}`);
+      setLocationSearch('');
+      setLocationDropdownOpen(false);
+    },
+    [router, searchParams]
+  );
+
+  const clearLocation = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('district');
+    params.delete('neighborhood');
+    params.delete('page');
+    router.push(`?${params.toString()}`);
+    setLocationSearch('');
+  }, [router, searchParams]);
+
   const hasActiveFilters =
-    searchParams.get('district') ||
+    hasLocationFilter ||
     searchParams.get('cafeType') ||
     activeFilterCount > 0;
 
@@ -184,22 +266,114 @@ export function SearchFilters({ className }: SearchFiltersProps) {
 
       {/* Filter row */}
       <div className="flex flex-wrap items-center gap-2">
-        {/* District */}
-        <Select
-          value={searchParams.get('district') || ''}
-          onValueChange={(value) => updateParams('district', value || null)}
-        >
-          <SelectTrigger className="w-full min-w-[140px] sm:w-[140px]">
-            <SelectValue placeholder={t('filter.district')} />
-          </SelectTrigger>
-          <SelectContent>
-            {SEOUL_DISTRICTS.map((district) => (
-              <SelectItem key={district.slug} value={district.slug}>
-                {getLocalizedText(district.name, language)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {/* Location search (district / neighborhood) */}
+        <div ref={locationRef} className="relative w-full sm:w-auto sm:min-w-[220px]">
+          {hasLocationFilter ? (
+            <Badge variant="secondary" className="gap-1.5 py-1.5 px-3 text-sm h-9 w-full sm:w-auto justify-between">
+              <span className="flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" />
+                {activeLocationLabel}
+              </span>
+              <button
+                onClick={clearLocation}
+                className="ml-1 hover:text-foreground transition-colors"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </Badge>
+          ) : (
+            <>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder={t('roulette.searchDistrictOrArea')}
+                  value={locationSearch}
+                  onChange={(e) => {
+                    setLocationSearch(e.target.value);
+                    setLocationDropdownOpen(true);
+                  }}
+                  onFocus={() => setLocationDropdownOpen(true)}
+                  className="pl-9 h-9"
+                />
+              </div>
+
+              {/* Dropdown */}
+              {locationDropdownOpen && (
+                <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover p-2 shadow-md max-h-[320px] overflow-y-auto">
+                  {/* Search results */}
+                  {locationSearch.trim() && (matchingNeighborhoods.length > 0 || matchingDistricts.length > 0) ? (
+                    <div className="space-y-1">
+                      {matchingNeighborhoods.map((n) => {
+                        const parentDistrict = SEOUL_DISTRICTS.find((d) => d.id === n.districtId);
+                        return (
+                          <button
+                            key={`n-${n.slug}`}
+                            className="flex items-center gap-2 w-full rounded-sm px-2 py-1.5 text-sm hover:bg-accent transition-colors text-left"
+                            onClick={() => selectLocation('neighborhood', n.slug)}
+                          >
+                            <MapPin className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                            <span>{getLocalizedText(n.name, language)}</span>
+                            {parentDistrict && (
+                              <span className="text-muted-foreground text-xs ml-auto">
+                                {getLocalizedText(parentDistrict.name, language)}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                      {matchingDistricts.map((d) => (
+                        <button
+                          key={`d-${d.slug}`}
+                          className="flex items-center gap-2 w-full rounded-sm px-2 py-1.5 text-sm hover:bg-accent transition-colors text-left"
+                          onClick={() => selectLocation('district', d.slug)}
+                        >
+                          <MapPin className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                          <span>{getLocalizedText(d.name, language)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : locationSearch.trim() ? (
+                    <p className="text-sm text-muted-foreground px-2 py-1.5">{t('roulette.noResults')}</p>
+                  ) : (
+                    /* Popular areas */
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground px-2">{t('roulette.popularAreas')}</p>
+                      <div className="flex flex-wrap gap-1.5 px-1">
+                        {(showAllAreas ? POPULAR_NEIGHBORHOODS : POPULAR_NEIGHBORHOODS.slice(0, 6)).map((n) => (
+                          <Badge
+                            key={n.slug}
+                            variant="outline"
+                            className="cursor-pointer hover:bg-accent transition-colors py-1 px-2.5 text-xs"
+                            onClick={() => selectLocation('neighborhood', n.slug)}
+                          >
+                            {getLocalizedText(n.name, language)}
+                          </Badge>
+                        ))}
+                        <button
+                          onClick={() => setShowAllAreas((prev) => !prev)}
+                          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1 px-2"
+                        >
+                          {showAllAreas ? (
+                            <>
+                              {t('roulette.showLess')}
+                              <ChevronUp className="h-3 w-3" />
+                            </>
+                          ) : (
+                            <>
+                              {t('roulette.showMore')}
+                              <ChevronDown className="h-3 w-3" />
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
 
         {/* Sort */}
         <Select

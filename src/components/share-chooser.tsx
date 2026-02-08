@@ -29,17 +29,17 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
 
   const shareOptions = [
     {
-      name: 'WhatsApp',
+      name: t('share.whatsapp'),
       href: `https://wa.me/?text=${encodeURIComponent(message)}`,
       icon: '/icons/whatsapp.svg',
     },
     {
-      name: 'Telegram',
+      name: t('share.telegram'),
       href: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(cafeName)}`,
       icon: '/icons/telegram.svg',
     },
     {
-      name: 'KakaoTalk',
+      name: t('share.kakaotalk'),
       href: `https://story.kakao.com/share?url=${encodeURIComponent(url)}`,
       icon: '/icons/kakaotalk.svg',
     },

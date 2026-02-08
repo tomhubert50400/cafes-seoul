@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
 import type { CafeListParams, PaginatedResponse } from '@/types/api';
 import type { CafeSummary } from '@/types/cafe';
-import { getDistrictBySlug } from '@/lib/constants/districts';
+import { getDistrictBySlug, POPULAR_NEIGHBORHOODS, NEIGHBORHOOD_RADIUS_M } from '@/lib/constants/districts';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -64,8 +64,21 @@ export async function GET(request: NextRequest) {
     `, { count: 'exact' })
     .neq('status', 'closed');
 
-  // Apply filters
-  if (params.district) {
+  // Apply location filters
+  if (params.neighborhood) {
+    // Neighborhood proximity filtering using bounding box
+    const neighborhood = POPULAR_NEIGHBORHOODS.find((n) => n.slug === params.neighborhood);
+    if (neighborhood) {
+      // At Seoul's latitude (~37.5°): 1° lat ≈ 111km, 1° lng ≈ 88km
+      const deltaLat = NEIGHBORHOOD_RADIUS_M / 111000;
+      const deltaLng = NEIGHBORHOOD_RADIUS_M / (111000 * Math.cos((neighborhood.lat * Math.PI) / 180));
+      query = query
+        .gte('latitude', neighborhood.lat - deltaLat)
+        .lte('latitude', neighborhood.lat + deltaLat)
+        .gte('longitude', neighborhood.lng - deltaLng)
+        .lte('longitude', neighborhood.lng + deltaLng);
+    }
+  } else if (params.district) {
     const district = getDistrictBySlug(params.district);
     if (district) {
       query = query.eq('district_id', district.id);

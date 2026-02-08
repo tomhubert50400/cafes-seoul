@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car, RotateCw } from 'lucide-react';
-import { StaticMap } from 'react-kakao-maps-sdk';
+import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car, RotateCw, Camera, Plus } from 'lucide-react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -73,9 +73,19 @@ export function RouletteResult({
               />
             </div>
           ) : (
-            <div className="aspect-video w-full bg-muted flex items-center justify-center">
-              <span className="text-muted-foreground">No image</span>
-            </div>
+            <Link
+              href={`${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`}
+              className="aspect-video w-full bg-zinc-100 dark:bg-zinc-800 flex flex-col items-center justify-center gap-2 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
+            >
+              <div className="relative">
+                <Camera className="h-10 w-10 text-zinc-400 dark:text-zinc-500" />
+                <div className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-400 dark:bg-zinc-500">
+                  <Plus className="h-3 w-3 text-white" />
+                </div>
+              </div>
+              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{t('cafe.noImage')}</p>
+              <p className="text-xs text-zinc-500/90 dark:text-zinc-400/90">{t('cafe.addFirstPhoto')}</p>
+            </Link>
           )}
 
           {/* Details */}
@@ -117,14 +127,15 @@ export function RouletteResult({
             {/* Static map */}
             <div className="rounded-lg overflow-hidden border h-[200px]">
               <MapProvider>
-                <StaticMap
+                <Map
                   center={{ lat: cafe.latitude, lng: cafe.longitude }}
                   level={3}
                   style={{ width: '100%', height: '100%' }}
-                  marker={{
-                    position: { lat: cafe.latitude, lng: cafe.longitude },
-                  }}
-                />
+                  draggable={true}
+                  zoomable={true}
+                >
+                  <MapMarker position={{ lat: cafe.latitude, lng: cafe.longitude }} />
+                </Map>
               </MapProvider>
             </div>
 

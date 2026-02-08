@@ -29,21 +29,49 @@ export const SEOUL_DISTRICTS: District[] = [
   { id: 25, name: { ko: '중랑구', en: 'Jungnang-gu', fr: 'Jungnang', zh: '中浪区', vi: 'Jungnang' }, slug: 'jungnang' },
 ];
 
-// Popular neighborhoods for quick access
+// Popular neighborhoods for quick access — each with a center point for proximity filtering
 export const POPULAR_NEIGHBORHOODS = [
-  { districtSlug: 'gangnam', name: { ko: '신사동', en: 'Sinsa-dong' }, slug: 'sinsa' },
-  { districtSlug: 'gangnam', name: { ko: '압구정동', en: 'Apgujeong-dong' }, slug: 'apgujeong' },
-  { districtSlug: 'gangnam', name: { ko: '청담동', en: 'Cheongdam-dong' }, slug: 'cheongdam' },
-  { districtSlug: 'mapo', name: { ko: '홍대', en: 'Hongdae' }, slug: 'hongdae' },
-  { districtSlug: 'mapo', name: { ko: '연남동', en: 'Yeonnam-dong' }, slug: 'yeonnam' },
-  { districtSlug: 'mapo', name: { ko: '합정동', en: 'Hapjeong-dong' }, slug: 'hapjeong' },
-  { districtSlug: 'yongsan', name: { ko: '이태원', en: 'Itaewon' }, slug: 'itaewon' },
-  { districtSlug: 'yongsan', name: { ko: '한남동', en: 'Hannam-dong' }, slug: 'hannam' },
-  { districtSlug: 'seongdong', name: { ko: '성수동', en: 'Seongsu-dong' }, slug: 'seongsu' },
-  { districtSlug: 'jongno', name: { ko: '삼청동', en: 'Samcheong-dong' }, slug: 'samcheong' },
-  { districtSlug: 'jongno', name: { ko: '익선동', en: 'Ikseon-dong' }, slug: 'ikseon' },
-  { districtSlug: 'jung', name: { ko: '을지로', en: 'Euljiro' }, slug: 'euljiro' },
+  { districtSlug: 'gangnam', districtId: 1, name: { ko: '신사동', en: 'Sinsa', fr: 'Sinsa', zh: '新沙', vi: 'Sinsa' }, slug: 'sinsa', lat: 37.5167, lng: 127.0203 },
+  { districtSlug: 'gangnam', districtId: 1, name: { ko: '압구정동', en: 'Apgujeong', fr: 'Apgujeong', zh: '狎鸥亭', vi: 'Apgujeong' }, slug: 'apgujeong', lat: 37.5270, lng: 127.0285 },
+  { districtSlug: 'gangnam', districtId: 1, name: { ko: '청담동', en: 'Cheongdam', fr: 'Cheongdam', zh: '清潭', vi: 'Cheongdam' }, slug: 'cheongdam', lat: 37.5244, lng: 127.0476 },
+  { districtSlug: 'mapo', districtId: 13, name: { ko: '홍대', en: 'Hongdae', fr: 'Hongdae', zh: '弘大', vi: 'Hongdae' }, slug: 'hongdae', lat: 37.5563, lng: 126.9237 },
+  { districtSlug: 'mapo', districtId: 13, name: { ko: '연남동', en: 'Yeonnam-dong', fr: 'Yeonnam', zh: '延南洞', vi: 'Yeonnam' }, slug: 'yeonnam', lat: 37.5660, lng: 126.9251 },
+  { districtSlug: 'mapo', districtId: 13, name: { ko: '합정동', en: 'Hapjeong', fr: 'Hapjeong', zh: '合井', vi: 'Hapjeong' }, slug: 'hapjeong', lat: 37.5495, lng: 126.9137 },
+  { districtSlug: 'mapo', districtId: 13, name: { ko: '망원동', en: 'Mangwon', fr: 'Mangwon', zh: '望远', vi: 'Mangwon' }, slug: 'mangwon', lat: 37.5564, lng: 126.9093 },
+  { districtSlug: 'yongsan', districtId: 21, name: { ko: '이태원', en: 'Itaewon', fr: 'Itaewon', zh: '梨泰院', vi: 'Itaewon' }, slug: 'itaewon', lat: 37.5345, lng: 126.9946 },
+  { districtSlug: 'yongsan', districtId: 21, name: { ko: '한남동', en: 'Hannam-dong', fr: 'Hannam', zh: '汉南洞', vi: 'Hannam' }, slug: 'hannam', lat: 37.5340, lng: 127.0025 },
+  { districtSlug: 'yongsan', districtId: 21, name: { ko: '경리단길', en: 'Gyeongnidan-gil', fr: 'Gyeongnidan', zh: '经理团路', vi: 'Gyeongnidan' }, slug: 'gyeongnidan', lat: 37.5389, lng: 126.9883 },
+  { districtSlug: 'seongdong', districtId: 16, name: { ko: '성수동', en: 'Seongsu', fr: 'Seongsu', zh: '圣水', vi: 'Seongsu' }, slug: 'seongsu', lat: 37.5445, lng: 127.0565 },
+  { districtSlug: 'jongno', districtId: 23, name: { ko: '삼청동', en: 'Samcheong-dong', fr: 'Samcheong', zh: '三清洞', vi: 'Samcheong' }, slug: 'samcheong', lat: 37.5812, lng: 126.9822 },
+  { districtSlug: 'jongno', districtId: 23, name: { ko: '익선동', en: 'Ikseon-dong', fr: 'Ikseon', zh: '益善洞', vi: 'Ikseon' }, slug: 'ikseon', lat: 37.5745, lng: 126.9881 },
+  { districtSlug: 'jongno', districtId: 23, name: { ko: '북촌', en: 'Bukchon', fr: 'Bukchon', zh: '北村', vi: 'Bukchon' }, slug: 'bukchon', lat: 37.5826, lng: 126.9836 },
+  { districtSlug: 'jung', districtId: 24, name: { ko: '을지로', en: 'Euljiro', fr: 'Euljiro', zh: '乙支路', vi: 'Euljiro' }, slug: 'euljiro', lat: 37.5665, lng: 126.9913 },
+  { districtSlug: 'jung', districtId: 24, name: { ko: '명동', en: 'Myeongdong', fr: 'Myeongdong', zh: '明洞', vi: 'Myeongdong' }, slug: 'myeongdong', lat: 37.5636, lng: 126.9828 },
+  { districtSlug: 'seocho', districtId: 15, name: { ko: '가로수길', en: 'Garosugil', fr: 'Garosugil', zh: '林荫道', vi: 'Garosugil' }, slug: 'garosugil', lat: 37.5188, lng: 127.0228 },
+  { districtSlug: 'songpa', districtId: 18, name: { ko: '잠실', en: 'Jamsil', fr: 'Jamsil', zh: '蚕室', vi: 'Jamsil' }, slug: 'jamsil', lat: 37.5133, lng: 127.1001 },
+  { districtSlug: 'gwangjin', districtId: 6, name: { ko: '건대', en: 'Konkuk (Kondae)', fr: 'Kondae', zh: '建大', vi: 'Kondae' }, slug: 'kondae', lat: 37.5404, lng: 127.0687 },
+  { districtSlug: 'seodaemun', districtId: 14, name: { ko: '연희동', en: 'Yeonhui-dong', fr: 'Yeonhui', zh: '延禧洞', vi: 'Yeonhui' }, slug: 'yeonhui', lat: 37.5690, lng: 126.9310 },
 ];
+
+// Radius in meters for neighborhood proximity filtering
+export const NEIGHBORHOOD_RADIUS_M = 800;
+
+// Haversine distance between two lat/lng points in meters
+export function getDistanceMeters(
+  lat1: number, lng1: number,
+  lat2: number, lng2: number
+): number {
+  const R = 6371000; // Earth's radius in meters
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 // Helper to get district by slug
 export function getDistrictBySlug(slug: string): District | undefined {

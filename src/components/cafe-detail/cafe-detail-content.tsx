@@ -101,10 +101,12 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                 <p className="text-muted-foreground">{t('cafe.noImage')}</p>
                 <button
                   onClick={() => {
-                    const photosSection = document.getElementById('photos-section');
-                    if (photosSection) {
-                      photosSection.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    // Add ?upload=true to trigger modal open, then scroll
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('upload', 'true');
+                    window.history.replaceState({}, '', url.toString());
+                    // Force re-render by navigating
+                    window.location.href = url.toString() + '#photos-section';
                   }}
                   className="mt-1 text-sm text-primary hover:underline"
                 >

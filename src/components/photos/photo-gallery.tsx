@@ -45,9 +45,11 @@ export function PhotoGallery({
   // Calculate if there are more photos to show
   const hasMore = photos.length > displayCount;
 
-  // Get currently displayed photos
+  // Get currently displayed photos, sorted by most liked first
   const displayedPhotos = useMemo(() => {
-    return photos.slice(0, displayCount);
+    return [...photos]
+      .sort((a, b) => b.upvoteCount - a.upvoteCount)
+      .slice(0, displayCount);
   }, [photos, displayCount]);
 
   // Handle "Show more" click
