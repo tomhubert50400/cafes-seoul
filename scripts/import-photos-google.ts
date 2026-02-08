@@ -208,10 +208,10 @@ async function importPhotos(): Promise<void> {
   }
 
   // Get cafes without photos
-  const { data: existingImages } = await supabase
-    .from("cafe_images")
+  const { data: existingPhotos } = await supabase
+    .from("photos")
     .select("cafe_id");
-  const cafesWithImages = new Set(existingImages?.map((img) => img.cafe_id) || []);
+  const cafesWithImages = new Set(existingPhotos?.map((p) => p.cafe_id) || []);
 
   const { data: allCafes, error } = await supabase
     .from("cafes")
