@@ -43,7 +43,10 @@ export function PhotoGallery({
   const [isLoading, setIsLoading] = useState(false);
 
   // Calculate if there are more photos to show
-  const hasMore = photos.length > displayCount;
+  // On mobile, first page shows 4 (items 5-6 hidden via CSS), so hasMore if > 4
+  const hasMore = displayCount <= 6
+    ? photos.length > 4
+    : photos.length > displayCount;
 
   // Get currently displayed photos, sorted by most liked first
   const displayedPhotos = useMemo(() => {
