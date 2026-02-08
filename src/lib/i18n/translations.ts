@@ -191,7 +191,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': 'Average drink price:',
     'cafe.noReviews': 'No reviews yet',
     'cafe.writeFirst': 'Write the first review',
-    'cafe.noImage': 'No image available',
+    'cafe.noImage': '{name} doesn\'t have an image available yet',
     'cafe.addFirstPhoto': 'Be the first to add one!',
     'cafe.addPhoto': 'Add a photo',
     'cafe.helpful': 'Helpful',
