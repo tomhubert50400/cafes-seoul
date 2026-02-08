@@ -253,7 +253,6 @@ export default async function CafeDetailPage({ params }: PageProps) {
       <Header user={user} />
       <CafeDetailContent
         cafe={cafe}
-        images={images}
         reviews={reviews}
         textReviews={textReviews}
         userRating={userRating}
