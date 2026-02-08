@@ -39,8 +39,10 @@ export function Header({ user }: HeaderProps = {}) {
               key={item.href}
               href={item.href}
               className={cn(
-                'text-sm font-medium transition-colors hover:text-foreground whitespace-nowrap min-h-[44px] flex items-center',
-                pathname === item.href ? 'text-foreground' : 'text-muted-foreground'
+                'text-sm font-medium transition-colors whitespace-nowrap min-h-[44px] flex items-center',
+                'text-foreground border-b-2',
+                'hover:border-foreground',
+                pathname === item.href ? 'border-foreground' : 'border-transparent'
               )}
             >
               {t(item.labelKey)}
