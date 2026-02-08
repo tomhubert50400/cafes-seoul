@@ -68,8 +68,8 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
               }}
               className="relative cursor-pointer rounded-full p-2 transition-colors hover:bg-zinc-200/80 dark:hover:bg-zinc-700/80"
             >
-              <Camera className="h-5 w-5 text-zinc-400 dark:text-zinc-500" />
-              <div className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-zinc-400 dark:bg-zinc-500">
+              <Camera className="h-5 w-5 text-zinc-600 dark:text-zinc-300" />
+              <div className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-zinc-600 dark:bg-zinc-300">
                 <Plus className="h-2.5 w-2.5 text-white" />
               </div>
             </div>
