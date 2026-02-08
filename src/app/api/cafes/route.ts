@@ -137,8 +137,7 @@ export async function GET(request: NextRequest) {
     query = query.or(`name->>ko.ilike.%${params.q}%,name->>en.ilike.%${params.q}%,address->>ko.ilike.%${params.q}%`);
   }
 
-  // Apply sorting — cafes with photos first, then by user-selected sort
-  query = query.order('has_photo', { ascending: false });
+  // Apply sorting
   switch (params.sortBy) {
     case 'rating':
       query = query.order('overall_rating', { ascending: params.sortOrder === 'asc' });
