@@ -374,7 +374,13 @@ export async function getRateLimitStatus(): Promise<{
       return { success: false, error: 'Authentication required' };
     }
 
-    // 2. Get rate limit
+    // 2. Admins have no rate limit
+    const userIsAdmin = await isAdmin(supabase, user.id);
+    if (userIsAdmin) {
+      return { success: true, rateLimit: null };
+    }
+
+    // 3. Get rate limit
     const rateLimit = await getRateLimit(supabase, user.id);
 
     return { success: true, rateLimit };
