@@ -304,7 +304,7 @@ export async function updateCafeAverages(
   try {
     // Use a single RPC call to calculate and update all averages
     // This ensures atomicity and uses the database's optimized calculations
-    const { error } = await supabase.rpc('update_cafe_rating_averages', {
+    const { error } = await supabase.rpc('update_cafe_rating_aggregates', {
       p_cafe_id: cafeId,
     });
 

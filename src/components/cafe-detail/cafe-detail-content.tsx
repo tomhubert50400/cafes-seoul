@@ -126,7 +126,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                   <FavoriteButton
                     cafeId={cafe.id}
                     initialIsFavorited={isFavorited}
-                    size="lg"
+                    size="sm"
                   />
                 )}
               </div>

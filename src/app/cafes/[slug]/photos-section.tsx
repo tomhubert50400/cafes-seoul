@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Camera, LogIn } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
@@ -34,6 +34,8 @@ export function PhotosSection({
 }: PhotosSectionProps) {
   const { t } = useI18n();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const shouldOpenUpload = searchParams.get('upload') === 'true';
 
   // Handle upload success - refresh the page to show new photo
   const handleUploadSuccess = useCallback(() => {
@@ -67,6 +69,7 @@ export function PhotosSection({
           <PhotoUploadModal
             cafeId={cafeId}
             onUploadSuccess={handleUploadSuccess}
+            defaultOpen={shouldOpenUpload}
           />
         ) : (
           <SignInButton />

@@ -33,6 +33,8 @@ export interface PhotoUploadModalProps {
   onUploadSuccess?: () => void;
   /** Disable the upload component */
   disabled?: boolean;
+  /** Whether the modal should be open by default */
+  defaultOpen?: boolean;
 }
 
 interface UploadState {
@@ -46,10 +48,10 @@ interface UploadState {
   } | null;
 }
 
-export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false }: PhotoUploadModalProps) {
+export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, defaultOpen = false }: PhotoUploadModalProps) {
   const { t } = useI18n();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
 
   const [userId, setUserId] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(true);

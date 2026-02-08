@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
+import { Wifi, Plug, Laptop, PawPrint, Car, Camera, Plus } from 'lucide-react';
 import { RatingDisplay } from '@/components/ratings/rating-display';
 import { RatingButton } from '@/components/ratings/rating-button';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
@@ -46,8 +46,31 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <CoffeeIcon className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
+          <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = `${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`;
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.location.href = `${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`;
+                }
+              }}
+              className="relative cursor-pointer rounded-full p-3 transition-colors hover:bg-zinc-200/80 dark:hover:bg-zinc-700/80"
+            >
+              <Camera className="h-10 w-10 text-zinc-400 dark:text-zinc-500" />
+              <div className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-400 dark:bg-zinc-500">
+                <Plus className="h-3 w-3 text-white" />
+              </div>
+            </div>
+            <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{t('cafe.noImage')}</p>
+            <p className="text-xs text-zinc-500/90 dark:text-zinc-400/90">{t('cafe.addFirstPhoto')}</p>
           </div>
         )}
 
@@ -93,34 +116,36 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
           />
         </div>
 
-        {/* Features */}
-        <div className="mt-auto flex gap-1.5">
-          {cafe.hasWifi && (
-            <div className="p-1.5 rounded-full border border-muted-foreground/30">
-              <Wifi className="h-3.5 w-3.5 text-muted-foreground" />
-            </div>
-          )}
-          {cafe.hasPowerOutlets && (
-            <div className="p-1.5 rounded-full border border-muted-foreground/30">
-              <Plug className="h-3.5 w-3.5 text-muted-foreground" />
-            </div>
-          )}
-          {cafe.isLaptopFriendly && (
-            <div className="p-1.5 rounded-full border border-muted-foreground/30">
-              <Laptop className="h-3.5 w-3.5 text-muted-foreground" />
-            </div>
-          )}
-          {cafe.isPetFriendly && (
-            <div className="p-1.5 rounded-full border border-muted-foreground/30">
-              <PawPrint className="h-3.5 w-3.5 text-muted-foreground" />
-            </div>
-          )}
-          {cafe.hasParking && (
-            <div className="p-1.5 rounded-full border border-muted-foreground/30">
-              <Car className="h-3.5 w-3.5 text-muted-foreground" />
-            </div>
-          )}
-        </div>
+        {/* Features - only show when confirmed by user reviews */}
+        {cafe.totalRatings > 0 && (
+          <div className="mt-auto flex gap-1.5">
+            {cafe.hasWifi && (
+              <div className="p-1.5 rounded-full border border-muted-foreground/30">
+                <Wifi className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
+            )}
+            {cafe.hasPowerOutlets && (
+              <div className="p-1.5 rounded-full border border-muted-foreground/30">
+                <Plug className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
+            )}
+            {cafe.isLaptopFriendly && (
+              <div className="p-1.5 rounded-full border border-muted-foreground/30">
+                <Laptop className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
+            )}
+            {cafe.isPetFriendly && (
+              <div className="p-1.5 rounded-full border border-muted-foreground/30">
+                <PawPrint className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
+            )}
+            {cafe.hasParking && (
+              <div className="p-1.5 rounded-full border border-muted-foreground/30">
+                <Car className="h-3.5 w-3.5 text-muted-foreground" />
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Distance (if searching by location) */}
         {cafe.distance !== undefined && (
