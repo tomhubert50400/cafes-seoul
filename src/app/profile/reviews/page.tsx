@@ -51,15 +51,18 @@ export default async function ReviewsPage() {
       slug,
       name,
       district_id,
-      cafe_images(storage_path)
+      photos(storage_path, upvote_count, status)
     `)
     .eq('status', 'active')
     .order('total_ratings', { ascending: false })
     .limit(3);
 
   const popularCafes = popularCafesData?.map(cafe => {
-    const images = cafe.cafe_images as Array<{ storage_path: string }> | null;
-    const primaryImage = images?.[0]?.storage_path || null;
+    const photos = cafe.photos as Array<{ storage_path: string; upvote_count: number; status: string }> | null;
+    const topPhoto = photos
+      ?.filter((p) => p.status === 'approved')
+      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+    const primaryImage = topPhoto?.storage_path || null;
     const district = getDistrictById(cafe.district_id);
 
     return {
