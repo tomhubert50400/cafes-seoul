@@ -4205,6 +4205,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.rateLimit.timeRemainingSoon': 'Sắp đặt lại',
     'submissions.rateLimit.remainingOne': 'Bạn còn 1 lần gửi nữa hôm nay',
     'submissions.rateLimit.remainingMany': 'Bạn còn {count} lần gửi nữa hôm nay',
+    'submissions.duplicateKakao.existsInDirectory': 'Quán cà phê này đã có trong danh mục của chúng tôi.',
+    'submissions.duplicateKakao.alreadySubmitted': 'Quán cà phê này đã được gửi và đang chờ xét duyệt.',
     'submissions.rateLimit.whyTitle': 'Tại sao có giới hạn?',
     'submissions.rateLimit.whyExplanation': 'Giới hạn này giúp chúng tôi duy trì chất lượng và ngăn chặn spam.',
     'submissions.rateLimit.alternativesTitle': 'Trong lúc chờ đợi, bạn có thể:',
