@@ -268,7 +268,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-6 order-2 lg:row-span-2">
             {/* Contact card */}
             <div className="rounded-xl border bg-card p-6">
               <h2 className="mb-4 font-semibold">{t('cafe.location')}</h2>
