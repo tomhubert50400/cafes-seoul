@@ -48,6 +48,11 @@ export default async function SubmitCafePage() {
                 throw new Error(result.error || 'Failed to submit cafe');
               }
             }}
+            onCheckKakaoPlaceId={async (kakaoPlaceId) => {
+              'use server';
+              const result = await checkKakaoPlaceIdDuplicate(kakaoPlaceId);
+              return { exists: result.exists ?? false, foundIn: result.foundIn };
+            }}
             onCheckDuplicates={async (name, address) => {
               'use server';
               const result = await checkDuplicateSubmissions(name, address);
