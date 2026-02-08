@@ -15,7 +15,7 @@ import { ShareChooser } from '@/components/share-chooser';
 import { useI18n } from '@/lib/i18n';
 import { getDistrictById } from '@/lib/constants/districts';
 import { EXTERNAL_URLS } from '@/lib/constants/routes';
-import type { Cafe, CafeImage } from '@/types/cafe';
+import type { Cafe } from '@/types/cafe';
 import { getLocalizedText } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import { RatingsSection } from '@/components/ratings/ratings-section';
