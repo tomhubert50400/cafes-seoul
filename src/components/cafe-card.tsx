@@ -46,7 +46,9 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
+          <div className="flex h-full flex-col items-center justify-center gap-3 px-4">
+            <CoffeeIcon className="h-10 w-10 text-zinc-300 dark:text-zinc-600" />
+            <p className="text-sm font-medium text-zinc-400 dark:text-zinc-500 line-clamp-1">{cafeName}</p>
             <div
               role="button"
               tabIndex={0}
@@ -62,15 +64,13 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
                   window.location.href = `${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`;
                 }
               }}
-              className="relative cursor-pointer rounded-full p-3 transition-colors hover:bg-zinc-200/80 dark:hover:bg-zinc-700/80"
+              className="relative cursor-pointer rounded-full p-2 transition-colors hover:bg-zinc-200/80 dark:hover:bg-zinc-700/80"
             >
-              <Camera className="h-10 w-10 text-zinc-400 dark:text-zinc-500" />
-              <div className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-400 dark:bg-zinc-500">
-                <Plus className="h-3 w-3 text-white" />
+              <Camera className="h-5 w-5 text-zinc-400 dark:text-zinc-500" />
+              <div className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-zinc-400 dark:bg-zinc-500">
+                <Plus className="h-2.5 w-2.5 text-white" />
               </div>
             </div>
-            <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{t('cafe.noImage')}</p>
-            <p className="text-xs text-zinc-500/90 dark:text-zinc-400/90">{t('cafe.addFirstPhoto')}</p>
           </div>
         )}
 
