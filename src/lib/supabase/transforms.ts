@@ -323,21 +323,19 @@ export function transformRatingCafe(row: Record<string, unknown>): RatingCafe {
 }
 
 /**
- * Transform database cafes row with images to RatingCafeWithImage type
+ * Transform database cafes row with photos to RatingCafeWithImage type
  */
 export function transformRatingCafeWithImage(row: Record<string, unknown>): RatingCafeWithImage {
   const name = row.name as Record<string, string> | null;
-  const cafeImages = row.cafe_images as Array<{ storage_path: string }> | null;
   const photos = row.photos as Array<{ storage_path: string; upvote_count: number; status: string }> | null;
   const topPhoto = photos
     ?.filter((p) => p.status === 'approved')
     .sort((a, b) => b.upvote_count - a.upvote_count)[0];
-  const primaryImage = cafeImages?.[0]?.storage_path || topPhoto?.storage_path || null;
 
   return {
     id: row.id as string,
     name: name || {},
     slug: row.slug as string,
-    primaryImageUrl: getStorageUrl(primaryImage),
+    primaryImageUrl: getStorageUrl(topPhoto?.storage_path || null),
   };
 }
