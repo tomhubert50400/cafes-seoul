@@ -24,7 +24,7 @@ async function getCafes(): Promise<CafeSummary[]> {
       rating_ambiance, rating_wifi, rating_noise, rating_outlets, rating_value,
       price_range, cafe_type,
       has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
-      cafe_images(storage_path)
+      photos(storage_path, upvote_count, status)
     `)
     .eq('status', 'active');
 
@@ -34,10 +34,13 @@ async function getCafes(): Promise<CafeSummary[]> {
   }
 
   return (data || []).map((row) => {
-    const images = row.cafe_images as { storage_path: string }[] | null;
+    const photos = row.photos as { storage_path: string; upvote_count: number; status: string }[] | null;
+    const topPhoto = photos
+      ?.filter((p) => p.status === 'approved')
+      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
     return transformCafeSummary({
       ...row,
-      primary_image_url: images?.[0]?.storage_path || null,
+      primary_image_url: topPhoto?.storage_path || null,
     });
   });
 }
