@@ -214,7 +214,7 @@ export default async function CafeDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const { cafe, images } = result;
+  let { cafe, images } = result;
   const reviews = await getCafeReviews(cafe.id);
 
   // Fetch text reviews (from cafe_ratings with review_text)
