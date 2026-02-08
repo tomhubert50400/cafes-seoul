@@ -169,7 +169,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
 
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Main content */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 order-1">
             {/* Header */}
             <div className="mb-6">
               <div className="flex items-center gap-3">
