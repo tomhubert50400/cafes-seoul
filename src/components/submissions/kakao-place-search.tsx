@@ -68,7 +68,7 @@ export function KakaoPlaceSearch({
 
   const handleSelect = useCallback((place: KakaoPlaceSearchResult) => {
     setSelectedPlace(place);
-    setQuery(place.name);
+    setQuery(place.romanizedName || place.name);
     setIsOpen(false);
     onSelect(place);
   }, [onSelect]);
@@ -84,7 +84,7 @@ export function KakaoPlaceSearch({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    if (selectedPlace && value !== selectedPlace.name) {
+    if (selectedPlace && value !== (selectedPlace.romanizedName || selectedPlace.name)) {
       setSelectedPlace(null);
     }
   };
@@ -124,10 +124,15 @@ export function KakaoPlaceSearch({
       {/* Selected place preview */}
       {selectedPlace && (
         <div className="mt-2 p-3 rounded-lg border bg-muted/50 text-sm">
-          <div className="font-medium">{selectedPlace.name}</div>
+          <div className="font-medium">
+            {selectedPlace.romanizedName || selectedPlace.name}
+          </div>
+          {selectedPlace.romanizedName && (
+            <div className="text-xs text-muted-foreground">{selectedPlace.name}</div>
+          )}
           <div className="flex items-center gap-1 text-muted-foreground mt-1">
             <MapPin className="h-3 w-3" />
-            <span>{selectedPlace.roadAddress || selectedPlace.address}</span>
+            <span>{selectedPlace.romanizedAddress || selectedPlace.roadAddress || selectedPlace.address}</span>
           </div>
           {selectedPlace.phone && (
             <div className="flex items-center gap-1 text-muted-foreground mt-1">
@@ -152,10 +157,17 @@ export function KakaoPlaceSearch({
                   )}
                   onClick={() => handleSelect(place)}
                 >
-                  <div className="font-medium text-sm">{place.name}</div>
+                  <div className="font-medium text-sm">
+                    {place.romanizedName || place.name}
+                  </div>
+                  {place.romanizedName && (
+                    <div className="text-xs text-muted-foreground">{place.name}</div>
+                  )}
                   <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
                     <MapPin className="h-3 w-3 shrink-0" />
-                    <span className="truncate">{place.roadAddress || place.address}</span>
+                    <span className="truncate">
+                      {place.romanizedAddress || place.roadAddress || place.address}
+                    </span>
                   </div>
                   {place.phone && (
                     <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">

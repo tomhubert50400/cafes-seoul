@@ -173,6 +173,9 @@ export function CafeSubmissionForm({
 
           {/* Kakao Place Search */}
           <div className="space-y-2">
+            <p className="text-[11px] text-muted-foreground/60">
+              {t('submissions.form.translationDisclaimer')}
+            </p>
             <KakaoPlaceSearch
               onSelect={handlePlaceSelect}
               placeholder={t('submissions.form.searchPlaceholder')}

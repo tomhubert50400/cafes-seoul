@@ -33,6 +33,48 @@ export interface KakaoPlaceSearchResult {
   longitude: number;
   category: string;
   kakaoUrl: string;
+  romanizedName?: string;
+  romanizedAddress?: string;
+}
+
+// ============================================
+// HELPERS
+// ============================================
+
+/**
+ * Detect if a query is written in Latin characters (English, French, etc.)
+ */
+function isLatinQuery(query: string): boolean {
+  const latinChars = query.replace(/[\s\d\-.,!?'"()]/g, '');
+  return latinChars.length > 0 && /^[a-zA-ZÀ-ÿ]+$/.test(latinChars);
+}
+
+/**
+ * Translate Korean texts to English using Google Translate API.
+ * Batches multiple texts in one request using newline separator.
+ */
+async function translateKorean(texts: string[]): Promise<string[]> {
+  try {
+    const joined = texts.join('\n');
+    const url = new URL('https://translate.googleapis.com/translate_a/single');
+    url.searchParams.set('client', 'gtx');
+    url.searchParams.set('sl', 'ko');
+    url.searchParams.set('tl', 'en');
+    url.searchParams.set('dt', 't');
+    url.searchParams.set('q', joined);
+
+    const res = await fetch(url.toString());
+    if (!res.ok) return texts;
+
+    const data = await res.json();
+    // Response format: [[["translated\ntext","original",...], ...], ...]
+    const translated = (data[0] as Array<[string, ...unknown[]]>)
+      .map((segment) => segment[0])
+      .join('');
+    return translated.split('\n');
+  } catch {
+    return texts;
+  }
 }
 
 // ============================================
@@ -77,7 +119,7 @@ export async function searchKakaoPlaces(query: string): Promise<KakaoPlaceSearch
     const data = await response.json();
     const places: KakaoPlace[] = data.documents || [];
 
-    return places.map((place) => ({
+    const results = places.map((place) => ({
       id: place.id,
       name: place.place_name,
       address: place.address_name,
@@ -88,6 +130,22 @@ export async function searchKakaoPlaces(query: string): Promise<KakaoPlaceSearch
       category: place.category_name,
       kakaoUrl: place.place_url,
     }));
+
+    if (isLatinQuery(query) && results.length > 0) {
+      const textsToTranslate = results.flatMap((r) => [
+        r.name,
+        r.roadAddress || r.address,
+      ]);
+      const translated = await translateKorean(textsToTranslate);
+      for (let i = 0; i < results.length; i++) {
+        const name = translated[i * 2];
+        const address = translated[i * 2 + 1];
+        if (name) (results[i] as KakaoPlaceSearchResult).romanizedName = name;
+        if (address) (results[i] as KakaoPlaceSearchResult).romanizedAddress = address;
+      }
+    }
+
+    return results;
   } catch (error) {
     console.error('Kakao search error:', error);
     return [];
