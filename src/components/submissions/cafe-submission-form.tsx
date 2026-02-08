@@ -35,6 +35,7 @@ export interface CafeSubmissionFormProps {
 export function CafeSubmissionForm({
   onSubmit,
   onCheckDuplicates,
+  onCheckKakaoPlaceId,
   rateLimit,
   isLoading = false,
   mode = 'create',
