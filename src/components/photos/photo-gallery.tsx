@@ -226,12 +226,7 @@ export function PhotoGallerySkeleton({
       {/* Grid skeleton */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {Array.from({ length: count }).map((_, index) => (
-          <div
-            key={index}
-            className={cn(index >= 4 && 'hidden md:block')}
-          >
-            <PhotoCardSkeleton />
-          </div>
+          <PhotoCardSkeleton key={index} />
         ))}
       </div>
     </div>
