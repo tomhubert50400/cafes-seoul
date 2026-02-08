@@ -189,13 +189,11 @@ async function getCafePhotos(
 
 export default async function CafeDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const result = await getCafe(slug);
+  const cafe = await getCafe(slug);
 
-  if (!result) {
+  if (!cafe) {
     notFound();
   }
-
-  let { cafe, images } = result;
   const reviews = await getCafeReviews(cafe.id);
 
   // Fetch text reviews (from cafe_ratings with review_text)
