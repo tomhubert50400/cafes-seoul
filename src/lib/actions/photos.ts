@@ -74,43 +74,48 @@ export async function uploadPhoto(formData: FormData): Promise<UploadPhotoResult
       return { success: false, error: 'File must be less than 5MB' };
     }
 
-    // 5. Check 3 photo per cafe limit using RPC
-    const { data: canUploadCafe, error: cafeLimitError } = await supabase.rpc(
-      'can_upload_to_cafe',
-      { user_uuid: user.id, cafe_uuid: cafeId }
-    );
+    // 5. Check rate limits (skip for admins)
+    const userIsAdmin = await isAdmin(supabase, user.id);
 
-    if (cafeLimitError) {
-      console.error('Error checking cafe photo limit:', cafeLimitError);
-      return { success: false, error: 'Failed to check photo limits' };
+    if (!userIsAdmin) {
+      // Check 3 photo per cafe limit using RPC
+      const { data: canUploadCafe, error: cafeLimitError } = await supabase.rpc(
+        'can_upload_to_cafe',
+        { user_uuid: user.id, cafe_uuid: cafeId }
+      );
+
+      if (cafeLimitError) {
+        console.error('Error checking cafe photo limit:', cafeLimitError);
+        return { success: false, error: 'Failed to check photo limits' };
+      }
+
+      if (!canUploadCafe) {
+        return {
+          success: false,
+          error: 'Photo limit reached: You can upload up to 3 photos per cafe'
+        };
+      }
+
+      // Check 10 per day rate limit using RPC
+      const { data: canUploadDaily, error: dailyLimitError } = await supabase.rpc(
+        'can_upload_photo',
+        { user_uuid: user.id }
+      );
+
+      if (dailyLimitError) {
+        console.error('Error checking daily upload limit:', dailyLimitError);
+        return { success: false, error: 'Failed to check daily upload limits' };
+      }
+
+      if (!canUploadDaily) {
+        return {
+          success: false,
+          error: 'Daily upload limit reached: You can upload up to 10 photos per day'
+        };
+      }
     }
 
-    if (!canUploadCafe) {
-      return { 
-        success: false, 
-        error: 'Photo limit reached: You can upload up to 3 photos per cafe' 
-      };
-    }
-
-    // 6. Check 10 per day rate limit using RPC
-    const { data: canUploadDaily, error: dailyLimitError } = await supabase.rpc(
-      'can_upload_photo',
-      { user_uuid: user.id }
-    );
-
-    if (dailyLimitError) {
-      console.error('Error checking daily upload limit:', dailyLimitError);
-      return { success: false, error: 'Failed to check daily upload limits' };
-    }
-
-    if (!canUploadDaily) {
-      return { 
-        success: false, 
-        error: 'Daily upload limit reached: You can upload up to 10 photos per day' 
-      };
-    }
-
-    // 7. Generate unique storage path
+    // 6. Generate unique storage path
     const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
     const uniqueId = crypto.randomUUID();
     const storagePath = `${cafeId}/${user.id}/${uniqueId}.${fileExt}`;
