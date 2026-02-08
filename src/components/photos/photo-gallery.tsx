@@ -222,20 +222,15 @@ export function PhotoGallerySkeleton({
 }: PhotoGallerySkeletonProps) {
   return (
     <div className={cn('space-y-6', className)}>
-      {/* Masonry grid skeleton */}
-      <div
-        className={cn(
-          // CSS columns for masonry layout
-          'columns-2 md:columns-3 lg:columns-4',
-          // Gap between columns
-          'gap-4',
-          // Prevent column break inside items
-          '[&>*]:break-inside-avoid',
-          '[&>*]:mb-4'
-        )}
-      >
+      {/* Grid skeleton */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {Array.from({ length: count }).map((_, index) => (
-          <PhotoCardSkeleton key={index} />
+          <div
+            key={index}
+            className={cn(index >= 4 && 'hidden md:block')}
+          >
+            <PhotoCardSkeleton />
+          </div>
         ))}
       </div>
     </div>
