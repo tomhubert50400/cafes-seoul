@@ -2571,6 +2571,18 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Footer
     'footer.rights': '© 2025 Seoul Cafe Guide. 保留所有权利。',
+    'footer.explore': '探索',
+    'footer.explore.cafes': '咖啡馆',
+    'footer.explore.map': '地图',
+    'footer.explore.roulette': '随机推荐',
+    'footer.community': '社区',
+    'footer.community.submit': '提交咖啡馆',
+    'footer.community.dashboard': '仪表盘',
+    'footer.legal': '法律信息',
+    'footer.legal.privacy': '隐私政策',
+    'footer.legal.terms': '服务条款',
+    'footer.legal.contact': '联系我们',
+    'footer.description': '发现首尔最好的咖啡馆。咖啡爱好者的评论、评分和推荐。',
 
     // Cafes list page
     'cafes.title': '查找咖啡馆',
