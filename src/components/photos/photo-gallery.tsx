@@ -187,7 +187,7 @@ export function PhotoGallery({
                 <span>{t('photos.loading') || 'Loading...'}</span>
               </>
             ) : (
-              <span>+{photos.length - displayCount}</span>
+              <span>{t('photos.showMore') || 'Show more'} (+{photos.length - displayCount})</span>
             )}
           </button>
         </div>
