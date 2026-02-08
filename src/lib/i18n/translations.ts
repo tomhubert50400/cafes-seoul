@@ -99,7 +99,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.googleMaps': 'Google Maps',
     'directions.chooseApp': 'Open with...',
     'share.title': 'Share this cafe',
-    'share.email': 'Email',
     'share.copyLink': 'Copy link',
     'share.linkCopied': 'Link copied!',
     'cafe.map': 'Map',
