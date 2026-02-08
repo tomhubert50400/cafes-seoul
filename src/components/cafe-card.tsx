@@ -48,7 +48,7 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
             <CoffeeIcon className="h-8 w-8 text-zinc-500 dark:text-zinc-400" />
-            <p className="text-sm text-zinc-600 dark:text-zinc-300 px-2">
+            <p className="text-base text-zinc-600 dark:text-zinc-300 px-2">
               {t('cafe.noImage').replace('{name}', cafeName)}
             </p>
             <div
