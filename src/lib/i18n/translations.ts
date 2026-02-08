@@ -922,7 +922,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.googleMaps': '구글 지도',
     'directions.chooseApp': '앱 선택',
     'share.title': '이 카페 공유하기',
-    'share.email': '이메일',
     'share.copyLink': '링크 복사',
     'share.linkCopied': '링크가 복사되었습니다!',
     'cafe.map': '지도',
