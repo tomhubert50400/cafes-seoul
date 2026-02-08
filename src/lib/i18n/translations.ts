@@ -2375,6 +2375,8 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'submissions.rateLimit.timeRemainingSoon': 'Réinitialisation imminente',
     'submissions.rateLimit.remainingOne': 'Il vous reste 1 proposition aujourd\'hui',
     'submissions.rateLimit.remainingMany': 'Il vous reste {count} propositions aujourd\'hui',
+    'submissions.duplicateKakao.existsInDirectory': 'Ce café existe déjà dans notre répertoire.',
+    'submissions.duplicateKakao.alreadySubmitted': 'Ce café a déjà été soumis et est en attente de validation.',
     'submissions.rateLimit.whyTitle': 'Pourquoi cette limite ?',
     'submissions.rateLimit.whyExplanation': 'Cette limite nous aide à maintenir la qualité et prévenir le spam.',
     'submissions.rateLimit.alternativesTitle': 'En attendant, vous pouvez :',
