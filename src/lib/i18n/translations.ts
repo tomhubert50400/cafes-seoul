@@ -2568,7 +2568,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.googleMaps': '谷歌地图',
     'directions.chooseApp': '选择应用...',
     'share.title': '分享这家咖啡馆',
-    'share.email': '邮件',
     'share.copyLink': '复制链接',
     'share.linkCopied': '链接已复制！',
     'cafe.map': '地图',
