@@ -193,6 +193,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.writeFirst': 'Write the first review',
     'cafe.noImage': 'No image available',
     'cafe.addFirstPhoto': 'Be the first to add one!',
+    'cafe.addPhoto': 'Add a photo',
     'cafe.helpful': 'Helpful',
 
     // Features/Facilities
@@ -1112,6 +1113,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.writeFirst': '첫 리뷰 작성하기',
     'cafe.noImage': '이미지가 없습니다',
     'cafe.addFirstPhoto': '첫 번째 사진을 올려주세요!',
+    'cafe.addPhoto': '사진 추가',
     'cafe.helpful': '도움이 됐어요',
 
     // Features/Facilities
@@ -2031,6 +2033,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.writeFirst': 'Écrire le premier avis',
     'cafe.noImage': 'Aucune image disponible',
     'cafe.addFirstPhoto': 'Soyez le premier à en ajouter une !',
+    'cafe.addPhoto': 'Ajouter une photo',
     'cafe.helpful': 'Utile',
 
     // Features/Facilities
@@ -2950,6 +2953,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.writeFirst': '写第一条评论',
     'cafe.noImage': '暂无图片',
     'cafe.addFirstPhoto': '成为第一个上传图片的人！',
+    'cafe.addPhoto': '添加照片',
     'cafe.helpful': '有帮助',
 
     // Features/Facilities
@@ -3869,6 +3873,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.writeFirst': 'Viết đánh giá đầu tiên',
     'cafe.noImage': 'Không có hình ảnh',
     'cafe.addFirstPhoto': 'Hãy là người đầu tiên thêm ảnh!',
+    'cafe.addPhoto': 'Thêm ảnh',
     'cafe.helpful': 'Hữu ích',
 
     // Features/Facilities

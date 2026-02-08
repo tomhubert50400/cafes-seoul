@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Camera, Plus } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { RatingStars } from '@/components/rating-stars';
 import { CafeStaticMap } from '@/components/map/cafe-static-map';
@@ -50,6 +52,39 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
   // The server component passes photos with isOwnPhoto flags, so we can infer auth state
   const isAuthenticated = photos.some(p => p.isOwnPhoto);
 
+  // Combine admin images + user photos, sorted by popularity, take top 4
+  const galleryImages = useMemo(() => {
+    const combined: { id: string; url: string; alt: string; score: number }[] = [];
+
+    // Admin images get high score (they're curated)
+    images.forEach((img, i) => {
+      combined.push({
+        id: `img-${img.id}`,
+        url: img.storagePath,
+        alt: getLocalizedText(img.altText, language) || `${cafeName} ${i + 1}`,
+        score: 1000 - i, // admin images first, in order
+      });
+    });
+
+    // User photos sorted by upvotes
+    photos
+      .filter((p) => p.status === 'approved')
+      .forEach((p) => {
+        // Avoid duplicates if a photo URL matches an admin image
+        if (!combined.some((c) => c.url === p.url)) {
+          combined.push({
+            id: `photo-${p.id}`,
+            url: p.url,
+            alt: cafeName,
+            score: p.upvoteCount,
+          });
+        }
+      });
+
+    combined.sort((a, b) => b.score - a.score);
+    return combined.slice(0, 4); // 1 big + up to 3 small (last slot reserved for CTA)
+  }, [images, photos, cafeName, language]);
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <main className="mx-auto max-w-6xl px-4 py-8 overflow-x-hidden">
@@ -72,27 +107,44 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
 
         {/* Image gallery */}
         <div className="mb-8 overflow-hidden rounded-xl">
-          {images.length > 0 ? (
+          {galleryImages.length > 0 ? (
             <div className="grid gap-2 md:grid-cols-4 md:grid-rows-2">
-              <div className="relative aspect-[4/3] md:col-span-2 md:row-span-2">
+              {/* Main large image */}
+              <div className="relative aspect-square md:col-span-2 md:row-span-2">
                 <Image
-                  src={images[0].storagePath}
-                  alt={getLocalizedText(images[0].altText, language) || cafeName}
+                  src={galleryImages[0].url}
+                  alt={galleryImages[0].alt}
                   fill
                   className="rounded-lg object-cover"
                   priority
                 />
               </div>
-              {images.slice(1, 5).map((image, i) => (
-                <div key={image.id} className="relative hidden aspect-[4/3] md:block">
+              {/* Up to 3 more images */}
+              {galleryImages.slice(1, 4).map((img) => (
+                <div key={img.id} className="relative hidden aspect-square md:block">
                   <Image
-                    src={image.storagePath}
-                    alt={getLocalizedText(image.altText, language) || `${cafeName} ${i + 2}`}
+                    src={img.url}
+                    alt={img.alt}
                     fill
                     className="rounded-lg object-cover"
                   />
                 </div>
               ))}
+              {/* CTA slot — add photo */}
+              <Link
+                href={`/cafes/${cafe.slug}?upload=true#photos-section`}
+                className="relative hidden aspect-square md:flex flex-col items-center justify-center gap-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
+              >
+                <div className="relative">
+                  <Camera className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
+                  <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary">
+                    <Plus className="h-3 w-3 text-primary-foreground" />
+                  </div>
+                </div>
+                <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                  {t('cafe.addPhoto')}
+                </span>
+              </Link>
             </div>
           ) : (
             <div className="flex aspect-[21/9] flex-col items-center justify-center gap-3 rounded-lg bg-zinc-100 dark:bg-zinc-800">
@@ -101,11 +153,9 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                 <p className="text-muted-foreground">{t('cafe.noImage')}</p>
                 <button
                   onClick={() => {
-                    // Add ?upload=true to trigger modal open, then scroll
                     const url = new URL(window.location.href);
                     url.searchParams.set('upload', 'true');
                     window.history.replaceState({}, '', url.toString());
-                    // Force re-render by navigating
                     window.location.href = url.toString() + '#photos-section';
                   }}
                   className="mt-1 text-sm text-primary hover:underline"
