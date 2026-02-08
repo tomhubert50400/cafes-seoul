@@ -29,7 +29,6 @@ import { CafeReviewsList } from '@/components/reviews/cafe-reviews-list';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
-  images: CafeImage[];
   reviews: Review[];
   textReviews?: ReviewWithAuthor[];
   userRating?: UserRating | null;
@@ -38,7 +37,7 @@ interface CafeDetailContentProps {
   isFavorited?: boolean;
 }
 
-export function CafeDetailContent({ cafe, images, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
+export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
