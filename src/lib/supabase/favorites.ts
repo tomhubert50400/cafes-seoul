@@ -114,8 +114,11 @@ export async function getUserFavorites(
     return data.map((row) => {
       // Cast through unknown to handle Supabase's type inference for joins
       const cafe = row.cafe as unknown as Record<string, unknown>;
-      const cafeImages = cafe.cafe_images as Array<{ storage_path: string }> | null;
-      const primaryImage = cafeImages?.[0]?.storage_path || null;
+      const photos = cafe.photos as Array<{ storage_path: string; upvote_count: number; status: string }> | null;
+      const topPhoto = photos
+        ?.filter((p) => p.status === 'approved')
+        .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+      const primaryImage = topPhoto?.storage_path || null;
 
       return {
         id: row.id as string,
