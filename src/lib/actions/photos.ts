@@ -318,6 +318,12 @@ export async function checkPhotoLimits(cafeId: string): Promise<LimitCheckResult
       return { canUpload: false, remainingCafe: 0, remainingDaily: 0 };
     }
 
+    // Admins have no limits
+    const userIsAdmin = await isAdmin(supabase, user.id);
+    if (userIsAdmin) {
+      return { canUpload: true, remainingCafe: 999, remainingDaily: 999 };
+    }
+
     // Get remaining daily uploads
     const { data: remainingDaily, error: dailyError } = await supabase.rpc(
       'get_remaining_uploads',
