@@ -134,28 +134,24 @@ export function PhotoGallery({
 
   return (
     <div className={cn('space-y-6', className)}>
-      {/* Masonry grid using CSS columns */}
-      <div
-        className={cn(
-          // CSS columns for masonry layout
-          'columns-2 md:columns-3 lg:columns-4',
-          // Gap between columns
-          'gap-4',
-          // Prevent column break inside items
-          '[&>*]:break-inside-avoid',
-          '[&>*]:mb-4'
-        )}
-      >
+      {/* Grid layout - 2 cols on mobile, 3 on desktop */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {displayedPhotos.map((photo, index) => (
-          <PhotoCard
+          <div
             key={photo.id}
-            photo={photo}
-            onVoteChange={handleVoteChange}
-            onDelete={handlePhotoDelete}
-            isAdmin={isAdmin}
-            // Prioritize loading first 6 images
-            priority={index < 6}
-          />
+            className={cn(
+              // On first page, hide 5th and 6th item on mobile
+              index >= 4 && displayCount <= 6 && 'hidden md:block'
+            )}
+          >
+            <PhotoCard
+              photo={photo}
+              onVoteChange={handleVoteChange}
+              onDelete={handlePhotoDelete}
+              isAdmin={isAdmin}
+              priority={index < 6}
+            />
+          </div>
         ))}
       </div>
 
