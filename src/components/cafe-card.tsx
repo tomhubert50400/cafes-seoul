@@ -152,6 +152,70 @@ export function CafeCardSkeleton({ className }: { className?: string }) {
   );
 }
 
+// Generate a deterministic gradient from cafe ID
+const GRADIENT_PALETTES = [
+  { from: '#e0c3fc', via: '#8ec5fc', to: '#c2e9fb' }, // lavender → blue
+  { from: '#fbc2eb', via: '#f6a5c1', to: '#fda085' }, // pink → peach
+  { from: '#a1c4fd', via: '#9face6', to: '#c2e9fb' }, // soft blue
+  { from: '#ffecd2', via: '#fcb69f', to: '#ff9a9e' }, // warm sunset
+  { from: '#d4fc79', via: '#96e6a1', to: '#84fab0' }, // green mint
+  { from: '#cfd9df', via: '#b8c6db', to: '#e2ebf0' }, // silver mist
+  { from: '#f5f7fa', via: '#c3cfe2', to: '#a1c4fd' }, // cloud blue
+  { from: '#fccb90', via: '#d57eeb', to: '#a18cd1' }, // orange → purple
+  { from: '#fbc2eb', via: '#c2e9fb', to: '#a6c1ee' }, // cotton candy
+  { from: '#fdcbf1', via: '#e6dee9', to: '#cfd9df' }, // soft rose
+];
+
+function hashCafeId(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = ((hash << 5) - hash + id.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+function CafePlaceholder({ cafeId, cafeName, cafeSlug }: { cafeId: string; cafeName: string; cafeSlug: string }) {
+  const hash = hashCafeId(cafeId);
+  const palette = GRADIENT_PALETTES[hash % GRADIENT_PALETTES.length];
+  const angle = (hash % 6) * 60; // 0, 60, 120, 180, 240, 300
+
+  return (
+    <div
+      className="flex h-full flex-col items-center justify-center gap-3 px-4"
+      style={{
+        background: `linear-gradient(${angle}deg, ${palette.from}, ${palette.via}, ${palette.to})`,
+      }}
+    >
+      <CoffeeIcon className="h-9 w-9 text-white/40" />
+      <p className="text-sm font-medium text-white/70 line-clamp-1 max-w-[85%] text-center drop-shadow-sm">
+        {cafeName}
+      </p>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = `${ROUTES.CAFE_DETAIL(cafeSlug)}?upload=true#photos-section`;
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = `${ROUTES.CAFE_DETAIL(cafeSlug)}?upload=true#photos-section`;
+          }
+        }}
+        className="relative cursor-pointer rounded-full p-2 transition-colors hover:bg-white/20"
+      >
+        <Camera className="h-5 w-5 text-white/50" />
+        <div className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-white/50">
+          <Plus className="h-2.5 w-2.5 text-white" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CoffeeIcon({ className }: { className?: string }) {
   return (
     <svg
