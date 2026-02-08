@@ -430,6 +430,70 @@ async function findDuplicateCafesFallback(
 }
 
 // ============================================
+// KAKAO PLACE ID DUPLICATE CHECK
+// ============================================
+
+export type KakaoPlaceIdCheckResult = {
+  exists: boolean;
+  foundIn?: 'cafes' | 'submissions';
+  status?: string;
+};
+
+/**
+ * Check if a kakao_place_id already exists in cafes or cafe_submissions
+ * Uses the RPC function with fallback to direct query
+ */
+export async function checkKakaoPlaceIdExists(
+  supabase: SupabaseClient,
+  kakaoPlaceId: string
+): Promise<KakaoPlaceIdCheckResult> {
+  try {
+    const { data, error } = await supabase.rpc('check_kakao_place_id_exists', {
+      p_kakao_place_id: kakaoPlaceId,
+    });
+
+    if (error) {
+      console.warn('RPC check_kakao_place_id_exists failed, using fallback:', error.message);
+      return checkKakaoPlaceIdFallback(supabase, kakaoPlaceId);
+    }
+
+    if (data && data.length > 0) {
+      return {
+        exists: true,
+        foundIn: data[0].found_in as 'cafes' | 'submissions',
+        status: data[0].status,
+      };
+    }
+
+    return { exists: false };
+  } catch (err) {
+    console.error('Error checking kakao_place_id:', err);
+    return checkKakaoPlaceIdFallback(supabase, kakaoPlaceId);
+  }
+}
+
+async function checkKakaoPlaceIdFallback(
+  supabase: SupabaseClient,
+  kakaoPlaceId: string
+): Promise<KakaoPlaceIdCheckResult> {
+  try {
+    const { data, error } = await supabase
+      .from('cafes')
+      .select('id')
+      .eq('kakao_place_id', kakaoPlaceId)
+      .limit(1);
+
+    if (!error && data && data.length > 0) {
+      return { exists: true, foundIn: 'cafes' };
+    }
+
+    return { exists: false };
+  } catch {
+    return { exists: false };
+  }
+}
+
+// ============================================
 // RATE LIMITING
 // ============================================
 
