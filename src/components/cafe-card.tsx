@@ -46,38 +46,7 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-3 px-4 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/40">
-            {/* Decorative background beans */}
-            <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]" aria-hidden="true">
-              <CoffeeIcon className="absolute top-3 left-4 h-8 w-8 rotate-[-15deg]" />
-              <CoffeeIcon className="absolute bottom-4 right-3 h-6 w-6 rotate-[20deg]" />
-              <CoffeeIcon className="absolute top-1/3 right-1/4 h-5 w-5 rotate-[45deg]" />
-            </div>
-            <CoffeeIcon className="h-9 w-9 text-amber-300 dark:text-amber-700" />
-            <p className="text-sm font-medium text-amber-800/70 dark:text-amber-200/50 line-clamp-1 max-w-[85%] text-center">{cafeName}</p>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                window.location.href = `${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`;
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  window.location.href = `${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`;
-                }
-              }}
-              className="relative cursor-pointer rounded-full p-2 transition-colors hover:bg-amber-200/50 dark:hover:bg-amber-800/30"
-            >
-              <Camera className="h-5 w-5 text-amber-400 dark:text-amber-600" />
-              <div className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-amber-400 dark:bg-amber-600">
-                <Plus className="h-2.5 w-2.5 text-white" />
-              </div>
-            </div>
-          </div>
+          <CafePlaceholder cafeId={cafe.id} cafeName={cafeName} cafeSlug={cafe.slug} />
         )}
 
         {/* Heart icon overlay - only for logged-in users */}
