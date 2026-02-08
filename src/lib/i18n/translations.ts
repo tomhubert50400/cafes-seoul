@@ -3101,7 +3101,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': '平均饮品价格：',
     'cafe.noReviews': '暂无评论',
     'cafe.writeFirst': '写第一条评论',
-    'cafe.noImage': '暂无图片',
+    'cafe.noImage': '{name} 暂无可用图片',
     'cafe.addFirstPhoto': '成为第一个上传图片的人！',
     'cafe.addPhoto': '添加照片',
     'cafe.helpful': '有帮助',
