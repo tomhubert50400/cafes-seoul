@@ -3409,6 +3409,18 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Footer
     'footer.rights': '© 2025 Seoul Cafe Guide. Đã đăng ký bản quyền.',
+    'footer.explore': 'Khám phá',
+    'footer.explore.cafes': 'Quán cà phê',
+    'footer.explore.map': 'Bản đồ',
+    'footer.explore.roulette': 'Ngẫu nhiên',
+    'footer.community': 'Cộng đồng',
+    'footer.community.submit': 'Đề xuất quán',
+    'footer.community.dashboard': 'Bảng điều khiển',
+    'footer.legal': 'Pháp lý',
+    'footer.legal.privacy': 'Chính sách bảo mật',
+    'footer.legal.terms': 'Điều khoản dịch vụ',
+    'footer.legal.contact': 'Liên hệ',
+    'footer.description': 'Khám phá những quán cà phê tuyệt nhất Seoul. Đánh giá, xếp hạng và gợi ý từ những người yêu cà phê.',
 
     // Cafes list page
     'cafes.title': 'Tìm quán cà phê',
