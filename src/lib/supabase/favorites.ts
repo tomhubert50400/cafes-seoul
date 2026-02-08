@@ -99,7 +99,7 @@ export async function getUserFavorites(
           district_id,
           overall_rating,
           total_ratings,
-          cafe_images(storage_path)
+          photos(storage_path, upvote_count, status)
         )
       `)
       .eq('user_id', userId)
