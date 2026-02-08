@@ -105,10 +105,18 @@ export async function submitCafe(
       return { success: false, error: result.error };
     }
 
-    // 6. Revalidate profile submissions page
+    // 6. Auto-approve for admins (skip moderation queue)
+    if (userIsAdmin) {
+      const approval = await approveSubmission({ submissionId: result.id });
+      if (!approval.success) {
+        console.warn('Auto-approval failed for admin submission:', approval.error);
+      }
+    }
+
+    // 7. Revalidate profile submissions page
     revalidatePath('/profile/submissions');
 
-    // 7. Return success with rate limit info
+    // 8. Return success with rate limit info
     return {
       success: true,
       submission: result,
