@@ -20,6 +20,8 @@ export interface CafeSubmissionFormProps {
   onSubmit: (data: SubmissionFormData) => Promise<void>;
   /** Callback to check for duplicate cafes */
   onCheckDuplicates: (name: TranslatedText, address: TranslatedText) => Promise<CafeSummary[]>;
+  /** Callback to check kakao_place_id duplicate */
+  onCheckKakaoPlaceId?: (id: string) => Promise<{ exists: boolean; foundIn?: string }>;
   /** Rate limit information */
   rateLimit?: SubmissionRateLimit | null;
   /** Loading state */
@@ -65,7 +67,7 @@ export function CafeSubmissionForm({
 
   const handleSubmit = async () => {
     if (!selectedPlace) {
-      setError(t('submissions.form.selectCafeFirst') || 'Please select a cafe from the search results');
+      setError(t('submissions.form.selectCafeFirst'));
       return;
     }
 
@@ -132,7 +134,7 @@ export function CafeSubmissionForm({
             {t('submissions.form.title')}
           </CardTitle>
           <CardDescription>
-            {t('submissions.form.searchSubtitle') || 'Search for a cafe on Kakao Maps and submit it to our directory.'}
+            {t('submissions.form.searchSubtitle')}
           </CardDescription>
         </CardHeader>
 
@@ -158,7 +160,7 @@ export function CafeSubmissionForm({
           <div className="space-y-2">
             <KakaoPlaceSearch
               onSelect={handlePlaceSelect}
-              placeholder={t('submissions.form.searchPlaceholder') || 'Search for a cafe...'}
+              placeholder={t('submissions.form.searchPlaceholder')}
             />
           </div>
 
@@ -217,7 +219,7 @@ export function CafeSubmissionForm({
 
           {!selectedPlace && (
             <p className="text-xs text-center text-muted-foreground">
-              {t('submissions.form.selectToSubmit') || 'Search and select a cafe above to submit'}
+              {t('submissions.form.selectToSubmit')}
             </p>
           )}
         </CardContent>
