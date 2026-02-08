@@ -895,6 +895,18 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Footer
     'footer.rights': '© 2025 Seoul Cafe Guide. All rights reserved.',
+    'footer.explore': '탐색',
+    'footer.explore.cafes': '카페',
+    'footer.explore.map': '지도',
+    'footer.explore.roulette': '룰렛',
+    'footer.community': '커뮤니티',
+    'footer.community.submit': '카페 등록',
+    'footer.community.dashboard': '대시보드',
+    'footer.legal': '법적 고지',
+    'footer.legal.privacy': '개인정보 처리방침',
+    'footer.legal.terms': '이용약관',
+    'footer.legal.contact': '문의하기',
+    'footer.description': '서울 최고의 카페를 발견하세요. 커피 애호가들의 리뷰, 평점, 추천.',
 
     // Cafes list page
     'cafes.title': '카페 찾기',
