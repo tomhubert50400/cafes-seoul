@@ -75,28 +75,6 @@ export function PhotoCard({
     }
   };
 
-  // Determine aspect ratio class based on photo dimensions (if available)
-  // For masonry effect, we use varying heights
-  const getAspectRatioClass = () => {
-    if (!photo.width || !photo.height) {
-      // Default to portrait if no dimensions
-      return 'aspect-[3/4]';
-    }
-    
-    const ratio = photo.width / photo.height;
-    
-    if (ratio > 1.3) {
-      // Landscape
-      return 'aspect-[4/3]';
-    } else if (ratio < 0.8) {
-      // Portrait
-      return 'aspect-[3/4]';
-    } else {
-      // Square-ish
-      return 'aspect-square';
-    }
-  };
-
   // Show delete button for admins or for own pending photos
   const canDelete = isAdmin || (photo.isOwnPhoto && photo.status === 'pending');
 
@@ -105,9 +83,9 @@ export function PhotoCard({
       className={cn(
         // Layout
         'relative overflow-hidden group',
-        // Shape
+        // Shape - always square
         'rounded-lg',
-        getAspectRatioClass(),
+        'aspect-square',
         // Shadows and transitions
         'shadow-sm hover:shadow-md',
         'transition-shadow duration-200',
