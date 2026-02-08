@@ -81,7 +81,6 @@ export async function GET(request: NextRequest) {
   // Transform and add distance
   const result: CafeSummary[] = (cafes || [])
     .map((row) => {
-      const images = row.cafe_images as { storage_path: string }[] | null;
       const photos = row.photos as { storage_path: string; upvote_count: number; status: string }[] | null;
       const topPhoto = photos
         ?.filter((p) => p.status === 'approved')
@@ -89,7 +88,7 @@ export async function GET(request: NextRequest) {
       return {
         ...transformCafeSummary({
           ...row,
-          primary_image_url: images?.[0]?.storage_path || topPhoto?.storage_path || null,
+          primary_image_url: topPhoto?.storage_path || null,
         }),
         distance: distanceMap.get(row.id) as number,
       };
