@@ -51,9 +51,13 @@ export async function GET(request: NextRequest) {
 
   const cafes: CafeSummary[] = (data || []).map((row) => {
     const images = row.cafe_images as { storage_path: string }[] | null;
+    const photos = row.photos as { storage_path: string; upvote_count: number; status: string }[] | null;
+    const topPhoto = photos
+      ?.filter((p) => p.status === 'approved')
+      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
     return transformCafeSummary({
       ...row,
-      primary_image_url: images?.[0]?.storage_path || null,
+      primary_image_url: images?.[0]?.storage_path || topPhoto?.storage_path || null,
     });
   });
 
