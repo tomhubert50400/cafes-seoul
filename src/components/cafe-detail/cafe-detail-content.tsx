@@ -51,38 +51,18 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
   // The server component passes photos with isOwnPhoto flags, so we can infer auth state
   const isAuthenticated = photos.some(p => p.isOwnPhoto);
 
-  // Combine admin images + user photos, sorted by popularity, take top 4
+  // All photos sorted by popularity, take top 4
   const galleryImages = useMemo(() => {
-    const combined: { id: string; url: string; alt: string; score: number }[] = [];
-
-    // Admin images get high score (they're curated)
-    images.forEach((img, i) => {
-      combined.push({
-        id: `img-${img.id}`,
-        url: img.storagePath,
-        alt: getLocalizedText(img.altText, language) || `${cafeName} ${i + 1}`,
-        score: 1000 - i, // admin images first, in order
-      });
-    });
-
-    // User photos sorted by upvotes
-    photos
+    return photos
       .filter((p) => p.status === 'approved')
-      .forEach((p) => {
-        // Avoid duplicates if a photo URL matches an admin image
-        if (!combined.some((c) => c.url === p.url)) {
-          combined.push({
-            id: `photo-${p.id}`,
-            url: p.url,
-            alt: cafeName,
-            score: p.upvoteCount,
-          });
-        }
-      });
-
-    combined.sort((a, b) => b.score - a.score);
-    return combined.slice(0, 4); // 1 big + up to 3 small (last slot reserved for CTA)
-  }, [images, photos, cafeName, language]);
+      .sort((a, b) => b.upvoteCount - a.upvoteCount)
+      .slice(0, 4)
+      .map((p) => ({
+        id: `photo-${p.id}`,
+        url: p.url,
+        alt: cafeName,
+      }));
+  }, [photos, cafeName]);
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
