@@ -362,7 +362,7 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
               />
 
               {/* Static map */}
-              <div className="mt-6">
+              <div className="mt-6 overflow-hidden rounded-lg">
                 <MapProvider>
                   <CafeStaticMap cafe={cafe} height="200px" />
                 </MapProvider>
