@@ -1733,6 +1733,18 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
     // Footer
     'footer.rights': '© 2025 Seoul Cafe Guide. Tous droits réservés.',
+    'footer.explore': 'Explorer',
+    'footer.explore.cafes': 'Cafés',
+    'footer.explore.map': 'Carte',
+    'footer.explore.roulette': 'Roulette',
+    'footer.community': 'Communauté',
+    'footer.community.submit': 'Proposer un café',
+    'footer.community.dashboard': 'Tableau de bord',
+    'footer.legal': 'Légal',
+    'footer.legal.privacy': 'Politique de confidentialité',
+    'footer.legal.terms': 'Conditions d\'utilisation',
+    'footer.legal.contact': 'Contact',
+    'footer.description': 'Découvrez les meilleurs cafés de Séoul. Avis, notes et recommandations par des amateurs de café.',
 
     // Cafes list page
     'cafes.title': 'Trouver un café',
