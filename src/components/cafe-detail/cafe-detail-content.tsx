@@ -360,17 +360,13 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                   </Button>
                 }
               />
-            </div>
 
-            {/* Static map */}
-            <div className="space-y-3">
-              <h3 className="font-medium">{t('cafe.map')}</h3>
-              <MapProvider>
-                <CafeStaticMap cafe={cafe} height="200px" />
-              </MapProvider>
-              <p className="text-sm text-muted-foreground">
-                {cafeAddress}
-              </p>
+              {/* Static map */}
+              <div className="mt-6">
+                <MapProvider>
+                  <CafeStaticMap cafe={cafe} height="200px" />
+                </MapProvider>
+              </div>
             </div>
 
             {/* Price info */}
