@@ -1161,7 +1161,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.avgDrink': '평균 음료 가격:',
     'cafe.noReviews': '아직 리뷰가 없습니다',
     'cafe.writeFirst': '첫 리뷰 작성하기',
-    'cafe.noImage': '이미지가 없습니다',
+    'cafe.noImage': '{name}에는 아직 이미지가 없습니다',
     'cafe.addFirstPhoto': '첫 번째 사진을 올려주세요!',
     'cafe.addPhoto': '사진 추가',
     'cafe.helpful': '도움이 됐어요',
