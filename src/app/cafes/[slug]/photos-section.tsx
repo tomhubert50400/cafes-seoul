@@ -37,10 +37,10 @@ export function PhotosSection({
   const searchParams = useSearchParams();
   const shouldOpenUpload = searchParams.get('upload') === 'true';
 
-  // Handle upload success - refresh the page to show new photo
+  // Handle upload success - hard reload to show new photo
   const handleUploadSuccess = useCallback(() => {
-    router.refresh();
-  }, [router]);
+    window.location.reload();
+  }, []);
 
   // Count visible photos (approved + user's pending)
   const visiblePhotoCount = initialPhotos.length;
