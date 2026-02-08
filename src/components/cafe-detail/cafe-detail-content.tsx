@@ -305,6 +305,18 @@ export function CafeDetailContent({ cafe, images, reviews, textReviews = [], use
                   }
                 />
               )}
+
+              {/* Share button */}
+              <ShareChooser
+                cafeName={cafeName}
+                cafeSlug={cafe.slug}
+                trigger={
+                  <Button variant="outline" className="mt-2 w-full">
+                    <ShareIcon className="mr-2 h-4 w-4" />
+                    {t('share.title')}
+                  </Button>
+                }
+              />
             </div>
 
             {/* Static map */}
