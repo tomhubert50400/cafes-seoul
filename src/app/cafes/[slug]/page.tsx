@@ -16,7 +16,7 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getCafe(slug: string): Promise<{ cafe: Cafe; images: CafeImage[] } | null> {
+async function getCafe(slug: string): Promise<Cafe | null> {
   const supabase = await createClient();
 
   const { data: cafe, error } = await supabase
@@ -30,26 +30,7 @@ async function getCafe(slug: string): Promise<{ cafe: Cafe; images: CafeImage[] 
     return null;
   }
 
-  const { data: images } = await supabase
-    .from('cafe_images')
-    .select('id, storage_path, thumbnail_path, alt_text, is_primary, created_at')
-    .eq('cafe_id', cafe.id)
-    .eq('is_approved', true)
-    .order('is_primary', { ascending: false })
-    .order('created_at', { ascending: true });
-
-  return {
-    cafe: transformCafe(cafe),
-    images: (images || []).map((img) => ({
-      id: img.id,
-      cafeId: cafe.id,
-      storagePath: getStorageUrl(img.storage_path) || '',
-      thumbnailPath: getStorageUrl(img.thumbnail_path),
-      altText: img.alt_text || {},
-      isPrimary: img.is_primary,
-      createdAt: img.created_at,
-    })),
-  };
+  return transformCafe(cafe);
 }
 
 async function getCafeReviews(cafeId: string): Promise<Review[]> {
