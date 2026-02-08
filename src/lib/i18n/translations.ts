@@ -1745,7 +1745,6 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'cafe.googleMaps': 'Google Maps',
     'directions.chooseApp': 'Ouvrir avec...',
     'share.title': 'Partager ce café',
-    'share.email': 'Email',
     'share.copyLink': 'Copier le lien',
     'share.linkCopied': 'Lien copié !',
     'cafe.map': 'Carte',
