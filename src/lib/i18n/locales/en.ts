@@ -475,7 +475,7 @@ const en: Record<string, string> = {
   'submissions.form.nameLabel': 'Cafe Name',
   'submissions.form.namePlaceholderEn': 'e.g., Blue Bottle Coffee',
   'submissions.form.namePlaceholderKo': 'e.g., 블루보틀커피',
-  'submissions.form.namePlaceholderFR': 'e.g., Cafe de Flore',
+  'submissions.form.namePlaceholderFR': 'e.g., Café de Flore',
   'submissions.form.namePlaceholderZH': 'e.g., 星巴克',
   'submissions.form.namePlaceholderVI': 'e.g., Cong Ca Phe',
   'submissions.form.addressLabel': 'Address',
