@@ -40,7 +40,7 @@ export function Header({ user }: HeaderProps = {}) {
         </Link>
 
         {/* Navigation - centered on desktop, slightly left on mobile */}
-        <nav aria-label="Main navigation" className="flex flex-1 items-center justify-center gap-2 md:flex-none md:gap-6">
+        <nav aria-label="Main navigation" className="flex flex-1 items-center justify-center gap-1 md:flex-none md:gap-6">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
