@@ -965,8 +965,6 @@ const vi: Record<string, string> = {
 
   // For You
   'nav.forYou': 'Danh cho ban',
-  'forYou.like': 'LIKE',
-  'forYou.nope': 'NOPE',
   'forYou.addedToFavorites': 'Da them vao yeu thich!',
   'forYou.removedFromFavorites': 'Da xoa khoi yeu thich',
   'forYou.loginToFavorite': 'Dang nhap de luu yeu thich',
@@ -976,7 +974,10 @@ const vi: Record<string, string> = {
   'forYou.tryRoulette': 'Thu vong quay',
   'forYou.viewDetails': 'Xem chi tiet',
   'forYou.getDirections': 'Chi duong',
-  'forYou.swipeHint': 'Vuot phai de thich, vuot trai de bo qua',
+  'forYou.openMap': 'Mở bản đồ',
+  'forYou.showMap': 'Hien thi ban do',
+  'forYou.hideMap': 'An ban do',
+  'forYou.swipeHint': 'Cuon de kham pha',
   'forYou.signUpPrompt': 'Dang ky de nhan goi y ca nhan',
 
   // Cookie consent
