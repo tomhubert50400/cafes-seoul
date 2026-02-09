@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { MapPin, X } from 'lucide-react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Badge } from '@/components/ui/badge';
