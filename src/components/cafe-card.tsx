@@ -30,6 +30,7 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
   return (
     <Link
       href={ROUTES.CAFE_DETAIL(cafe.slug)}
+      aria-label={`${cafeName} - ${district ? getLocalizedText(district.name, language) : ''}`}
       className={cn(
         'group flex flex-col overflow-hidden rounded-xl border bg-card transition-all hover:shadow-md',
         className
