@@ -663,7 +663,7 @@ const zh: Record<string, string> = {
   'photos.upload.uploading': '上传中...',
   'photos.upload.success': '照片上传成功！',
   'photos.upload.error': '照片上传失败',
-  'photos.upload.maxSize': '最大5MB',
+  'photos.upload.maxSize': '最大15MB',
   'photos.upload.allowedTypes': '仅JPG、PNG、WebP',
 
   // Photo limits
