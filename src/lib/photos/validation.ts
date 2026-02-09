@@ -44,7 +44,7 @@ export function validatePhotoFile(file: File): ValidationResult {
 
   // Check file size
   if (file.size > MAX_FILE_SIZE) {
-    errors.push('File must be less than 5MB');
+    errors.push('File must be less than 15MB');
   }
 
   // Check MIME type
