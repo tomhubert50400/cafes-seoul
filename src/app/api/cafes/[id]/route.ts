@@ -15,7 +15,7 @@ export async function GET(
   let query = supabase
     .from('cafes')
     .select('*')
-    .neq('status', 'closed');
+    .eq('status', 'active');
 
   if (isUuid) {
     query = query.eq('id', id);
