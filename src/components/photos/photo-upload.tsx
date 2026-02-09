@@ -36,6 +36,7 @@ interface UploadState {
   uploadProgress: number;
   currentFileIndex: number;
   isUploading: boolean;
+  isProcessing: boolean;
   errors: string[];
   limitInfo: {
     remainingDaily: number;
