@@ -206,7 +206,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
       return;
     }
 
-    setState((prev) => ({ ...prev, isUploading: true, errors: [], currentFileIndex: 0 }));
+    setState((prev) => ({ ...prev, isUploading: true, isProcessing: false, errors: [], currentFileIndex: 0 }));
 
     const supabase = createClient();
     const totalFiles = state.selectedFiles.length;
@@ -218,10 +218,15 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
       setState((prev) => ({ ...prev, currentFileIndex: i }));
 
       try {
+        // Process image (resize + convert to WebP)
+        setState((prev) => ({ ...prev, isProcessing: true }));
+        const processed = await processImage(file);
+        setState((prev) => ({ ...prev, isProcessing: false }));
+
         // Upload to storage with progress
         const uploadResult = await uploadPhotoWithProgress(
           supabase,
-          file,
+          processed.blob,
           cafeId,
           userId,
           (progress) => {
@@ -240,8 +245,8 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
           cafeId,
           userId,
           storagePath: uploadResult.path,
-          fileSize: file.size,
-          mimeType: file.type,
+          fileSize: processed.size,
+          mimeType: processed.mimeType,
         });
 
         if (!insertResult.success) {
@@ -251,6 +256,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
 
         successCount++;
       } catch (err) {
+        setState((prev) => ({ ...prev, isProcessing: false }));
         const message = err instanceof Error ? err.message : 'Upload failed';
         errors.push(`${file.name}: ${message}`);
       }
