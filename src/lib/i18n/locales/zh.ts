@@ -140,6 +140,9 @@ const zh: Record<string, string> = {
   'cafes.addCafe': '添加咖啡馆',
   'cafes.prev': '上一页',
   'cafes.next': '下一页',
+  'cafes.loadingMore': '加载更多咖啡馆...',
+  'cafes.allLoaded': '已经看完所有咖啡馆了！',
+  'cafes.backToTop': '回到顶部',
 
   // Search & Filters
   'filter.searchPlaceholder': '按名称或地址搜索...',
