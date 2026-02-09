@@ -97,19 +97,21 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   fill
                   className={cn(
                     "rounded-lg object-cover",
-                    galleryImages.length === 1 && "[clip-path:polygon(0_0,100%_0,100%_calc(100%-44px),calc(100%-44px)_100%,0_100%)]"
+                    "[clip-path:polygon(0_0,100%_0,100%_calc(100%-44px),calc(100%-44px)_100%,0_100%)]",
+                    galleryImages.length > 1 && "md:[clip-path:none]"
                   )}
                   priority
                 />
-                {/* Corner CTA: always on mobile, desktop only when no side images */}
-                {galleryImages.length === 1 && (
-                  <Link
-                    href={`/cafes/${cafe.slug}?upload=true#photos-section`}
-                    className="absolute bottom-1.5 right-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Camera className="h-5 w-5" />
-                  </Link>
-                )}
+                {/* Corner CTA on main: always on mobile, desktop only when no side images */}
+                <Link
+                  href={`/cafes/${cafe.slug}?upload=true#photos-section`}
+                  className={cn(
+                    "absolute bottom-1.5 right-1.5 text-muted-foreground hover:text-foreground transition-colors",
+                    galleryImages.length > 1 && "md:hidden"
+                  )}
+                >
+                  <Camera className="h-5 w-5" />
+                </Link>
               </div>
               {/* Up to 4 more side images */}
               {galleryImages.slice(1).map((img, index) => {
