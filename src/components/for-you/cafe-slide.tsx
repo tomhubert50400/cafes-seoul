@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Heart, MapPin, ExternalLink, Navigation } from 'lucide-react';
+import { toast } from 'sonner';
 import { PhotoCarousel } from './photo-carousel';
 import { CafeCardInfo } from './cafe-card-info';
 import { DirectionsChooser } from '@/components/directions-chooser';
