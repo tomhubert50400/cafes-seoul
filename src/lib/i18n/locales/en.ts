@@ -483,7 +483,7 @@ const en: Record<string, string> = {
   'submissions.form.addressPlaceholderKo': 'e.g., 강남대로 123, 강남구',
   'submissions.form.addressPlaceholderFR': 'e.g., 123 Avenue des Champs-Élysées',
   'submissions.form.addressPlaceholderZH': 'e.g., 江南大路123号',
-  'submissions.form.addressPlaceholderVI': 'e.g., 123 Duong Nguyen Hue',
+  'submissions.form.addressPlaceholderVI': 'e.g., 123 Đường Nguyễn Huệ',
   'submissions.form.phoneLabel': 'Phone Number',
   'submissions.form.phonePlaceholder': '02-1234-5678',
   'submissions.form.phoneHelp': 'Korean or international format accepted',
