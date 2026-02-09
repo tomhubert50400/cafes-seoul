@@ -69,9 +69,9 @@ export async function uploadPhoto(formData: FormData): Promise<UploadPhotoResult
       };
     }
 
-    // 4. Validate file size (5MB max)
+    // 4. Validate file size (15MB max)
     if (file.size > MAX_FILE_SIZE) {
-      return { success: false, error: 'File must be less than 5MB' };
+      return { success: false, error: 'File must be less than 15MB' };
     }
 
     // 5. Check rate limits (skip for admins)
