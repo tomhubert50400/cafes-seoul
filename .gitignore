@@ -44,3 +44,6 @@ next-env.d.ts
 
 # project overview
 project-overview.json
+
+# claude
+/.claude/*
