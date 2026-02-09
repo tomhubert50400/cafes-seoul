@@ -16,7 +16,7 @@ import { Flag } from '@/components/ui/flag';
 import { logout } from '@/app/actions/auth';
 import { ROUTES } from '@/lib/constants/routes';
 import { createClient } from '@/lib/supabase/client';
-import { User as UserIcon, LogOut, FileText, Settings, LayoutDashboard, Shield, Globe, ChevronDown } from 'lucide-react';
+import { User as UserIcon, LogOut, FileText, Settings, LayoutDashboard, Shield, ChevronDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface UserMenuProps {
@@ -151,11 +151,8 @@ export function UserMenu({ user }: UserMenuProps) {
             onClick={() => setLangOpen(!langOpen)}
             className="flex w-full cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none hover:bg-accent hover:text-accent-foreground"
           >
-            <Globe className="h-4 w-4" />
-            <span className="flex items-center gap-2">
-              <Flag language={language} size={16} />
-              {languages[language].nativeName}
-            </span>
+            <Flag language={language} size={16} />
+            <span>{languages[language].nativeName}</span>
             <ChevronDown className={`ml-auto h-4 w-4 transition-transform ${langOpen ? 'rotate-180' : ''}`} />
           </button>
           {langOpen && (
