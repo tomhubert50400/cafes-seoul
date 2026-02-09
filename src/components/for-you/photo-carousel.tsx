@@ -86,11 +86,15 @@ export function PhotoCarousel({ photoUrls, cafeName, onDoubleTap }: PhotoCarouse
       )}
 
       {/* Current photo */}
-      <img
+      <Image
         src={photoUrls[currentIndex]}
         alt={`${cafeName} photo ${currentIndex + 1}`}
+        fill
+        sizes="100vw"
+        quality={95}
         className="h-full w-full object-cover"
         draggable={false}
+        priority={currentIndex === 0}
       />
 
       {/* Tap zones */}
