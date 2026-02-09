@@ -179,7 +179,7 @@ export async function getForYouCafes(
 
   return cafeIds
     .map((id) => cafeMap.get(id))
-    .filter((c): c is ForYouCafe => c != null);
+    .filter((c): c is ForYouCafe => c != null && c.photoUrls.length > 0);
 }
 
 export async function getPopularCafesWithPhotos(
