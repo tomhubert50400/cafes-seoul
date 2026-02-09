@@ -2927,6 +2927,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'vibes.resetError': 'Échec de la réinitialisation',
     'vibes.deleteConfirmTitle': 'Supprimer l\'ambiance ?',
     'vibes.deleteConfirmDescription': 'Cette action est irréversible.',
+
+    // Cookie consent
+    'cookies.message': 'Ce site utilise des cookies pour sauvegarder votre préférence de langue et améliorer votre expérience.',
+    'cookies.accept': 'Accepter',
+    'cookies.learnMore': 'En savoir plus',
   },
 
   zh: {
