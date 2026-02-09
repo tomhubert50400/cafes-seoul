@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
@@ -14,6 +15,33 @@ import type { ReviewWithAuthor } from '@/types/reviews';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const cafe = await getCafe(slug);
+
+  if (!cafe) {
+    return { title: 'Cafe Not Found' };
+  }
+
+  const imageUrl = cafe.primaryImageUrl ? getStorageUrl(cafe.primaryImageUrl) : null;
+
+  return {
+    title: cafe.name,
+    description: `${cafe.name} in ${cafe.address}. ${cafe.overallRating ? `Rated ${cafe.overallRating.toFixed(1)}/5` : 'Discover this cafe'} on Seoul Cafe Guide.`,
+    openGraph: {
+      title: cafe.name,
+      description: `${cafe.name} - ${cafe.address}`,
+      ...(imageUrl && { images: [{ url: imageUrl, alt: cafe.name }] }),
+    },
+    twitter: {
+      card: imageUrl ? 'summary_large_image' : 'summary',
+      title: cafe.name,
+      description: `${cafe.name} - ${cafe.address}`,
+      ...(imageUrl && { images: [imageUrl] }),
+    },
+  };
 }
 
 async function getCafe(slug: string): Promise<Cafe | null> {
