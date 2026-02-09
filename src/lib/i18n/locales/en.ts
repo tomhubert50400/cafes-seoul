@@ -971,8 +971,6 @@ const en: Record<string, string> = {
 
   // For You
   'nav.forYou': 'For You',
-  'forYou.like': 'LIKE',
-  'forYou.nope': 'NOPE',
   'forYou.addedToFavorites': 'Added to favorites!',
   'forYou.removedFromFavorites': 'Removed from favorites',
   'forYou.loginToFavorite': 'Sign in to save favorites',
@@ -982,7 +980,10 @@ const en: Record<string, string> = {
   'forYou.tryRoulette': 'Try Roulette',
   'forYou.viewDetails': 'View Details',
   'forYou.getDirections': 'Get Directions',
-  'forYou.swipeHint': 'Swipe right to like, left to skip',
+  'forYou.openMap': 'Open in Maps',
+  'forYou.showMap': 'Show map',
+  'forYou.hideMap': 'Hide map',
+  'forYou.swipeHint': 'Scroll to explore',
   'forYou.signUpPrompt': 'Sign up for personalized recommendations',
 
   // Cookie consent
