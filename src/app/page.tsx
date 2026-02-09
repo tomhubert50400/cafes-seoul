@@ -50,10 +50,11 @@ export default async function HomePage() {
     <div className="min-h-screen bg-background">
       <Header user={user} />
       <HeroSection />
-      {user && recommendedCafes.length > 0 && (
+      {user && recommendedCafes.length > 0 ? (
         <RecommendationsSection cafes={recommendedCafes} />
+      ) : (
+        <FeaturedSection cafes={featuredCafes} />
       )}
-      <FeaturedSection cafes={featuredCafes} />
       <DistrictsSection />
       <FeaturesSection />
       <CtaSection />
