@@ -7,7 +7,7 @@ import { getUserFavoriteIds } from '@/lib/supabase/favorites';
 
 export const metadata: Metadata = {
   title: 'For You - Seoul Cafe Guide',
-  description: 'Discover personalized cafe recommendations just for you. Swipe to explore Seoul\'s best cafes.',
+  description: 'Discover personalized cafe recommendations just for you. Scroll to explore Seoul\'s best cafes.',
 };
 
 export default async function ForYouPage() {
