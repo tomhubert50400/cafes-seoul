@@ -36,10 +36,23 @@ export default async function HomePage() {
   ]);
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Fetch personalized recommendations for logged-in users
+  let recommendedCafes: CafeSummary[] = [];
+  if (user) {
+    try {
+      recommendedCafes = await getRecommendations(supabase, user.id, 6);
+    } catch {
+      // Silently fail - recommendations are non-critical
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header user={user} />
       <HeroSection />
+      {user && recommendedCafes.length > 0 && (
+        <RecommendationsSection cafes={recommendedCafes} />
+      )}
       <FeaturedSection cafes={featuredCafes} />
       <DistrictsSection />
       <FeaturesSection />
