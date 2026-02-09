@@ -971,8 +971,6 @@ const zh: Record<string, string> = {
 
   // For You
   'nav.forYou': '推荐',
-  'forYou.like': 'LIKE',
-  'forYou.nope': 'NOPE',
   'forYou.addedToFavorites': '已添加到收藏！',
   'forYou.removedFromFavorites': '已从收藏中移除',
   'forYou.loginToFavorite': '登录以保存收藏',
@@ -982,7 +980,10 @@ const zh: Record<string, string> = {
   'forYou.tryRoulette': '试试轮盘',
   'forYou.viewDetails': '查看详情',
   'forYou.getDirections': '获取路线',
-  'forYou.swipeHint': '右滑收藏，左滑跳过',
+  'forYou.openMap': '在地图中打开',
+  'forYou.showMap': '显示地图',
+  'forYou.hideMap': '隐藏地图',
+  'forYou.swipeHint': '滑动浏览',
   'forYou.signUpPrompt': '注册获取个性化推荐',
 
   // Cookie consent
