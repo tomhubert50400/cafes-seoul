@@ -971,8 +971,6 @@ const ko: Record<string, string> = {
 
   // For You
   'nav.forYou': '추천',
-  'forYou.like': 'LIKE',
-  'forYou.nope': 'NOPE',
   'forYou.addedToFavorites': '즐겨찾기에 추가되었습니다!',
   'forYou.removedFromFavorites': '즐겨찾기에서 삭제되었습니다',
   'forYou.loginToFavorite': '즐겨찾기를 저장하려면 로그인하세요',
@@ -982,7 +980,10 @@ const ko: Record<string, string> = {
   'forYou.tryRoulette': '룰렛 돌리기',
   'forYou.viewDetails': '상세 보기',
   'forYou.getDirections': '길찾기',
-  'forYou.swipeHint': '오른쪽으로 밀어 좋아요, 왼쪽으로 밀어 건너뛰기',
+  'forYou.openMap': '지도에서 열기',
+  'forYou.showMap': '지도 보기',
+  'forYou.hideMap': '지도 닫기',
+  'forYou.swipeHint': '스크롤하여 탐색하세요',
   'forYou.signUpPrompt': '맞춤 추천을 받으려면 가입하세요',
 
   // Cookie consent
