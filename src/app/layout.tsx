@@ -24,8 +24,19 @@ const notoSansKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "서울 카페 | Seoul Cafe Guide",
-  description: "서울의 베스트 카페를 찾아보세요. Discover the best cafes in Seoul.",
+  title: {
+    default: "Seoul Cafe Guide | 서울 카페 가이드",
+    template: "%s | Seoul Cafe",
+  },
+  description: "Discover the best cafes in Seoul. 서울의 베스트 카페를 찾아보세요.",
+  openGraph: {
+    type: 'website',
+    siteName: 'Seoul Cafe Guide',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 };
 
 export const viewport: Viewport = {
