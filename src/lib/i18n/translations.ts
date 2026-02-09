@@ -4871,5 +4871,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'vibes.resetError': 'Dat lai that bai',
     'vibes.deleteConfirmTitle': 'Xoa phong cach?',
     'vibes.deleteConfirmDescription': 'Hanh dong nay khong the hoan tac.',
+
+    // Cookie consent
+    'cookies.message': 'Trang web nay su dung cookie de luu tuy chon ngon ngu va cai thien trai nghiem cua ban.',
+    'cookies.accept': 'Chap nhan',
+    'cookies.learnMore': 'Tim hieu them',
   },
 };
