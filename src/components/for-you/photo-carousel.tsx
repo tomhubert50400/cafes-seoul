@@ -7,12 +7,14 @@ import { useI18n } from '@/lib/i18n';
 interface PhotoCarouselProps {
   photoUrls: string[];
   cafeName: string;
+  onDoubleTap?: () => void;
 }
 
-export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
+export function PhotoCarousel({ photoUrls, cafeName, onDoubleTap }: PhotoCarouselProps) {
   const { t } = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const lastTapRef = useRef(0);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     pointerStartRef.current = { x: e.clientX, y: e.clientY };
@@ -28,6 +30,15 @@ export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
       // Only register as tap if movement was small (< 10px)
       if (dx > 10 || dy > 10) return;
 
+      const now = Date.now();
+      if (onDoubleTap && now - lastTapRef.current < 300) {
+        // Double tap
+        onDoubleTap();
+        lastTapRef.current = 0;
+        return;
+      }
+      lastTapRef.current = now;
+
       const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
       const tapX = e.clientX - rect.left;
       const tapRatio = tapX / rect.width;
@@ -40,13 +51,13 @@ export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
         setCurrentIndex((prev) => Math.min(photoUrls.length - 1, prev + 1));
       }
     },
-    [photoUrls.length]
+    [photoUrls.length, onDoubleTap]
   );
 
   // Fallback: no photos
   if (photoUrls.length === 0) {
     return (
-      <div className="aspect-[3/4] w-full bg-muted flex flex-col items-center justify-center gap-2">
+      <div className="h-full w-full bg-muted flex flex-col items-center justify-center gap-2">
         <Camera className="h-12 w-12 text-muted-foreground/50" />
         <p className="text-sm text-muted-foreground/50">{t('photos.empty.title')}</p>
       </div>
@@ -54,7 +65,7 @@ export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
   }
 
   return (
-    <div className="relative aspect-[3/4] w-full select-none overflow-hidden bg-black">
+    <div className="relative h-full w-full select-none overflow-hidden bg-black">
       {/* Progress bars */}
       {photoUrls.length > 1 && (
         <div className="absolute top-2 left-2 right-2 z-10 flex gap-1">
@@ -81,14 +92,12 @@ export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
         draggable={false}
       />
 
-      {/* Tap zones (only if multiple photos) */}
-      {photoUrls.length > 1 && (
-        <div
-          className="absolute inset-0 z-[5]"
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
-        />
-      )}
+      {/* Tap zones */}
+      <div
+        className="absolute inset-0 z-[5]"
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+      />
     </div>
   );
 }
