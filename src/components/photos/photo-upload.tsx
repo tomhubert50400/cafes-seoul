@@ -309,6 +309,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
     disabled ||
     authLoading ||
     state.isUploading ||
+    state.isProcessing ||
     state.selectedFiles.length === 0 ||
     !userId ||
     (state.limitInfo !== null &&
