@@ -140,6 +140,9 @@ const en: Record<string, string> = {
   'cafes.addCafe': 'Add Cafe',
   'cafes.prev': 'Previous',
   'cafes.next': 'Next',
+  'cafes.loadingMore': 'Loading more cafes...',
+  'cafes.allLoaded': 'You\'ve seen all the cafes!',
+  'cafes.backToTop': 'Back to top',
 
   // Search & Filters
   'filter.searchPlaceholder': 'Search by cafe name or address...',
