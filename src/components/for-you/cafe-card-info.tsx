@@ -75,6 +75,27 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
                 ))}
               </div>
             )}
+
+            {/* Top personalized ratings */}
+            {topDimensions.length > 0 && (
+              <div className="flex gap-3 mt-2.5">
+                {topDimensions.map((dim) => {
+                  const value = cafe.ratings[dim];
+                  if (value == null) return null;
+                  return (
+                    <div key={dim} className="flex items-center gap-1.5">
+                      <Star className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
+                      <span className="text-xs text-white/90 font-medium">
+                        {value.toFixed(1)}
+                      </span>
+                      <span className="text-xs text-white/60">
+                        {t(`rating.${dim}` as const)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
