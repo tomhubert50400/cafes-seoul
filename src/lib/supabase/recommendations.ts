@@ -198,5 +198,7 @@ export async function getPopularCafesWithPhotos(
     return [];
   }
 
-  return cafes.map((row) => transformToForYouCafe(row as Record<string, unknown>));
+  return cafes
+    .map((row) => transformToForYouCafe(row as Record<string, unknown>))
+    .filter((c) => c.photoUrls.length > 0);
 }
