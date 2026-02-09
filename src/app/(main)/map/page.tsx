@@ -91,7 +91,6 @@ export default async function MapPage() {
             </Link>
           </Button>
         </div>
-      </main>
-    </div>
+    </main>
   );
 }
