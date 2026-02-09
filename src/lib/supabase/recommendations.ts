@@ -34,41 +34,26 @@ export async function getUserTopDimensions(
 
   if (!userId) return DEFAULT_DIMS;
 
-  // Count non-zero ratings per dimension across all user's ratings
-  const countExprs = DIMENSION_COLUMNS
-    .map((col) => `COUNT(NULLIF(${col}, 0)) AS cnt_${col}`)
-    .join(', ');
+  const { data: ratings, error } = await supabase
+    .from('cafe_ratings')
+    .select(DIMENSION_COLUMNS.join(', '))
+    .eq('user_id', userId);
 
-  const { data, error } = await supabase.rpc('execute_sql_raw', {
-    query: `SELECT ${countExprs} FROM public.cafe_ratings WHERE user_id = '${userId}'`,
-  });
+  if (error || !ratings || ratings.length === 0) return DEFAULT_DIMS;
 
-  // If the RPC doesn't exist or fails, try a simpler approach
-  if (error || !data) {
-    // Fallback: fetch user's ratings directly
-    const { data: ratings, error: ratingsError } = await supabase
-      .from('cafe_ratings')
-      .select(DIMENSION_COLUMNS.join(', '))
-      .eq('user_id', userId);
-
-    if (ratingsError || !ratings || ratings.length === 0) return DEFAULT_DIMS;
-
-    // Count non-zero values per dimension
-    const counts: Record<string, number> = {};
-    for (const col of DIMENSION_COLUMNS) {
-      counts[col] = ratings.filter((r) => (r as Record<string, number>)[col] > 0).length;
-    }
-
-    const sorted = Object.entries(counts)
-      .filter(([, c]) => c > 0)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, count)
-      .map(([col]) => DB_TO_DIMENSION[col]);
-
-    return sorted.length >= count ? sorted : DEFAULT_DIMS;
+  // Count non-zero values per dimension
+  const counts: Record<string, number> = {};
+  for (const col of DIMENSION_COLUMNS) {
+    counts[col] = ratings.filter((r) => (r as Record<string, number>)[col] > 0).length;
   }
 
-  return DEFAULT_DIMS;
+  const sorted = Object.entries(counts)
+    .filter(([, c]) => c > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, count)
+    .map(([col]) => DB_TO_DIMENSION[col]);
+
+  return sorted.length >= count ? sorted : DEFAULT_DIMS;
 }
 
 interface RecommendationRow {
