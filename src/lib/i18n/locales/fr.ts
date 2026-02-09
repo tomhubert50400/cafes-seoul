@@ -677,7 +677,7 @@ const fr: Record<string, string> = {
   'photos.status.rejected': 'Refusé',
 
   // Photo errors
-  'photos.errors.fileSize': 'Le fichier doit faire moins de 5 Mo',
+  'photos.errors.fileSize': 'Le fichier doit faire moins de 15 Mo',
   'photos.errors.fileType': 'Seuls les JPG, PNG et WebP sont autorisés',
   'photos.errors.limitCafe': 'Vous pouvez télécharger jusqu\'à 3 photos par café',
   'photos.errors.limitDaily': 'Vous pouvez télécharger jusqu\'à 10 photos par jour',
