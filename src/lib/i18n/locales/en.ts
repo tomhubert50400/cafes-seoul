@@ -477,7 +477,7 @@ const en: Record<string, string> = {
   'submissions.form.namePlaceholderKo': 'e.g., 블루보틀커피',
   'submissions.form.namePlaceholderFR': 'e.g., Café de Flore',
   'submissions.form.namePlaceholderZH': 'e.g., 星巴克',
-  'submissions.form.namePlaceholderVI': 'e.g., Cong Ca Phe',
+  'submissions.form.namePlaceholderVI': 'e.g., Cộng Cà Phê',
   'submissions.form.addressLabel': 'Address',
   'submissions.form.addressPlaceholderEn': 'e.g., 123 Gangnam-daero, Gangnam-gu',
   'submissions.form.addressPlaceholderKo': 'e.g., 강남대로 123, 강남구',
