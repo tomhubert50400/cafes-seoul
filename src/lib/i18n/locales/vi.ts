@@ -24,6 +24,8 @@ const vi: Record<string, string> = {
   'home.featured.title': 'Quán nổi bật',
   'home.featured.subtitle': 'Những quán được đánh giá cao nhất',
   'home.featured.viewAll': 'Xem tất cả',
+  'home.recommendations.title': 'Danh cho ban',
+  'home.recommendations.subtitle': 'Quan ca phe phu hop voi so thich cua ban',
 
   // Homepage - Districts
   'home.districts.title': 'Theo khu vực',
