@@ -663,7 +663,7 @@ const fr: Record<string, string> = {
   'photos.upload.uploading': 'Téléchargement...',
   'photos.upload.success': 'Photo téléchargée avec succès !',
   'photos.upload.error': 'Échec du téléchargement de la photo',
-  'photos.upload.maxSize': 'Max 5 Mo',
+  'photos.upload.maxSize': 'Max 15 Mo',
   'photos.upload.allowedTypes': 'JPG, PNG, WebP uniquement',
 
   // Photo limits
