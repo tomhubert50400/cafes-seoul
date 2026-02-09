@@ -140,6 +140,9 @@ const ko: Record<string, string> = {
   'cafes.addCafe': '카페 추가',
   'cafes.prev': '이전',
   'cafes.next': '다음',
+  'cafes.loadingMore': '더 많은 카페 불러오는 중...',
+  'cafes.allLoaded': '모든 카페를 확인했습니다!',
+  'cafes.backToTop': '맨 위로',
 
   // Search & Filters
   'filter.searchPlaceholder': '카페 이름, 주소로 검색...',
