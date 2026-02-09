@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME, SUPPORTED_LANGUAGES } from './languages';
-import { translations } from './translations';
+import en from './locales/en';
+import { loadTranslations } from './translations';
 
 interface I18nContextType {
   language: LanguageCode;
@@ -22,11 +23,19 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
   // Use initialLanguage from server to prevent hydration mismatch
   const [language, setLanguageState] = useState<LanguageCode>(initialLanguage ?? DEFAULT_LANGUAGE);
   const [mounted, setMounted] = useState(false);
+  // English is always loaded statically as fallback; other languages load dynamically
+  const [activeTranslations, setActiveTranslations] = useState<Record<string, string>>(en);
 
+  // Load the active language's translations
   useEffect(() => {
     setMounted(true);
-    // Sync html lang attribute with the language
     document.documentElement.lang = language;
+
+    if (language === 'en') {
+      setActiveTranslations(en);
+    } else {
+      loadTranslations(language).then(setActiveTranslations);
+    }
   }, [language]);
 
   const setLanguage = useCallback((lang: LanguageCode) => {
@@ -38,8 +47,8 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
   }, []);
 
   const t = useCallback((key: string): string => {
-    return translations[language]?.[key] || translations[DEFAULT_LANGUAGE]?.[key] || key;
-  }, [language]);
+    return activeTranslations[key] || en[key] || key;
+  }, [activeTranslations]);
 
   // Use consistent value for both server and client render
   const contextValue = {
