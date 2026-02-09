@@ -81,7 +81,7 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
 
             {/* Top personalized ratings */}
             {topDimensions.length > 0 && (
-              <div className="flex gap-3 mt-2.5">
+              <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2.5">
                 {topDimensions.map((dim) => {
                   const value = cafe.ratings[dim];
                   if (value == null) return null;
