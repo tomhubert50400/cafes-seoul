@@ -56,7 +56,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
     return photos
       .filter((p) => p.status === 'approved')
       .sort((a, b) => b.upvoteCount - a.upvoteCount)
-      .slice(0, 4)
+      .slice(0, 5)
       .map((p) => ({
         id: `photo-${p.id}`,
         url: p.url,
