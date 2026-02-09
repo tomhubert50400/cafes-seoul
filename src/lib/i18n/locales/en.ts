@@ -24,6 +24,8 @@ const en: Record<string, string> = {
   'home.featured.title': 'Featured Cafes',
   'home.featured.subtitle': 'Top rated cafes',
   'home.featured.viewAll': 'View all',
+  'home.recommendations.title': 'For You',
+  'home.recommendations.subtitle': 'Cafes that match your taste based on your ratings',
 
   // Homepage - Districts
   'home.districts.title': 'Browse by District',
