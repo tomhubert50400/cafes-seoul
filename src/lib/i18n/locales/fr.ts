@@ -969,6 +969,22 @@ const fr: Record<string, string> = {
   'vibes.deleteConfirmTitle': 'Supprimer l\'ambiance ?',
   'vibes.deleteConfirmDescription': 'Cette action est irréversible.',
 
+  // For You
+  'nav.forYou': 'Pour vous',
+  'forYou.like': 'LIKE',
+  'forYou.nope': 'NOPE',
+  'forYou.addedToFavorites': 'Ajouté aux favoris !',
+  'forYou.removedFromFavorites': 'Retiré des favoris',
+  'forYou.loginToFavorite': 'Connectez-vous pour sauvegarder vos favoris',
+  'forYou.emptyTitle': 'Vous avez tout vu !',
+  'forYou.emptySubtitle': 'Revenez plus tard pour de nouvelles recommandations',
+  'forYou.browseCafes': 'Parcourir les cafés',
+  'forYou.tryRoulette': 'Essayer la roulette',
+  'forYou.viewDetails': 'Voir les détails',
+  'forYou.getDirections': 'Itinéraire',
+  'forYou.swipeHint': 'Glissez à droite pour aimer, à gauche pour passer',
+  'forYou.signUpPrompt': 'Inscrivez-vous pour des recommandations personnalisées',
+
   // Cookie consent
   'cookies.message': 'Ce site utilise des cookies pour sauvegarder votre préférence de langue et améliorer votre expérience.',
   'cookies.accept': 'Accepter',
