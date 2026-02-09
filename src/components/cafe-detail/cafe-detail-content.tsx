@@ -90,27 +90,23 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
           {galleryImages.length > 0 ? (
             <div className="grid gap-2 md:grid-cols-4 md:grid-rows-2">
               {/* Main large image */}
-              <div className="relative aspect-square md:col-span-2 md:row-span-2 rounded-lg">
+              <div className="relative aspect-square md:col-span-2 md:row-span-2">
                 <Image
                   src={galleryImages[0].url}
                   alt={galleryImages[0].alt}
                   fill
-                  className={cn(
-                    "rounded-lg object-cover",
-                    "[clip-path:polygon(0_0,100%_0,100%_calc(100%-44px),calc(100%-44px)_100%,0_100%)]",
-                    galleryImages.length > 1 && "md:[clip-path:none]"
-                  )}
+                  className="rounded-lg object-cover"
                   priority
                 />
                 {/* Corner CTA on main: always on mobile, desktop only when no side images */}
                 <Link
                   href={`/cafes/${cafe.slug}?upload=true#photos-section`}
                   className={cn(
-                    "absolute bottom-1.5 right-1.5 text-muted-foreground hover:text-foreground transition-colors",
+                    "absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors",
                     galleryImages.length > 1 && "md:hidden"
                   )}
                 >
-                  <Camera className="h-5 w-5" />
+                  <Camera className="h-4 w-4" />
                 </Link>
               </div>
               {/* Up to 4 more side images */}
