@@ -123,28 +123,28 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
         {cafe.totalRatings > 0 && (
           <div className="mt-auto flex gap-1.5">
             {cafe.hasWifi && (
-              <div className="p-1.5 rounded-full border border-muted-foreground/30">
-                <Wifi className="h-3.5 w-3.5 text-muted-foreground" />
+              <div className="p-1.5 rounded-full border border-muted-foreground/30" title="Wi-Fi available">
+                <Wifi className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               </div>
             )}
             {cafe.hasPowerOutlets && (
-              <div className="p-1.5 rounded-full border border-muted-foreground/30">
-                <Plug className="h-3.5 w-3.5 text-muted-foreground" />
+              <div className="p-1.5 rounded-full border border-muted-foreground/30" title="Power outlets available">
+                <Plug className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               </div>
             )}
             {cafe.isLaptopFriendly && (
-              <div className="p-1.5 rounded-full border border-muted-foreground/30">
-                <Laptop className="h-3.5 w-3.5 text-muted-foreground" />
+              <div className="p-1.5 rounded-full border border-muted-foreground/30" title="Laptop friendly">
+                <Laptop className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               </div>
             )}
             {cafe.isPetFriendly && (
-              <div className="p-1.5 rounded-full border border-muted-foreground/30">
-                <PawPrint className="h-3.5 w-3.5 text-muted-foreground" />
+              <div className="p-1.5 rounded-full border border-muted-foreground/30" title="Pet friendly">
+                <PawPrint className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               </div>
             )}
             {cafe.hasParking && (
-              <div className="p-1.5 rounded-full border border-muted-foreground/30">
-                <Car className="h-3.5 w-3.5 text-muted-foreground" />
+              <div className="p-1.5 rounded-full border border-muted-foreground/30" title="Parking available">
+                <Car className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               </div>
             )}
           </div>
