@@ -977,6 +977,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'vibes.resetError': 'Failed to reset preset',
     'vibes.deleteConfirmTitle': 'Delete Vibe?',
     'vibes.deleteConfirmDescription': 'This action cannot be undone.',
+
+    // Cookie consent
+    'cookies.message': 'This site uses cookies to save your language preference and improve your experience.',
+    'cookies.accept': 'Accept',
+    'cookies.learnMore': 'Learn more',
   },
 
   ko: {
