@@ -59,11 +59,9 @@ function CafeListSkeleton() {
 async function CafeListWithData({
   searchParams,
   userId,
-  favoritesOnly,
 }: {
   searchParams: CafeListParams;
   userId?: string;
-  favoritesOnly?: boolean;
 }) {
   const [cafesResult, favoritesResult] = await Promise.all([
     getCafes(searchParams),
@@ -73,20 +71,12 @@ async function CafeListWithData({
   const { cafes, total, page, totalPages } = cafesResult;
   const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
 
-  // Filter to only favorites if requested
-  const displayCafes = favoritesOnly && favoriteIds.length > 0
-    ? cafes.filter((cafe) => favoriteIds.includes(cafe.id))
-    : favoritesOnly
-      ? []
-      : cafes;
-  const displayTotal = favoritesOnly ? displayCafes.length : total;
-
   return (
     <InfiniteCafeList
-      initialCafes={displayCafes}
-      initialTotal={displayTotal}
+      initialCafes={cafes}
+      initialTotal={total}
       initialPage={page}
-      totalPages={favoritesOnly ? 1 : totalPages}
+      totalPages={totalPages}
       filterParams={searchParams as Record<string, string | number | boolean | undefined>}
       favoriteIds={favoriteIds}
       userId={userId}
