@@ -45,7 +45,7 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // Redirect to login if accessing protected routes without auth
-  const protectedPaths = ['/profile', '/favorites'];
+  const protectedPaths = ['/profile', '/favorites', '/dashboard', '/submit', '/admin'];
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
@@ -55,6 +55,26 @@ export async function updateSession(request: NextRequest) {
     url.pathname = '/login';
     url.searchParams.set('next', request.nextUrl.pathname);
     return NextResponse.redirect(url);
+  }
+
+  // Redirect non-admin users away from admin routes
+  const adminPaths = ['/admin'];
+  const isAdminPath = adminPaths.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  );
+
+  if (isAdminPath && user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.role !== 'admin') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/';
+      return NextResponse.redirect(url);
+    }
   }
 
   // Redirect logged-in users away from auth pages
