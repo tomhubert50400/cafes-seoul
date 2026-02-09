@@ -963,6 +963,22 @@ const vi: Record<string, string> = {
   'vibes.deleteConfirmTitle': 'Xoa phong cach?',
   'vibes.deleteConfirmDescription': 'Hanh dong nay khong the hoan tac.',
 
+  // For You
+  'nav.forYou': 'Danh cho ban',
+  'forYou.like': 'LIKE',
+  'forYou.nope': 'NOPE',
+  'forYou.addedToFavorites': 'Da them vao yeu thich!',
+  'forYou.removedFromFavorites': 'Da xoa khoi yeu thich',
+  'forYou.loginToFavorite': 'Dang nhap de luu yeu thich',
+  'forYou.emptyTitle': 'Ban da xem het roi!',
+  'forYou.emptySubtitle': 'Quay lai sau de xem goi y moi',
+  'forYou.browseCafes': 'Xem tat ca quan cafe',
+  'forYou.tryRoulette': 'Thu vong quay',
+  'forYou.viewDetails': 'Xem chi tiet',
+  'forYou.getDirections': 'Chi duong',
+  'forYou.swipeHint': 'Vuot phai de thich, vuot trai de bo qua',
+  'forYou.signUpPrompt': 'Dang ky de nhan goi y ca nhan',
+
   // Cookie consent
   'cookies.message': 'Trang web nay su dung cookie de luu tuy chon ngon ngu va cai thien trai nghiem cua ban.',
   'cookies.accept': 'Chap nhan',
