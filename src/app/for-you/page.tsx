@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
 import { ForYouClient } from '@/components/for-you/for-you-client';
-import { getForYouCafes, getPopularCafesWithPhotos } from '@/lib/supabase/recommendations';
+import { getForYouCafes, getPopularCafesWithPhotos, getUserTopDimensions } from '@/lib/supabase/recommendations';
 import { getUserFavoriteIds } from '@/lib/supabase/favorites';
 
 export const metadata: Metadata = {
