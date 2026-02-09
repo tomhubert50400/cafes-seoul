@@ -90,51 +90,43 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
           {galleryImages.length > 0 ? (
             <div className="grid gap-2 md:grid-cols-4 md:grid-rows-2">
               {/* Main large image */}
-              <div className="relative aspect-square md:col-span-2 md:row-span-2">
+              <div className="relative aspect-square md:col-span-2 md:row-span-2 overflow-hidden rounded-lg">
                 <Image
                   src={galleryImages[0].url}
                   alt={galleryImages[0].alt}
                   fill
-                  className="rounded-lg object-cover"
+                  className="object-cover"
                   priority
                 />
-                {/* Add photo badge: always on mobile, desktop only when no side images */}
+                {/* Corner CTA: always on mobile, desktop only when no side images */}
                 <Link
                   href={`/cafes/${cafe.slug}?upload=true#photos-section`}
                   className={cn(
-                    "absolute bottom-2.5 right-2.5 flex items-center justify-center h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 transition-colors backdrop-blur-sm",
+                    "absolute bottom-0 right-0 w-14 h-14 bg-black/60 hover:bg-black/80 transition-colors",
                     galleryImages.length > 1 && "md:hidden"
                   )}
+                  style={{ clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)' }}
                 >
-                  <div className="relative">
-                    <Camera className="h-5 w-5 text-white" />
-                    <div className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary">
-                      <Plus className="h-2.5 w-2.5 text-primary-foreground" />
-                    </div>
-                  </div>
+                  <Camera className="absolute bottom-2 right-2 h-4 w-4 text-white" />
                 </Link>
               </div>
               {/* Up to 4 more side images */}
               {galleryImages.slice(1).map((img, index) => (
-                <div key={img.id} className="relative hidden aspect-square md:block">
+                <div key={img.id} className="relative hidden aspect-square md:block overflow-hidden rounded-lg">
                   <Image
                     src={img.url}
                     alt={img.alt}
                     fill
-                    className="rounded-lg object-cover"
+                    className="object-cover"
                   />
-                  {/* Add photo badge on last side image */}
+                  {/* Corner CTA on last side image */}
                   {index === galleryImages.length - 2 && (
                     <Link
                       href={`/cafes/${cafe.slug}?upload=true#photos-section`}
-                      className="absolute bottom-2.5 right-2.5 flex items-center justify-center h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 transition-colors backdrop-blur-sm"
+                      className="absolute bottom-0 right-0 w-14 h-14 bg-black/60 hover:bg-black/80 transition-colors"
+                      style={{ clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)' }}
                     >
-                      <div className="relative">
-                        <Camera className="h-5 w-5 text-white" />
-                        <div className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary">
-                          <Plus className="h-2.5 w-2.5 text-primary-foreground" />
-                        </div>
-                      </div>
+                      <Camera className="absolute bottom-2 right-2 h-4 w-4 text-white" />
                     </Link>
                   )}
                 </div>
