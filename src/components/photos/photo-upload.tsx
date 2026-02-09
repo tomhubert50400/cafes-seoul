@@ -461,7 +461,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
               <span className="text-muted-foreground">
-                Uploading {state.currentFileIndex + 1} of {state.selectedFiles.length}...
+                {state.isProcessing ? 'Processing...' : `Uploading ${state.currentFileIndex + 1} of ${state.selectedFiles.length}...`}
               </span>
               <span className="font-medium">{Math.round(state.uploadProgress)}%</span>
             </div>
