@@ -113,23 +113,20 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
               {galleryImages.slice(1).map((img, index) => {
                 const isLast = index === galleryImages.length - 2;
                 return (
-                  <div key={img.id} className="relative hidden aspect-square md:block rounded-lg">
+                  <div key={img.id} className="relative hidden aspect-square md:block">
                     <Image
                       src={img.url}
                       alt={img.alt}
                       fill
-                      className={cn(
-                        "rounded-lg object-cover",
-                        isLast && "[clip-path:polygon(0_0,100%_0,100%_calc(100%-44px),calc(100%-44px)_100%,0_100%)]"
-                      )}
+                      className="rounded-lg object-cover"
                     />
                     {/* Corner CTA on last side image */}
                     {isLast && (
                       <Link
                         href={`/cafes/${cafe.slug}?upload=true#photos-section`}
-                        className="absolute bottom-1.5 right-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
                       >
-                        <Camera className="h-5 w-5" />
+                        <Camera className="h-4 w-4" />
                       </Link>
                     )}
                   </div>
