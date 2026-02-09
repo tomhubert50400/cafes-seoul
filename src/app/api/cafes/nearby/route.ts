@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
       photos(storage_path, upvote_count, status)
     `)
     .in('id', cafeIds)
-    .neq('status', 'closed');
+    .eq('status', 'active');
 
   if (cafesError) {
     return NextResponse.json({ error: cafesError.message }, { status: 500 });
