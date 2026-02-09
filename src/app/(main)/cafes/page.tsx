@@ -17,6 +17,7 @@ import { RouletteCta } from '@/components/roulette/roulette-cta';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
 import { getFavoriteIdsAction } from '@/lib/actions/favorites';
+import { ForYouClient } from '@/components/for-you/for-you-client';
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
