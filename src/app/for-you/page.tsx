@@ -1,0 +1,50 @@
+import type { Metadata } from 'next';
+import { createClient } from '@/lib/supabase/server';
+import { Header } from '@/components/header';
+import { ForYouClient } from '@/components/for-you/for-you-client';
+import { getForYouCafes, getPopularCafesWithPhotos } from '@/lib/supabase/recommendations';
+import { getUserFavoriteIds } from '@/lib/supabase/favorites';
+
+export const metadata: Metadata = {
+  title: 'For You - Seoul Cafe Guide',
+  description: 'Discover personalized cafe recommendations just for you. Swipe to explore Seoul\'s best cafes.',
+};
+
+export default async function ForYouPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let cafes;
+  let favoriteIds: string[] = [];
+
+  if (user) {
+    [cafes, favoriteIds] = await Promise.all([
+      getForYouCafes(supabase, user.id, 30),
+      getUserFavoriteIds(supabase, user.id),
+    ]);
+
+    // If recommendations are empty (new user with no ratings), fall back to popular
+    if (cafes.length === 0) {
+      cafes = await getPopularCafesWithPhotos(supabase, 30);
+    }
+
+    // Filter out already-favorited cafes
+    const favSet = new Set(favoriteIds);
+    cafes = cafes.filter((c) => !favSet.has(c.id));
+  } else {
+    cafes = await getPopularCafesWithPhotos(supabase, 30);
+  }
+
+  return (
+    <div className="min-h-dvh flex flex-col bg-muted/30">
+      <Header user={user} />
+      <main id="main-content" className="flex-1">
+        <ForYouClient
+          cafes={cafes}
+          favoriteIds={favoriteIds}
+          isAuthenticated={!!user}
+        />
+      </main>
+    </div>
+  );
+}
