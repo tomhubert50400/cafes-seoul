@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'View your submissions, ratings, and photos on Seoul Cafe Guide.',
+};
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { UserStats } from '@/components/dashboard/user-stats';
