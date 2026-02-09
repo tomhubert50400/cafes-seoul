@@ -663,7 +663,7 @@ const en: Record<string, string> = {
   'photos.upload.uploading': 'Uploading...',
   'photos.upload.success': 'Photo uploaded successfully!',
   'photos.upload.error': 'Failed to upload photo',
-  'photos.upload.maxSize': 'Max 5MB',
+  'photos.upload.maxSize': 'Max 15MB',
   'photos.upload.allowedTypes': 'JPG, PNG, WebP only',
 
   // Photo limits
