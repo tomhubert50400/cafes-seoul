@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 const NAV_ITEMS = [
   { href: ROUTES.CAFES, labelKey: 'nav.cafes' },
   { href: ROUTES.MAP, labelKey: 'nav.map' },
+  { href: ROUTES.FOR_YOU, labelKey: 'nav.forYou' },
 ];
 
 interface HeaderProps {
