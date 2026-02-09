@@ -42,7 +42,7 @@ export interface StorageUploadResult {
  */
 export async function uploadPhotoToStorage(
   supabase: SupabaseClient,
-  file: File,
+  file: File | Blob,
   cafeId: string,
   userId: string
 ): Promise<StorageUploadResult> {
@@ -50,7 +50,9 @@ export async function uploadPhotoToStorage(
     // Generate unique filename
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 10);
-    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const extension = file instanceof File
+      ? (file.name.split('.').pop()?.toLowerCase() || 'jpg')
+      : (file.type === 'image/webp' ? 'webp' : 'jpg');
     const filename = `${timestamp}-${random}.${extension}`;
 
     // Build storage path (user-photos subfolder in cafe-images bucket)
