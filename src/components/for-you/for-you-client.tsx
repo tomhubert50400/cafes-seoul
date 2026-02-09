@@ -131,7 +131,7 @@ export function ForYouClient({
   return (
     <div
       ref={scrollRef}
-      className="h-[calc(100dvh-3.5rem)] overflow-y-auto snap-y snap-mandatory"
+      className="h-[calc(100dvh-3.5rem)] overflow-y-auto snap-y snap-mandatory scrollbar-none"
       style={{ scrollSnapType: 'y mandatory' }}
     >
       {/* Scroll hint */}
