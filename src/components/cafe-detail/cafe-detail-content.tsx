@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Camera, Plus } from 'lucide-react';
+import { Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Footer } from '@/components/footer';
 import { RatingStars } from '@/components/rating-stars';
