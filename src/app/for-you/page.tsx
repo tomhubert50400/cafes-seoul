@@ -10,6 +10,16 @@ export const metadata: Metadata = {
   description: 'Discover personalized cafe recommendations just for you. Scroll to explore Seoul\'s best cafes.',
 };
 
+// Fisher-Yates shuffle – randomise display order each visit
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export default async function ForYouPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
