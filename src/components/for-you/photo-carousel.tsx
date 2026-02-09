@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import { Camera } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 
