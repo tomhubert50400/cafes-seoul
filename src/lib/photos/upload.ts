@@ -62,7 +62,7 @@ export async function uploadPhotoToStorage(
     const { error: uploadError } = await supabase.storage
       .from('cafe-images')
       .upload(path, file, {
-        contentType: file.type,
+        contentType: file.type || 'image/jpeg',
         cacheControl: '3600',
         upsert: false,
       });
