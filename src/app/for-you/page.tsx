@@ -47,6 +47,9 @@ export default async function ForYouPage() {
     cafes = await getPopularCafesWithPhotos(supabase, 30);
   }
 
+  // Shuffle so the user sees a different order each visit
+  cafes = shuffle(cafes);
+
   return (
     <div className="min-h-dvh flex flex-col bg-muted/30">
       <Header user={user} />
