@@ -677,7 +677,7 @@ const ko: Record<string, string> = {
   'photos.status.rejected': '거부됨',
 
   // Photo errors
-  'photos.errors.fileSize': '파일 크기는 5MB 미만이어야 합니다',
+  'photos.errors.fileSize': '파일 크기는 15MB 미만이어야 합니다',
   'photos.errors.fileType': 'JPG, PNG, WebP 이미지만 허용됩니다',
   'photos.errors.limitCafe': '카페당 최대 3개의 사진만 업로드 가능합니다',
   'photos.errors.limitDaily': '하루에 최대 10개의 사진을 업로드할 수 있습니다',
