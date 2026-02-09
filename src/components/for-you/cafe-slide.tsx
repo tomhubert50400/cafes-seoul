@@ -76,11 +76,12 @@ export function CafeSlide({
         </div>
       )}
 
-      {/* Info overlay (gradient + badges) */}
+      {/* Info overlay (gradient + badges + top ratings) */}
       <CafeCardInfo
         cafe={cafe}
         showMap={showMap}
         onToggleMap={() => setShowMap((v) => !v)}
+        topDimensions={topDimensions}
       />
 
       {/* Floating action buttons - right side */}
