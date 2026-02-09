@@ -7,8 +7,8 @@
 // CONSTANTS
 // ============================================
 
-/** Maximum file size: 5MB */
-export const MAX_FILE_SIZE = 5 * 1024 * 1024;
+/** Maximum file size: 15MB */
+export const MAX_FILE_SIZE = 15 * 1024 * 1024;
 
 /** Allowed MIME types for photo uploads */
 export const ALLOWED_TYPES = [
