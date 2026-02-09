@@ -11,12 +11,14 @@ import { useI18n } from '@/lib/i18n';
 import { getLocalizedText } from '@/types/cafe';
 import { ROUTES } from '@/lib/constants/routes';
 import type { ForYouCafe } from '@/types/for-you';
+import type { RatingDimension } from '@/lib/supabase/recommendations';
 
 interface CafeSlideProps {
   cafe: ForYouCafe;
   isFavorited: boolean;
   isAuthenticated: boolean;
   onToggleFavorite: (cafeId: string) => Promise<void>;
+  topDimensions: RatingDimension[];
 }
 
 export function CafeSlide({
@@ -24,6 +26,7 @@ export function CafeSlide({
   isFavorited,
   isAuthenticated,
   onToggleFavorite,
+  topDimensions,
 }: CafeSlideProps) {
   const { t, language } = useI18n();
   const [showMap, setShowMap] = useState(false);
