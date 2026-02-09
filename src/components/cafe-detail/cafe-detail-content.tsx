@@ -97,9 +97,24 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   className="rounded-lg object-cover"
                   priority
                 />
+                {/* Add photo badge: always on mobile, desktop only when no side images */}
+                <Link
+                  href={`/cafes/${cafe.slug}?upload=true#photos-section`}
+                  className={cn(
+                    "absolute bottom-2.5 right-2.5 flex items-center justify-center h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 transition-colors backdrop-blur-sm",
+                    galleryImages.length > 1 && "md:hidden"
+                  )}
+                >
+                  <div className="relative">
+                    <Camera className="h-5 w-5 text-white" />
+                    <div className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary">
+                      <Plus className="h-2.5 w-2.5 text-primary-foreground" />
+                    </div>
+                  </div>
+                </Link>
               </div>
-              {/* Up to 3 more images */}
-              {galleryImages.slice(1, 4).map((img) => (
+              {/* Up to 4 more side images */}
+              {galleryImages.slice(1).map((img, index) => (
                 <div key={img.id} className="relative hidden aspect-square md:block">
                   <Image
                     src={img.url}
@@ -107,23 +122,22 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                     fill
                     className="rounded-lg object-cover"
                   />
+                  {/* Add photo badge on last side image */}
+                  {index === galleryImages.length - 2 && (
+                    <Link
+                      href={`/cafes/${cafe.slug}?upload=true#photos-section`}
+                      className="absolute bottom-2.5 right-2.5 flex items-center justify-center h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 transition-colors backdrop-blur-sm"
+                    >
+                      <div className="relative">
+                        <Camera className="h-5 w-5 text-white" />
+                        <div className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary">
+                          <Plus className="h-2.5 w-2.5 text-primary-foreground" />
+                        </div>
+                      </div>
+                    </Link>
+                  )}
                 </div>
               ))}
-              {/* CTA slot — add photo */}
-              <Link
-                href={`/cafes/${cafe.slug}?upload=true#photos-section`}
-                className="relative hidden aspect-square md:flex flex-col items-center justify-center gap-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
-              >
-                <div className="relative">
-                  <Camera className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
-                  <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary">
-                    <Plus className="h-3 w-3 text-primary-foreground" />
-                  </div>
-                </div>
-                <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                  {t('cafe.addPhoto')}
-                </span>
-              </Link>
             </div>
           ) : (
             <div className="flex aspect-[21/9] flex-col items-center justify-center gap-3 rounded-lg bg-zinc-100 dark:bg-zinc-800">
