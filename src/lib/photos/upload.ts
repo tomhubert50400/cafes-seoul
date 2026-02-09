@@ -362,7 +362,7 @@ export type ProgressCallback = (progress: number) => void;
  */
 export async function uploadPhotoWithProgress(
   supabase: SupabaseClient,
-  file: File,
+  file: File | Blob,
   cafeId: string,
   userId: string,
   onProgress?: ProgressCallback
