@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { transformCafeSummary } from './transforms';
+import { transformCafeSummary, getStorageUrl } from './transforms';
 import type { CafeSummary } from '@/types/cafe';
+import type { ForYouCafe } from '@/types/for-you';
 
 interface RecommendationRow {
   cafe_id: string;
