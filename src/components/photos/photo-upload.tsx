@@ -56,6 +56,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
     uploadProgress: 0,
     currentFileIndex: 0,
     isUploading: false,
+    isProcessing: false,
     errors: [],
     limitInfo: null,
   });
