@@ -4,7 +4,6 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import { CafeSlide } from './cafe-slide';
 import { EmptyState } from './empty-state';
-import { toggleFavoriteAction } from '@/lib/actions/favorites';
 import { useI18n } from '@/lib/i18n';
 import type { ForYouCafe } from '@/types/for-you';
 import type { RatingDimension } from '@/lib/supabase/recommendations';
@@ -31,6 +30,10 @@ export function ForYouClient({
   const [showHint, setShowHint] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Track pending changes to sync later
+  const pendingAdded = useRef(new Set<string>());
+  const pendingRemoved = useRef(new Set<string>());
+
   // Show first-time hint
   useEffect(() => {
     if (cafes.length > 0 && !localStorage.getItem(HINT_STORAGE_KEY)) {
@@ -43,22 +46,76 @@ export function ForYouClient({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Flush pending favorites to server
+  const flushFavorites = useCallback(() => {
+    const added = Array.from(pendingAdded.current);
+    const removed = Array.from(pendingRemoved.current);
+    if (added.length === 0 && removed.length === 0) return;
+
+    // Clear pending sets immediately to avoid double-flush
+    pendingAdded.current.clear();
+    pendingRemoved.current.clear();
+
+    const payload = JSON.stringify({ added, removed });
+
+    // Use sendBeacon for reliable delivery during page unload
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/favorites/sync', new Blob([payload], { type: 'application/json' }));
+    } else {
+      // Fallback for older browsers
+      fetch('/api/favorites/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload,
+        keepalive: true,
+      });
+    }
+  }, []);
+
+  // Flush on page unload or tab hide
+  useEffect(() => {
+    const handleBeforeUnload = () => flushFavorites();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') flushFavorites();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      // Flush on component unmount (e.g. client-side navigation)
+      flushFavorites();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [flushFavorites]);
+
   const handleToggleFavorite = useCallback(
-    async (cafeId: string) => {
-      const result = await toggleFavoriteAction(cafeId);
-      if (result.success && result.isFavorited) {
-        toast.success(t('forYou.addedToFavorites'));
-        setFavoriteIdSet((prev) => new Set(prev).add(cafeId));
-      } else if (result.success && !result.isFavorited) {
-        toast(t('forYou.removedFromFavorites'));
-        setFavoriteIdSet((prev) => {
-          const next = new Set(prev);
+    (cafeId: string) => {
+      setFavoriteIdSet((prev) => {
+        const next = new Set(prev);
+        if (next.has(cafeId)) {
+          // Un-favorite
           next.delete(cafeId);
-          return next;
-        });
-      } else if (result.error) {
-        toast.error(result.error);
-      }
+          // Track for sync: if it was a newly added one, just cancel; otherwise mark removed
+          if (pendingAdded.current.has(cafeId)) {
+            pendingAdded.current.delete(cafeId);
+          } else {
+            pendingRemoved.current.add(cafeId);
+          }
+          toast(t('forYou.removedFromFavorites'));
+        } else {
+          // Favorite
+          next.add(cafeId);
+          // Track for sync: if it was pending removal, cancel; otherwise mark added
+          if (pendingRemoved.current.has(cafeId)) {
+            pendingRemoved.current.delete(cafeId);
+          } else {
+            pendingAdded.current.add(cafeId);
+          }
+          toast.success(t('forYou.addedToFavorites'));
+        }
+        return next;
+      });
     },
     [t]
   );
