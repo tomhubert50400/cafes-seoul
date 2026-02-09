@@ -19,6 +19,7 @@ import {
   validatePhotoFile,
   formatFileSize,
 } from '@/lib/photos/validation';
+import { processImage } from '@/lib/utils/process-image';
 import {
   uploadPhotoWithProgress,
   insertPhotoRecord,
