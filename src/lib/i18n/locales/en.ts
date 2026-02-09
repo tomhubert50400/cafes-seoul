@@ -481,7 +481,7 @@ const en: Record<string, string> = {
   'submissions.form.addressLabel': 'Address',
   'submissions.form.addressPlaceholderEn': 'e.g., 123 Gangnam-daero, Gangnam-gu',
   'submissions.form.addressPlaceholderKo': 'e.g., 강남대로 123, 강남구',
-  'submissions.form.addressPlaceholderFR': 'e.g., 123 Avenue des Champs-Elysees',
+  'submissions.form.addressPlaceholderFR': 'e.g., 123 Avenue des Champs-Élysées',
   'submissions.form.addressPlaceholderZH': 'e.g., 江南大路123号',
   'submissions.form.addressPlaceholderVI': 'e.g., 123 Duong Nguyen Hue',
   'submissions.form.phoneLabel': 'Phone Number',
