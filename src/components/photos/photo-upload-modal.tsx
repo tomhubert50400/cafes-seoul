@@ -66,6 +66,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
     uploadProgress: 0,
     currentFileIndex: 0,
     isUploading: false,
+    isProcessing: false,
     errors: [],
     limitInfo: null,
   });
