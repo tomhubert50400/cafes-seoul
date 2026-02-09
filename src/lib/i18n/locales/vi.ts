@@ -140,6 +140,9 @@ const vi: Record<string, string> = {
   'cafes.addCafe': 'Thêm quán',
   'cafes.prev': 'Trước',
   'cafes.next': 'Tiếp',
+  'cafes.loadingMore': 'Đang tải thêm quán cà phê...',
+  'cafes.allLoaded': 'Bạn đã xem hết tất cả quán cà phê!',
+  'cafes.backToTop': 'Lên đầu trang',
 
   // Search & Filters
   'filter.searchPlaceholder': 'Tìm theo tên hoặc địa chỉ...',
