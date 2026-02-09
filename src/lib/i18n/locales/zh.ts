@@ -677,7 +677,7 @@ const zh: Record<string, string> = {
   'photos.status.rejected': '已拒绝',
 
   // Photo errors
-  'photos.errors.fileSize': '文件必须小于5MB',
+  'photos.errors.fileSize': '文件必须小于15MB',
   'photos.errors.fileType': '仅允许JPG、PNG和WebP图像',
   'photos.errors.limitCafe': '每个咖啡馆最多只能上传3张照片',
   'photos.errors.limitDaily': '每天最多可以上传10张照片',
