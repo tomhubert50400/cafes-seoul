@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { headers } from 'next/headers';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
+
+export const metadata: Metadata = {
+  title: 'Browse Cafes',
+  description: 'Browse and filter the best cafes in Seoul by district, rating, amenities, and more.',
+};
 import { SearchFilters } from '@/components/search-filters';
 import { CafeList } from '@/components/cafe-list';
 import { CafeCardSkeleton } from '@/components/cafe-card';
