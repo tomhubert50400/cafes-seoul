@@ -32,15 +32,15 @@ export function CafeSlide({
   const [heartAnim, setHeartAnim] = useState(false);
   const cafeName = getLocalizedText(cafe.name, language);
 
-  const handleFavorite = useCallback(async () => {
+  const handleFavorite = useCallback(() => {
     if (!isAuthenticated) {
       toast.error(t('forYou.loginToFavorite'));
       return;
     }
-    await onToggleFavorite(cafe.id);
+    onToggleFavorite(cafe.id);
   }, [isAuthenticated, onToggleFavorite, cafe.id, t]);
 
-  const handleDoubleTap = useCallback(async () => {
+  const handleDoubleTap = useCallback(() => {
     if (!isAuthenticated) {
       toast.error(t('forYou.loginToFavorite'));
       return;
@@ -50,7 +50,7 @@ export function CafeSlide({
     setTimeout(() => setHeartAnim(false), 600);
     // Only favorite if not already favorited
     if (!isFavorited) {
-      await onToggleFavorite(cafe.id);
+      onToggleFavorite(cafe.id);
     }
   }, [isAuthenticated, isFavorited, onToggleFavorite, cafe.id, t]);
 
