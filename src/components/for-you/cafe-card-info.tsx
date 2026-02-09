@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import { MapPin, Star, X } from 'lucide-react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +30,8 @@ interface CafeCardInfoProps {
 
 export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: CafeCardInfoProps) {
   const { t, language } = useI18n();
+  const mapLoadedRef = useRef(false);
+  if (showMap) mapLoadedRef.current = true;
   const district = getDistrictById(cafe.districtId);
   const cafeName = getLocalizedText(cafe.name, language);
   const districtName = district ? getLocalizedText(district.name, language) : '';
@@ -102,26 +105,23 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
 
       {/* Map drawer */}
       <div
-        className={`absolute bottom-0 left-0 right-0 z-20 bg-background rounded-t-2xl shadow-2xl transition-transform duration-300 ease-out ${
+        className={`absolute bottom-0 left-0 right-0 z-20 rounded-t-2xl overflow-hidden shadow-2xl transition-transform duration-300 ease-out ${
           showMap ? 'translate-y-0' : 'translate-y-full'
         }`}
         style={{ height: '40dvh' }}
       >
-        {/* Drawer handle + close */}
-        <div className="flex items-center justify-between px-4 py-2 border-b">
-          <div className="w-10 h-1 rounded-full bg-muted-foreground/30 mx-auto" />
-          <button
-            onClick={onToggleMap}
-            className="absolute right-3 top-2 p-1 rounded-full hover:bg-muted transition-colors"
-            aria-label={t('forYou.hideMap')}
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+        {/* Close button floating over the map */}
+        <button
+          onClick={onToggleMap}
+          className="absolute right-3 top-3 z-30 p-1.5 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm"
+          aria-label={t('forYou.hideMap')}
+        >
+          <X className="h-4 w-4" />
+        </button>
 
-        {/* Interactive map */}
-        <div className="h-[calc(100%-2.5rem)]">
-          {showMap && (
+        {/* Interactive map - full height, stays rendered during close animation */}
+        <div className="h-full">
+          {mapLoadedRef.current && (
             <MapProvider>
               <Map
                 center={{ lat: cafe.latitude, lng: cafe.longitude }}
