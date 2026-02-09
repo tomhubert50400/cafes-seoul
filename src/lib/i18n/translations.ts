@@ -3902,6 +3902,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'vibes.resetError': '重置失败',
     'vibes.deleteConfirmTitle': '删除氛围？',
     'vibes.deleteConfirmDescription': '此操作无法撤消。',
+
+    // Cookie consent
+    'cookies.message': '本站使用 Cookie 保存您的语言偏好并改善您的体验。',
+    'cookies.accept': '接受',
+    'cookies.learnMore': '了解更多',
   },
 
   vi: {
