@@ -24,6 +24,8 @@ const zh: Record<string, string> = {
   'home.featured.title': '精选咖啡馆',
   'home.featured.subtitle': '评分最高的咖啡馆',
   'home.featured.viewAll': '查看全部',
+  'home.recommendations.title': '为您推荐',
+  'home.recommendations.subtitle': '根据您的评分推荐的咖啡馆',
 
   // Homepage - Districts
   'home.districts.title': '按地区浏览',
