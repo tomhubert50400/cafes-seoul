@@ -51,7 +51,6 @@ export default async function ForYouPage() {
 
   return (
     <div className="min-h-dvh flex flex-col bg-muted/30">
-      <Header user={user} />
       <main id="main-content" className="flex-1">
         <ForYouClient
           cafes={cafes}
