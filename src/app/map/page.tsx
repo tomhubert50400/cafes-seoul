@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import { Header } from '@/components/header';
+
+export const metadata: Metadata = {
+  title: 'Cafe Map',
+  description: 'Explore cafes in Seoul on an interactive map. Find the perfect cafe near you.',
+};
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
 import { getFavoriteIdsAction } from '@/lib/actions/favorites';
