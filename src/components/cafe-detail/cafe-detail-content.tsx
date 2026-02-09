@@ -20,7 +20,7 @@ import { getLocalizedText } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import { RatingsSection } from '@/components/ratings/ratings-section';
 import type { UserRating } from '@/types/ratings';
-import { PhotosSection } from '@/app/cafes/[slug]/photos-section';
+import { PhotosSection } from '@/app/(main)/cafes/[slug]/photos-section';
 import type { PhotoWithVoteStatus } from '@/types/photos';
 import type { User } from '@/types/user';
 import type { ReviewWithAuthor } from '@/types/reviews';
