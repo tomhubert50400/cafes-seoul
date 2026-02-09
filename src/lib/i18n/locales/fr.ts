@@ -24,6 +24,8 @@ const fr: Record<string, string> = {
   'home.featured.title': 'Cafés en vedette',
   'home.featured.subtitle': 'Les cafés les mieux notés',
   'home.featured.viewAll': 'Voir tout',
+  'home.recommendations.title': 'Pour vous',
+  'home.recommendations.subtitle': 'Des cafes qui correspondent a vos gouts',
 
   // Homepage - Districts
   'home.districts.title': 'Par quartier',
