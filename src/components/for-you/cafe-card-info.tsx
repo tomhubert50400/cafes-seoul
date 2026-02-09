@@ -89,7 +89,7 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
                         {value.toFixed(1)}
                       </span>
                       <span className="text-xs text-white/60">
-                        {t(`rating.${dim}` as const)}
+                        {t(`rating.${dim}`)}
                       </span>
                     </div>
                   );
