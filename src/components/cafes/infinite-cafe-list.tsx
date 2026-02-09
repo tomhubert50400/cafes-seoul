@@ -72,7 +72,11 @@ export function InfiniteCafeList({
 
       const data: PaginatedResponse<CafeSummary> = await res.json();
 
-      setCafes((prev) => [...prev, ...data.data]);
+      setCafes((prev) => {
+        const existingIds = new Set(prev.map((c) => c.id));
+        const newCafes = data.data.filter((c) => !existingIds.has(c.id));
+        return [...prev, ...newCafes];
+      });
       setPage(nextPage);
       setHasMore(nextPage < data.meta.totalPages);
     } catch (error) {
