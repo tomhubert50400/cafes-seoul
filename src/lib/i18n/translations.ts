@@ -1952,6 +1952,11 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'vibes.resetError': '프리셋 초기화 실패',
     'vibes.deleteConfirmTitle': '바이브를 삭제하시겠습니까?',
     'vibes.deleteConfirmDescription': '이 작업은 취소할 수 없습니다.',
+
+    // Cookie consent
+    'cookies.message': '이 사이트는 언어 설정을 저장하고 경험을 개선하기 위해 쿠키를 사용합니다.',
+    'cookies.accept': '수락',
+    'cookies.learnMore': '자세히 보기',
   },
 
   fr: {
