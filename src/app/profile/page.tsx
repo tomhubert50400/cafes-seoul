@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+
+export const metadata: Metadata = {
+  title: 'My Profile',
+  description: 'View and manage your Seoul Cafe Guide profile.',
+};
 import Link from 'next/link';
 import { ROUTES } from '@/lib/constants/routes';
 import { getTranslation } from '@/lib/i18n/translations';
