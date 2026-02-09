@@ -17,7 +17,7 @@ export async function GET(
     .from('cafes')
     .select('id')
     .eq('id', cafeId)
-    .neq('status', 'closed')
+    .eq('status', 'active')
     .single();
 
   if (cafeError || !cafe) {
