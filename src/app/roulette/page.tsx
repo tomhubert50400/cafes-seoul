@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/header';
+
+export const metadata: Metadata = {
+  title: 'Cafe Roulette',
+  description: 'Can\'t decide where to go? Let Seoul Cafe Roulette pick a random cafe for you!',
+};
 import { Footer } from '@/components/footer';
 import { RouletteClient } from '@/components/roulette/roulette-client';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
