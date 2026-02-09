@@ -25,15 +25,21 @@ export function Header({ user }: HeaderProps = {}) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-[60] focus:p-4 focus:bg-background focus:text-foreground focus:border focus:rounded-md focus:top-2 focus:left-2"
+      >
+        Skip to main content
+      </a>
       <div className="mx-auto flex h-14 max-w-6xl items-center px-4">
         {/* Logo - icon only on mobile, icon + name on desktop */}
-        <Link href={ROUTES.HOME} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-2.5">
-          <CoffeeIcon className="h-6 w-6" />
+        <Link href={ROUTES.HOME} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-2.5" aria-label="Seoul Cafe Guide home">
+          <CoffeeIcon className="h-6 w-6" aria-hidden="true" />
           <span className="font-semibold hidden md:inline">{t('site.name')}</span>
         </Link>
 
         {/* Navigation - centered on desktop, slightly left on mobile */}
-        <nav className="flex flex-1 items-center justify-center gap-2 md:flex-none md:gap-6">
+        <nav aria-label="Main navigation" className="flex flex-1 items-center justify-center gap-2 md:flex-none md:gap-6">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
