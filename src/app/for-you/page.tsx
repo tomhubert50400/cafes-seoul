@@ -17,6 +17,8 @@ export default async function ForYouPage() {
   let cafes;
   let favoriteIds: string[] = [];
 
+  const topDimensions = await getUserTopDimensions(supabase, user?.id ?? null);
+
   if (user) {
     [cafes, favoriteIds] = await Promise.all([
       getForYouCafes(supabase, user.id, 30),
