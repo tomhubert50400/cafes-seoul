@@ -140,6 +140,9 @@ const fr: Record<string, string> = {
   'cafes.addCafe': 'Ajouter un café',
   'cafes.prev': 'Précédent',
   'cafes.next': 'Suivant',
+  'cafes.loadingMore': 'Chargement de plus de cafés...',
+  'cafes.allLoaded': 'Vous avez vu tous les cafés !',
+  'cafes.backToTop': 'Retour en haut',
 
   // Search & Filters
   'filter.searchPlaceholder': 'Rechercher par nom ou adresse...',
