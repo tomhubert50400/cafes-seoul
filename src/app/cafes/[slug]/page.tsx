@@ -25,20 +25,34 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Cafe Not Found' };
   }
 
-  const imageUrl = cafe.primaryImageUrl ? getStorageUrl(cafe.primaryImageUrl) : null;
+  const cafeName = cafe.name.en || cafe.name.ko || Object.values(cafe.name)[0] || 'Cafe';
+  const cafeAddress = cafe.address.en || cafe.address.ko || Object.values(cafe.address)[0] || 'Seoul';
+
+  // Get the top photo for OG image
+  const supabase = await createClient();
+  const { data: topPhoto } = await supabase
+    .from('photos')
+    .select('storage_path')
+    .eq('cafe_id', cafe.id)
+    .eq('status', 'approved')
+    .order('upvote_count', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const imageUrl = topPhoto ? getStorageUrl(topPhoto.storage_path) : null;
 
   return {
-    title: cafe.name,
-    description: `${cafe.name} in ${cafe.address}. ${cafe.overallRating ? `Rated ${cafe.overallRating.toFixed(1)}/5` : 'Discover this cafe'} on Seoul Cafe Guide.`,
+    title: cafeName,
+    description: `${cafeName} in ${cafeAddress}. ${cafe.overallRating ? `Rated ${cafe.overallRating.toFixed(1)}/5` : 'Discover this cafe'} on Seoul Cafe Guide.`,
     openGraph: {
-      title: cafe.name,
-      description: `${cafe.name} - ${cafe.address}`,
-      ...(imageUrl && { images: [{ url: imageUrl, alt: cafe.name }] }),
+      title: cafeName,
+      description: `${cafeName} - ${cafeAddress}`,
+      ...(imageUrl && { images: [{ url: imageUrl, alt: cafeName }] }),
     },
     twitter: {
       card: imageUrl ? 'summary_large_image' : 'summary',
-      title: cafe.name,
-      description: `${cafe.name} - ${cafe.address}`,
+      title: cafeName,
+      description: `${cafeName} - ${cafeAddress}`,
       ...(imageUrl && { images: [imageUrl] }),
     },
   };
