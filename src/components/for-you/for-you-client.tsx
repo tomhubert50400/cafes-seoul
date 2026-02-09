@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
-import { SwipeableCard } from './swipeable-card';
+import { CafeSlide } from './cafe-slide';
 import { EmptyState } from './empty-state';
 import { toggleFavoriteAction } from '@/lib/actions/favorites';
 import { useI18n } from '@/lib/i18n';
@@ -15,22 +14,19 @@ interface ForYouClientProps {
   isAuthenticated: boolean;
 }
 
-const HINT_STORAGE_KEY = 'for-you-swipe-hint-shown';
+const HINT_STORAGE_KEY = 'for-you-scroll-hint-shown';
 
 export function ForYouClient({
-  cafes: initialCafes,
+  cafes,
   favoriteIds: initialFavoriteIds,
   isAuthenticated,
 }: ForYouClientProps) {
   const { t } = useI18n();
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [favoriteIdSet, setFavoriteIdSet] = useState(
     () => new Set(initialFavoriteIds)
   );
   const [showHint, setShowHint] = useState(false);
-
-  // Filter out already-favorited cafes
-  const cafes = initialCafes.filter((c) => !favoriteIdSet.has(c.id) || currentIndex > 0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   // Show first-time hint
   useEffect(() => {
@@ -44,90 +40,57 @@ export function ForYouClient({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const advance = useCallback(() => {
-    setCurrentIndex((prev) => prev + 1);
-  }, []);
-
-  const handleSwipeLeft = useCallback(() => {
-    advance();
-  }, [advance]);
-
-  const handleSwipeRight = useCallback(async () => {
-    const cafe = cafes[currentIndex];
-    if (!cafe) return;
-
-    if (!isAuthenticated) {
-      toast.error(t('forYou.loginToFavorite'));
-      advance();
-      return;
-    }
-
-    // Optimistically advance
-    advance();
-
-    const result = await toggleFavoriteAction(cafe.id);
-    if (result.success && result.isFavorited) {
-      toast.success(t('forYou.addedToFavorites'));
-      setFavoriteIdSet((prev) => new Set(prev).add(cafe.id));
-    } else if (result.success && !result.isFavorited) {
-      // Was already favorited, toggle removed it - re-add
-      toast(t('forYou.removedFromFavorites'));
-    } else if (result.error) {
-      toast.error(result.error);
-    }
-  }, [cafes, currentIndex, isAuthenticated, advance, t]);
-
-  // Keyboard support
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (currentIndex >= cafes.length) return;
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        handleSwipeLeft();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        handleSwipeRight();
+  const handleToggleFavorite = useCallback(
+    async (cafeId: string) => {
+      const result = await toggleFavoriteAction(cafeId);
+      if (result.success && result.isFavorited) {
+        toast.success(t('forYou.addedToFavorites'));
+        setFavoriteIdSet((prev) => new Set(prev).add(cafeId));
+      } else if (result.success && !result.isFavorited) {
+        toast(t('forYou.removedFromFavorites'));
+        setFavoriteIdSet((prev) => {
+          const next = new Set(prev);
+          next.delete(cafeId);
+          return next;
+        });
+      } else if (result.error) {
+        toast.error(result.error);
       }
-    }
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, cafes.length, handleSwipeLeft, handleSwipeRight]);
+    },
+    [t]
+  );
 
-  // Deck exhausted
-  if (currentIndex >= cafes.length) {
+  if (cafes.length === 0) {
     return <EmptyState isAuthenticated={isAuthenticated} />;
   }
 
-  const currentCafe = cafes[currentIndex];
-  const nextCafe = cafes[currentIndex + 1];
-
   return (
-    <div className="relative mx-auto w-full max-w-md h-[calc(100dvh-4.5rem)]">
-      {/* Swipe hint */}
+    <div
+      ref={scrollRef}
+      className="h-[calc(100dvh-3.5rem)] overflow-y-auto snap-y snap-mandatory"
+      style={{ scrollSnapType: 'y mandatory' }}
+    >
+      {/* Scroll hint */}
       {showHint && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 bg-black/70 text-white text-sm px-4 py-2 rounded-full backdrop-blur-sm animate-in fade-in">
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-black/70 text-white text-sm px-4 py-2 rounded-full backdrop-blur-sm animate-in fade-in">
           {t('forYou.swipeHint')}
         </div>
       )}
 
-      {/* Card stack */}
-      <AnimatePresence>
-        {nextCafe && (
-          <SwipeableCard
-            key={nextCafe.id}
-            cafe={nextCafe}
-            onSwipeLeft={() => {}}
-            onSwipeRight={() => {}}
-            isBehind
-          />
-        )}
-        <SwipeableCard
-          key={currentCafe.id}
-          cafe={currentCafe}
-          onSwipeLeft={handleSwipeLeft}
-          onSwipeRight={handleSwipeRight}
+      {cafes.map((cafe) => (
+        <CafeSlide
+          key={cafe.id}
+          cafe={cafe}
+          isFavorited={favoriteIdSet.has(cafe.id)}
+          isAuthenticated={isAuthenticated}
+          onToggleFavorite={handleToggleFavorite}
         />
-      </AnimatePresence>
+      ))}
+
+      {/* Empty state as last slide */}
+      <div className="h-[calc(100dvh-3.5rem)] w-full snap-start flex items-center justify-center">
+        <EmptyState isAuthenticated={isAuthenticated} />
+      </div>
     </div>
   );
 }
