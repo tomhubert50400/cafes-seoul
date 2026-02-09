@@ -8,11 +8,9 @@ export const metadata: Metadata = {
   description: 'Browse and filter the best cafes in Seoul by district, rating, amenities, and more.',
 };
 import { SearchFilters } from '@/components/search-filters';
-import { CafeList } from '@/components/cafe-list';
 import { CafeCardSkeleton } from '@/components/cafe-card';
 import { CafesPageHeader } from '@/components/cafes/page-header';
-import { ResultsInfo } from '@/components/cafes/results-info';
-import { Pagination } from '@/components/cafes/pagination';
+import { InfiniteCafeList } from '@/components/cafes/infinite-cafe-list';
 import { fetchCafes } from '@/lib/api/cafes';
 import { createClient } from '@/lib/supabase/server';
 import { RouletteCta } from '@/components/roulette/roulette-cta';
@@ -67,7 +65,6 @@ async function CafeListWithData({
   userId?: string;
   favoritesOnly?: boolean;
 }) {
-  // Fetch cafes and favorites in parallel
   const [cafesResult, favoritesResult] = await Promise.all([
     getCafes(searchParams),
     userId ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
@@ -85,13 +82,15 @@ async function CafeListWithData({
   const displayTotal = favoritesOnly ? displayCafes.length : total;
 
   return (
-    <div className="space-y-8">
-      <ResultsInfo total={displayTotal} />
-      <CafeList cafes={displayCafes} favoriteIds={favoriteIds} userId={userId} />
-      {!favoritesOnly && (
-        <Pagination page={page} totalPages={totalPages} searchParams={searchParams as Record<string, string | number | boolean | undefined>} />
-      )}
-    </div>
+    <InfiniteCafeList
+      initialCafes={displayCafes}
+      initialTotal={displayTotal}
+      initialPage={page}
+      totalPages={favoritesOnly ? 1 : totalPages}
+      filterParams={searchParams as Record<string, string | number | boolean | undefined>}
+      favoriteIds={favoriteIds}
+      userId={userId}
+    />
   );
 }
 
@@ -102,7 +101,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const cafeListParams: CafeListParams = {
-    page: params.page ? parseInt(params.page as string) : 1,
+    page: 1,
     limit: 12,
     district: params.district as string | undefined,
     neighborhood: params.neighborhood as string | undefined,
