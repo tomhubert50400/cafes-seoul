@@ -22,6 +22,7 @@ export function ForYouClient({
   cafes,
   favoriteIds: initialFavoriteIds,
   isAuthenticated,
+  topDimensions,
 }: ForYouClientProps) {
   const { t } = useI18n();
   const [favoriteIdSet, setFavoriteIdSet] = useState(
