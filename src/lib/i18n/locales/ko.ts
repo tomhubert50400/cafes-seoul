@@ -663,7 +663,7 @@ const ko: Record<string, string> = {
   'photos.upload.uploading': '업로드 중...',
   'photos.upload.success': '사진이 성공적으로 업로드되었습니다!',
   'photos.upload.error': '사진 업로드에 실패했습니다',
-  'photos.upload.maxSize': '최대 5MB',
+  'photos.upload.maxSize': '최대 15MB',
   'photos.upload.allowedTypes': 'JPG, PNG, WebP만 가능',
 
   // Photo limits
