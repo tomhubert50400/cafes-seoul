@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       is_laptop_friendly,
       photos(storage_path, upvote_count, status)
     `)
-    .neq('status', 'closed')
+    .eq('status', 'active')
     .or(`name_ko.ilike.%${q}%,name_en.ilike.%${q}%,address_ko.ilike.%${q}%,specialties.cs.{${q}}`)
     .order('overall_rating', { ascending: false })
     .limit(limit);
