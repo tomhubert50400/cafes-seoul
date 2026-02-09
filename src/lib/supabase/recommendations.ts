@@ -44,7 +44,7 @@ export async function getUserTopDimensions(
   // Count non-zero values per dimension
   const counts: Record<string, number> = {};
   for (const col of DIMENSION_COLUMNS) {
-    counts[col] = ratings.filter((r) => (r as Record<string, number>)[col] > 0).length;
+    counts[col] = ratings.filter((r) => (r as unknown as Record<string, number>)[col] > 0).length;
   }
 
   const sorted = Object.entries(counts)
