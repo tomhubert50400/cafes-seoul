@@ -45,6 +45,7 @@ export default async function ForYouPage() {
           cafes={cafes}
           favoriteIds={favoriteIds}
           isAuthenticated={!!user}
+          topDimensions={topDimensions}
         />
       </main>
     </div>
