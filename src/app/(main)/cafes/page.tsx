@@ -131,7 +131,6 @@ export default async function CafesPage({ searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header user={user} />
       <main className="mx-auto max-w-6xl px-4 py-8">
         {/* Header with Add Cafe button */}
         <CafesPageHeader />
