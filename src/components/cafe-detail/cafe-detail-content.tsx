@@ -124,9 +124,12 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                     {isLast && (
                       <Link
                         href={`/cafes/${cafe.slug}?upload=true#photos-section`}
-                        className="absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
+                        className="absolute bottom-3 right-3 flex items-center justify-center h-12 w-12 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
                       >
-                        <Camera className="h-4 w-4" />
+                        <div className="relative">
+                          <Camera className="h-5 w-5" />
+                          <span className="absolute -top-1.5 -right-0.5 text-xs font-bold leading-none">+</span>
+                        </div>
                       </Link>
                     )}
                   </div>
