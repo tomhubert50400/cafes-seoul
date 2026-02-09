@@ -16,7 +16,7 @@ interface CafeSlideProps {
   cafe: ForYouCafe;
   isFavorited: boolean;
   isAuthenticated: boolean;
-  onToggleFavorite: (cafeId: string) => Promise<void>;
+  onToggleFavorite: (cafeId: string) => void;
   topDimensions: RatingDimension[];
 }
 
