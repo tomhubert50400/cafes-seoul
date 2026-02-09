@@ -671,7 +671,7 @@ const vi: Record<string, string> = {
   'photos.status.rejected': 'Đã từ chối',
 
   // Photo errors
-  'photos.errors.fileSize': 'Tệp phảI nhỏ hơn 5MB',
+  'photos.errors.fileSize': 'Tệp phảI nhỏ hơn 15MB',
   'photos.errors.fileType': 'Chỉ chấp nhận JPG, PNG và WebP',
   'photos.errors.limitCafe': 'Bạn chỉ có thể tảI lên tối đa 3 hình ảnh mỗi quán',
   'photos.errors.limitDaily': 'Bạn có thể tảI lên tối đa 10 hình ảnh mỗi ngày',
