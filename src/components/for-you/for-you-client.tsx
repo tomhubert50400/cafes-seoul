@@ -91,33 +91,37 @@ export function ForYouClient({
 
   const handleToggleFavorite = useCallback(
     (cafeId: string) => {
+      const wasFavorited = favoriteIdSet.has(cafeId);
+
+      // Update local state
       setFavoriteIdSet((prev) => {
         const next = new Set(prev);
-        if (next.has(cafeId)) {
-          // Un-favorite
+        if (wasFavorited) {
           next.delete(cafeId);
-          // Track for sync: if it was a newly added one, just cancel; otherwise mark removed
-          if (pendingAdded.current.has(cafeId)) {
-            pendingAdded.current.delete(cafeId);
-          } else {
-            pendingRemoved.current.add(cafeId);
-          }
-          toast(t('forYou.removedFromFavorites'));
         } else {
-          // Favorite
           next.add(cafeId);
-          // Track for sync: if it was pending removal, cancel; otherwise mark added
-          if (pendingRemoved.current.has(cafeId)) {
-            pendingRemoved.current.delete(cafeId);
-          } else {
-            pendingAdded.current.add(cafeId);
-          }
-          toast.success(t('forYou.addedToFavorites'));
         }
         return next;
       });
+
+      // Track for server sync
+      if (wasFavorited) {
+        if (pendingAdded.current.has(cafeId)) {
+          pendingAdded.current.delete(cafeId);
+        } else {
+          pendingRemoved.current.add(cafeId);
+        }
+        toast(t('forYou.removedFromFavorites'));
+      } else {
+        if (pendingRemoved.current.has(cafeId)) {
+          pendingRemoved.current.delete(cafeId);
+        } else {
+          pendingAdded.current.add(cafeId);
+        }
+        toast.success(t('forYou.addedToFavorites'));
+      }
     },
-    [t]
+    [favoriteIdSet, t]
   );
 
   if (cafes.length === 0) {
