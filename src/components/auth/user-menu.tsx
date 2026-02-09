@@ -11,11 +11,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { useI18n } from '@/lib/i18n';
+import { useI18n, LanguageCode } from '@/lib/i18n';
+import { Flag } from '@/components/ui/flag';
 import { logout } from '@/app/actions/auth';
 import { ROUTES } from '@/lib/constants/routes';
 import { createClient } from '@/lib/supabase/client';
-import { User as UserIcon, LogOut, FileText, Settings, LayoutDashboard, Shield } from 'lucide-react';
+import { User as UserIcon, LogOut, FileText, Settings, LayoutDashboard, Shield, Globe, ChevronDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface UserMenuProps {
   user: SupabaseUser;
@@ -27,9 +29,16 @@ function getInitials(email: string): string {
 }
 
 export function UserMenu({ user }: UserMenuProps) {
-  const { t } = useI18n();
+  const { t, language, setLanguage, languages } = useI18n();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const handleLanguageChange = (langCode: LanguageCode) => {
+    setLanguage(langCode);
+    router.refresh();
+  };
 
   const email = user.email || '';
   const initials = getInitials(email);
@@ -50,7 +59,7 @@ export function UserMenu({ user }: UserMenuProps) {
   }, [user.id]);
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu open={open} onOpenChange={(v) => { setOpen(v); if (!v) setLangOpen(false); }}>
       <DropdownMenuTrigger asChild>
         <button
           className="relative flex h-9 w-9 items-center justify-center rounded-full outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-primary"
@@ -133,6 +142,37 @@ export function UserMenu({ user }: UserMenuProps) {
             </Link>
           </DropdownMenuItem>
         )}
+
+        {/* Language switcher - mobile only, inline expand */}
+        <div className="md:hidden">
+          <DropdownMenuSeparator />
+          <button
+            type="button"
+            onClick={() => setLangOpen(!langOpen)}
+            className="flex w-full cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none hover:bg-accent hover:text-accent-foreground"
+          >
+            <Globe className="h-4 w-4" />
+            <span className="flex items-center gap-2">
+              <Flag language={language} size={16} />
+              {languages[language].nativeName}
+            </span>
+            <ChevronDown className={`ml-auto h-4 w-4 transition-transform ${langOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {langOpen && (
+            <div className="py-1">
+              {Object.values(languages).map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => handleLanguageChange(lang.code as LanguageCode)}
+                  className={language === lang.code ? 'bg-accent' : ''}
+                >
+                  <Flag language={lang.code} size={16} className="mr-2" />
+                  <span>{lang.nativeName}</span>
+                </DropdownMenuItem>
+              ))}
+            </div>
+          )}
+        </div>
 
         <DropdownMenuSeparator />
 

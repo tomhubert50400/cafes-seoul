@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import { Camera } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 interface PhotoCarouselProps {
   photoUrls: string[];
@@ -9,6 +10,7 @@ interface PhotoCarouselProps {
 }
 
 export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
+  const { t } = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
 
@@ -46,7 +48,7 @@ export function PhotoCarousel({ photoUrls, cafeName }: PhotoCarouselProps) {
     return (
       <div className="aspect-[3/4] w-full bg-muted flex flex-col items-center justify-center gap-2">
         <Camera className="h-12 w-12 text-muted-foreground/50" />
-        <p className="text-sm text-muted-foreground/50">No photos</p>
+        <p className="text-sm text-muted-foreground/50">{t('photos.empty.title')}</p>
       </div>
     );
   }

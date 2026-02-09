@@ -22,7 +22,7 @@ interface HeaderProps {
 
 export function Header({ user }: HeaderProps = {}) {
   const pathname = usePathname();
-  const { t } = useI18n();
+  const { t, language } = useI18n();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -34,32 +34,43 @@ export function Header({ user }: HeaderProps = {}) {
       </a>
       <div className="mx-auto flex h-14 max-w-6xl items-center px-4">
         {/* Logo - icon only on mobile, icon + name on desktop */}
-        <Link href={ROUTES.HOME} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-2.5" aria-label="Seoul Cafe Guide home">
+        <Link href={ROUTES.HOME} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-1 md:px-2.5" aria-label="Seoul Cafe Guide home">
           <CoffeeIcon className="h-6 w-6" aria-hidden="true" />
           <span className="font-semibold hidden md:inline">{t('site.name')}</span>
         </Link>
 
-        {/* Navigation - centered on desktop, slightly left on mobile */}
-        <nav aria-label="Main navigation" className="flex flex-1 items-center justify-center gap-1 md:flex-none md:gap-6">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                'text-sm font-medium transition-colors whitespace-nowrap min-h-[44px] flex items-center',
-                'text-foreground border-b-2',
-                'hover:border-foreground',
-                pathname === item.href ? 'border-foreground' : 'border-transparent'
-              )}
-            >
-              {t(item.labelKey)}
-            </Link>
-          ))}
+        {/* Navigation - centered on desktop, compact pills on mobile */}
+        <nav aria-label="Main navigation" className="flex flex-1 min-w-0 items-center justify-center md:flex-none md:gap-6">
+          <div className="flex items-center min-w-0 rounded-full bg-muted/50 p-0.5 md:bg-transparent md:p-0 md:gap-6">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'font-medium transition-colors flex items-center',
+                  // Mobile: compact pill style, smaller for Vietnamese
+                  language === 'vi'
+                    ? 'text-[10px] px-1 py-1 rounded-full min-h-[30px] min-w-0 truncate'
+                    : 'text-xs px-2.5 py-1.5 rounded-full min-h-[32px] min-w-0 truncate',
+                  // Desktop: larger text with underline style (same for all)
+                  'md:text-sm md:px-0 md:py-0 md:rounded-none md:min-h-[44px] md:border-b-2 md:whitespace-nowrap md:overflow-visible',
+                  pathname === item.href
+                    ? 'bg-background text-foreground shadow-sm md:bg-transparent md:shadow-none md:border-foreground'
+                    : 'text-muted-foreground md:text-foreground md:border-transparent hover:text-foreground md:hover:border-foreground'
+                )}
+              >
+                {t(item.labelKey)}
+              </Link>
+            ))}
+          </div>
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-1 md:gap-2 shrink-0 md:flex-1 md:justify-end">
-          <LanguageSwitcher />
+          {/* Language switcher: always on desktop, only when not logged in on mobile (logged-in users have it in their menu) */}
+          <div className={cn(user ? 'hidden md:block' : '')}>
+            <LanguageSwitcher />
+          </div>
           {user ? (
             <UserMenu user={user} />
           ) : (
