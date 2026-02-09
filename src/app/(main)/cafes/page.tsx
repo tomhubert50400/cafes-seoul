@@ -134,7 +134,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
         </Suspense>
 
         <Suspense fallback={<CafeListSkeleton />}>
-          <CafeListWithData searchParams={cafeListParams} userId={user?.id} favoritesOnly={params.favoritesOnly === 'true'} />
+          <CafeListWithData searchParams={cafeListParams} userId={user?.id} />
         </Suspense>
       </main>
 
