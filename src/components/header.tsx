@@ -43,26 +43,37 @@ export function Header({ user }: HeaderProps = {}) {
         {/* Navigation - centered on desktop, compact pills on mobile */}
         <nav aria-label="Main navigation" className="flex flex-1 min-w-0 items-center justify-center md:flex-none md:gap-6">
           <div className="flex items-center min-w-0 rounded-full bg-muted/50 p-0.5 md:bg-transparent md:p-0 md:gap-6">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'font-medium transition-colors flex items-center',
-                  // Mobile: compact pill style, smaller for Vietnamese
-                  language === 'vi'
-                    ? 'text-[10px] px-1 py-1 rounded-full min-h-[30px] min-w-0 truncate'
-                    : 'text-xs px-2.5 py-1.5 rounded-full min-h-[32px] min-w-0 truncate',
-                  // Desktop: larger text with underline style (same for all)
-                  'md:text-sm md:px-0 md:py-0 md:rounded-none md:min-h-[44px] md:border-b-2 md:whitespace-nowrap md:overflow-visible',
-                  pathname === item.href
-                    ? 'bg-background text-foreground shadow-sm md:bg-transparent md:shadow-none md:border-foreground'
-                    : 'text-muted-foreground md:text-foreground md:border-transparent hover:text-foreground md:hover:border-foreground'
-                )}
-              >
-                {t(item.labelKey)}
-              </Link>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'relative font-medium transition-colors flex items-center justify-center',
+                    // Mobile: compact pill style, smaller for Vietnamese
+                    language === 'vi'
+                      ? 'text-[10px] px-1 py-1 rounded-full min-h-[30px] min-w-0 truncate'
+                      : 'text-xs px-2.5 py-1.5 rounded-full min-h-[32px] min-w-0 truncate',
+                    // Desktop: larger text with underline style (same for all)
+                    'md:text-sm md:px-0 md:py-0 md:rounded-none md:min-h-[44px] md:border-b-2 md:whitespace-nowrap md:overflow-visible',
+                    isActive
+                      ? 'text-foreground md:bg-transparent md:shadow-none md:border-foreground'
+                      : 'text-muted-foreground md:text-foreground md:border-transparent hover:text-foreground md:hover:border-foreground'
+                  )}
+                >
+                  {/* Mobile sliding pill indicator */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-full bg-background shadow-sm md:hidden"
+                      transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
+                    />
+                  )}
+                  <span className="relative z-10">{t(item.labelKey)}</span>
+                </Link>
+              );
+            })}
           </div>
         </nav>
 
