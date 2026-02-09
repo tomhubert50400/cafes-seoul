@@ -24,6 +24,8 @@ const ko: Record<string, string> = {
   'home.featured.title': '인기 카페',
   'home.featured.subtitle': '가장 높은 평점의 카페들',
   'home.featured.viewAll': '전체 보기',
+  'home.recommendations.title': '추천 카페',
+  'home.recommendations.subtitle': '평점을 기반으로 추천하는 카페',
 
   // Homepage - Districts
   'home.districts.title': '지역별 카페',
