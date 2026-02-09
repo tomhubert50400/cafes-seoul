@@ -385,7 +385,7 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
                   Click to select photos (up to {maxAllowed})
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  JPG, PNG, or WebP (max 5MB each)
+                  JPG, PNG, or WebP (max 15MB each)
                 </span>
               </div>
             </Button>
