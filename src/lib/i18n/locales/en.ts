@@ -677,7 +677,7 @@ const en: Record<string, string> = {
   'photos.status.rejected': 'Rejected',
 
   // Photo errors
-  'photos.errors.fileSize': 'File must be less than 5MB',
+  'photos.errors.fileSize': 'File must be less than 15MB',
   'photos.errors.fileType': 'Only JPG, PNG, and WebP images are allowed',
   'photos.errors.limitCafe': 'You can only upload 3 photos per cafe',
   'photos.errors.limitDaily': 'You can upload up to 10 photos per day',
