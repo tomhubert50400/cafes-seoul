@@ -969,6 +969,22 @@ const en: Record<string, string> = {
   'vibes.deleteConfirmTitle': 'Delete Vibe?',
   'vibes.deleteConfirmDescription': 'This action cannot be undone.',
 
+  // For You
+  'nav.forYou': 'For You',
+  'forYou.like': 'LIKE',
+  'forYou.nope': 'NOPE',
+  'forYou.addedToFavorites': 'Added to favorites!',
+  'forYou.removedFromFavorites': 'Removed from favorites',
+  'forYou.loginToFavorite': 'Sign in to save favorites',
+  'forYou.emptyTitle': "You've seen them all!",
+  'forYou.emptySubtitle': 'Check back later for new recommendations',
+  'forYou.browseCafes': 'Browse All Cafes',
+  'forYou.tryRoulette': 'Try Roulette',
+  'forYou.viewDetails': 'View Details',
+  'forYou.getDirections': 'Get Directions',
+  'forYou.swipeHint': 'Swipe right to like, left to skip',
+  'forYou.signUpPrompt': 'Sign up for personalized recommendations',
+
   // Cookie consent
   'cookies.message': 'This site uses cookies to save your language preference and improve your experience.',
   'cookies.accept': 'Accept',
