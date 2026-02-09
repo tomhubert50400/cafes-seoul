@@ -50,8 +50,8 @@ export default async function ForYouPage() {
   cafes = shuffle(cafes);
 
   return (
-    <div className="h-dvh flex flex-col bg-black">
-      <main id="main-content" className="flex-1 min-h-0">
+    <div className="flex flex-col bg-black">
+      <main id="main-content" className="flex-1">
         <ForYouClient
           cafes={cafes}
           favoriteIds={favoriteIds}
