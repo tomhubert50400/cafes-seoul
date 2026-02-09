@@ -87,6 +87,7 @@ export function ForYouClient({
           isFavorited={favoriteIdSet.has(cafe.id)}
           isAuthenticated={isAuthenticated}
           onToggleFavorite={handleToggleFavorite}
+          topDimensions={topDimensions}
         />
       ))}
 
