@@ -99,26 +99,74 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
     }
   }
 
-  // 6. Create cafe from submission data using raw SQL to handle PostGIS geometry
-  const slug = generateSlug(submission.name.en || submission.name.ko || 'cafe');
-  const { data: cafeResult, error: cafeError } = await supabase.rpc('create_cafe_from_submission', {
-    p_name: submission.name,
-    p_address: submission.address,
-    p_phone: submission.phone,
-    p_latitude: latitude,
-    p_longitude: longitude,
-    p_district_id: submission.district_id,
-    p_neighborhood_id: submission.neighborhood_id,
-    p_slug: slug,
-    p_kakao_place_id: submission.kakao_place_id || null,
-  });
+  // 6. Check if an inactive cafe with the same kakao_place_id already exists
+  let cafe: { id: string };
 
-  if (cafeError || !cafeResult) {
-    console.error('Error creating cafe:', cafeError);
-    return { success: false, error: 'Failed to create cafe' };
+  if (submission.kakao_place_id) {
+    const { data: existingCafe } = await supabase
+      .from('cafes')
+      .select('id')
+      .eq('kakao_place_id', submission.kakao_place_id)
+      .eq('status', 'inactive')
+      .single();
+
+    if (existingCafe) {
+      // Reactivate the existing cafe instead of creating a new one
+      const { error: reactivateError } = await supabase
+        .from('cafes')
+        .update({ status: 'active' })
+        .eq('id', existingCafe.id);
+
+      if (reactivateError) {
+        console.error('Error reactivating cafe:', reactivateError);
+        return { success: false, error: 'Failed to reactivate existing cafe' };
+      }
+
+      cafe = { id: existingCafe.id };
+    } else {
+      // No inactive match — create new cafe
+      const slug = generateSlug(submission.name.en || submission.name.ko || 'cafe');
+      const { data: cafeResult, error: cafeError } = await supabase.rpc('create_cafe_from_submission', {
+        p_name: submission.name,
+        p_address: submission.address,
+        p_phone: submission.phone,
+        p_latitude: latitude,
+        p_longitude: longitude,
+        p_district_id: submission.district_id,
+        p_neighborhood_id: submission.neighborhood_id,
+        p_slug: slug,
+        p_kakao_place_id: submission.kakao_place_id,
+      });
+
+      if (cafeError || !cafeResult) {
+        console.error('Error creating cafe:', cafeError);
+        return { success: false, error: 'Failed to create cafe' };
+      }
+
+      cafe = { id: cafeResult };
+    }
+  } else {
+    // No kakao_place_id — create new cafe
+    const slug = generateSlug(submission.name.en || submission.name.ko || 'cafe');
+    const { data: cafeResult, error: cafeError } = await supabase.rpc('create_cafe_from_submission', {
+      p_name: submission.name,
+      p_address: submission.address,
+      p_phone: submission.phone,
+      p_latitude: latitude,
+      p_longitude: longitude,
+      p_district_id: submission.district_id,
+      p_neighborhood_id: submission.neighborhood_id,
+      p_slug: slug,
+      p_kakao_place_id: null,
+    });
+
+    if (cafeError || !cafeResult) {
+      console.error('Error creating cafe:', cafeError);
+      return { success: false, error: 'Failed to create cafe' };
+    }
+
+    cafe = { id: cafeResult };
   }
-
-  const cafe = { id: cafeResult };
 
   // 7. Update submission status
   const { error: updateError } = await supabase
