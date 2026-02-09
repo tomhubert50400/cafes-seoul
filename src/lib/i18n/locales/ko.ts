@@ -969,6 +969,22 @@ const ko: Record<string, string> = {
   'vibes.deleteConfirmTitle': '바이브를 삭제하시겠습니까?',
   'vibes.deleteConfirmDescription': '이 작업은 취소할 수 없습니다.',
 
+  // For You
+  'nav.forYou': '추천',
+  'forYou.like': 'LIKE',
+  'forYou.nope': 'NOPE',
+  'forYou.addedToFavorites': '즐겨찾기에 추가되었습니다!',
+  'forYou.removedFromFavorites': '즐겨찾기에서 삭제되었습니다',
+  'forYou.loginToFavorite': '즐겨찾기를 저장하려면 로그인하세요',
+  'forYou.emptyTitle': '모두 확인했습니다!',
+  'forYou.emptySubtitle': '나중에 새로운 추천을 확인하세요',
+  'forYou.browseCafes': '모든 카페 보기',
+  'forYou.tryRoulette': '룰렛 돌리기',
+  'forYou.viewDetails': '상세 보기',
+  'forYou.getDirections': '길찾기',
+  'forYou.swipeHint': '오른쪽으로 밀어 좋아요, 왼쪽으로 밀어 건너뛰기',
+  'forYou.signUpPrompt': '맞춤 추천을 받으려면 가입하세요',
+
   // Cookie consent
   'cookies.message': '이 사이트는 언어 설정을 저장하고 경험을 개선하기 위해 쿠키를 사용합니다.',
   'cookies.accept': '수락',
