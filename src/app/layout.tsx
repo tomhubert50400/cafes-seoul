@@ -62,7 +62,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased overflow-x-hidden`}
       >
         <I18nProvider initialLanguage={initialLanguage}>
-          {children}
+          <div id="main-content">
+            {children}
+          </div>
           <Toaster position="top-right" richColors closeButton />
         </I18nProvider>
       </body>
