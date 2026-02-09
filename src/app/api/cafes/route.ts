@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
       is_laptop_friendly,
       photos(storage_path, upvote_count, status)
     `, { count: 'exact' })
-    .neq('status', 'closed');
+    .eq('status', 'active');
 
   // Apply location filters
   if (params.neighborhood) {
