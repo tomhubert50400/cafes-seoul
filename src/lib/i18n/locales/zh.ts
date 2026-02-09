@@ -969,6 +969,22 @@ const zh: Record<string, string> = {
   'vibes.deleteConfirmTitle': '删除氛围？',
   'vibes.deleteConfirmDescription': '此操作无法撤消。',
 
+  // For You
+  'nav.forYou': '推荐',
+  'forYou.like': 'LIKE',
+  'forYou.nope': 'NOPE',
+  'forYou.addedToFavorites': '已添加到收藏！',
+  'forYou.removedFromFavorites': '已从收藏中移除',
+  'forYou.loginToFavorite': '登录以保存收藏',
+  'forYou.emptyTitle': '全部看完了！',
+  'forYou.emptySubtitle': '稍后回来查看新推荐',
+  'forYou.browseCafes': '浏览所有咖啡馆',
+  'forYou.tryRoulette': '试试轮盘',
+  'forYou.viewDetails': '查看详情',
+  'forYou.getDirections': '获取路线',
+  'forYou.swipeHint': '右滑收藏，左滑跳过',
+  'forYou.signUpPrompt': '注册获取个性化推荐',
+
   // Cookie consent
   'cookies.message': '本站使用 Cookie 保存您的语言偏好并改善您的体验。',
   'cookies.accept': '接受',
