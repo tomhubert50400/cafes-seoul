@@ -971,8 +971,6 @@ const fr: Record<string, string> = {
 
   // For You
   'nav.forYou': 'Pour vous',
-  'forYou.like': 'LIKE',
-  'forYou.nope': 'NOPE',
   'forYou.addedToFavorites': 'Ajouté aux favoris !',
   'forYou.removedFromFavorites': 'Retiré des favoris',
   'forYou.loginToFavorite': 'Connectez-vous pour sauvegarder vos favoris',
@@ -982,7 +980,10 @@ const fr: Record<string, string> = {
   'forYou.tryRoulette': 'Essayer la roulette',
   'forYou.viewDetails': 'Voir les détails',
   'forYou.getDirections': 'Itinéraire',
-  'forYou.swipeHint': 'Glissez à droite pour aimer, à gauche pour passer',
+  'forYou.openMap': 'Ouvrir dans Maps',
+  'forYou.showMap': 'Afficher la carte',
+  'forYou.hideMap': 'Masquer la carte',
+  'forYou.swipeHint': 'Faites défiler pour explorer',
   'forYou.signUpPrompt': 'Inscrivez-vous pour des recommandations personnalisées',
 
   // Cookie consent
