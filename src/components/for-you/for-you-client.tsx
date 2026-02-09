@@ -7,11 +7,13 @@ import { EmptyState } from './empty-state';
 import { toggleFavoriteAction } from '@/lib/actions/favorites';
 import { useI18n } from '@/lib/i18n';
 import type { ForYouCafe } from '@/types/for-you';
+import type { RatingDimension } from '@/lib/supabase/recommendations';
 
 interface ForYouClientProps {
   cafes: ForYouCafe[];
   favoriteIds: string[];
   isAuthenticated: boolean;
+  topDimensions: RatingDimension[];
 }
 
 const HINT_STORAGE_KEY = 'for-you-scroll-hint-shown';
