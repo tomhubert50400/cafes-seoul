@@ -67,6 +67,7 @@ export default async function RootLayout({
             {children}
           </div>
           <Toaster position="top-right" richColors closeButton />
+          <CookieConsent />
         </I18nProvider>
       </body>
     </html>
