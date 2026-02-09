@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, X } from 'lucide-react';
+import { MapPin, Star, X } from 'lucide-react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Badge } from '@/components/ui/badge';
 import { RatingDisplay } from '@/components/ratings/rating-display';
@@ -10,6 +10,7 @@ import { getLocalizedText } from '@/types/cafe';
 import { getDistrictById } from '@/lib/constants/districts';
 import { Wifi, Plug, Dog, Armchair, Car } from 'lucide-react';
 import type { ForYouCafe } from '@/types/for-you';
+import type { RatingDimension } from '@/lib/supabase/recommendations';
 
 const FEATURE_BADGES = [
   { key: 'hasWifi' as const, icon: Wifi, label: 'WiFi' },
@@ -23,9 +24,10 @@ interface CafeCardInfoProps {
   cafe: ForYouCafe;
   showMap: boolean;
   onToggleMap: () => void;
+  topDimensions: RatingDimension[];
 }
 
-export function CafeCardInfo({ cafe, showMap, onToggleMap }: CafeCardInfoProps) {
+export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: CafeCardInfoProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
   const cafeName = getLocalizedText(cafe.name, language);
