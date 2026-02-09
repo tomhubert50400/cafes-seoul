@@ -36,7 +36,9 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
   const cafeName = getLocalizedText(cafe.name, language);
   const districtName = district ? getLocalizedText(district.name, language) : '';
 
-  const activeFeatures = FEATURE_BADGES.filter((f) => cafe[f.key]);
+  const activeFeatures = cafe.totalRatings > 0
+    ? FEATURE_BADGES.filter((f) => cafe[f.key])
+    : [];
 
   return (
     <>
