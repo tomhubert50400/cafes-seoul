@@ -657,7 +657,7 @@ const vi: Record<string, string> = {
   'photos.upload.uploading': 'Đang tải lên...',
   'photos.upload.success': 'Tải lên hình ảnh thành công!',
   'photos.upload.error': 'Tải lên hình ảnh thất bại',
-  'photos.upload.maxSize': 'Tối đa 5MB',
+  'photos.upload.maxSize': 'Tối đa 15MB',
   'photos.upload.allowedTypes': 'Chỉ JPG, PNG, WebP',
 
   // Photo limits
