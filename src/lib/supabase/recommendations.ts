@@ -124,6 +124,7 @@ const CAFE_SELECT_WITH_PHOTOS = `
   rating_ambiance, rating_wifi, rating_noise, rating_outlets, rating_value,
   price_range, cafe_type,
   has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
+  operating_hours,
   photos(storage_path, upvote_count, status)
 `;
 
