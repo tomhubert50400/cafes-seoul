@@ -60,20 +60,24 @@ export default async function AdminDashboard() {
       .eq('status', 'rejected'),
   ]);
 
-  // Fetch recent moderation activity (last 5 approved/declined submissions + last 5 approved/rejected photos)
+  // Fetch recent moderation activity (last 7 days only)
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
   const [{ data: recentSubmissions }, { data: recentPhotos }] = await Promise.all([
     supabase
       .from('cafe_submissions')
       .select('id, name, status, updated_at')
       .in('status', ['approved', 'declined'])
+      .gte('updated_at', sevenDaysAgo)
       .order('updated_at', { ascending: false })
-      .limit(5),
+      .limit(10),
     supabase
       .from('photos')
       .select('id, cafe_id, status, updated_at, cafe:cafes(name)')
       .in('status', ['approved', 'rejected'])
+      .gte('updated_at', sevenDaysAgo)
       .order('updated_at', { ascending: false })
-      .limit(5),
+      .limit(10),
   ]);
 
   // Transform and combine activities

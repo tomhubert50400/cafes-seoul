@@ -1,7 +1,8 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { forbidden, redirect } from 'next/navigation'
 import { Header } from '@/components/header'
-import { AdminSidebar } from '@/components/admin/admin-sidebar'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default async function AdminLayout({
   children,
@@ -29,13 +30,34 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Header user={user} />
-      <div className="flex">
-        <AdminSidebar />
-        <main className="flex-1 min-w-0 overflow-x-hidden p-4 pt-16 md:p-6 md:pt-6">
-          {children}
-        </main>
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        <h1 className="mb-4 text-2xl md:text-3xl font-bold">Admin Panel</h1>
+
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="mb-8 w-full justify-start flex-wrap gap-2" variant="line">
+            <TabsTrigger value="dashboard" asChild className="min-h-[44px]">
+              <Link href="/admin">Dashboard</Link>
+            </TabsTrigger>
+            <TabsTrigger value="submissions" asChild className="min-h-[44px]">
+              <Link href="/admin/submissions">Submissions</Link>
+            </TabsTrigger>
+            <TabsTrigger value="cafes" asChild className="min-h-[44px]">
+              <Link href="/admin/cafes">Cafes</Link>
+            </TabsTrigger>
+            <TabsTrigger value="photos" asChild className="min-h-[44px]">
+              <Link href="/admin/photos">Photos</Link>
+            </TabsTrigger>
+            <TabsTrigger value="messages" asChild className="min-h-[44px]">
+              <Link href="/admin/messages">Messages</Link>
+            </TabsTrigger>
+          </TabsList>
+
+          <div className="mt-6">
+            {children}
+          </div>
+        </Tabs>
       </div>
     </div>
   )

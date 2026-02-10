@@ -72,27 +72,27 @@ export function MessageDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle>{message.subject}</DialogTitle>
+      <DialogContent className="max-h-[90vh] overflow-y-auto overflow-x-hidden">
+        <DialogHeader className="min-w-0">
+          <DialogTitle className="break-words pr-6">{message.subject}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-0">
           {/* Sender info */}
-          <div className="flex items-start gap-3 rounded-md bg-muted p-3">
+          <div className="flex items-start gap-3 rounded-md bg-muted p-3 min-w-0">
             <User className="mt-0.5 size-4 text-muted-foreground shrink-0" />
-            <div className="min-w-0 text-sm">
-              <p className="font-medium">{message.senderName}</p>
-              <p className="text-muted-foreground">{message.senderEmail}</p>
-              <div className="mt-1 flex items-center gap-2">
+            <div className="min-w-0 text-sm overflow-hidden">
+              <p className="font-medium truncate">{message.senderName}</p>
+              <p className="text-muted-foreground truncate">{message.senderEmail}</p>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
                 {message.user ? (
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="max-w-full truncate">
                     {message.user.displayName || message.user.username || t['admin.messages.registeredUser']}
                   </Badge>
                 ) : (
                   <Badge variant="outline">{t['admin.messages.guest']}</Badge>
                 )}
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground whitespace-nowrap">
                   {formatDate(message.createdAt)}
                 </span>
               </div>
@@ -100,16 +100,17 @@ export function MessageDetailModal({
           </div>
 
           {/* Message body */}
-          <div className="rounded-md border p-4">
-            <p className="whitespace-pre-wrap text-sm">{message.message}</p>
+          <div className="rounded-md border p-4 min-w-0 overflow-hidden">
+            <p className="whitespace-pre-wrap break-words overflow-wrap-anywhere text-sm">{message.message}</p>
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="flex-col gap-2 sm:flex-row min-w-0">
           <Button
             variant="outline"
             onClick={handleToggleRead}
             disabled={isPending}
+            className="w-full sm:w-auto"
           >
             {isPending ? (
               <Loader2 className="mr-2 size-4 animate-spin" />
@@ -122,7 +123,7 @@ export function MessageDetailModal({
               ? t['admin.messages.markUnread']
               : t['admin.messages.markRead']}
           </Button>
-          <Button onClick={onClose}>{t['common.close']}</Button>
+          <Button onClick={onClose} className="w-full sm:w-auto">{t['common.close']}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
