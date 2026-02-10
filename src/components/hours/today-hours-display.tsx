@@ -26,6 +26,7 @@ export function TodayHoursDisplay({ operatingHours, compact, expandable }: Today
     return (
       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <Clock className="h-3.5 w-3.5 shrink-0" />
+        <span className="font-medium">{t('cafe.today')}:</span>
         <span className="truncate">{todayText}</span>
       </div>
     );
@@ -38,23 +39,23 @@ export function TodayHoursDisplay({ operatingHours, compact, expandable }: Today
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-2 text-sm w-full group"
+          className="flex items-center gap-2 text-xs w-full group"
         >
           <Clock className="h-4 w-4 text-muted-foreground shrink-0" />
-          <span className="font-medium">{t('cafe.today')}:</span>
-          <span className={today.hours ? 'text-foreground' : 'text-muted-foreground'}>
+          <span className="font-medium whitespace-nowrap">{t('cafe.today')}:</span>
+          <span className={`whitespace-nowrap ${today.hours ? 'text-foreground' : 'text-muted-foreground'}`}>
             {todayText}
           </span>
           <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground group-hover:text-foreground transition-colors">
             {expanded ? (
               <>
                 {t('cafe.hideHours')}
-                <ChevronUp className="h-3.5 w-3.5" />
+                <ChevronUp className="h-3.5 w-3.5 shrink-0" />
               </>
             ) : (
               <>
                 {t('cafe.showAllHours')}
-                <ChevronDown className="h-3.5 w-3.5" />
+                <ChevronDown className="h-3.5 w-3.5 shrink-0" />
               </>
             )}
           </span>

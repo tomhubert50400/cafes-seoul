@@ -1,13 +1,14 @@
 'use client';
 
 import { useRef } from 'react';
-import { MapPin, Star, X } from 'lucide-react';
+import { MapPin, Star, X, Clock } from 'lucide-react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Badge } from '@/components/ui/badge';
 import { RatingDisplay } from '@/components/ratings/rating-display';
 import { MapProvider } from '@/components/map/map-provider';
 import { useI18n } from '@/lib/i18n';
 import { getLocalizedText } from '@/types/cafe';
+import { getTodayHours, formatHours } from '@/lib/hours';
 import { getDistrictById } from '@/lib/constants/districts';
 import { Wifi, Plug, Dog, Armchair, Car } from 'lucide-react';
 import type { ForYouCafe } from '@/types/for-you';
@@ -56,6 +57,20 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
                 {districtName}
               </p>
             )}
+
+            {/* Today's hours */}
+            {(() => {
+              const today = getTodayHours(cafe.operatingHours);
+              if (!today) return null;
+              const todayText = formatHours(today.hours, t('cafe.closed'));
+              return (
+                <p className="text-sm text-white/80 flex items-center gap-1.5 mt-0.5">
+                  <Clock className="h-3.5 w-3.5 shrink-0" />
+                  <span className="font-medium">{t('cafe.today')}:</span>
+                  {todayText}
+                </p>
+              );
+            })()}
 
             {/* Rating */}
             <div className="mt-1.5 [&_*]:text-white [&_*]:!text-white/90">

@@ -5,6 +5,7 @@ import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Star, MapPin, Navigation, ExternalLink, Heart, Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
+import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
 import { CafeMarker } from './cafe-marker';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { DirectionsChooser } from '@/components/directions-chooser';
@@ -216,6 +217,11 @@ export function CafeMap({
                   <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">
                     {selectedCafeAddress}
                   </p>
+
+                  {/* Today's hours */}
+                  {selectedCafe.operatingHours && (
+                    <TodayHoursDisplay operatingHours={selectedCafe.operatingHours} compact />
+                  )}
 
                   {/* View profile button */}
                   <Link
