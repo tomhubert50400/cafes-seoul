@@ -169,6 +169,9 @@ const zh: Record<string, string> = {
   'cafe.detailedRatings': '详细评分',
   'cafe.hours': '营业时间',
   'cafe.closed': '休息',
+  'cafe.today': '今天',
+  'cafe.showAllHours': '查看全部营业时间',
+  'cafe.hideHours': '收起营业时间',
   'cafe.location': '位置与联系',
   'cafe.naverMap': 'Naver地图',
   'cafe.kakaoMap': 'Kakao地图',
@@ -252,6 +255,12 @@ const zh: Record<string, string> = {
 
   // Common
   'common.loading': '加载中...',
+  'common.loadingCafe': '加载咖啡馆中...',
+  'common.loadingMap': '加载地图中...',
+  'common.loadingAdmin': '加载管理面板中...',
+  'common.loadingDashboard': '加载仪表盘中...',
+  'common.loadingProfile': '加载个人资料中...',
+  'common.loadingRoulette': '加载轮盘中...',
   'common.error': '发生错误',
 
   // Auth pages
@@ -899,6 +908,7 @@ const zh: Record<string, string> = {
   // Cafe reviews display
   'reviews.cafe.title': '评价',
   'reviews.cafe.noReviews': '暂无评价。成为第一个分享想法的人！',
+  'reviews.cafe.leaveReview': '写评价',
   'reviews.cafe.edited': '已编辑',
   'reviews.cafe.helpful': '有帮助',
   'reviews.cafe.cannotVoteOwn': '不能为自己的评价投票',
@@ -927,7 +937,7 @@ const zh: Record<string, string> = {
   'roulette.matchTitle': '匹配成功！',
   'roulette.matchSubtitle': '你的下一次咖啡馆冒险在等着你',
   'roulette.getDirections': '带我去',
-  'roulette.viewProfile': '查看详情',
+  'roulette.viewProfile': '详情',
   'roulette.spinAgain': '再转一次',
   'roulette.adjustFilters': '调整筛选',
   'roulette.noResults': '没有符合筛选条件的咖啡馆',
