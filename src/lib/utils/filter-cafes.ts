@@ -78,7 +78,12 @@ export function filterCafes(
     if (filters.districts?.length) {
       if (!filters.districts.includes(cafe.districtId)) return false;
     }
-    
+
+    // Open now filter
+    if (filters.openNow) {
+      if (!isCafeOpenNow(cafe.operatingHours)) return false;
+    }
+
     return true;
   });
 }
