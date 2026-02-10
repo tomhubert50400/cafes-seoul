@@ -182,7 +182,6 @@ const zh: Record<string, string> = {
   'share.linkCopied': '链接已复制！',
   'share.whatsapp': 'WhatsApp (瓦次普)',
   'share.telegram': 'Telegram (电报)',
-  'share.x': 'X (推特)',
   'share.more': '更多...',
   'cafe.map': '地图',
   'cafe.priceInfo': '价格信息',
