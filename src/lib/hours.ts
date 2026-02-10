@@ -53,5 +53,60 @@ export function getTodayHours(operatingHours?: OperatingHours): {
  */
 export function formatHours(hours: DayHours | undefined, closedText: string): string {
   if (!hours) return closedText;
-  return `${hours.open} - ${hours.close}`;
+  const close = hours.close === '24:00' ? '00:00' : hours.close;
+  return `${hours.open} - ${close}`;
+}
+
+/**
+ * Check if a cafe is currently open based on its operating hours.
+ * Uses KST (UTC+9) for time comparison.
+ * Returns false if no hours data is available.
+ */
+export function isCafeOpenNow(operatingHours?: OperatingHours): boolean {
+  const today = getTodayHours(operatingHours);
+  if (!today || !today.hours) return false;
+
+  const { hours } = today;
+
+  // Current time in KST as minutes since midnight
+  const now = new Date();
+  const kstOffset = 9 * 60;
+  const utcMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+  let kstMinutes = utcMinutes + kstOffset;
+  if (kstMinutes >= 1440) kstMinutes -= 1440;
+
+  const [openH, openM] = hours.open.split(':').map(Number);
+  const openMinutes = openH * 60 + openM;
+
+  const [closeH, closeM] = hours.close.split(':').map(Number);
+  // "24:00" means midnight = 1440 minutes
+  const closeMinutes = closeH === 24 ? 1440 : closeH * 60 + closeM;
+
+  // Handle overnight hours (e.g., 22:00 - 02:00)
+  if (closeMinutes <= openMinutes) {
+    // Open if after opening OR before closing (next day)
+    if (kstMinutes >= openMinutes || kstMinutes < closeMinutes) {
+      // Check break time
+      return !isDuringBreak(kstMinutes, hours);
+    }
+    return false;
+  }
+
+  // Normal hours (e.g., 09:00 - 22:00)
+  if (kstMinutes >= openMinutes && kstMinutes < closeMinutes) {
+    return !isDuringBreak(kstMinutes, hours);
+  }
+
+  return false;
+}
+
+function isDuringBreak(currentMinutes: number, hours: DayHours): boolean {
+  if (!hours.breakStart || !hours.breakEnd) return false;
+
+  const [bsH, bsM] = hours.breakStart.split(':').map(Number);
+  const [beH, beM] = hours.breakEnd.split(':').map(Number);
+  const breakStart = bsH * 60 + bsM;
+  const breakEnd = beH * 60 + beM;
+
+  return currentMinutes >= breakStart && currentMinutes < breakEnd;
 }
