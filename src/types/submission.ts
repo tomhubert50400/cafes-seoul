@@ -1,4 +1,4 @@
-import type { TranslatedText } from './cafe';
+import type { TranslatedText, OperatingHours } from './cafe';
 
 /**
  * Submission status states
