@@ -21,6 +21,7 @@ interface RouletteFilterSheetProps {
   applyPreset?: (presetId: string) => void;
   matchedPresetId?: string | null;
   presets?: FilterPreset[];
+  isLoggedIn?: boolean;
 }
 
 export function RouletteFilterSheet({
