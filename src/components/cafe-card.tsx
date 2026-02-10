@@ -102,6 +102,9 @@ export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps
           {district ? getLocalizedText(district.name, language) : ''}
         </p>
 
+        {/* Today's hours */}
+        <TodayHoursDisplay operatingHours={cafe.operatingHours} compact />
+
         {/* Rating */}
         <div className="flex items-center justify-between">
           <RatingDisplay
