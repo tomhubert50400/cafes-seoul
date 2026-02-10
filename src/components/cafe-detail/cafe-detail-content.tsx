@@ -209,17 +209,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 {Object.keys(cafe.operatingHours).length > 0 && (
                   <div>
                     <h2 className="mb-3 text-lg font-semibold">{t('cafe.hours')}</h2>
-                    <div className="space-y-2 text-sm">
-                      {DAY_KEYS.map((day) => {
-                        const hours = cafe.operatingHours[day];
-                        return (
-                          <div key={day} className="flex justify-between">
-                            <span className="text-muted-foreground">{t(`day.${day}`)}</span>
-                            <span>{hours ? `${hours.open} - ${hours.close}` : t('cafe.closed')}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
+                    <TodayHoursDisplay operatingHours={cafe.operatingHours} expandable />
                   </div>
                 )}
               </TabsContent>
