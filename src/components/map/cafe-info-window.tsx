@@ -6,6 +6,7 @@ import { RatingDisplay } from '@/components/ratings/rating-display';
 import { RatingButton } from '@/components/ratings/rating-button';
 import type { CafeSummary } from '@/types/cafe';
 import { useI18n } from '@/lib/i18n';
+import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
 
 interface CafeInfoWindowProps {
   cafe: CafeSummary;
