@@ -27,6 +27,7 @@ import type { User } from '@/types/user';
 import type { ReviewWithAuthor } from '@/types/reviews';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { CafeReviewsList } from '@/components/reviews/cafe-reviews-list';
+import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
@@ -239,6 +240,9 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   <CafeReviewsList
                     reviews={textReviews}
                     userId={currentUser?.id || null}
+                    cafeId={cafe.id}
+                    cafeName={cafeName}
+                    cafeSlug={cafe.slug}
                   />
                 </div>
 
