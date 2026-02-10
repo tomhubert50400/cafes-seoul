@@ -54,9 +54,7 @@ export const submissionSchema = z.object({
   districtId: z.number().int().positive().optional(),
   neighborhoodId: z.number().int().positive().optional(),
   kakaoPlaceId: z.string().optional(),
-  operatingHours: z
-    .record(z.string(), z.unknown())
-    .optional(),
+  operatingHours: z.any().optional(),
 });
 
 /**
