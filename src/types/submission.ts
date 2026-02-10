@@ -97,6 +97,9 @@ export interface CafeSubmissionInput {
 
   /** Kakao Place ID (if selected from Kakao search) */
   kakaoPlaceId?: string;
+
+  /** Operating hours (optional, user-provided) */
+  operatingHours?: OperatingHours;
 }
 
 /**
