@@ -55,6 +55,10 @@ export interface CafeListParams {
   priceValueMin?: number;
   comfortMin?: number;
 
+  // Time & user filters
+  openNow?: boolean;
+  favoritesOnly?: boolean;
+
   // Sorting
   sortBy?: 'rating' | 'distance' | 'reviews' | 'newest';
   sortOrder?: 'asc' | 'desc';
