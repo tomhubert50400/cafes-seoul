@@ -12,6 +12,7 @@ import type { CafeSummary } from '@/types/cafe';
 import { getLocalizedText } from '@/types/cafe';
 import { getDistrictById } from '@/lib/constants/districts';
 import { ROUTES } from '@/lib/constants/routes';
+import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
 
 interface CafeCardProps {
   cafe: CafeSummary;
