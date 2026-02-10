@@ -32,6 +32,7 @@ export function RouletteFilterSheet({
   applyPreset,
   matchedPresetId,
   presets,
+  isLoggedIn,
 }: RouletteFilterSheetProps) {
   const { t } = useI18n();
 
