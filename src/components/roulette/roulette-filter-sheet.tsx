@@ -64,7 +64,7 @@ export function RouletteFilterSheet({
           filters={filters}
           onChange={handleChange}
           onClear={onClearFilters}
-          isLoggedIn={false}
+          isLoggedIn={isLoggedIn}
           applyPreset={applyPreset}
           matchedPresetId={matchedPresetId}
           presets={presets}
