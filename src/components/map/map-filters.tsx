@@ -91,6 +91,30 @@ export function MapFiltersPanel({
         )}
       </div>
 
+      {/* Open Now Toggle */}
+      <div className="rounded-lg border bg-muted/30 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Clock
+              className={`h-4 w-4 ${filters.openNow
+                ? 'text-green-500'
+                : 'text-muted-foreground'
+                }`}
+            />
+            <span className="text-sm font-medium">
+              {t('map.filters.openNow')}
+            </span>
+          </div>
+          <Switch
+            checked={filters.openNow || false}
+            onCheckedChange={(checked) =>
+              updateFilter('openNow', checked)
+            }
+            aria-label={t('map.filters.openNow')}
+          />
+        </div>
+      </div>
+
       {/* Favorites Toggle */}
       <div className="rounded-lg border bg-muted/30 p-4">
         <div
