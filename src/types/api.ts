@@ -58,6 +58,7 @@ export interface CafeListParams {
   // Time & user filters
   openNow?: boolean;
   favoritesOnly?: boolean;
+  cafeIds?: string; // comma-separated IDs for favorites filtering
 
   // Sorting
   sortBy?: 'rating' | 'distance' | 'reviews' | 'newest';
