@@ -35,6 +35,7 @@ const BOOLEAN_FILTER_MAP: Record<string, string> = {
   isPetFriendly: 'isPetFriendly',
   isLaptopFriendly: 'isLaptopFriendly',
   hasParking: 'hasParking',
+  openNow: 'openNow',
   showFavoritesOnly: 'favoritesOnly',
 };
 
