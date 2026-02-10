@@ -114,6 +114,15 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
             )}
             <span className="text-sm font-medium">{t('share.copyLink')}</span>
           </button>
+          {supportsNativeShare && (
+            <button
+              onClick={handleNativeShare}
+              className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent text-left"
+            >
+              <Share2 className="h-6 w-6 text-muted-foreground" />
+              <span className="text-sm font-medium">{t('share.more')}</span>
+            </button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
