@@ -39,11 +39,21 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
       icon: '/icons/telegram.svg',
     },
     {
-      name: t('share.kakaotalk'),
-      href: `https://story.kakao.com/share?url=${encodeURIComponent(url)}`,
-      icon: '/icons/kakaotalk.svg',
+      name: t('share.x'),
+      href: `https://x.com/intent/tweet?text=${encodeURIComponent(message)}`,
+      icon: '/icons/x.svg',
     },
   ];
+
+  const supportsNativeShare = typeof navigator !== 'undefined' && !!navigator.share;
+
+  async function handleNativeShare() {
+    try {
+      await navigator.share({ title: cafeName, url });
+    } catch {
+      // User cancelled or share failed silently
+    }
+  }
 
   async function handleCopyLink() {
     try {
