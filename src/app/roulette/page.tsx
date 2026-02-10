@@ -51,12 +51,10 @@ export default async function RoulettePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const [cafes, favoriteResult] = await Promise.all([
+  const [cafes, favoriteIds] = await Promise.all([
     getCafes(),
-    user ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
+    user ? getUserFavoriteIds(supabase, user.id) : Promise.resolve([]),
   ]);
-
-  const favoriteIds = favoriteResult.success ? favoriteResult.cafeIds ?? [] : [];
 
   return (
     <div className="min-h-screen flex flex-col">
