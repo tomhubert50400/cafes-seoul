@@ -520,6 +520,8 @@ const fr: Record<string, string> = {
   'submissions.form.searchSubtitle': 'Recherchez un café sur Kakao Maps et soumettez-le à notre répertoire.',
   'submissions.form.selectToSubmit': 'Recherchez et sélectionnez un café ci-dessus pour le soumettre',
   'submissions.form.selectCafeFirst': 'Veuillez sélectionner un café dans les résultats de recherche',
+  'submissions.form.hoursLabel': 'Horaires d\'ouverture (optionnel)',
+  'submissions.form.hoursHelp': 'Ajoutez les horaires si vous les connaissez',
 
   'submissions.duplicates.title': 'Doublons potentiels détectés',
   'submissions.duplicates.description': 'Nous avons trouvé des cafés similaires à votre proposition',
