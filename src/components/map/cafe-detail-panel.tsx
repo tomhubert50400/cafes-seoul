@@ -54,6 +54,9 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
           <span className="break-words">{cafeAddress}</span>
         </div>
 
+        {/* Today's hours */}
+        <TodayHoursDisplay operatingHours={cafe.operatingHours} />
+
         {/* Features - only show when confirmed by user reviews */}
         {cafe.totalRatings > 0 && (cafe.hasWifi || cafe.hasPowerOutlets || cafe.isPetFriendly) && (
           <div className="flex flex-wrap gap-2">
