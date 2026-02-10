@@ -514,6 +514,8 @@ const vi: Record<string, string> = {
   'submissions.form.searchSubtitle': 'Tìm kiếm quán cà phê trên Kakao Maps và gửi vào danh mục của chúng tôi.',
   'submissions.form.selectToSubmit': 'Tìm kiếm và chọn quán cà phê ở trên để gửi',
   'submissions.form.selectCafeFirst': 'Vui lòng chọn một quán cà phê từ kết quả tìm kiếm',
+  'submissions.form.hoursLabel': 'Giờ mở cửa (tùy chọn)',
+  'submissions.form.hoursHelp': 'Thêm giờ mở cửa nếu bạn biết',
 
   'submissions.duplicates.title': 'Phát hiện trùng lặp',
   'submissions.duplicates.description': 'Chúng tôi tìm thấy quán cà phê có thể giống với gửi của bạn',
