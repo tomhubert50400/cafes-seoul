@@ -125,6 +125,7 @@ export function matchesPreset(
     'priceRange',
     'cafeTypes',
     'districts',
+    'openNow',
   ];
 
   for (const key of allFilterKeys) {
