@@ -107,7 +107,7 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
     }
 
     return result;
-  }, [cafes, filters, selectedDistrictIds, selectedNeighborhoodSlugs]);
+  }, [cafes, filters, favoriteIds, selectedDistrictIds, selectedNeighborhoodSlugs]);
 
   const matchingDistricts = useMemo(() => {
     if (!districtSearch.trim()) return SEOUL_DISTRICTS;
