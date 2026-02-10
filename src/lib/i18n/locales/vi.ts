@@ -182,7 +182,6 @@ const vi: Record<string, string> = {
   'share.linkCopied': 'Đã sao chép liên kết!',
   'share.whatsapp': 'WhatsApp',
   'share.telegram': 'Telegram',
-  'share.x': 'X (Twitter)',
   'share.more': 'Thêm...',
   'cafe.map': 'Bản đồ',
   'cafe.priceInfo': 'Thông tin giá',
