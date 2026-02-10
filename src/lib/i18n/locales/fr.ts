@@ -169,6 +169,9 @@ const fr: Record<string, string> = {
   'cafe.detailedRatings': 'Notes détaillées',
   'cafe.hours': 'Horaires d\'ouverture',
   'cafe.closed': 'Fermé',
+  'cafe.today': 'Aujourd\'hui',
+  'cafe.showAllHours': 'Voir tous les horaires',
+  'cafe.hideHours': 'Masquer les horaires',
   'cafe.location': 'Localisation & Contact',
   'cafe.naverMap': 'Naver Map',
   'cafe.kakaoMap': 'Kakao Map',
@@ -252,6 +255,12 @@ const fr: Record<string, string> = {
 
   // Common
   'common.loading': 'Chargement...',
+  'common.loadingCafe': 'Chargement du café...',
+  'common.loadingMap': 'Chargement de la carte...',
+  'common.loadingAdmin': 'Chargement admin...',
+  'common.loadingDashboard': 'Chargement du tableau de bord...',
+  'common.loadingProfile': 'Chargement du profil...',
+  'common.loadingRoulette': 'Chargement de la roulette...',
   'common.error': 'Une erreur est survenue',
 
   // Auth pages
@@ -899,6 +908,7 @@ const fr: Record<string, string> = {
   // Cafe reviews display
   'reviews.cafe.title': 'Avis',
   'reviews.cafe.noReviews': 'Pas encore d\'avis. Soyez le premier à partager vos impressions !',
+  'reviews.cafe.leaveReview': 'Laisser un avis',
   'reviews.cafe.edited': 'Modifié',
   'reviews.cafe.helpful': 'utile',
   'reviews.cafe.cannotVoteOwn': 'Vous ne pouvez pas voter pour votre propre avis',
@@ -927,7 +937,7 @@ const fr: Record<string, string> = {
   'roulette.matchTitle': 'C\'est un match !',
   'roulette.matchSubtitle': 'Votre prochaine aventure cafe vous attend',
   'roulette.getDirections': 'Y aller',
-  'roulette.viewProfile': 'Voir le profil',
+  'roulette.viewProfile': 'Profil',
   'roulette.spinAgain': 'Tourner à nouveau',
   'roulette.adjustFilters': 'Filtres',
   'roulette.noResults': 'Aucun café ne correspond à vos filtres',
