@@ -169,6 +169,9 @@ const vi: Record<string, string> = {
   'cafe.detailedRatings': 'Đánh giá chi tiết',
   'cafe.hours': 'Giờ mở cửa',
   'cafe.closed': 'Đóng cửa',
+  'cafe.today': 'Hôm nay',
+  'cafe.showAllHours': 'Xem tất cả giờ mở cửa',
+  'cafe.hideHours': 'Ẩn giờ mở cửa',
   'cafe.location': 'Vị trí & Liên hệ',
   'cafe.naverMap': 'Naver Map',
   'cafe.kakaoMap': 'Kakao Map',
@@ -252,6 +255,12 @@ const vi: Record<string, string> = {
 
   // Common
   'common.loading': 'Đang tải...',
+  'common.loadingCafe': 'Đang tải quán cafe...',
+  'common.loadingMap': 'Đang tải bản đồ...',
+  'common.loadingAdmin': 'Đang tải quản trị...',
+  'common.loadingDashboard': 'Đang tải bảng điều khiển...',
+  'common.loadingProfile': 'Đang tải hồ sơ...',
+  'common.loadingRoulette': 'Đang tải vòng quay...',
   'common.error': 'Đã xảy ra lỗi',
 
   // Auth pages
@@ -893,6 +902,7 @@ const vi: Record<string, string> = {
   // Cafe reviews display
   'reviews.cafe.title': 'Danh gia',
   'reviews.cafe.noReviews': 'Chua co danh gia. Hay la nguoi dau tien chia se suy nghi cua ban!',
+  'reviews.cafe.leaveReview': 'Viết đánh giá',
   'reviews.cafe.edited': 'Da chinh sua',
   'reviews.cafe.helpful': 'huu ich',
   'reviews.cafe.cannotVoteOwn': 'Khong the bau chon danh gia cua ban',
@@ -921,7 +931,7 @@ const vi: Record<string, string> = {
   'roulette.matchTitle': 'Tim thay roi!',
   'roulette.matchSubtitle': 'Cuoc phieu luu cafe tiep theo dang cho ban',
   'roulette.getDirections': 'Chi duong',
-  'roulette.viewProfile': 'Xem chi tiet',
+  'roulette.viewProfile': 'Hồ sơ',
   'roulette.spinAgain': 'Quay lai',
   'roulette.adjustFilters': 'Dieu chinh bo loc',
   'roulette.noResults': 'Khong co quan cafe nao phu hop',
