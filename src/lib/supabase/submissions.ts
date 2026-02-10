@@ -40,6 +40,7 @@ export async function createSubmission(
         district_id: data.districtId || null,
         neighborhood_id: data.neighborhoodId || null,
         kakao_place_id: data.kakaoPlaceId || null,
+        operating_hours: data.operatingHours || {},
         status: 'pending',
       })
       .select()
