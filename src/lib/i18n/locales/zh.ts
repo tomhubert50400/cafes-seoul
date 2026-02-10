@@ -520,6 +520,8 @@ const zh: Record<string, string> = {
   'submissions.form.searchSubtitle': '在Kakao地图上搜索咖啡馆并提交到我们的目录。',
   'submissions.form.selectToSubmit': '搜索并选择上方的咖啡馆进行提交',
   'submissions.form.selectCafeFirst': '请从搜索结果中选择一家咖啡馆',
+  'submissions.form.hoursLabel': '营业时间（可选）',
+  'submissions.form.hoursHelp': '如果您知道营业时间，请填写',
 
   'submissions.duplicates.title': '发现潜在重复',
   'submissions.duplicates.description': '我们发现可能与您的提交相似的咖啡馆',
