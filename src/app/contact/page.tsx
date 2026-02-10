@@ -74,7 +74,7 @@ export default async function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header user={user} />
-      <main className="mx-auto max-w-2xl px-4 py-8">
+      <main className="mx-auto max-w-2xl px-4 py-4">
         <ContactForm
           translations={translations}
           defaultName={defaultName}

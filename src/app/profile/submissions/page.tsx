@@ -69,14 +69,14 @@ export default async function MySubmissionsPage() {
       </Card>
 
       <Tabs defaultValue="pending" className="mt-4">
-        <TabsList className="grid w-full grid-cols-3 max-w-md min-h-[44px]">
-          <TabsTrigger value="pending" className="min-h-[44px]">
+        <TabsList className="grid w-full grid-cols-3 max-w-md group-data-[orientation=horizontal]/tabs:h-auto min-h-[44px]">
+          <TabsTrigger value="pending" className="min-h-[44px] text-xs sm:text-sm">
             {getTranslation(lang, 'mySubmissions.pending')} ({pending.length})
           </TabsTrigger>
-          <TabsTrigger value="approved" className="min-h-[44px]">
+          <TabsTrigger value="approved" className="min-h-[44px] text-xs sm:text-sm">
             {getTranslation(lang, 'mySubmissions.approved')} ({approved.length})
           </TabsTrigger>
-          <TabsTrigger value="declined" className="min-h-[44px]">
+          <TabsTrigger value="declined" className="min-h-[44px] text-xs sm:text-sm">
             {getTranslation(lang, 'mySubmissions.declined')} ({declined.length})
           </TabsTrigger>
         </TabsList>
