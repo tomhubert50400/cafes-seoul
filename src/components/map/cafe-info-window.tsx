@@ -77,6 +77,11 @@ export function CafeInfoWindow({ cafe, onClose }: CafeInfoWindowProps) {
             <span className="line-clamp-2">{cafeAddress}</span>
           </div>
 
+          {/* Today's hours */}
+          <div className="mt-1.5">
+            <TodayHoursDisplay operatingHours={cafe.operatingHours} />
+          </div>
+
           {/* View details text */}
           <div className="mt-3 text-sm font-medium text-blue-600">
             View Details →
