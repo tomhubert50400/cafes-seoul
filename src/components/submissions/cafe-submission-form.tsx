@@ -67,6 +67,7 @@ export function CafeSubmissionForm({
     latitude: place.latitude,
     longitude: place.longitude,
     kakaoPlaceId: place.id,
+    operatingHours: Object.keys(operatingHours).length > 0 ? operatingHours : undefined,
   });
 
   const handleSubmit = async () => {
