@@ -50,6 +50,7 @@ export function CafeSubmissionForm({
   const [selectedPlace, setSelectedPlace] = useState<KakaoPlaceSearchResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [operatingHours, setOperatingHours] = useState<OperatingHours>({});
 
   // Check if rate limit has been reached
   const isRateLimited = rateLimit?.remaining === 0;
