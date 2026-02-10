@@ -23,6 +23,9 @@ export interface MapFilters {
   cafeTypes?: string[];
   districts?: number[];
 
+  // Status filter
+  openNow?: boolean;
+
   // Favorites filter
   showFavoritesOnly?: boolean;
 }
