@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Camera, LogIn } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
@@ -34,8 +34,16 @@ export function PhotosSection({
 }: PhotosSectionProps) {
   const { t } = useI18n();
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const shouldOpenUpload = searchParams.get('upload') === 'true';
+
+  // Clean up ?upload=true from URL after triggering the modal
+  useEffect(() => {
+    if (shouldOpenUpload) {
+      router.replace(pathname, { scroll: false });
+    }
+  }, [shouldOpenUpload, router, pathname]);
 
   // Handle upload success - hard reload to show new photo
   const handleUploadSuccess = useCallback(() => {
@@ -49,22 +57,12 @@ export function PhotosSection({
     <section id="photos" className="border-t border-border pt-8">
       {/* Section Header with Upload Button */}
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <Camera className="h-5 w-5" />
-            {t('photos.title') || 'Photos'}
-          </h2>
-          {visiblePhotoCount > 0 && (
-            <p className="text-sm text-muted-foreground mt-1">
-              {visiblePhotoCount}{' '}
-              {visiblePhotoCount === 1
-                ? t('photos.photo') || 'photo'
-                : t('photos.photos') || 'photos'}
-            </p>
-          )}
-        </div>
+        <h2 className="text-xl font-semibold flex items-center gap-2">
+          <Camera className="h-5 w-5" />
+          {t('photos.title') || 'Photos'}
+        </h2>
 
-        {/* Upload Button - Only for authenticated users */}
+        {/* Upload Button */}
         {currentUser ? (
           <PhotoUploadModal
             cafeId={cafeId}
@@ -75,6 +73,15 @@ export function PhotosSection({
           <SignInButton />
         )}
       </div>
+
+      {visiblePhotoCount > 0 && (
+        <p className="text-sm text-muted-foreground -mt-4 mb-6">
+          {visiblePhotoCount}{' '}
+          {visiblePhotoCount === 1
+            ? t('photos.photo') || 'photo'
+            : t('photos.photos') || 'photos'}
+        </p>
+      )}
 
       {/* Photo Gallery */}
       <PhotoGallery

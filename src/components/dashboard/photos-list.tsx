@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { deletePhoto } from '@/lib/actions/photos';
 import { toast } from 'sonner';
 import { ROUTES } from '@/lib/constants/routes';
+import { useI18n } from '@/lib/i18n';
 import Link from 'next/link';
 
 // ============================================
@@ -57,6 +58,7 @@ export function PhotosList({
   translations,
   storageUrl,
 }: PhotosListProps) {
+  const { t } = useI18n();
   const [photos, setPhotos] = useState(initialPhotos);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);

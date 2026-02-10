@@ -58,6 +58,13 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(defaultOpen);
 
+  // Sync open state when defaultOpen changes (e.g. navigating with ?upload=true)
+  useEffect(() => {
+    if (defaultOpen) {
+      setOpen(true);
+    }
+  }, [defaultOpen]);
+
   const [userId, setUserId] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -351,7 +358,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-h-[85vh] overflow-y-auto overflow-x-hidden p-4 sm:p-6 gap-4 sm:gap-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ImageIcon className="h-5 w-5" />
@@ -362,10 +369,10 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-4 sm:space-y-5 overflow-hidden">
           {/* Limit Information */}
           {state.limitInfo && (
-            <div className="flex flex-wrap gap-4 text-sm">
+            <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs sm:text-sm">
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <span className="font-medium text-foreground">
                   {state.limitInfo.remainingCafe}
@@ -386,7 +393,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                <ul className="list-disc list-inside space-y-1 mt-1">
+                <ul className="list-disc list-inside space-y-1 mt-1 break-words">
                   {state.errors.map((error, index) => (
                     <li key={index}>{error}</li>
                   ))}
@@ -411,12 +418,12 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
               <Button
                 type="button"
                 variant="outline"
-                className="w-full h-32 border-dashed"
+                className="w-full h-24 sm:h-32 border-dashed"
                 onClick={triggerFileInput}
                 disabled={disabled || state.isUploading}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <Upload className="h-8 w-8 text-muted-foreground" />
+                <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+                  <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground" />
                   <span className="text-sm text-muted-foreground">
                     {t('photos.upload.select') || `Click to select photos (up to ${maxAllowed})`}
                   </span>
