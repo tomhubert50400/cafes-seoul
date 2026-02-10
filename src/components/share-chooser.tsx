@@ -38,11 +38,6 @@ export function ShareChooser({ cafeName, cafeSlug, trigger }: ShareChooserProps)
       href: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(cafeName)}`,
       icon: '/icons/telegram.svg',
     },
-    {
-      name: t('share.x'),
-      href: `https://x.com/intent/tweet?text=${encodeURIComponent(message)}`,
-      icon: '/icons/x.svg',
-    },
   ];
 
   const supportsNativeShare = typeof navigator !== 'undefined' && !!navigator.share;
