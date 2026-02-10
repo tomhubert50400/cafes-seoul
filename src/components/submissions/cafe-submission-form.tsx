@@ -222,6 +222,11 @@ export function CafeSubmissionForm({
             </div>
           )}
 
+          {/* Operating Hours */}
+          {selectedPlace && (
+            <HoursInput value={operatingHours} onChange={setOperatingHours} />
+          )}
+
           {/* Submit Button */}
           <Button
             type="button"
