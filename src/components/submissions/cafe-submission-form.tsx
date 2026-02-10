@@ -13,7 +13,9 @@ import type { SubmissionRateLimit } from '@/types/submission';
 import { DuplicateDetectionModal } from './duplicate-detection-modal';
 import { RateLimitBlock } from './rate-limit-block';
 import { KakaoPlaceSearch } from './kakao-place-search';
+import { HoursInput } from './hours-input';
 import type { KakaoPlaceSearchResult } from '@/lib/kakao/geocode';
+import type { OperatingHours } from '@/types/cafe';
 
 export interface CafeSubmissionFormProps {
   /** Callback when form is submitted */
