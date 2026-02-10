@@ -125,24 +125,16 @@ export async function GET(request: NextRequest) {
     query = query.eq('has_outdoor_seating', true);
   }
 
-  // Favorites filter: restrict to user's favorited cafes
-  if (params.favoritesOnly) {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data: favRows } = await supabase
-        .from('cafe_favorites')
-        .select('cafe_id')
-        .eq('user_id', user.id);
-      const favIds = (favRows || []).map((r) => r.cafe_id);
-      if (favIds.length > 0) {
-        query = query.in('id', favIds);
-      } else {
-        // No favorites → return empty result immediately
-        return NextResponse.json({
-          data: [],
-          meta: { total: 0, page: params.page!, limit: params.limit!, totalPages: 0 },
-        } satisfies PaginatedResponse<CafeSummary>);
-      }
+  // Favorites filter: restrict to specific cafe IDs (passed from page)
+  if (params.cafeIds) {
+    const ids = params.cafeIds.split(',').filter(Boolean);
+    if (ids.length > 0) {
+      query = query.in('id', ids);
+    } else {
+      return NextResponse.json({
+        data: [],
+        meta: { total: 0, page: params.page!, limit: params.limit!, totalPages: 0 },
+      } satisfies PaginatedResponse<CafeSummary>);
     }
   }
 
