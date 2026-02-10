@@ -17,7 +17,7 @@ export function FeaturedSection({ cafes }: FeaturedSectionProps) {
   if (cafes.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <section className="mx-auto max-w-6xl px-4 pt-16 pb-8">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">{t('home.featured.title')}</h2>

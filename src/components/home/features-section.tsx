@@ -6,7 +6,7 @@ export function FeaturesSection() {
   const { t } = useI18n();
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <section className="mx-auto max-w-6xl px-4 pt-2 pb-16">
       <div className="mb-12 text-center">
         <h2 className="text-2xl font-bold">{t('home.features.title')}</h2>
         <p className="mt-1 text-muted-foreground">{t('home.features.subtitle')}</p>

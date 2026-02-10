@@ -4,7 +4,7 @@ import { Header } from '@/components/header';
 import { HeroSection } from '@/components/home/hero-section';
 import { FeaturedSection } from '@/components/home/featured-section';
 import { RecommendationsSection } from '@/components/home/recommendations-section';
-import { DistrictsSection } from '@/components/home/districts-section';
+
 import { FeaturesSection } from '@/components/home/features-section';
 import { CtaSection } from '@/components/home/cta-section';
 import { fetchCafes } from '@/lib/api/cafes';
@@ -55,7 +55,7 @@ export default async function HomePage() {
       ) : (
         <FeaturedSection cafes={featuredCafes} />
       )}
-      <DistrictsSection />
+
       <FeaturesSection />
       <CtaSection />
       <Footer />
