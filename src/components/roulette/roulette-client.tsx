@@ -46,7 +46,7 @@ function selectRandomCafe(
   return candidates[candidates.length - 1];
 }
 
-export function RouletteClient({ cafes }: RouletteClientProps) {
+export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClientProps) {
   const { t, language } = useI18n();
   const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const {
