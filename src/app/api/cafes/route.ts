@@ -176,8 +176,10 @@ export async function GET(request: NextRequest) {
       query = query.order('overall_rating', { ascending: false });
   }
 
-  // Apply pagination
-  query = query.range(offset, offset + params.limit! - 1);
+  // When openNow is active we must post-filter, so skip DB pagination
+  if (!params.openNow) {
+    query = query.range(offset, offset + params.limit! - 1);
+  }
 
   const { data, error, count } = await query;
 
@@ -186,7 +188,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Transform data and get primary image from top approved photo
-  const cafes: CafeSummary[] = (data || []).map((row) => {
+  let cafes: CafeSummary[] = (data || []).map((row) => {
     const photos = row.photos as { storage_path: string; upvote_count: number; status: string }[] | null;
     const topPhoto = photos
       ?.filter((p) => p.status === 'approved')
@@ -196,6 +198,24 @@ export async function GET(request: NextRequest) {
       primary_image_url: topPhoto?.storage_path || null,
     });
   });
+
+  // Post-filter by operating hours if openNow is active
+  if (params.openNow) {
+    cafes = cafes.filter((cafe) => isCafeOpenNow(cafe.operatingHours));
+    const totalFiltered = cafes.length;
+    const totalPages = Math.ceil(totalFiltered / params.limit!);
+    const sliced = cafes.slice(offset, offset + params.limit!);
+
+    return NextResponse.json({
+      data: sliced,
+      meta: {
+        total: totalFiltered,
+        page: params.page!,
+        limit: params.limit!,
+        totalPages,
+      },
+    } satisfies PaginatedResponse<CafeSummary>);
+  }
 
   const response: PaginatedResponse<CafeSummary> = {
     data: cafes,
