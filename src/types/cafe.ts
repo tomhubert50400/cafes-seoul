@@ -78,6 +78,7 @@ export interface CafeSummary {
   isLaptopFriendly: boolean;
   hasParking: boolean;
   primaryImageUrl: string | null;
+  operatingHours?: OperatingHours;
   distance?: number; // in meters, when searching by location
 
   // Ratings breakdown for map filtering
