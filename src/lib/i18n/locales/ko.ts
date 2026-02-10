@@ -182,7 +182,6 @@ const ko: Record<string, string> = {
   'share.linkCopied': '링크가 복사되었습니다!',
   'share.whatsapp': '왓츠앱',
   'share.telegram': '텔레그램',
-  'share.x': 'X (트위터)',
   'share.more': '더보기...',
   'cafe.map': '지도',
   'cafe.priceInfo': '가격 정보',
