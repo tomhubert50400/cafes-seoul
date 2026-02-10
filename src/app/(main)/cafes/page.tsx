@@ -63,13 +63,19 @@ async function CafeListWithData({
   searchParams: CafeListParams;
   userId?: string;
 }) {
-  const [cafesResult, favoritesResult] = await Promise.all([
-    getCafes(searchParams),
-    userId ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
-  ]);
-
-  const { cafes, total, page, totalPages } = cafesResult;
+  // Fetch favorites first so we can pass IDs to the API when filter is active
+  const favoritesResult = userId
+    ? await getFavoriteIdsAction()
+    : { success: false, cafeIds: [] as string[] };
   const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
+
+  // When favorites filter is active, pass the IDs to the API for server-side filtering
+  const effectiveParams = { ...searchParams };
+  if (searchParams.favoritesOnly && favoriteIds.length > 0) {
+    effectiveParams.cafeIds = favoriteIds.join(',');
+  }
+
+  const { cafes, total, page, totalPages } = await getCafes(effectiveParams);
 
   return (
     <InfiniteCafeList
@@ -77,7 +83,7 @@ async function CafeListWithData({
       initialTotal={total}
       initialPage={page}
       totalPages={totalPages}
-      filterParams={searchParams as Record<string, string | number | boolean | undefined>}
+      filterParams={effectiveParams as Record<string, string | number | boolean | undefined>}
       favoriteIds={favoriteIds}
       userId={userId}
     />
