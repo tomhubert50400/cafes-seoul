@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
       has_power_outlets,
       is_pet_friendly,
       is_laptop_friendly,
+      operating_hours,
       photos(storage_path, upvote_count, status)
     `)
     .eq('status', 'active')
