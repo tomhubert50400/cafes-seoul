@@ -20,6 +20,8 @@ type Phase = 'idle' | 'spinning' | 'result';
 
 interface RouletteClientProps {
   cafes: CafeSummary[];
+  favoriteIds?: string[];
+  isLoggedIn?: boolean;
 }
 
 function selectRandomCafe(
