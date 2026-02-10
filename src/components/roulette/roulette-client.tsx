@@ -78,7 +78,12 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
   const [showAllAreas, setShowAllAreas] = useState(false);
 
   const filteredCafes = useMemo(() => {
-    let result = filterCafes(cafes, { ...filters, showFavoritesOnly: false });
+    let result = filterCafes(cafes, filters);
+
+    // Apply favorites filter
+    if (filters?.showFavoritesOnly && favoriteIds?.length) {
+      result = result.filter((cafe) => favoriteIds.includes(cafe.id));
+    }
 
     const hasDistricts = selectedDistrictIds.length > 0;
     const hasNeighborhoods = selectedNeighborhoodSlugs.length > 0;
