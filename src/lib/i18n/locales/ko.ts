@@ -520,6 +520,8 @@ const ko: Record<string, string> = {
   'submissions.form.searchSubtitle': '카카오맵에서 카페를 검색하고 우리 디렉토리에 제출하세요.',
   'submissions.form.selectToSubmit': '위에서 카페를 검색하고 선택하여 제출하세요',
   'submissions.form.selectCafeFirst': '검색 결과에서 카페를 선택해주세요',
+  'submissions.form.hoursLabel': '영업시간 (선택사항)',
+  'submissions.form.hoursHelp': '알고 계시면 영업시간을 입력해주세요',
 
   'submissions.duplicates.title': '중복 가능성 발견',
   'submissions.duplicates.description': '제출하신 카페와 유사한 카페를 찾았습니다',
