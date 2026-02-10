@@ -1,5 +1,6 @@
 import type { CafeSummary } from '@/types/cafe';
 import type { MapFilters } from '@/types/map';
+import { isCafeOpenNow } from '@/lib/hours';
 
 /**
  * Filter cafes based on rating criteria and features
