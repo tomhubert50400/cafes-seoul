@@ -52,10 +52,10 @@ export function SubmissionStatusCard({
       label: t('mySubmissions.card.declined'),
     },
   };
-  
+
   const config = statusConfig[submission.status];
   const StatusIcon = config.icon;
-  
+
   return (
     <Card className="transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
@@ -74,7 +74,7 @@ export function SubmissionStatusCard({
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="pt-0">
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <span>{t('mySubmissions.card.submitted')}: {new Date(submission.createdAt).toLocaleDateString()}</span>
