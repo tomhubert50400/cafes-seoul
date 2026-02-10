@@ -169,6 +169,9 @@ const ko: Record<string, string> = {
   'cafe.detailedRatings': '세부 평점',
   'cafe.hours': '영업 시간',
   'cafe.closed': '휴무',
+  'cafe.today': '오늘',
+  'cafe.showAllHours': '전체 영업시간',
+  'cafe.hideHours': '영업시간 접기',
   'cafe.location': '위치 & 연락처',
   'cafe.naverMap': '네이버 지도',
   'cafe.kakaoMap': '카카오 지도',
@@ -252,6 +255,12 @@ const ko: Record<string, string> = {
 
   // Common
   'common.loading': '로딩 중...',
+  'common.loadingCafe': '카페 로딩 중...',
+  'common.loadingMap': '지도 로딩 중...',
+  'common.loadingAdmin': '관리자 로딩 중...',
+  'common.loadingDashboard': '대시보드 로딩 중...',
+  'common.loadingProfile': '프로필 로딩 중...',
+  'common.loadingRoulette': '룰렛 로딩 중...',
   'common.error': '오류가 발생했습니다',
 
   // Auth pages
@@ -899,6 +908,7 @@ const ko: Record<string, string> = {
   // Cafe reviews display
   'reviews.cafe.title': '리뷰',
   'reviews.cafe.noReviews': '아직 리뷰가 없습니다. 첫 번째로 의견을 남겨주세요!',
+  'reviews.cafe.leaveReview': '리뷰 작성',
   'reviews.cafe.edited': '수정됨',
   'reviews.cafe.helpful': '도움됨',
   'reviews.cafe.cannotVoteOwn': '본인 리뷰에는 투표할 수 없습니다',
@@ -927,7 +937,7 @@ const ko: Record<string, string> = {
   'roulette.matchTitle': '매칭 완료!',
   'roulette.matchSubtitle': '다음 카페 모험이 기다립니다',
   'roulette.getDirections': '길 안내',
-  'roulette.viewProfile': '상세 보기',
+  'roulette.viewProfile': '프로필',
   'roulette.spinAgain': '다시 돌리기',
   'roulette.adjustFilters': '필터 조정',
   'roulette.noResults': '필터에 맞는 카페가 없습니다',
