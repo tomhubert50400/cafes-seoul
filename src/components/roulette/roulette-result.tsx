@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car, RotateCw, Camera, Plus } from 'lucide-react';
+import { MapPin, Navigation, Wifi, Plug, Dog, Armchair, Car, RotateCw, Camera, Plus, ExternalLink } from 'lucide-react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,6 +16,7 @@ import { getDistrictById } from '@/lib/constants/districts';
 import { ROUTES } from '@/lib/constants/routes';
 import type { CafeSummary } from '@/types/cafe';
 import type { MapFilters } from '@/types/map';
+import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
 
 interface RouletteResultProps {
   cafe: CafeSummary;
@@ -154,6 +155,7 @@ export function RouletteResult({
               />
               <Button variant="outline" asChild className="min-w-0 min-h-[44px]">
                 <Link href={ROUTES.CAFE_DETAIL(cafe.slug)}>
+                  <ExternalLink className="h-4 w-4" />
                   <span className="truncate">{t('roulette.viewProfile')}</span>
                 </Link>
               </Button>
