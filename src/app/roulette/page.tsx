@@ -51,14 +51,19 @@ export default async function RoulettePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const cafes = await getCafes();
+  const [cafes, favoriteResult] = await Promise.all([
+    getCafes(),
+    user ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
+  ]);
+
+  const favoriteIds = favoriteResult.success ? favoriteResult.cafeIds ?? [] : [];
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header user={user} />
       <main className="flex-1">
         <div className="max-w-2xl mx-auto px-4 py-4 md:py-8">
-          <RouletteClient cafes={cafes} />
+          <RouletteClient cafes={cafes} favoriteIds={favoriteIds} isLoggedIn={!!user} />
         </div>
       </main>
       <Footer />
