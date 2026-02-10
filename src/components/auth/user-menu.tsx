@@ -34,6 +34,7 @@ export function UserMenu({ user }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [unreadMessages, setUnreadMessages] = useState(0);
 
   const handleLanguageChange = (langCode: LanguageCode) => {
     setLanguage(langCode);
@@ -46,16 +47,25 @@ export function UserMenu({ user }: UserMenuProps) {
   const displayName = user.user_metadata?.name || email;
 
   useEffect(() => {
-    const checkAdmin = async () => {
+    const checkAdminAndMessages = async () => {
       const supabase = createClient();
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single();
-      setIsAdmin(profile?.role === 'admin');
+      const admin = profile?.role === 'admin';
+      setIsAdmin(admin);
+
+      if (admin) {
+        const { count } = await supabase
+          .from('contact_messages')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_read', false);
+        setUnreadMessages(count ?? 0);
+      }
     };
-    checkAdmin();
+    checkAdminAndMessages();
   }, [user.id]);
 
   return (
@@ -69,23 +79,30 @@ export function UserMenu({ user }: UserMenuProps) {
             <AvatarImage src={avatarUrl} alt={displayName} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
+          {unreadMessages > 0 && (
+            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+              {unreadMessages > 9 ? '9+' : unreadMessages}
+            </span>
+          )}
         </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56">
         {/* User info header */}
-        <div className="flex items-center gap-3 p-3">
-          <Avatar size="sm">
-            <AvatarImage src={avatarUrl} alt={displayName} />
-            <AvatarFallback>{initials}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col min-w-0">
-            <span className="text-sm font-medium truncate">{displayName}</span>
-            <span className="text-xs text-muted-foreground truncate">
-              {user.email}
-            </span>
-          </div>
-        </div>
+        <DropdownMenuItem asChild>
+          <Link href={ROUTES.PROFILE} className="flex items-center gap-3 p-3 cursor-pointer">
+            <Avatar size="sm">
+              <AvatarImage src={avatarUrl} alt={displayName} />
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col min-w-0">
+              <span className="text-sm font-medium truncate">{displayName}</span>
+              <span className="text-xs text-muted-foreground truncate">
+                {user.email}
+              </span>
+            </div>
+          </Link>
+        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 

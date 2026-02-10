@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 const NAV_ITEMS = [
   { href: ROUTES.CAFES, labelKey: 'nav.cafes' },
   { href: ROUTES.MAP, labelKey: 'nav.map' },
-  { href: ROUTES.FOR_YOU, labelKey: 'nav.forYou' },
+  { href: ROUTES.FOR_YOU, labelKey: 'nav.forYou', authOnly: true },
 ];
 
 interface HeaderProps {
@@ -43,7 +43,7 @@ export function Header({ user }: HeaderProps = {}) {
         {/* Navigation - centered on desktop, compact pills on mobile */}
         <nav aria-label="Main navigation" className="flex flex-1 min-w-0 items-center justify-center md:flex-none md:gap-6">
           <div className="flex items-center min-w-0 rounded-full bg-muted/50 p-0.5 md:bg-transparent md:p-0 md:gap-6">
-            {NAV_ITEMS.map((item) => {
+            {NAV_ITEMS.filter((item) => !item.authOnly || !!user).map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -97,7 +97,7 @@ export function Header({ user }: HeaderProps = {}) {
           )}
           {/* Mobile auth - single button */}
           {!user && (
-            <Button size="sm" asChild className="md:hidden min-h-[44px]">
+            <Button size="sm" asChild className="md:hidden min-h-[32px]">
               <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
             </Button>
           )}
