@@ -102,6 +102,9 @@ export function RouletteResult({
               )}
             </div>
 
+            {/* Today's hours */}
+            <TodayHoursDisplay operatingHours={cafe.operatingHours} />
+
             {/* Rating */}
             <RatingDisplay
               overallRating={cafe.overallRating}
