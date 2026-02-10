@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { RatingSlider } from './rating-slider';
 import { FeatureToggle } from './feature-toggle';
 import { PresetBadges } from './preset-badges';
-import { Wifi, Plug, Dog, Armchair, Car, X, Heart } from 'lucide-react';
+import { Wifi, Plug, Dog, Armchair, Car, X, Heart, Clock } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
