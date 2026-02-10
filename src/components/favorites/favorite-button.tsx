@@ -102,9 +102,7 @@ export function FavoriteButton({
         scale: justToggled && !isFirstRender.current ? [1, 1.2, 1] : 1,
       }}
       transition={{
-        type: 'spring',
-        stiffness: 500,
-        damping: 15,
+        scale: { type: 'tween', duration: 0.25, ease: 'easeInOut' },
       }}
       aria-label={optimisticIsFavorited ? 'Remove from favorites' : 'Add to favorites'}
     >
