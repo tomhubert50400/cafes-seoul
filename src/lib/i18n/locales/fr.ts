@@ -182,7 +182,6 @@ const fr: Record<string, string> = {
   'share.linkCopied': 'Lien copié !',
   'share.whatsapp': 'WhatsApp',
   'share.telegram': 'Telegram',
-  'share.x': 'X (Twitter)',
   'share.more': 'Plus...',
   'cafe.map': 'Carte',
   'cafe.priceInfo': 'Prix',
