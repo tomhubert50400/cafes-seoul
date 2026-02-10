@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { deleteSubmission } from '@/lib/actions/submissions';
 import { toast } from 'sonner';
 import { ROUTES } from '@/lib/constants/routes';
+import { useI18n } from '@/lib/i18n';
 
 // ============================================
 // TYPES
@@ -53,6 +54,7 @@ export function SubmissionsList({
   userId,
   translations,
 }: SubmissionsListProps) {
+  const { t } = useI18n();
   const [submissions, setSubmissions] = useState(initialSubmissions);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [expandedReasons, setExpandedReasons] = useState<Set<string>>(new Set());

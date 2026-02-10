@@ -62,7 +62,7 @@ export function SubmissionStatusCard({
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-lg truncate">{name}</h3>
-            <p className="text-sm text-muted-foreground truncate">{address}</p>
+            <p className="text-sm text-muted-foreground break-words">{address}</p>
           </div>
           <div className={cn(
             'flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium border shrink-0',

@@ -6,6 +6,7 @@ import { Star, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/constants/routes';
 import { toast } from 'sonner';
+import { useI18n } from '@/lib/i18n';
 
 // ============================================
 // TYPES
@@ -44,6 +45,7 @@ export function RatingsList({
   userId,
   translations,
 }: RatingsListProps) {
+  const { t } = useI18n();
   const [ratings, setRatings] = useState(initialRatings);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 

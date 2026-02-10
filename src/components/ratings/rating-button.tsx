@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useI18n } from '@/lib/i18n';
@@ -20,6 +21,8 @@ interface RatingButtonProps {
   size?: 'default' | 'sm' | 'lg' | 'icon';
   className?: string;
   onRatingSubmitted?: () => void;
+  /** Custom label text for the button */
+  label?: string;
   /** When true, navigates to cafe page with ?rate=true instead of opening modal directly */
   redirectToPage?: boolean;
   /** When true, auto-opens modal if ?rate=true is in URL (use on cafe detail page) */
@@ -36,6 +39,7 @@ export function RatingButton({
   size = 'default',
   className,
   onRatingSubmitted,
+  label,
   redirectToPage = false,
   autoOpenFromUrl = false,
 }: RatingButtonProps) {
@@ -89,7 +93,14 @@ export function RatingButton({
         className={className}
         onClick={handleClick}
       >
-        {existingRating ? t('rating.updateButton') : t('rating.rateButton')}
+        {label ? (
+          <>
+            <Star className="h-4 w-4" />
+            {label}
+          </>
+        ) : (
+          existingRating ? t('rating.updateButton') : t('rating.rateButton')
+        )}
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
