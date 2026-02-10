@@ -113,6 +113,8 @@ export default async function CafesPage({ searchParams }: PageProps) {
     quietnessMin: params.quietnessMin ? parseInt(params.quietnessMin as string) : undefined,
     priceValueMin: params.priceValueMin ? parseInt(params.priceValueMin as string) : undefined,
     comfortMin: params.comfortMin ? parseInt(params.comfortMin as string) : undefined,
+    openNow: params.openNow === 'true' ? true : undefined,
+    favoritesOnly: params.favoritesOnly === 'true' ? true : undefined,
     sortBy: (params.sortBy as CafeListParams['sortBy']) || 'rating',
     sortOrder: (params.sortOrder as CafeListParams['sortOrder']) || 'desc',
     q: params.q as string | undefined,
