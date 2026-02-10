@@ -136,6 +136,7 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
         p_neighborhood_id: submission.neighborhood_id,
         p_slug: slug,
         p_kakao_place_id: submission.kakao_place_id,
+        p_operating_hours: submission.operating_hours || {},
       });
 
       if (cafeError || !cafeResult) {
@@ -158,6 +159,7 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
       p_neighborhood_id: submission.neighborhood_id,
       p_slug: slug,
       p_kakao_place_id: null,
+      p_operating_hours: submission.operating_hours || {},
     });
 
     if (cafeError || !cafeResult) {
