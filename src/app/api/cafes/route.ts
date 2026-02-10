@@ -34,6 +34,8 @@ export async function GET(request: NextRequest) {
     quietnessMin: searchParams.get('quietnessMin') ? parseInt(searchParams.get('quietnessMin')!) : undefined,
     priceValueMin: searchParams.get('priceValueMin') ? parseInt(searchParams.get('priceValueMin')!) : undefined,
     comfortMin: searchParams.get('comfortMin') ? parseInt(searchParams.get('comfortMin')!) : undefined,
+    openNow: searchParams.get('openNow') === 'true' ? true : undefined,
+    favoritesOnly: searchParams.get('favoritesOnly') === 'true' ? true : undefined,
     sortBy: (searchParams.get('sortBy') as CafeListParams['sortBy']) || 'rating',
     sortOrder: (searchParams.get('sortOrder') as CafeListParams['sortOrder']) || 'desc',
     q: searchParams.get('q') || undefined,
