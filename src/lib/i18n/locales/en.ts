@@ -520,6 +520,8 @@ const en: Record<string, string> = {
   'submissions.form.searchSubtitle': 'Search for a cafe on Kakao Maps and submit it to our directory.',
   'submissions.form.selectToSubmit': 'Search and select a cafe above to submit',
   'submissions.form.selectCafeFirst': 'Please select a cafe from the search results',
+  'submissions.form.hoursLabel': 'Operating Hours (optional)',
+  'submissions.form.hoursHelp': 'Add opening hours if you know them',
 
   'submissions.duplicates.title': 'Potential Duplicates Found',
   'submissions.duplicates.description': 'We found cafes that may be similar to your submission',
