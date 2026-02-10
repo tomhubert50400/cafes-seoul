@@ -47,8 +47,6 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
   const cafeDescription = getLocalizedText(cafe.description, language);
   const cafeAddress = getLocalizedText(cafe.address, language);
 
-  const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
-
   // Note: We don't have access to currentUser directly in this client component
   // The server component passes photos with isOwnPhoto flags, so we can infer auth state
   const isAuthenticated = photos.some(p => p.isOwnPhoto);
