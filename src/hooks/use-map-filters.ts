@@ -29,6 +29,7 @@ const DEFAULT_FILTERS: MapFilters = {
   priceRange: [],
   cafeTypes: [],
   districts: [],
+  openNow: false,
   showFavoritesOnly: false,
 };
 
