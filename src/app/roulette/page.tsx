@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 import { Footer } from '@/components/footer';
 import { RouletteClient } from '@/components/roulette/roulette-client';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { getFavoriteIdsAction } from '@/lib/actions/favorites';
 import type { CafeSummary } from '@/types/cafe';
 
 async function getCafes(): Promise<CafeSummary[]> {
