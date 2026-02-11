@@ -366,6 +366,7 @@ export default async function CafeDetailPage({ params }: PageProps) {
         photos={photos}
         currentUser={currentUser}
         isFavorited={isFavorited}
+        similarCafes={similarCafes}
       />
     </>
   );
