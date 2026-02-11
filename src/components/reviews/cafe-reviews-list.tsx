@@ -93,7 +93,7 @@ export function CafeReviewsList({ reviews, userId, isAdmin = false, cafeId, cafe
         </div>
       )}
       {sortedReviews.map((review) => (
-        <CafeReviewCard key={review.id} review={review} userId={userId} />
+        <CafeReviewCard key={review.id} review={review} userId={userId} isAdmin={isAdmin} />
       ))}
     </div>
   );
