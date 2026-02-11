@@ -693,6 +693,14 @@ const zh: Record<string, string> = {
   'photos.limits.daily': '今天还剩{count}次上传机会',
   'photos.limits.cafe': '这个咖啡馆已上传{count}张照片（最多3张）',
   'photos.limits.reached': '已达到上传限制',
+  'photos.limits.dailyReached': '已达到每日上传限制',
+  'photos.limits.cafeReached': '您已达到此咖啡馆3张照片的上传限制',
+  'photos.limits.checkError': '无法检查上传限制，请重试。',
+  'photos.limits.maxPhotos': '此咖啡馆还可以上传{count}张照片',
+  'photos.upload.signInRequired': '请登录后上传照片',
+  'photos.upload.addMore': '添加更多',
+  'photos.upload.processing': '处理中...',
+  'photos.upload.uploadingProgress': '正在上传第{current}张，共{total}张...',
 
   // Photo status
   'photos.status.pending': '等待审核',
