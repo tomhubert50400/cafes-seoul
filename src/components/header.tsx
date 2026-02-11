@@ -74,12 +74,10 @@ export function Header({ user }: HeaderProps = {}) {
                       : 'text-muted-foreground md:text-foreground md:border-transparent hover:text-foreground md:hover:border-foreground'
                   )}
                 >
-                  {/* Mobile sliding pill indicator */}
+                  {/* Mobile pill indicator */}
                   {isActive && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-full bg-background shadow-sm md:hidden"
-                      transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
+                    <span
+                      className="absolute inset-0 rounded-full bg-background shadow-sm md:hidden transition-all duration-300"
                     />
                   )}
                   <span className="relative z-10">{t(item.labelKey)}</span>
