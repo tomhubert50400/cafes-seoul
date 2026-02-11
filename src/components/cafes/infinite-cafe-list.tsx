@@ -43,11 +43,7 @@ export function InfiniteCafeList({
     setPage(initialPage);
     setHasMore(initialPage < totalPages);
     prefetchedRef.current = null;
-    // Prefetch page 2 right after initial render
-    if (initialPage < totalPages) {
-      prefetchNext(initialPage, totalPages);
-    }
-  }, [initialCafes, initialPage, totalPages, prefetchNext]);
+  }, [initialCafes, initialPage, totalPages]);
 
   // Track scroll position for "back to top" button
   useEffect(() => {
