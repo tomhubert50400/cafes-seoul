@@ -42,7 +42,7 @@ interface CafeDetailContentProps {
   similarCafes?: CafeSummary[];
 }
 
-export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
+export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false, similarCafes = [] }: CafeDetailContentProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
