@@ -263,7 +263,9 @@ export function LoginForm({ oauthError }: LoginFormProps) {
               ? t('auth.error.missing_verification_params')
               : oauthError === 'user_not_found'
                 ? t('auth.error.user_not_found')
-                : oauthError}
+                : oauthError === 'link_expired'
+                  ? t('auth.error.link_expired')
+                  : oauthError}
         </div>
       )}
 
