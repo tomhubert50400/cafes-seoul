@@ -197,10 +197,16 @@ export function SignupForm({ oauthError }: SignupFormProps) {
           showAuthError(result.message, t)
         }
       }
-    } catch (err) {
+    } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') {
         // Request was cancelled - no error to show
         return
+      }
+      // Next.js redirect() throws a NEXT_REDIRECT error internally — don't show toast for it
+      if (typeof err === 'object' && err !== null && 'digest' in err &&
+        typeof (err as Record<string, unknown>).digest === 'string' &&
+        ((err as Record<string, unknown>).digest as string).startsWith('NEXT_REDIRECT')) {
+        throw err
       }
       showAuthError(t('common.error'), t)
     } finally {
