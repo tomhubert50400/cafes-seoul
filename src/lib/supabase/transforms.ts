@@ -188,7 +188,7 @@ export function transformUserProfile(row: Record<string, unknown>): UserProfile 
     id: row.id as string,
     username: row.username as string,
     displayName: row.display_name as string | null,
-    avatarUrl: row.avatar_url as string | null,
+    avatarUrl: resolveAvatarUrl(row.avatar_url as string | null),
     bio: row.bio as string | null,
     isVerified: row.is_verified as boolean,
     role: (row.role as string || 'user') as import('@/types/user').UserRole,
