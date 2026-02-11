@@ -262,6 +262,8 @@ const vi: Record<string, string> = {
   'common.loadingDashboard': 'Đang tải bảng điều khiển...',
   'common.loadingProfile': 'Đang tải hồ sơ...',
   'common.loadingRoulette': 'Đang tải vòng quay...',
+  'common.loadingCafes': 'Đang tải quán cafe...',
+  'common.loadingForYou': 'Đang tải gợi ý...',
   'common.error': 'Đã xảy ra lỗi',
 
   // Auth pages
