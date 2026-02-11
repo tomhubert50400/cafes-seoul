@@ -88,21 +88,15 @@ export function FavoriteButton({
   };
 
   return (
-    <motion.button
+    <button
       onClick={handleToggle}
       disabled={isPending}
       className={cn(
-        'flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition-colors hover:bg-black/50 disabled:opacity-50',
+        'flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition-all hover:bg-black/50 disabled:opacity-50 active:scale-90',
+        justToggled && !isFirstRender.current && 'animate-[pop_0.25s_ease-in-out]',
         buttonSizeMap[size],
         className
       )}
-      whileTap={{ scale: 0.9 }}
-      animate={{
-        scale: justToggled && !isFirstRender.current ? [1, 1.2, 1] : 1,
-      }}
-      transition={{
-        scale: { type: 'tween', duration: 0.25, ease: 'easeInOut' },
-      }}
       aria-label={optimisticIsFavorited ? 'Remove from favorites' : 'Add to favorites'}
     >
       <Heart
@@ -114,6 +108,6 @@ export function FavoriteButton({
             : 'text-white'
         )}
       />
-    </motion.button>
+    </button>
   );
 }
