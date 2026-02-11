@@ -282,7 +282,7 @@ export async function getSubmissionWithUser(
         id: userData.id as string,
         email: userData.email as string,
         displayName: userData.display_name as string | null,
-        avatarUrl: userData.avatar_url as string | null,
+        avatarUrl: resolveAvatarUrl(userData.avatar_url as string | null),
         role: userData.role as import('@/types/user').UserRole,
       },
     };
@@ -341,7 +341,7 @@ export async function getPendingSubmissions(
           id: userData.id as string,
           email: userData.email as string,
           displayName: userData.display_name as string | null,
-          avatarUrl: userData.avatar_url as string | null,
+          avatarUrl: resolveAvatarUrl(userData.avatar_url as string | null),
           role: userData.role as import('@/types/user').UserRole,
         },
       };
