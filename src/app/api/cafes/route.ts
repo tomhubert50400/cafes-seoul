@@ -4,7 +4,6 @@ import { transformCafeSummary } from '@/lib/supabase/transforms';
 import type { CafeListParams, PaginatedResponse } from '@/types/api';
 import type { CafeSummary } from '@/types/cafe';
 import { getDistrictBySlug, POPULAR_NEIGHBORHOODS, NEIGHBORHOOD_RADIUS_M } from '@/lib/constants/districts';
-import { isCafeOpenNow } from '@/lib/hours';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
