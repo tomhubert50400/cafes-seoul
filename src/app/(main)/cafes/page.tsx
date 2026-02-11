@@ -2,11 +2,6 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { headers } from 'next/headers';
 import { Footer } from '@/components/footer';
-
-export const metadata: Metadata = {
-  title: 'Browse Cafes',
-  description: 'Browse and filter the best cafes in Seoul by district, rating, amenities, and more.',
-};
 import { SearchFilters } from '@/components/search-filters';
 import { CafeCardSkeleton } from '@/components/cafe-card';
 import { CafesPageHeader } from '@/components/cafes/page-header';
@@ -17,6 +12,11 @@ import { RouletteCta } from '@/components/roulette/roulette-cta';
 import type { CafeSummary } from '@/types/cafe';
 import type { CafeListParams } from '@/types/api';
 import { getFavoriteIdsAction } from '@/lib/actions/favorites';
+
+export const metadata: Metadata = {
+  title: 'Browse Cafes',
+  description: 'Browse and filter the best cafes in Seoul by district, rating, amenities, and more.',
+};
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -56,48 +56,8 @@ function CafeListSkeleton() {
   );
 }
 
-async function CafeListWithData({
-  searchParams,
-  userId,
-}: {
-  searchParams: CafeListParams;
-  userId?: string;
-}) {
-  // Fetch favorites first so we can pass IDs to the API when filter is active
-  const favoritesResult = userId
-    ? await getFavoriteIdsAction()
-    : { success: false, cafeIds: [] as string[] };
-  const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
-
-  // When favorites filter is active, pass the IDs to the API for server-side filtering
-  const effectiveParams = { ...searchParams };
-  if (searchParams.favoritesOnly && favoriteIds.length > 0) {
-    effectiveParams.cafeIds = favoriteIds.join(',');
-  }
-
-  const { cafes, total, page, totalPages } = await getCafes(effectiveParams);
-
-  return (
-    <InfiniteCafeList
-      initialCafes={cafes}
-      initialTotal={total}
-      initialPage={page}
-      totalPages={totalPages}
-      filterParams={effectiveParams as Record<string, string | number | boolean | undefined>}
-      favoriteIds={favoriteIds}
-      userId={userId}
-    />
-  );
-}
-
-export default async function CafesPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
-
-  const cafeListParams: CafeListParams = {
+function parseSearchParams(params: { [key: string]: string | string[] | undefined }): CafeListParams {
+  return {
     page: 1,
     limit: 12,
     district: params.district as string | undefined,
@@ -126,7 +86,50 @@ export default async function CafesPage({ searchParams }: PageProps) {
     sortOrder: (params.sortOrder as CafeListParams['sortOrder']) || 'desc',
     q: params.q as string | undefined,
   };
+}
 
+// Async component — all data fetching happens here, streamed via Suspense
+async function CafeListContent({
+  searchParamsPromise,
+}: {
+  searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParamsPromise;
+  const cafeListParams = parseSearchParams(params);
+
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+
+  // Fetch favorites first so we can pass IDs to the API when filter is active
+  const favoritesResult = userId
+    ? await getFavoriteIdsAction()
+    : { success: false, cafeIds: [] as string[] };
+  const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
+
+  // When favorites filter is active, pass the IDs to the API for server-side filtering
+  const effectiveParams = { ...cafeListParams };
+  if (cafeListParams.favoritesOnly && favoriteIds.length > 0) {
+    effectiveParams.cafeIds = favoriteIds.join(',');
+  }
+
+  const { cafes, total, page, totalPages } = await getCafes(effectiveParams);
+
+  return (
+    <InfiniteCafeList
+      initialCafes={cafes}
+      initialTotal={total}
+      initialPage={page}
+      totalPages={totalPages}
+      filterParams={effectiveParams as Record<string, string | number | boolean | undefined>}
+      favoriteIds={favoriteIds}
+      userId={userId}
+    />
+  );
+}
+
+// Non-async page — shell renders immediately, Suspense streams data
+export default function CafesPage({ searchParams }: PageProps) {
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-6xl px-4 py-8">
@@ -143,7 +146,7 @@ export default async function CafesPage({ searchParams }: PageProps) {
         </Suspense>
 
         <Suspense fallback={<CafeListSkeleton />}>
-          <CafeListWithData searchParams={cafeListParams} userId={user?.id} />
+          <CafeListContent searchParamsPromise={searchParams} />
         </Suspense>
       </main>
 
