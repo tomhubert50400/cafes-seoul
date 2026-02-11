@@ -262,6 +262,8 @@ const en: Record<string, string> = {
   'common.loadingDashboard': 'Loading dashboard...',
   'common.loadingProfile': 'Loading profile...',
   'common.loadingRoulette': 'Loading roulette...',
+  'common.loadingCafes': 'Loading cafes...',
+  'common.loadingForYou': 'Loading recommendations...',
   'common.error': 'An error occurred',
 
   // Auth pages
