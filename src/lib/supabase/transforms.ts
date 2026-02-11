@@ -169,7 +169,7 @@ export function transformUser(row: Record<string, unknown>): User {
     email: row.email as string,
     username: row.username as string,
     displayName: row.display_name as string | null,
-    avatarUrl: row.avatar_url as string | null,
+    avatarUrl: resolveAvatarUrl(row.avatar_url as string | null),
     bio: row.bio as string | null,
     preferredLanguage: row.preferred_language as string,
     isModerator: row.is_moderator as boolean,
