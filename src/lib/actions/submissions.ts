@@ -66,28 +66,29 @@ export async function submitCafe(
       return { success: false, error: 'Authentication required' };
     }
 
-    // 2. Check rate limit (skip for admins)
+    // 2. Check if admin (admins skip rate limit)
     const userIsAdmin = await isAdmin(supabase, user.id);
-    let rateCheck: { success: boolean; rateLimit?: SubmissionRateLimit; error?: string } = { success: true };
+
+    // 3. Check rate limit BEFORE submission (read-only check, don't increment yet)
     if (!userIsAdmin) {
-      rateCheck = await incrementRateLimit(supabase, user.id);
-      if (!rateCheck.success) {
+      const currentLimit = await getRateLimit(supabase, user.id);
+      if (currentLimit && currentLimit.remaining === 0) {
         return {
           success: false,
-          error: rateCheck.error,
-          rateLimit: rateCheck.rateLimit,
+          error: 'Daily submission limit reached (3 submissions per day)',
+          rateLimit: currentLimit,
         };
       }
     }
 
-    // 3. Validate input
+    // 4. Validate input
     const validation = submissionSchema.safeParse(data);
     if (!validation.success) {
       const issues = validation.error.issues.map((i) => i.message).join(', ');
       return { success: false, error: `Validation failed: ${issues}` };
     }
 
-    // 4. Check for kakao_place_id duplicate (server-side enforcement)
+    // 5. Check for kakao_place_id duplicate (server-side enforcement)
     if (validation.data.kakaoPlaceId) {
       const kakaoCheck = await checkKakaoPlaceIdExists(supabase, validation.data.kakaoPlaceId);
       if (kakaoCheck.exists) {
@@ -98,14 +99,20 @@ export async function submitCafe(
       }
     }
 
-    // 5. Create submission
+    // 6. Create submission
     const result = await createSubmission(supabase, user.id, validation.data);
 
     if ('error' in result) {
       return { success: false, error: result.error };
     }
 
-    // 6. Auto-approve for admins (skip moderation queue)
+    // 7. Increment rate limit AFTER successful submission (so failures don't consume quota)
+    let rateCheck: { success: boolean; rateLimit?: SubmissionRateLimit; error?: string } = { success: true };
+    if (!userIsAdmin) {
+      rateCheck = await incrementRateLimit(supabase, user.id);
+    }
+
+    // 8. Auto-approve for admins (skip moderation queue)
     if (userIsAdmin) {
       const approval = await approveSubmission({ submissionId: result.id });
       if (!approval.success) {
@@ -113,10 +120,10 @@ export async function submitCafe(
       }
     }
 
-    // 7. Revalidate profile submissions page
+    // 9. Revalidate profile submissions page
     revalidatePath('/profile/submissions');
 
-    // 8. Return success with rate limit info
+    // 10. Return success with rate limit info
     return {
       success: true,
       submission: result,
