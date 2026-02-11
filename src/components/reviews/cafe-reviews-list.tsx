@@ -19,12 +19,13 @@ type SortOption = 'most-helpful' | 'date-new' | 'date-old' | 'rating-high' | 'ra
 interface CafeReviewsListProps {
   reviews: ReviewWithAuthor[];
   userId: string | null;
+  isAdmin?: boolean;
   cafeId?: string;
   cafeName?: string;
   cafeSlug?: string;
 }
 
-export function CafeReviewsList({ reviews, userId, cafeId, cafeName, cafeSlug }: CafeReviewsListProps) {
+export function CafeReviewsList({ reviews, userId, isAdmin = false, cafeId, cafeName, cafeSlug }: CafeReviewsListProps) {
   const { t } = useI18n();
   const [sortBy, setSortBy] = useState<SortOption>('date-new');
 
