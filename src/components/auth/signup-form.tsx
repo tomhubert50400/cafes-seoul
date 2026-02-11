@@ -161,7 +161,13 @@ export function SignupForm({ oauthError }: SignupFormProps) {
       formData.append('password', data.password)
       
       const result = await signup(null, formData)
-      
+
+      // Successful signup - navigate to verify email page
+      if (result?.redirectTo) {
+        router.push(result.redirectTo)
+        return
+      }
+
       if (result?.errors) {
         Object.entries(result.errors).forEach(([field, messages]) => {
           const messageArray = messages as string[]
