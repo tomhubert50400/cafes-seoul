@@ -172,7 +172,8 @@ export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, u
   prev.cafe.id === next.cafe.id &&
   prev.isFavorited === next.isFavorited &&
   prev.userId === next.userId &&
-  prev.className === next.className
+  prev.className === next.className &&
+  prev.priority === next.priority
 );
 
 export function CafeCardSkeleton({ className }: { className?: string }) {
