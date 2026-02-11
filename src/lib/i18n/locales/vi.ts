@@ -191,6 +191,7 @@ const vi: Record<string, string> = {
   'cafe.noImage': '{name} chưa có hình ảnh',
   'cafe.addFirstPhoto': 'Hãy là người đầu tiên thêm ảnh!',
   'cafe.addPhoto': 'Thêm ảnh',
+  'cafe.similarCafes': 'Quán tương tự',
   'cafe.helpful': 'Hữu ích',
 
   // Features/Facilities
