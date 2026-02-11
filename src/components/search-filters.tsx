@@ -241,6 +241,23 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     setLocationSearch('');
   }, [router, searchParams]);
 
+  // Debounced search with proper timeout cleanup
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    searchTimeoutRef.current = setTimeout(() => {
+      updateParams('q', value || null);
+    }, 500);
+  }, [updateParams]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    };
+  }, []);
+
   const hasActiveFilters =
     hasLocationFilter ||
     searchParams.get('cafeType') ||
@@ -254,13 +271,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
           type="search"
           placeholder={t('filter.searchPlaceholder')}
           defaultValue={searchParams.get('q') || ''}
-          onChange={(e) => {
-            const value = e.target.value;
-            const timeout = setTimeout(() => {
-              updateParams('q', value || null);
-            }, 300);
-            return () => clearTimeout(timeout);
-          }}
+          onChange={handleSearchChange}
           className="flex-1"
         />
       </div>
