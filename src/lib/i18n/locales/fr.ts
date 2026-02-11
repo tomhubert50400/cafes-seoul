@@ -693,6 +693,14 @@ const fr: Record<string, string> = {
   'photos.limits.daily': '{count} téléchargements restants aujourd\'hui',
   'photos.limits.cafe': '{count} photos pour ce café (sur 3)',
   'photos.limits.reached': 'Limite de téléchargement atteinte',
+  'photos.limits.dailyReached': 'Limite quotidienne de téléchargement atteinte',
+  'photos.limits.cafeReached': 'Vous avez atteint la limite de 3 photos pour ce café',
+  'photos.limits.checkError': 'Impossible de vérifier les limites. Veuillez réessayer.',
+  'photos.limits.maxPhotos': 'Vous pouvez encore télécharger {count} photos pour ce café',
+  'photos.upload.signInRequired': 'Connectez-vous pour télécharger des photos',
+  'photos.upload.addMore': 'Ajouter',
+  'photos.upload.processing': 'Traitement...',
+  'photos.upload.uploadingProgress': 'Téléchargement {current} sur {total}...',
 
   // Photo status
   'photos.status.pending': 'En attente d\'approbation',
