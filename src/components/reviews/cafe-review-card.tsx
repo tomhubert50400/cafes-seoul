@@ -1,21 +1,28 @@
 'use client';
 
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
-import { Star, Pencil } from 'lucide-react';
+import { Star, Pencil, Trash2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { AvatarDisplay } from '@/components/profile/avatar-display';
 import { HelpfulButton } from './helpful-button';
+import { adminDeleteReviewAction } from '@/lib/actions/reviews';
 import { useI18n } from '@/lib/i18n';
+import { toast } from 'sonner';
 import type { ReviewWithAuthor } from '@/types/reviews';
 
 interface CafeReviewCardProps {
   review: ReviewWithAuthor;
   userId: string | null;
+  isAdmin?: boolean;
 }
 
-export function CafeReviewCard({ review, userId }: CafeReviewCardProps) {
+export function CafeReviewCard({ review, userId, isAdmin = false }: CafeReviewCardProps) {
   const { language, t } = useI18n();
+  const [deleted, setDeleted] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   // Format date
   const reviewDate = new Date(review.createdAt).toLocaleDateString(
@@ -49,6 +56,22 @@ export function CafeReviewCard({ review, userId }: CafeReviewCardProps) {
 
   // Display name fallback to username
   const authorName = review.author.displayName || review.author.username;
+
+  function handleAdminDelete() {
+    if (!confirm(t('admin.confirmDeleteReview'))) return;
+
+    startTransition(async () => {
+      const result = await adminDeleteReviewAction(review.id);
+      if (result.success) {
+        setDeleted(true);
+        toast.success(t('admin.reviewDeleted'));
+      } else {
+        toast.error(result.error || 'Failed to delete review');
+      }
+    });
+  }
+
+  if (deleted) return null;
 
   return (
     <Card className="overflow-hidden">
@@ -90,6 +113,20 @@ export function CafeReviewCard({ review, userId }: CafeReviewCardProps) {
             {/* Date */}
             <p className="text-xs text-muted-foreground mt-0.5">{reviewDate}</p>
           </div>
+
+          {/* Admin delete button */}
+          {isAdmin && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+              onClick={handleAdminDelete}
+              disabled={isPending}
+              title={t('admin.deleteReview')}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
         </div>
 
         {/* Review text */}
