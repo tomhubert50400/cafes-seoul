@@ -15,7 +15,7 @@ type ActionState = {
 export async function signup(
   prevState: ActionState | null,
   formData: FormData
-): Promise<ActionState | never> {
+): Promise<ActionState> {
   // 1. Validate input with Zod
   const validatedFields = signupSchema.safeParse({
     username: formData.get('username'),
