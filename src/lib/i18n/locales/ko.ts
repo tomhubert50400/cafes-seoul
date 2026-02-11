@@ -887,6 +887,7 @@ const ko: Record<string, string> = {
   'reviews.sort.ratingLow': '낮은 평점순',
   'reviews.sort.dateNew': '최신순',
   'reviews.sort.dateOld': '오래된순',
+  'reviews.sort.mostHelpful': '도움순',
   'reviews.filter.minScore': '최소 점수',
   'reviews.card.viewCafe': '카페 보기',
   'reviews.card.ratedOn': '평가일',
