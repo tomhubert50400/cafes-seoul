@@ -72,7 +72,7 @@ export default async function MapPage() {
 
   // Fetch cafes and favorite IDs in parallel
   const [cafes, favoriteResult] = await Promise.all([
-    getCafes(),
+    getCachedCafes(),
     user ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
   ]);
 
