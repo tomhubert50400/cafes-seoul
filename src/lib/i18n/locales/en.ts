@@ -788,6 +788,9 @@ const en: Record<string, string> = {
   'admin.delete.confirm': 'Are you sure you want to delete this cafe? This action cannot be undone. All associated photos, reviews, and favorites will also be deleted.',
   'admin.delete.success': 'Cafe deleted successfully',
   'admin.delete.error': 'Failed to delete cafe',
+  'admin.deleteReview': 'Delete review',
+  'admin.confirmDeleteReview': 'Are you sure you want to delete this review? This action cannot be undone.',
+  'admin.reviewDeleted': 'Review deleted',
 
   // Admin Messages
   'admin.messages.title': 'Messages',
