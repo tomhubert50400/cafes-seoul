@@ -4,6 +4,7 @@ import type { User, UserProfile } from '@/types/user';
 import type { UserRating, RatingUser, RatingCafe, RatingCafeWithImage } from '@/types/ratings';
 
 const CAFE_IMAGES_BUCKET = 'cafe-images';
+const AVATARS_BUCKET = 'avatars';
 
 export function getStorageUrl(path: string | null): string | null {
   if (!path) return null;
@@ -11,6 +12,14 @@ export function getStorageUrl(path: string | null): string | null {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   if (!supabaseUrl) return null;
   return `${supabaseUrl}/storage/v1/object/public/${CAFE_IMAGES_BUCKET}/${path}`;
+}
+
+export function resolveAvatarUrl(avatarUrl: string | null): string | null {
+  if (!avatarUrl) return null;
+  if (avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) return avatarUrl;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) return null;
+  return `${supabaseUrl}/storage/v1/object/public/${AVATARS_BUCKET}/${avatarUrl}`;
 }
 
 // Transform database cafe row to Cafe type
