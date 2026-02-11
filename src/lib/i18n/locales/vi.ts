@@ -687,6 +687,14 @@ const vi: Record<string, string> = {
   'photos.limits.daily': 'Còn {count} lần tải lên hôm nay',
   'photos.limits.cafe': '{count} hình ảnh cho quán này (tối đa 3)',
   'photos.limits.reached': 'Đã đạt giới hạn tải lên',
+  'photos.limits.dailyReached': 'Đã đạt giới hạn tải lên hàng ngày',
+  'photos.limits.cafeReached': 'Bạn đã đạt giới hạn 3 hình ảnh cho quán cà phê này',
+  'photos.limits.checkError': 'Không thể kiểm tra giới hạn tải lên. Vui lòng thử lại.',
+  'photos.limits.maxPhotos': 'Bạn có thể tải thêm {count} hình ảnh cho quán này',
+  'photos.upload.signInRequired': 'Vui lòng đăng nhập để tải lên hình ảnh',
+  'photos.upload.addMore': 'Thêm',
+  'photos.upload.processing': 'Đang xử lý...',
+  'photos.upload.uploadingProgress': 'Đang tải lên {current} trong {total}...',
 
   // Photo status
   'photos.status.pending': 'Đang chờ phê duyệt',
