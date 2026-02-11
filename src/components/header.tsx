@@ -47,7 +47,7 @@ export function Header({ user }: HeaderProps = {}) {
       </a>
       <div className="mx-auto flex h-14 max-w-6xl items-center px-4">
         {/* Logo - icon only on mobile, icon + name on desktop */}
-        <Link href={ROUTES.HOME} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-1 md:px-2.5" aria-label="Seoul Cafe Guide home">
+        <Link href={ROUTES.HOME} prefetch={false} className="flex items-center gap-2 min-h-[44px] shrink-0 md:flex-1 px-1 md:px-2.5" aria-label="Seoul Cafe Guide home">
           <CoffeeIcon className="h-6 w-6" aria-hidden="true" />
           <span className="font-semibold hidden md:inline">{t('site.name')}</span>
         </Link>
