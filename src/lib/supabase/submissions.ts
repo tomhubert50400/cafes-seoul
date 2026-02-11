@@ -12,6 +12,7 @@ import type { CafeSummary, TranslatedText } from '@/types/cafe';
 import {
   transformCafeSubmission,
   transformSubmissionRateLimit,
+  resolveAvatarUrl,
 } from './transforms';
 
 // ============================================
