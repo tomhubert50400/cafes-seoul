@@ -48,6 +48,7 @@ export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, u
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
           />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
