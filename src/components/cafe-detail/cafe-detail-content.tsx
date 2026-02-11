@@ -141,12 +141,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
               <div className="text-center">
                 <p className="text-muted-foreground">{t('cafe.noImage')}</p>
                 <button
-                  onClick={() => {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('upload', 'true');
-                    window.history.replaceState({}, '', url.toString());
-                    window.location.href = url.toString() + '#photos-section';
-                  }}
+                  onClick={() => window.dispatchEvent(new Event('open-photo-upload'))}
                   className="mt-1 text-sm text-primary hover:underline"
                 >
                   {t('cafe.addFirstPhoto')}
