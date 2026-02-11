@@ -2,7 +2,6 @@
 
 import { useState, useOptimistic, useTransition, useRef, useEffect } from 'react';
 import { Heart } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { toggleFavoriteAction } from '@/lib/actions/favorites';
