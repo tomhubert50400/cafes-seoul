@@ -61,13 +61,6 @@ export function Header({ user }: HeaderProps = {}) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onMouseEnter={item.href === ROUTES.MAP ? () => {
-                    // Preload map chunk before click — next/dynamic exposes .preload()
-                    import('@/components/map/cafe-map-dynamic').then(mod => {
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      (mod.CafeMapWrapperDynamic as any).preload?.();
-                    });
-                  } : undefined}
                   className={cn(
                     'relative font-medium transition-colors flex items-center justify-center',
                     // Mobile: compact pill style, smaller for Vietnamese
