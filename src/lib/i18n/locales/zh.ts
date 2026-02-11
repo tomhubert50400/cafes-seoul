@@ -568,6 +568,9 @@ const zh: Record<string, string> = {
 
   'submissions.success.submitted': '咖啡馆已提交审核！',
   'submissions.success.updated': '提交更新成功！',
+  'submissions.success.description': '您的提交将在1-3天内审核。您可以在个人资料中查看状态。',
+  'submissions.success.viewSubmissions': '查看我的提交',
+  'submissions.success.submitAnother': '提交另一家咖啡馆',
 
   // My Submissions Page
   'mySubmissions.title': '我的提交',
