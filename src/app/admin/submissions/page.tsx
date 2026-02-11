@@ -70,7 +70,7 @@ export default async function AdminSubmissionsPage() {
         id: profile?.id || s.user_id,
         email: profile?.username || '',
         displayName: profile?.display_name || null,
-        avatarUrl: profile?.avatar_url || null,
+        avatarUrl: resolveAvatarUrl(profile?.avatar_url || null),
         role: profile?.role,
       },
     };
