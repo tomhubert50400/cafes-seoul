@@ -121,15 +121,15 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                     />
                     {/* Corner CTA on last side image */}
                     {isLast && (
-                      <Link
-                        href={`/cafes/${cafe.slug}?upload=true#photos-section`}
+                      <button
+                        onClick={() => window.dispatchEvent(new Event('open-photo-upload'))}
                         className="absolute bottom-3 right-3 flex items-center justify-center h-12 w-12 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
                       >
                         <div className="relative">
                           <Camera className="h-5 w-5" />
                           <span className="absolute -top-1.5 -right-0.5 text-xs font-bold leading-none">+</span>
                         </div>
-                      </Link>
+                      </button>
                     )}
                   </div>
                 );
