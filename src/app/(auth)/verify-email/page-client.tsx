@@ -59,7 +59,7 @@ export function VerifyEmailPageClient({ email }: VerifyEmailPageClientProps) {
         {/* Email Display */}
         {email ? (
           <div className="text-center">
-            <p className="font-medium text-lg bg-muted rounded-lg py-2 px-4 inline-block">
+            <p className="font-medium text-lg bg-muted rounded-lg py-2 px-4 inline-block max-w-full break-all">
               {email}
             </p>
           </div>
@@ -72,6 +72,11 @@ export function VerifyEmailPageClient({ email }: VerifyEmailPageClientProps) {
         {/* Instructions */}
         <p className="text-center text-sm text-muted-foreground">
           {t('auth.verify.instructions')}
+        </p>
+
+        {/* Spam hint */}
+        <p className="text-center text-xs text-muted-foreground/70">
+          {t('auth.verify.checkSpam')}
         </p>
 
         {/* Resend Button */}
