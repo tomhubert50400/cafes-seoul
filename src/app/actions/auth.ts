@@ -33,7 +33,7 @@ export async function signup(
 
   // 2. Call Supabase Auth with username in metadata
   const supabase = await createClient()
-  const { error } = await supabase.auth.signUp({
+  const { error, data } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -47,6 +47,15 @@ export async function signup(
   if (error) {
     return {
       message: error.message,
+      errors: {},
+    }
+  }
+
+  // Detect repeated signup: Supabase returns user with empty identities
+  // when the email is already taken (to prevent email enumeration)
+  if (data.user && data.user.identities?.length === 0) {
+    return {
+      message: 'account_already_exists',
       errors: {},
     }
   }
