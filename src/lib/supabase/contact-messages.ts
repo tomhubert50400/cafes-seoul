@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { ContactMessage, ContactMessageWithUser, ContactMessageInput } from '@/types/contact';
+import { resolveAvatarUrl } from '@/lib/supabase/transforms';
 
 /**
  * Create a new contact message
