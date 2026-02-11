@@ -363,11 +363,13 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
 
           {/* Photos Section - after sidebar on mobile, below main on desktop */}
           <div className="order-3 lg:col-span-2" id="photos-section">
-            <PhotosSection
-              cafeId={cafe.id}
-              initialPhotos={photos}
-              currentUser={currentUser}
-            />
+            <Suspense>
+              <PhotosSection
+                cafeId={cafe.id}
+                initialPhotos={photos}
+                currentUser={currentUser}
+              />
+            </Suspense>
           </div>
 
           {/* Similar Cafes */}
