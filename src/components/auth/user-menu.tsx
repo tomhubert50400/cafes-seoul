@@ -35,6 +35,8 @@ export function UserMenu({ user }: UserMenuProps) {
   const [langOpen, setLangOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
+  const [profileDisplayName, setProfileDisplayName] = useState<string | null>(null);
+  const [profileAvatarUrl, setProfileAvatarUrl] = useState<string | null>(null);
 
   const handleLanguageChange = (langCode: LanguageCode) => {
     setLanguage(langCode);
@@ -43,29 +45,43 @@ export function UserMenu({ user }: UserMenuProps) {
 
   const email = user.email || '';
   const initials = getInitials(email);
-  const avatarUrl = user.user_metadata?.avatar_url;
-  const displayName = user.user_metadata?.name || email;
+  const avatarUrl = profileAvatarUrl || user.user_metadata?.avatar_url;
+  const displayName = profileDisplayName || user.user_metadata?.name || user.user_metadata?.display_name || email;
 
   useEffect(() => {
-    const checkAdminAndMessages = async () => {
+    const loadProfileAndAdmin = async () => {
       const supabase = createClient();
       const { data: profile } = await supabase
         .from('profiles')
-        .select('role')
+        .select('role, display_name, username, avatar_url')
         .eq('id', user.id)
         .single();
-      const admin = profile?.role === 'admin';
-      setIsAdmin(admin);
 
-      if (admin) {
-        const { count } = await supabase
-          .from('contact_messages')
-          .select('*', { count: 'exact', head: true })
-          .eq('is_read', false);
-        setUnreadMessages(count ?? 0);
+      if (profile) {
+        // Use display_name or username from profiles table
+        setProfileDisplayName(profile.display_name || profile.username || null);
+
+        // Build avatar URL from storage path
+        if (profile.avatar_url) {
+          const { data: urlData } = supabase.storage
+            .from('avatars')
+            .getPublicUrl(profile.avatar_url);
+          setProfileAvatarUrl(urlData.publicUrl);
+        }
+
+        const admin = profile.role === 'admin';
+        setIsAdmin(admin);
+
+        if (admin) {
+          const { count } = await supabase
+            .from('contact_messages')
+            .select('*', { count: 'exact', head: true })
+            .eq('is_read', false);
+          setUnreadMessages(count ?? 0);
+        }
       }
     };
-    checkAdminAndMessages();
+    loadProfileAndAdmin();
   }, [user.id]);
 
   return (
