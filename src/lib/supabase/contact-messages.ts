@@ -89,7 +89,7 @@ export async function getContactMessages(
         ? {
             username: profile.username,
             displayName: profile.display_name,
-            avatarUrl: profile.avatar_url,
+            avatarUrl: resolveAvatarUrl(profile.avatar_url),
             totalReviews: 0,
             createdAt: profile.created_at,
           }
