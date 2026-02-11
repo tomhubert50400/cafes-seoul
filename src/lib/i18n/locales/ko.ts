@@ -693,6 +693,14 @@ const ko: Record<string, string> = {
   'photos.limits.daily': '오늘 {count}회 업로드 가능',
   'photos.limits.cafe': '이 카페에 {count}개의 사진 (최대 3개)',
   'photos.limits.reached': '업로드 제한에 도달했습니다',
+  'photos.limits.dailyReached': '일일 업로드 제한에 도달했습니다',
+  'photos.limits.cafeReached': '이 카페의 사진 3장 제한에 도달했습니다',
+  'photos.limits.checkError': '업로드 제한을 확인할 수 없습니다. 다시 시도해 주세요.',
+  'photos.limits.maxPhotos': '이 카페에 {count}장 더 업로드할 수 있습니다',
+  'photos.upload.signInRequired': '사진을 업로드하려면 로그인하세요',
+  'photos.upload.addMore': '추가',
+  'photos.upload.processing': '처리 중...',
+  'photos.upload.uploadingProgress': '{total}개 중 {current}번째 업로드 중...',
 
   // Photo status
   'photos.status.pending': '승인 대기 중',
