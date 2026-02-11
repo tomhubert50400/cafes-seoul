@@ -49,6 +49,11 @@ export function Header({ user }: HeaderProps = {}) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onMouseEnter={item.href === ROUTES.MAP ? () => {
+                    import('@/components/map/cafe-map-dynamic').then(mod => {
+                      (mod.CafeMapWrapperDynamic as typeof mod.CafeMapWrapperDynamic & { preload?: () => void }).preload?.();
+                    });
+                  } : undefined}
                   className={cn(
                     'relative font-medium transition-colors flex items-center justify-center',
                     // Mobile: compact pill style, smaller for Vietnamese
