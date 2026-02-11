@@ -126,11 +126,15 @@ export function CafeSubmissionForm({
 
     setIsSubmitting(true);
     try {
-      await onSubmit(pendingData);
-      setShowDuplicateModal(false);
-      setPendingData(null);
-      setDuplicates([]);
-      onSuccess?.();
+      const result = await onSubmit(pendingData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setShowDuplicateModal(false);
+        setPendingData(null);
+        setDuplicates([]);
+        onSuccess?.();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit cafe');
     } finally {
