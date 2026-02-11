@@ -181,7 +181,14 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
             <Tabs defaultValue="info" className="mt-8">
               <TabsList>
                 <TabsTrigger value="info">{t('cafe.tabs.info')}</TabsTrigger>
-                <TabsTrigger value="reviews">{t('cafe.tabs.comments')}</TabsTrigger>
+                <TabsTrigger value="reviews">
+                  {t('cafe.tabs.comments')}
+                  {(textReviews.length + reviews.length) > 0 && (
+                    <span className="ml-1.5 rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium">
+                      {textReviews.length + reviews.length}
+                    </span>
+                  )}
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="info" className="mt-6 space-y-8">
