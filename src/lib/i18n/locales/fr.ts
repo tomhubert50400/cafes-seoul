@@ -887,6 +887,7 @@ const fr: Record<string, string> = {
   'reviews.sort.ratingLow': 'Moins bien notés',
   'reviews.sort.dateNew': 'Plus récents',
   'reviews.sort.dateOld': 'Plus anciens',
+  'reviews.sort.mostHelpful': 'Les plus utiles',
   'reviews.filter.minScore': 'Note minimale',
   'reviews.card.viewCafe': 'Voir le café',
   'reviews.card.ratedOn': 'Noté le',
