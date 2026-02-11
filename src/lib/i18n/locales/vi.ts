@@ -782,6 +782,9 @@ const vi: Record<string, string> = {
   'admin.delete.confirm': 'Ban co chac muon xoa quan cafe nay? Hanh dong nay khong the hoan tac. Tat ca anh, danh gia va muc yeu thich lien quan cung se bi xoa.',
   'admin.delete.success': 'Xoa quan cafe thanh cong',
   'admin.delete.error': 'Xoa quan cafe that bai',
+  'admin.deleteReview': 'Xoa danh gia',
+  'admin.confirmDeleteReview': 'Ban co chac chan muon xoa danh gia nay? Hanh dong nay khong the hoan tac.',
+  'admin.reviewDeleted': 'Da xoa danh gia',
 
   // Admin Messages
   'admin.messages.title': 'Tin nhan',
