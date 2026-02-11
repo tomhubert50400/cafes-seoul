@@ -171,7 +171,7 @@ export async function checkDailyLimit(
     console.error('Unexpected error checking daily limit:', err);
     return {
       canUpload: false,
-      reason: 'Failed to check upload limits. Please try again.',
+      reason: 'photos.limits.checkError',
     };
   }
 }
