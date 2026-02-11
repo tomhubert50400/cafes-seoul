@@ -3,7 +3,8 @@
 import { Suspense, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Camera } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Footer } from '@/components/footer';
 import { RatingStars } from '@/components/rating-stars';
