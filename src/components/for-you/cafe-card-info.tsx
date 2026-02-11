@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import { MapPin, Star, X, Clock } from 'lucide-react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +11,7 @@ import { useI18n } from '@/lib/i18n';
 import { getLocalizedText } from '@/types/cafe';
 import { getTodayHours, formatHours } from '@/lib/hours';
 import { getDistrictById } from '@/lib/constants/districts';
+import { ROUTES } from '@/lib/constants/routes';
 import { Wifi, Plug, Dog, Armchair, Car } from 'lucide-react';
 import type { ForYouCafe } from '@/types/for-you';
 import type { RatingDimension } from '@/lib/supabase/recommendations';
