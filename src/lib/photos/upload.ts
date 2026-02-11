@@ -158,7 +158,7 @@ export async function checkDailyLimit(
     if (!canUpload) {
       return {
         canUpload: false,
-        reason: `Daily upload limit reached. You have ${remainingDaily} uploads remaining today.`,
+        reason: 'photos.limits.dailyReached',
         remainingDaily,
       };
     }
