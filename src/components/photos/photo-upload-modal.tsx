@@ -128,7 +128,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
       if (!userId) {
         setState((prev) => ({
           ...prev,
-          errors: ['Please sign in to upload photos'],
+          errors: [t('photos.upload.signInRequired')],
         }));
         return;
       }
