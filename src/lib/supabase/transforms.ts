@@ -148,7 +148,7 @@ export function transformReviewUser(row: Record<string, unknown>): ReviewUser {
     id: row.id as string,
     username: row.username as string,
     displayName: row.display_name as string | null,
-    avatarUrl: row.avatar_url as string | null,
+    avatarUrl: resolveAvatarUrl(row.avatar_url as string | null),
     isVerified: row.is_verified as boolean,
     totalReviews: row.total_reviews as number,
   };
