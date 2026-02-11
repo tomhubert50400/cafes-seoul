@@ -50,8 +50,10 @@ export function Header({ user }: HeaderProps = {}) {
                   key={item.href}
                   href={item.href}
                   onMouseEnter={item.href === ROUTES.MAP ? () => {
+                    // Preload map chunk before click — next/dynamic exposes .preload()
                     import('@/components/map/cafe-map-dynamic').then(mod => {
-                      (mod.CafeMapWrapperDynamic as typeof mod.CafeMapWrapperDynamic & { preload?: () => void }).preload?.();
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      (mod.CafeMapWrapperDynamic as any).preload?.();
                     });
                   } : undefined}
                   className={cn(
