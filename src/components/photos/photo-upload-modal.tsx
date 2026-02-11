@@ -271,14 +271,10 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
 
     // Show result toast
     if (successCount > 0) {
-      toast.success(
-        successCount === 1
-          ? 'Photo uploaded successfully! It will be reviewed shortly.'
-          : `${successCount} photos uploaded successfully! They will be reviewed shortly.`
-      );
+      toast.success(t('photos.upload.success'));
     }
     if (errors.length > 0) {
-      toast.error(`${errors.length} photo${errors.length !== 1 ? 's' : ''} failed to upload`);
+      toast.error(t('photos.upload.error'));
     }
 
     // Reset form
