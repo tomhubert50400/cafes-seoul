@@ -71,7 +71,7 @@ export function PhotosSection({
           <PhotoUploadModal
             cafeId={cafeId}
             onUploadSuccess={handleUploadSuccess}
-            defaultOpen={shouldOpenUpload}
+            defaultOpen={shouldOpenUpload || forceOpen}
           />
         ) : (
           <SignInButton />
