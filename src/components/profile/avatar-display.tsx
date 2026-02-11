@@ -43,6 +43,7 @@ export function AvatarDisplay({
         alt={displayName || 'User avatar'}
         width={sizePx[size]}
         height={sizePx[size]}
+        unoptimized
         className={cn(
           'rounded-full object-cover',
           sizeClasses[size],
