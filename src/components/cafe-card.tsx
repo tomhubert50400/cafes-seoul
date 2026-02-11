@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -21,7 +22,7 @@ interface CafeCardProps {
   userId?: string;
 }
 
-export function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps) {
+export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
