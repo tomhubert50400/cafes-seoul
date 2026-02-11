@@ -349,16 +349,26 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
               )}
 
               {/* Share button */}
-              <ShareChooser
-                cafeName={cafeName}
-                cafeSlug={cafe.slug}
-                trigger={
-                  <Button variant="outline" className="mt-2 w-full">
-                    <ShareIcon className="mr-2 h-4 w-4" />
-                    {t('share.title')}
-                  </Button>
-                }
-              />
+              <Button
+                variant="outline"
+                className="mt-2 w-full"
+                onClick={async () => {
+                  const url = `${window.location.origin}/cafes/${cafe.slug}`;
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({ title: cafeName, url });
+                    } catch {
+                      // User cancelled
+                    }
+                  } else {
+                    await navigator.clipboard.writeText(url);
+                    toast.success(t('share.linkCopied'));
+                  }
+                }}
+              >
+                <ShareIcon className="mr-2 h-4 w-4" />
+                {t('share.title')}
+              </Button>
 
               {/* Static map */}
               <div className="mt-6 overflow-hidden rounded-lg border border-border">
