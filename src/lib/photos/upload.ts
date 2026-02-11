@@ -220,7 +220,7 @@ export async function checkPhotoLimits(
     if (!canUpload) {
       return {
         canUpload: false,
-        reason: `You have reached the limit of 3 photos for this cafe.`,
+        reason: 'photos.limits.cafeReached',
         remainingCafe: 0,
       };
     }
