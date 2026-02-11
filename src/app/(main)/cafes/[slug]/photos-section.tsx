@@ -33,17 +33,21 @@ export function PhotosSection({
   currentUser,
 }: PhotosSectionProps) {
   const { t } = useI18n();
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const shouldOpenUpload = searchParams.get('upload') === 'true';
+  const [forceOpen, setForceOpen] = useState(false);
 
-  // Clean up ?upload=true from URL after triggering the modal
+  // Listen for gallery CTA clicks (custom event from cafe-detail-content)
   useEffect(() => {
-    if (shouldOpenUpload) {
-      router.replace(pathname, { scroll: false });
-    }
-  }, [shouldOpenUpload, router, pathname]);
+    const handler = () => setForceOpen(true);
+    window.addEventListener('open-photo-upload', handler);
+    return () => window.removeEventListener('open-photo-upload', handler);
+  }, []);
+
+  // Reset forceOpen after it triggers the modal
+  useEffect(() => {
+    if (forceOpen) setForceOpen(false);
+  }, [forceOpen]);
 
   // Handle upload success - hard reload to show new photo
   const handleUploadSuccess = useCallback(() => {
