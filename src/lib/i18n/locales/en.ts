@@ -482,7 +482,7 @@ const en: Record<string, string> = {
   'auth.verify.instructions': 'Click the link in your email to activate your account',
   'auth.verify.resend': 'Resend email',
   'auth.verify.back': 'Back to sign up',
-  'auth.verify.already': 'Your email may already be verified. Try logging in.',
+  'auth.verify.checkSpam': "Can't find the email? Check your spam or junk folder.",
   'auth.verify.verified_login': 'Email verified! Please log in.',
 
   // Submissions
