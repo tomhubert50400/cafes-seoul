@@ -52,6 +52,36 @@ export function InfiniteCafeList({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prefetched data cache for next page
+  const prefetchedRef = useRef<{ page: number; data: PaginatedResponse<CafeSummary> } | null>(null);
+
+  const buildParams = useCallback((pageNum: number) => {
+    const params = new URLSearchParams();
+    Object.entries(filterParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params.set(key, String(value));
+      }
+    });
+    params.set('page', String(pageNum));
+    return params;
+  }, [filterParams]);
+
+  // Prefetch next page in background after current page loads
+  const prefetchNext = useCallback(async (currentPage: number, currentTotalPages: number) => {
+    const nextPage = currentPage + 1;
+    if (nextPage > currentTotalPages) return;
+    if (prefetchedRef.current?.page === nextPage) return;
+
+    try {
+      const res = await fetch(`/api/cafes?${buildParams(nextPage)}`);
+      if (res.ok) {
+        prefetchedRef.current = { page: nextPage, data: await res.json() };
+      }
+    } catch {
+      // Silent fail - prefetch is best-effort
+    }
+  }, [buildParams]);
+
   const loadMore = useCallback(async () => {
     if (isLoading || !hasMore) return;
 
@@ -59,18 +89,17 @@ export function InfiniteCafeList({
     const nextPage = page + 1;
 
     try {
-      const params = new URLSearchParams();
-      Object.entries(filterParams).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
-          params.set(key, String(value));
-        }
-      });
-      params.set('page', String(nextPage));
+      let data: PaginatedResponse<CafeSummary>;
 
-      const res = await fetch(`/api/cafes?${params}`);
-      if (!res.ok) throw new Error('Failed to fetch');
-
-      const data: PaginatedResponse<CafeSummary> = await res.json();
+      // Use prefetched data if available for this page
+      if (prefetchedRef.current?.page === nextPage) {
+        data = prefetchedRef.current.data;
+        prefetchedRef.current = null;
+      } else {
+        const res = await fetch(`/api/cafes?${buildParams(nextPage)}`);
+        if (!res.ok) throw new Error('Failed to fetch');
+        data = await res.json();
+      }
 
       setCafes((prev) => {
         const existingIds = new Set(prev.map((c) => c.id));
@@ -79,12 +108,15 @@ export function InfiniteCafeList({
       });
       setPage(nextPage);
       setHasMore(nextPage < data.meta.totalPages);
+
+      // Prefetch the page after this one
+      prefetchNext(nextPage, data.meta.totalPages);
     } catch (error) {
       console.error('Error loading more cafes:', error);
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, hasMore, page, filterParams]);
+  }, [isLoading, hasMore, page, buildParams, prefetchNext]);
 
   // IntersectionObserver for infinite scroll
   useEffect(() => {
