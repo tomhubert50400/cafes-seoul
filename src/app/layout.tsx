@@ -34,7 +34,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Seoul Cafe Guide',
-    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
