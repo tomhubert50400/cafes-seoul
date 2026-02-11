@@ -60,6 +60,10 @@ export default async function RootLayout({
 
   return (
     <html lang={initialLanguage} suppressHydrationWarning>
+      <head>
+        <link rel="dns-prefetch" href="//dapi.kakao.com" />
+        <link rel="preconnect" href="//dapi.kakao.com" crossOrigin="anonymous" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased overflow-x-hidden`}
       >
