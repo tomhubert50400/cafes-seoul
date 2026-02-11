@@ -176,6 +176,63 @@ export async function toggleHelpfulAction(
  * Works for both logged-in and anonymous users
  * @returns Success/error result with reviews array
  */
+/**
+ * Admin: delete review text and clean up votes
+ * Verifies caller is admin before proceeding
+ */
+export async function adminDeleteReviewAction(
+  ratingId: string
+): Promise<UpdateReviewTextResult> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { success: false, error: 'Authentication required' };
+    }
+
+    // Verify admin role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.role !== 'admin') {
+      return { success: false, error: 'Admin access required' };
+    }
+
+    // Get cafe info for revalidation before deleting
+    const rating = await getRatingById(supabase, ratingId);
+
+    // Delete review text and clean up votes
+    const result = await adminDeleteReviewText(supabase, ratingId);
+    if (!result.success) return result;
+
+    await deleteHelpfulVotesForRating(supabase, ratingId);
+
+    // Revalidate
+    if (rating) {
+      const { data: cafe } = await supabase
+        .from('cafes')
+        .select('slug')
+        .eq('id', rating.cafeId)
+        .single();
+
+      if (cafe?.slug) {
+        revalidatePath(`/cafes/${cafe.slug}`);
+      }
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error in admin delete review:', err);
+    return { success: false, error: 'Failed to delete review' };
+  }
+}
+
 export async function getCafeReviewsAction(
   cafeId: string
 ): Promise<{
