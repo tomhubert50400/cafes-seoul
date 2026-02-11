@@ -368,6 +368,22 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
               currentUser={currentUser}
             />
           </div>
+
+          {/* Similar Cafes */}
+          {similarCafes.length > 0 && (
+            <div className="order-4 lg:col-span-3">
+              <h2 className="mb-4 text-xl font-semibold">{t('cafe.similarCafes')}</h2>
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                {similarCafes.map((c) => (
+                  <CafeCard
+                    key={c.id}
+                    cafe={c}
+                    userId={currentUser?.id}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </main>
 
