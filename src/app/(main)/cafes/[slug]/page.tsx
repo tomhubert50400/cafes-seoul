@@ -315,12 +315,12 @@ export default async function CafeDetailPage({ params }: PageProps) {
   const userRating = await getUserRating(cafe.id, user?.id);
   const photos = await getCafePhotos(cafe.id, user?.id);
 
-  // Check if cafe is favorited by current user
-  let isFavorited = false;
-  if (user) {
-    const favoriteResult = await checkFavoriteAction(cafe.id);
-    isFavorited = favoriteResult.success && favoriteResult.isFavorited === true;
-  }
+  // Fetch similar cafes and check favorites in parallel
+  const [similarCafes, isFavoritedResult] = await Promise.all([
+    getSimilarCafes(cafe),
+    user ? checkFavoriteAction(cafe.id) : Promise.resolve({ success: false, isFavorited: false }),
+  ]);
+  const isFavorited = isFavoritedResult.success && isFavoritedResult.isFavorited === true;
 
   // Fetch user profile to get role
   let currentUser: User | null = null;
