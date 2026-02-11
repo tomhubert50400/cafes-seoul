@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
@@ -16,6 +16,7 @@ interface MapWithFiltersProps {
   favoriteIds?: string[];
   isLoggedIn?: boolean;
   userId?: string;
+  userVibes?: UserVibe[];
 }
 
 export function MapWithFilters({
@@ -23,21 +24,11 @@ export function MapWithFilters({
   favoriteIds,
   isLoggedIn,
   userId,
+  userVibes = [],
 }: MapWithFiltersProps) {
   const { t } = useI18n();
-  const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const { filters, updateFilter, clearFilters, applyPreset, matchedPreset, activeFilterCount, allPresets } = useMapFilters(userVibes);
 
-  useEffect(() => {
-    if (!isLoggedIn) return;
-    import('@/lib/actions/vibes').then(({ getVibesAction }) => {
-      getVibesAction().then((result) => {
-        if (result.success && result.vibes) {
-          setUserVibes(result.vibes);
-        }
-      });
-    });
-  }, [isLoggedIn]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
 
