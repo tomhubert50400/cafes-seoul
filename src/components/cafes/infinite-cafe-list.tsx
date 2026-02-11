@@ -120,6 +120,13 @@ export function InfiniteCafeList({
     }
   }, [isLoading, hasMore, page, buildParams, prefetchNext]);
 
+  // Prefetch page 2 on initial load
+  useEffect(() => {
+    if (initialPage < totalPages) {
+      prefetchNext(initialPage, totalPages);
+    }
+  }, [initialPage, totalPages, prefetchNext]);
+
   // IntersectionObserver for infinite scroll
   useEffect(() => {
     const sentinel = sentinelRef.current;
