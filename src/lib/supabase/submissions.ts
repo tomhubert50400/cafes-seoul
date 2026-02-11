@@ -413,9 +413,7 @@ async function findDuplicateCafesFallback(
       .from('cafes')
       .select('*')
       .eq('status', 'approved')
-      .or(
-        `name->>en.ilike.${namePattern},name->>ko.ilike.${namePattern}`
-      )
+      .ilike('search_text', namePattern)
       .limit(5);
 
     if (error || !data) {
