@@ -151,9 +151,9 @@ export async function GET(request: NextRequest) {
   if (params.comfortMin) query = query.gte('rating_comfort', params.comfortMin);
 
   if (params.q) {
-    query = query.or(
-      `name->>ko.ilike.%${params.q}%,name->>en.ilike.%${params.q}%,name->>fr.ilike.%${params.q}%,name->>zh.ilike.%${params.q}%,name->>vi.ilike.%${params.q}%,address->>ko.ilike.%${params.q}%,address->>en.ilike.%${params.q}%,address->>fr.ilike.%${params.q}%,address->>zh.ilike.%${params.q}%,address->>vi.ilike.%${params.q}%`
-    );
+    // Uses generated search_text column with trigram GIN index
+    // (replaces 10 ILIKE conditions across 5 language JSONB fields)
+    query = query.ilike('search_text', `%${params.q}%`);
   }
 
   // Apply sorting
