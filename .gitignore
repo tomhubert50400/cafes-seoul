@@ -50,3 +50,5 @@ project-overview.json
 
 # claude
 /.claude/*
+
+.vercel
