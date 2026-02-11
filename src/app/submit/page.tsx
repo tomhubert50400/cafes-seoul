@@ -45,7 +45,7 @@ export default async function SubmitCafePage() {
               'use server';
               const result = await submitCafe(data);
               if (!result.success) {
-                throw new Error(result.error || 'Failed to submit cafe');
+                return { error: result.error || 'Failed to submit cafe' };
               }
             }}
             onCheckKakaoPlaceId={async (kakaoPlaceId) => {
