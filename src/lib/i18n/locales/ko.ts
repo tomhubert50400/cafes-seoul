@@ -568,6 +568,9 @@ const ko: Record<string, string> = {
 
   'submissions.success.submitted': '카페가 승인 대기 중입니다!',
   'submissions.success.updated': '제출이 성공적으로 수정되었습니다!',
+  'submissions.success.description': '1~3일 이내에 검토됩니다. 프로필에서 상태를 확인할 수 있습니다.',
+  'submissions.success.viewSubmissions': '내 제출 보기',
+  'submissions.success.submitAnother': '다른 카페 제출',
 
   // My Submissions Page
   'mySubmissions.title': '내 제출 목록',
