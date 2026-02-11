@@ -26,6 +26,17 @@ export function Header({ user }: HeaderProps = {}) {
   const pathname = usePathname();
   const { t, language } = useI18n();
 
+  // Preload map chunk in background after initial page paint (works on mobile + desktop)
+  useEffect(() => {
+    const id = setTimeout(() => {
+      import('@/components/map/cafe-map-dynamic').then(mod => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (mod.CafeMapWrapperDynamic as any).preload?.();
+      });
+    }, 2000);
+    return () => clearTimeout(id);
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <a
