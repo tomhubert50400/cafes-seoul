@@ -482,7 +482,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
                     onClick={triggerFileInput}
                   >
                     <Upload className="mr-2 h-3.5 w-3.5" />
-                    Add more ({state.selectedFiles.length}/{maxAllowed})
+                    {t('photos.upload.addMore')} ({state.selectedFiles.length}/{maxAllowed})
                   </Button>
                 )}
               </div>
