@@ -182,8 +182,11 @@ export function SignupForm({ oauthError }: SignupFormProps) {
       }
       
       if (result?.message) {
-        // Show error as toast instead of inline
-        showAuthError(result.message, t)
+        if (result.message === 'account_already_exists') {
+          showAuthError(t('auth.error.accountAlreadyExists'), t)
+        } else {
+          showAuthError(result.message, t)
+        }
       }
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
