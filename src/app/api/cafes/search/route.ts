@@ -17,15 +17,14 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Search in name_ko, name_en, and address
+  // Search across all languages (name + address JSONB fields)
   const { data, error } = await supabase
     .from('cafes')
     .select(`
       id,
-      name_ko,
-      name_en,
+      name,
       slug,
-      address_ko,
+      address,
       district_id,
       latitude,
       longitude,
@@ -41,7 +40,9 @@ export async function GET(request: NextRequest) {
       photos(storage_path, upvote_count, status)
     `)
     .eq('status', 'active')
-    .or(`name_ko.ilike.%${q}%,name_en.ilike.%${q}%,address_ko.ilike.%${q}%,specialties.cs.{${q}}`)
+    .or(
+      `name->>ko.ilike.%${q}%,name->>en.ilike.%${q}%,name->>fr.ilike.%${q}%,name->>zh.ilike.%${q}%,name->>vi.ilike.%${q}%,address->>ko.ilike.%${q}%,address->>en.ilike.%${q}%,address->>fr.ilike.%${q}%,address->>zh.ilike.%${q}%,address->>vi.ilike.%${q}%,specialties.cs.{${q}}`
+    )
     .order('overall_rating', { ascending: false })
     .limit(limit);
 
