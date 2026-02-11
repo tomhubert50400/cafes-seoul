@@ -348,6 +348,7 @@ const en: Record<string, string> = {
   'auth.error.verification_failed': 'Email verification failed. The link may have expired or already been used.',
   'auth.error.missing_verification_params': 'Invalid verification link. Please request a new verification email.',
   'auth.error.user_not_found': 'User not found. Please check your email or sign up again.',
+  'auth.error.link_expired': 'Your verification link has expired or was already used. Please sign up again or resend the verification email.',
   'auth.error.accountAlreadyExists': 'An account with this email already exists. Please log in instead.',
 
   // OAuth
