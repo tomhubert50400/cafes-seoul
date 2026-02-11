@@ -23,7 +23,7 @@ interface CafeCardProps {
   priority?: boolean;
 }
 
-export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps) {
+export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, userId, priority }: CafeCardProps) {
   const { t, language } = useI18n();
   const district = getDistrictById(cafe.districtId);
 
