@@ -93,6 +93,7 @@ export default async function MapPage() {
             favoriteIds={favoriteIds}
             isLoggedIn={!!user}
             userId={user?.id}
+            userVibes={userVibes}
           />
         </div>
         
