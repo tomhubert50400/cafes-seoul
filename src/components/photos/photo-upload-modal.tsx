@@ -494,7 +494,11 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
                 <span className="text-muted-foreground">
-                  {state.isProcessing ? 'Processing...' : `Uploading ${state.currentFileIndex + 1} of ${state.selectedFiles.length}...`}
+                  {state.isProcessing
+                    ? t('photos.upload.processing')
+                    : t('photos.upload.uploadingProgress')
+                        .replace('{current}', String(state.currentFileIndex + 1))
+                        .replace('{total}', String(state.selectedFiles.length))}
                 </span>
                 <span className="font-medium">{Math.round(state.uploadProgress)}%</span>
               </div>
