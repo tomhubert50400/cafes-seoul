@@ -3,12 +3,14 @@
 import { MapProvider } from './map-provider';
 import { MapWithFilters } from './map-with-filters';
 import type { CafeSummary } from '@/types/cafe';
+import type { UserVibe } from '@/types/vibes';
 
 interface CafeMapWrapperProps {
   cafes: CafeSummary[];
   favoriteIds?: string[];
   isLoggedIn?: boolean;
   userId?: string;
+  userVibes?: UserVibe[];
 }
 
 export function CafeMapWrapper({
@@ -16,6 +18,7 @@ export function CafeMapWrapper({
   favoriteIds,
   isLoggedIn,
   userId,
+  userVibes,
 }: CafeMapWrapperProps) {
   return (
     <MapProvider>
@@ -24,6 +27,7 @@ export function CafeMapWrapper({
         favoriteIds={favoriteIds}
         isLoggedIn={isLoggedIn}
         userId={userId}
+        userVibes={userVibes}
       />
     </MapProvider>
   );
