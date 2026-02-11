@@ -148,24 +148,11 @@ export function InfiniteCafeList({
 
   if (cafes.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1}
-          stroke="currentColor"
-          className="h-16 w-16 text-zinc-300 dark:text-zinc-600"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-          />
-        </svg>
-        <p className="mt-4 text-lg font-medium text-muted-foreground">{t('cafes.noResults')}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{t('cafes.tryAgain')}</p>
-      </div>
+      <EmptyState
+        icon={Search}
+        title={t('cafes.noResults')}
+        description={t('cafes.tryAgain')}
+      />
     );
   }
 
