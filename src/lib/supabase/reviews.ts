@@ -228,23 +228,11 @@ export async function getCafeReviewsWithVotes(
     return reviews.map((row) => {
       const authorData = profileMap.get(row.user_id);
 
-      // Resolve avatar URL: full URLs (OAuth) pass through, storage paths get resolved
-      let avatarUrl: string | null = null;
-      if (authorData?.avatar_url) {
-        if (authorData.avatar_url.startsWith('http://') || authorData.avatar_url.startsWith('https://')) {
-          avatarUrl = authorData.avatar_url;
-        } else {
-          avatarUrl = supabase.storage
-            .from('avatars')
-            .getPublicUrl(authorData.avatar_url).data.publicUrl;
-        }
-      }
-
       const author: ReviewAuthor = {
         id: authorData?.id || row.user_id,
         username: authorData?.username || 'user',
         displayName: authorData?.display_name || null,
-        avatarUrl,
+        avatarUrl: resolveAvatarUrl(authorData?.avatar_url || null),
         profilePublic: !(authorData?.is_private ?? true), // is_private = false means public
       };
 
