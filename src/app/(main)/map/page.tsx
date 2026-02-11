@@ -10,13 +10,15 @@ export const metadata: Metadata = {
 };
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { transformCafeSummary } from '@/lib/supabase/transforms';
-import { getFavoriteIdsAction } from '@/lib/actions/favorites';
+import { getUserFavoriteIds } from '@/lib/supabase/favorites';
+import { ensureUserVibes } from '@/lib/supabase/vibes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import type { CafeSummary } from '@/types/cafe';
+import type { UserVibe } from '@/types/vibes';
 
 const getCachedCafes = unstable_cache(
   async (): Promise<CafeSummary[]> => {
