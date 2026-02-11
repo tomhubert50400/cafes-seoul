@@ -815,7 +815,7 @@ export async function searchCafes(query: string): Promise<{
       .from('cafes')
       .select('id, name, slug, address, status, overall_rating, total_ratings, created_at', { count: 'exact' })
       .eq('status', 'active')
-      .or(`name->>en.ilike.%${sanitizedQuery}%,name->>ko.ilike.%${sanitizedQuery}%,address->>en.ilike.%${sanitizedQuery}%,address->>ko.ilike.%${sanitizedQuery}%`)
+      .ilike('search_text', `%${sanitizedQuery}%`)
       .order('name->>en', { ascending: true })
       .limit(100);
 
