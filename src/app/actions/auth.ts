@@ -9,6 +9,7 @@ type ActionState = {
   errors?: Record<string, string[]>
   showResend?: boolean
   email?: string
+  redirectTo?: string
 }
 
 export async function signup(
