@@ -482,7 +482,7 @@ const zh: Record<string, string> = {
   'auth.verify.instructions': '点击邮件中的链接以激活您的账户',
   'auth.verify.resend': '重新发送邮件',
   'auth.verify.back': '返回注册',
-  'auth.verify.already': '您的邮箱可能已验证。请尝试登录。',
+  'auth.verify.checkSpam': '找不到邮件？请检查您的垃圾邮件或垃圾箱文件夹。',
   'auth.verify.verified_login': '邮箱已验证！请登录。',
 
   // Submissions
