@@ -164,6 +164,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
 
       // Successful signup - navigate to verify email page
       if (result?.redirectTo) {
+        stopLoading()
         router.push(result.redirectTo)
         return
       }
