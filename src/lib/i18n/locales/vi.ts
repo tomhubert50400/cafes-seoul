@@ -562,6 +562,9 @@ const vi: Record<string, string> = {
 
   'submissions.success.submitted': 'Quán cà phê đã được gửi để phê duyệt!',
   'submissions.success.updated': 'Gửi đã được cập nhật thành công!',
+  'submissions.success.description': 'Đề xuất của bạn sẽ được xem xét trong 1-3 ngày. Bạn có thể theo dõi trạng thái trên hồ sơ.',
+  'submissions.success.viewSubmissions': 'Xem đã gửi của tôi',
+  'submissions.success.submitAnother': 'Gửi quán khác',
 
   // My Submissions Page
   'mySubmissions.title': 'Đã gửi của tôi',
