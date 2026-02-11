@@ -233,7 +233,7 @@ export async function checkPhotoLimits(
     console.error('Unexpected error checking photo limits:', err);
     return {
       canUpload: false,
-      reason: 'Failed to check photo limits. Please try again.',
+      reason: 'photos.limits.checkError',
     };
   }
 }
