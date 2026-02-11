@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SlidersHorizontal, Search, X, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
