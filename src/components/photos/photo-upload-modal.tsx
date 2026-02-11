@@ -372,19 +372,13 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
         <div className="space-y-4 sm:space-y-5 overflow-hidden">
           {/* Limit Information */}
           {state.limitInfo && (
-            <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs sm:text-sm">
-              <div className="flex items-center gap-1.5 text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  {state.limitInfo.remainingCafe}
-                </span>
-                <span>of 3 photos for this cafe</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  {state.limitInfo.remainingDaily}
-                </span>
-                <span>uploads remaining today</span>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
+              <span>
+                {t('photos.limits.cafe').replace('{count}', String(state.limitInfo.remainingCafe))}
+              </span>
+              <span>
+                {t('photos.limits.daily').replace('{count}', String(state.limitInfo.remainingDaily))}
+              </span>
             </div>
           )}
 
