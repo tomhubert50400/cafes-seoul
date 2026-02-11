@@ -98,15 +98,15 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   priority
                 />
                 {/* Corner CTA on main: always on mobile, desktop only when no side images */}
-                <Link
-                  href={`/cafes/${cafe.slug}?upload=true#photos-section`}
+                <button
+                  onClick={() => window.dispatchEvent(new Event('open-photo-upload'))}
                   className={cn(
                     "absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors",
                     galleryImages.length > 1 && "md:hidden"
                   )}
                 >
                   <Camera className="h-4 w-4" />
-                </Link>
+                </button>
               </div>
               {/* Up to 4 more side images */}
               {galleryImages.slice(1).map((img, index) => {
