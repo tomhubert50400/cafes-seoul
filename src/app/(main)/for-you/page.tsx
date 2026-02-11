@@ -21,7 +21,8 @@ function shuffle<T>(arr: T[]): T[] {
 
 export default async function ForYouPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user ?? null;
 
   let cafes;
   let favoriteIds: string[] = [];
