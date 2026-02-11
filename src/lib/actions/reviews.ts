@@ -9,6 +9,7 @@ import {
   toggleHelpfulVote,
   getCafeReviewsWithVotes,
   getRatingById,
+  adminDeleteReviewText,
 } from '@/lib/supabase/reviews';
 import type {
   UpdateReviewTextResult,
