@@ -850,6 +850,7 @@ const en: Record<string, string> = {
 
   'common.cancel': 'Cancel',
   'common.delete': 'Delete',
+  'common.back': 'Back',
   'common.close': 'Close',
 
   // User Dashboard
