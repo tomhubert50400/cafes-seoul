@@ -26,16 +26,16 @@ export function HoursInput({ value, onChange }: HoursInputProps) {
     onChange(updated);
   };
 
-  const handleClosedToggle = (day: string, isClosed: boolean) => {
-    if (isClosed) {
-      const updated = { ...value };
-      delete updated[day as keyof OperatingHours];
-      onChange(updated);
-    } else {
+  const handleToggleDay = (day: string, addHours: boolean) => {
+    if (addHours) {
       onChange({
         ...value,
         [day]: { open: '09:00', close: '22:00' },
       });
+    } else {
+      const updated = { ...value };
+      delete updated[day as keyof OperatingHours];
+      onChange(updated);
     }
   };
 
@@ -46,20 +46,19 @@ export function HoursInput({ value, onChange }: HoursInputProps) {
       <div className="space-y-2">
         {DAY_KEYS.map((day) => {
           const hours = value[day];
-          const isClosed = !hours;
+          const hasHours = !!hours;
           return (
             <div key={day} className="flex items-center gap-2 text-sm">
               <span className="w-10 shrink-0 text-muted-foreground">{t(`day.${day}`)}</span>
               <label className="flex items-center gap-1.5 shrink-0">
                 <input
                   type="checkbox"
-                  checked={isClosed}
-                  onChange={(e) => handleClosedToggle(day, e.target.checked)}
+                  checked={hasHours}
+                  onChange={(e) => handleToggleDay(day, e.target.checked)}
                   className="rounded border-input"
                 />
-                <span className="text-xs text-muted-foreground">{t('cafe.closed')}</span>
               </label>
-              {!isClosed && (
+              {hasHours && (
                 <>
                   <input
                     type="time"
