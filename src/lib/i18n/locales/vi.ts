@@ -881,6 +881,7 @@ const vi: Record<string, string> = {
   'reviews.sort.ratingLow': 'Danh gia thap nhat',
   'reviews.sort.dateNew': 'Moi nhat',
   'reviews.sort.dateOld': 'Cu nhat',
+  'reviews.sort.mostHelpful': 'Hữu ích nhất',
   'reviews.filter.minScore': 'Diem toi thieu',
   'reviews.card.viewCafe': 'Xem quan cafe',
   'reviews.card.ratedOn': 'Danh gia ngay',
