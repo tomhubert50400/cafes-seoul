@@ -347,7 +347,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 />
               )}
 
-              {/* Share button — native share sheet */}
+              {/* Share button — native share sheet, clipboard fallback */}
               <Button
                 variant="outline"
                 className="mt-2 w-full"
@@ -359,6 +359,9 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                     } catch {
                       // User cancelled
                     }
+                  } else {
+                    await navigator.clipboard.writeText(url);
+                    toast.success(t('share.linkCopied'));
                   }
                 }}
               >
