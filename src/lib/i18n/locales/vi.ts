@@ -476,7 +476,7 @@ const vi: Record<string, string> = {
   'auth.verify.instructions': 'Nhấp vào liên kết trong email để kích hoạt tài khoản',
   'auth.verify.resend': 'Gửi lại email',
   'auth.verify.back': 'Quay lại đăng ký',
-  'auth.verify.already': 'Email của bạn có thể đã được xác minh. Hãy thử đăng nhập.',
+  'auth.verify.checkSpam': 'Không tìm thấy email? Kiểm tra thư mục spam hoặc thư rác.',
   'auth.verify.verified_login': 'Email đã được xác minh! Vui lòng đăng nhập.',
 
   // Submissions
