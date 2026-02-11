@@ -45,6 +45,32 @@ export async function updateReviewText(
 }
 
 // ============================================
+// ADMIN: DELETE REVIEW TEXT (no ownership check)
+// ============================================
+
+export async function adminDeleteReviewText(
+  supabase: SupabaseClient,
+  ratingId: string
+): Promise<UpdateReviewTextResult> {
+  try {
+    const { error } = await supabase
+      .from('cafe_ratings')
+      .update({ review_text: null })
+      .eq('id', ratingId);
+
+    if (error) {
+      console.error('Error admin-deleting review text:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error('Unexpected error admin-deleting review text:', err);
+    return { success: false, error: 'Failed to delete review text' };
+  }
+}
+
+// ============================================
 // DELETE HELPFUL VOTES FOR RATING
 // ============================================
 
