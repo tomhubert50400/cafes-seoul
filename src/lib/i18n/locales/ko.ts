@@ -191,6 +191,7 @@ const ko: Record<string, string> = {
   'cafe.noImage': '{name}에는 아직 이미지가 없습니다',
   'cafe.addFirstPhoto': '첫 번째 사진을 올려주세요!',
   'cafe.addPhoto': '사진 추가',
+  'cafe.similarCafes': '비슷한 카페',
   'cafe.helpful': '도움이 됐어요',
 
   // Features/Facilities
