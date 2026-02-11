@@ -850,6 +850,7 @@ const zh: Record<string, string> = {
 
   'common.cancel': '取消',
   'common.delete': '删除',
+  'common.back': '返回',
   'common.close': '关闭',
 
   // User Dashboard
