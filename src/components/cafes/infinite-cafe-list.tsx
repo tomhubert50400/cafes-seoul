@@ -179,12 +179,13 @@ export function InfiniteCafeList({
 
       {/* Cafe grid */}
       <div className="grid gap-4 overflow-hidden sm:grid-cols-2 lg:grid-cols-3">
-        {cafes.map((cafe) => (
+        {cafes.map((cafe, index) => (
           <CafeCard
             key={cafe.id}
             cafe={cafe}
             isFavorited={favoriteIds?.includes(cafe.id)}
             userId={userId}
+            priority={index < 6}
           />
         ))}
 
