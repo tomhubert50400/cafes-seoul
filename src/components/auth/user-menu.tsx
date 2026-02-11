@@ -61,12 +61,16 @@ export function UserMenu({ user }: UserMenuProps) {
         // Use display_name or username from profiles table
         setProfileDisplayName(profile.display_name || profile.username || null);
 
-        // Build avatar URL from storage path
+        // Build avatar URL: OAuth users have full URLs, uploaded avatars have storage paths
         if (profile.avatar_url) {
-          const { data: urlData } = supabase.storage
-            .from('avatars')
-            .getPublicUrl(profile.avatar_url);
-          setProfileAvatarUrl(urlData.publicUrl);
+          if (profile.avatar_url.startsWith('http')) {
+            setProfileAvatarUrl(profile.avatar_url);
+          } else {
+            const { data: urlData } = supabase.storage
+              .from('avatars')
+              .getPublicUrl(profile.avatar_url);
+            setProfileAvatarUrl(urlData.publicUrl);
+          }
         }
 
         const admin = profile.role === 'admin';
