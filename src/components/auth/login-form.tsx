@@ -208,10 +208,16 @@ export function LoginForm({ oauthError }: LoginFormProps) {
       if (result?.email) {
         setLastEmail(result.email)
       }
-    } catch (err) {
+    } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') {
         // Request was cancelled - no error to show
         return
+      }
+      // Next.js redirect() throws a NEXT_REDIRECT error internally — don't show toast for it
+      if (typeof err === 'object' && err !== null && 'digest' in err &&
+        typeof (err as Record<string, unknown>).digest === 'string' &&
+        ((err as Record<string, unknown>).digest as string).startsWith('NEXT_REDIRECT')) {
+        throw err
       }
       setError(t('common.error'))
     } finally {
