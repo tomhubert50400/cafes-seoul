@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     `)
     .eq('status', 'active')
     .or(
-      `name->>ko.ilike.%${q}%,name->>en.ilike.%${q}%,name->>fr.ilike.%${q}%,name->>zh.ilike.%${q}%,name->>vi.ilike.%${q}%,address->>ko.ilike.%${q}%,address->>en.ilike.%${q}%,address->>fr.ilike.%${q}%,address->>zh.ilike.%${q}%,address->>vi.ilike.%${q}%,specialties.cs.{${q}}`
+      `search_text.ilike.%${q}%,specialties.cs.{${q}}`
     )
     .order('overall_rating', { ascending: false })
     .limit(limit);
