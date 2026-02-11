@@ -64,21 +64,23 @@ const getCachedCafes = unstable_cache(
 
 export default async function MapPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
   const cookieStore = await cookies();
-  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME);
+
+  const [{ data: { user } }, langCookie] = await Promise.all([
+    supabase.auth.getUser(),
+    Promise.resolve(cookieStore.get(LANGUAGE_COOKIE_NAME)),
+  ]);
+
   const lang: LanguageCode = (langCookie?.value && ['en', 'ko', 'fr', 'zh', 'vi'].includes(langCookie.value))
     ? langCookie.value as LanguageCode
     : DEFAULT_LANGUAGE;
 
-  // Fetch cafes and favorite IDs in parallel
-  const [cafes, favoriteResult] = await Promise.all([
+  // Fetch cafes, favorite IDs, and vibes in parallel (single getUser call above)
+  const [cafes, favoriteIds, userVibes] = await Promise.all([
     getCachedCafes(),
-    user ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] }),
+    user ? getUserFavoriteIds(supabase, user.id) : Promise.resolve([]),
+    user ? ensureUserVibes(supabase, user.id, lang).catch(() => [] as UserVibe[]) : Promise.resolve([] as UserVibe[]),
   ]);
-
-  const favoriteIds = favoriteResult.success ? favoriteResult.cafeIds ?? [] : [];
 
   return (
     <main
