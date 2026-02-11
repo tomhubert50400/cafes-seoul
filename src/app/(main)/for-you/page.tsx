@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { ForYouClient } from '@/components/for-you/for-you-client';
 import { getForYouCafes, getPopularCafesWithPhotos, getUserTopDimensions } from '@/lib/supabase/recommendations';
@@ -19,7 +20,25 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export default async function ForYouPage() {
+function ForYouSkeleton() {
+  return (
+    <div className="relative h-[calc(100vh-3.5rem)] w-full overflow-hidden">
+      {/* Simulates the full-screen card layout */}
+      <div className="absolute inset-0 animate-pulse bg-zinc-900" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
+        <div className="h-7 w-2/3 rounded bg-zinc-700" />
+        <div className="h-5 w-1/3 rounded bg-zinc-800" />
+        <div className="flex gap-2 mt-4">
+          <div className="h-8 w-20 rounded-full bg-zinc-800" />
+          <div className="h-8 w-16 rounded-full bg-zinc-800" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Async component — data fetching happens here, streamed via Suspense
+async function ForYouContent() {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
   const user = session?.user ?? null;
@@ -51,14 +70,23 @@ export default async function ForYouPage() {
   cafes = shuffle(cafes);
 
   return (
+    <ForYouClient
+      cafes={cafes}
+      favoriteIds={favoriteIds}
+      isAuthenticated={!!user}
+      topDimensions={topDimensions}
+    />
+  );
+}
+
+// Non-async page — shell renders immediately, Suspense streams data
+export default function ForYouPage() {
+  return (
     <div className="flex flex-col bg-black">
       <main id="main-content" className="flex-1">
-        <ForYouClient
-          cafes={cafes}
-          favoriteIds={favoriteIds}
-          isAuthenticated={!!user}
-          topDimensions={topDimensions}
-        />
+        <Suspense fallback={<ForYouSkeleton />}>
+          <ForYouContent />
+        </Suspense>
       </main>
     </div>
   );
