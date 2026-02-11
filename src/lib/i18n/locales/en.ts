@@ -568,6 +568,9 @@ const en: Record<string, string> = {
 
   'submissions.success.submitted': 'Cafe submitted for approval!',
   'submissions.success.updated': 'Submission updated successfully!',
+  'submissions.success.description': 'Your submission will be reviewed within 1-3 days. You can track its status on your profile.',
+  'submissions.success.viewSubmissions': 'View My Submissions',
+  'submissions.success.submitAnother': 'Submit Another Cafe',
 
   // My Submissions Page
   'mySubmissions.title': 'My Submissions',
