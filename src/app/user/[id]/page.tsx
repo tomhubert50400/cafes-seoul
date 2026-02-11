@@ -51,10 +51,14 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   // Get avatar URL if exists
   let avatarUrl: string | null = null;
   if (profile?.avatar_url) {
-    const { data } = supabase.storage
-      .from('avatars')
-      .getPublicUrl(profile.avatar_url);
-    avatarUrl = data.publicUrl;
+    if (profile.avatar_url.startsWith('http')) {
+      avatarUrl = profile.avatar_url;
+    } else {
+      const { data } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(profile.avatar_url);
+      avatarUrl = data.publicUrl;
+    }
   }
 
   // Private profile (not owner viewing)
