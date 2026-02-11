@@ -201,6 +201,11 @@ export async function uploadAvatarAction(
       .from('avatars')
       .getPublicUrl(filePath);
 
+    // Sync avatar URL to auth metadata (for JWT / user_metadata)
+    await supabase.auth.updateUser({
+      data: { avatar_url: urlData.publicUrl },
+    });
+
     revalidatePath('/profile');
     revalidatePath('/profile/settings');
 
