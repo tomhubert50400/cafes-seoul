@@ -521,14 +521,12 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
             {state.isUploading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Uploading...
+                {t('photos.upload.uploading')}
               </>
             ) : (
               <>
                 <Upload className="mr-2 h-4 w-4" />
-                {state.selectedFiles.length > 1
-                  ? `Upload ${state.selectedFiles.length} Photos`
-                  : (t('photos.upload.title') || 'Upload Photo')}
+                {t('photos.upload.title')}
               </>
             )}
           </Button>
