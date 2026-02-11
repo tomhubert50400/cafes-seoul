@@ -133,6 +133,7 @@ export function CafeSubmissionForm({
       if (result?.error) {
         setError(result.error);
       } else {
+        setSubmittedCafeName(selectedPlace?.name || pendingData.name.ko || pendingData.name.en || '');
         setShowDuplicateModal(false);
         setPendingData(null);
         setDuplicates([]);
