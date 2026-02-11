@@ -45,6 +45,7 @@ interface CafeDetailContentProps {
 
 export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false, similarCafes = [] }: CafeDetailContentProps) {
   const { t, language } = useI18n();
+  const router = useRouter();
   const district = getDistrictById(cafe.districtId);
 
   const cafeName = getLocalizedText(cafe.name, language);
