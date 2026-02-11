@@ -20,6 +20,7 @@ interface CafeCardProps {
   className?: string;
   isFavorited?: boolean;
   userId?: string;
+  priority?: boolean;
 }
 
 export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, userId }: CafeCardProps) {
