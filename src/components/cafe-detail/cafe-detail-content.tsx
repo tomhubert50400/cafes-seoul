@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Camera } from 'lucide-react';
