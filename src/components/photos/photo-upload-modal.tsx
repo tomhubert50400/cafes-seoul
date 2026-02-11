@@ -167,7 +167,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
       }
 
       if (fileList.length > allowed) {
-        errors.push(`You can only upload ${allowed} more photo${allowed !== 1 ? 's' : ''} for this cafe`);
+        errors.push(t('photos.limits.maxPhotos').replace('{count}', String(allowed)));
       }
 
       setState((prev) => ({
