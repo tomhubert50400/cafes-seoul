@@ -5,6 +5,7 @@ import type {
   ToggleHelpfulResult,
   UpdateReviewTextResult,
 } from '@/types/reviews';
+import { resolveAvatarUrl } from '@/lib/supabase/transforms';
 
 // ============================================
 // UPDATE REVIEW TEXT
