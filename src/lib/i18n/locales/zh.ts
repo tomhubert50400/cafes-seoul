@@ -191,6 +191,7 @@ const zh: Record<string, string> = {
   'cafe.noImage': '{name} 暂无可用图片',
   'cafe.addFirstPhoto': '成为第一个上传图片的人！',
   'cafe.addPhoto': '添加照片',
+  'cafe.similarCafes': '相似咖啡馆',
   'cafe.helpful': '有帮助',
 
   // Features/Facilities
