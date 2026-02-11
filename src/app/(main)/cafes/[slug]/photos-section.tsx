@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Camera, LogIn } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
