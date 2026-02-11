@@ -262,6 +262,8 @@ const zh: Record<string, string> = {
   'common.loadingDashboard': '加载仪表盘中...',
   'common.loadingProfile': '加载个人资料中...',
   'common.loadingRoulette': '加载轮盘中...',
+  'common.loadingCafes': '加载咖啡馆中...',
+  'common.loadingForYou': '加载推荐中...',
   'common.error': '发生错误',
 
   // Auth pages
