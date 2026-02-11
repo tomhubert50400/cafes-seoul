@@ -200,7 +200,7 @@ export async function checkPhotoLimits(
       console.error('Error checking cafe photo limit:', rpcError);
       return {
         canUpload: false,
-        reason: 'Unable to check photo limits for this cafe. Please try again.',
+        reason: 'photos.limits.checkError',
       };
     }
 
