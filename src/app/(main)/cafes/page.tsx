@@ -94,7 +94,8 @@ export default async function CafesPage({ searchParams }: PageProps) {
   const params = await searchParams;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user ?? null;
 
   const cafeListParams: CafeListParams = {
     page: 1,
