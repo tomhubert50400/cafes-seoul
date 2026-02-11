@@ -191,6 +191,7 @@ const en: Record<string, string> = {
   'cafe.noImage': '{name} doesn\'t have an image available yet',
   'cafe.addFirstPhoto': 'Be the first to add one!',
   'cafe.addPhoto': 'Add a photo',
+  'cafe.similarCafes': 'Similar Cafes',
   'cafe.helpful': 'Helpful',
 
   // Features/Facilities
