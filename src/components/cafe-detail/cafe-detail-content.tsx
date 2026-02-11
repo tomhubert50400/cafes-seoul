@@ -226,6 +226,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   <CafeReviewsList
                     reviews={textReviews}
                     userId={currentUser?.id || null}
+                    isAdmin={currentUser?.role === 'admin'}
                     cafeId={cafe.id}
                     cafeName={cafeName}
                     cafeSlug={cafe.slug}
