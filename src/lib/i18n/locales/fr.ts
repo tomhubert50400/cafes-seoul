@@ -788,6 +788,9 @@ const fr: Record<string, string> = {
   'admin.delete.confirm': 'Voulez-vous vraiment supprimer ce café ? Cette action est irréversible. Toutes les photos, avis et favoris associés seront également supprimés.',
   'admin.delete.success': 'Café supprimé avec succès',
   'admin.delete.error': 'Échec de la suppression du café',
+  'admin.deleteReview': 'Supprimer l\'avis',
+  'admin.confirmDeleteReview': 'Êtes-vous sûr de vouloir supprimer cet avis ? Cette action est irréversible.',
+  'admin.reviewDeleted': 'Avis supprimé',
 
   // Admin Messages
   'admin.messages.title': 'Messages',
