@@ -66,16 +66,16 @@ export default async function MapPage() {
   const supabase = await createClient();
   const cookieStore = await cookies();
 
-  const [{ data: { user } }, langCookie] = await Promise.all([
-    supabase.auth.getUser(),
-    Promise.resolve(cookieStore.get(LANGUAGE_COOKIE_NAME)),
-  ]);
+  // getSession() reads JWT from cookie — no network round-trip (saves ~200-300ms vs getUser)
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user ?? null;
 
+  const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME);
   const lang: LanguageCode = (langCookie?.value && ['en', 'ko', 'fr', 'zh', 'vi'].includes(langCookie.value))
     ? langCookie.value as LanguageCode
     : DEFAULT_LANGUAGE;
 
-  // Fetch cafes, favorite IDs, and vibes in parallel (single getUser call above)
+  // Fetch cafes, favorite IDs, and vibes in parallel
   const [cafes, favoriteIds, userVibes] = await Promise.all([
     getCachedCafes(),
     user ? getUserFavoriteIds(supabase, user.id) : Promise.resolve([]),
