@@ -348,6 +348,7 @@ const ko: Record<string, string> = {
   'auth.error.verification_failed': '이메일 인증에 실패했습니다. 링크가 만료되었거나 이미 사용되었을 수 있습니다.',
   'auth.error.missing_verification_params': '잘못된 인증 링크입니다. 새 인증 이메일을 요청해주세요.',
   'auth.error.user_not_found': '사용자를 찾을 수 없습니다. 이메일을 확인하거나 다시 가입해주세요.',
+  'auth.error.link_expired': '인증 링크가 만료되었거나 이미 사용되었습니다. 다시 가입하거나 인증 이메일을 다시 보내주세요.',
   'auth.error.accountAlreadyExists': '이미 이 이메일로 등록된 계정이 있습니다. 로그인해주세요.',
 
   // OAuth
