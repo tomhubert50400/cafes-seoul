@@ -191,6 +191,7 @@ const fr: Record<string, string> = {
   'cafe.noImage': '{name} n\'a pas encore d\'image disponible',
   'cafe.addFirstPhoto': 'Soyez le premier à en ajouter une !',
   'cafe.addPhoto': 'Ajouter une photo',
+  'cafe.similarCafes': 'Cafés similaires',
   'cafe.helpful': 'Utile',
 
   // Features/Facilities
