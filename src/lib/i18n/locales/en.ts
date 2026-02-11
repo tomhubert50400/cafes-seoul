@@ -693,6 +693,14 @@ const en: Record<string, string> = {
   'photos.limits.daily': '{count} uploads remaining today',
   'photos.limits.cafe': '{count} of 3 photos for this cafe',
   'photos.limits.reached': 'Upload limit reached',
+  'photos.limits.dailyReached': 'Daily upload limit reached',
+  'photos.limits.cafeReached': 'You have reached the limit of 3 photos for this cafe',
+  'photos.limits.checkError': 'Unable to check upload limits. Please try again.',
+  'photos.limits.maxPhotos': 'You can only upload {count} more photos for this cafe',
+  'photos.upload.signInRequired': 'Please sign in to upload photos',
+  'photos.upload.addMore': 'Add more',
+  'photos.upload.processing': 'Processing...',
+  'photos.upload.uploadingProgress': 'Uploading {current} of {total}...',
 
   // Photo status
   'photos.status.pending': 'Pending approval',
