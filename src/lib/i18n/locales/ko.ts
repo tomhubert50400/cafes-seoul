@@ -788,6 +788,9 @@ const ko: Record<string, string> = {
   'admin.delete.confirm': '이 카페를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다. 관련된 모든 사진, 리뷰, 즐겨찾기도 함께 삭제됩니다.',
   'admin.delete.success': '카페가 삭제되었습니다',
   'admin.delete.error': '카페 삭제에 실패했습니다',
+  'admin.deleteReview': '리뷰 삭제',
+  'admin.confirmDeleteReview': '이 리뷰를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.',
+  'admin.reviewDeleted': '리뷰가 삭제되었습니다',
 
   // Admin Messages
   'admin.messages.title': '메시지',
