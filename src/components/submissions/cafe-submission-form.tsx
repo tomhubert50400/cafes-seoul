@@ -108,8 +108,12 @@ export function CafeSubmissionForm({
       }
 
       // No duplicates, proceed with submission
-      await onSubmit(data);
-      onSuccess?.();
+      const result = await onSubmit(data);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        onSuccess?.();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit cafe');
     } finally {
