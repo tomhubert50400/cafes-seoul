@@ -5,7 +5,8 @@ import { transformCafe, transformReview, transformUserRating, getStorageUrl } fr
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import { checkFavoriteAction } from '@/lib/actions/favorites';
 import { getCafeReviewsAction } from '@/lib/actions/reviews';
-import type { Cafe } from '@/types/cafe';
+import { transformCafeSummary, getStorageUrl } from '@/lib/supabase/transforms';
+import type { Cafe, CafeSummary } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import type { UserRating } from '@/types/ratings';
 import type { PhotoWithVoteStatus, PhotoStatus } from '@/types/photos';
