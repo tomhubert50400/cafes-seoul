@@ -262,6 +262,8 @@ const fr: Record<string, string> = {
   'common.loadingDashboard': 'Chargement du tableau de bord...',
   'common.loadingProfile': 'Chargement du profil...',
   'common.loadingRoulette': 'Chargement de la roulette...',
+  'common.loadingCafes': 'Chargement des cafes...',
+  'common.loadingForYou': 'Chargement des recommandations...',
   'common.error': 'Une erreur est survenue',
 
   // Auth pages
