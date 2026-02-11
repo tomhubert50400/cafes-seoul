@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { getInitials, getAvatarColor } from '@/lib/utils/avatar';
 import { cn } from '@/lib/utils';
 
@@ -18,6 +19,13 @@ const sizeClasses = {
   xl: 'h-24 w-24 text-2xl',
 };
 
+const sizePx = {
+  sm: 32,
+  md: 40,
+  lg: 64,
+  xl: 96,
+};
+
 export function AvatarDisplay({
   userId,
   displayName,
@@ -30,9 +38,11 @@ export function AvatarDisplay({
 
   if (avatarUrl) {
     return (
-      <img
+      <Image
         src={avatarUrl}
         alt={displayName || 'User avatar'}
+        width={sizePx[size]}
+        height={sizePx[size]}
         className={cn(
           'rounded-full object-cover',
           sizeClasses[size],
