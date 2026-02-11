@@ -61,8 +61,9 @@ export async function signup(
     }
   }
 
-  // 3. Redirect on success to verify-email page with email param
-  redirect(`/verify-email?email=${encodeURIComponent(email)}`)
+  // 3. Return success with redirect URL (don't use redirect() here as it
+  // throws NEXT_REDIRECT which gets caught by the client's try/catch)
+  return { redirectTo: `/verify-email?email=${encodeURIComponent(email)}` }
 }
 
 export async function login(
