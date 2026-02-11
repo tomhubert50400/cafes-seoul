@@ -418,7 +418,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
                     {t('photos.upload.select') || `Click to select photos (up to ${maxAllowed})`}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    JPG, PNG, or WebP (max 15MB each)
+                    {t('photos.upload.allowedTypes')} ({t('photos.upload.maxSize')})
                   </span>
                 </div>
               </Button>
