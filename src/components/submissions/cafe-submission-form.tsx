@@ -18,8 +18,8 @@ import type { KakaoPlaceSearchResult } from '@/lib/kakao/geocode';
 import type { OperatingHours } from '@/types/cafe';
 
 export interface CafeSubmissionFormProps {
-  /** Callback when form is submitted */
-  onSubmit: (data: SubmissionFormData) => Promise<void>;
+  /** Callback when form is submitted - returns error object on failure instead of throwing */
+  onSubmit: (data: SubmissionFormData) => Promise<{ error: string } | void>;
   /** Callback to check for duplicate cafes */
   onCheckDuplicates: (name: TranslatedText, address: TranslatedText) => Promise<CafeSummary[]>;
   /** Callback to check kakao_place_id duplicate */
