@@ -204,18 +204,21 @@ export async function adminDeleteReviewAction(
       return { success: false, error: 'Admin access required' };
     }
 
+    // Use service role client to bypass RLS for admin operations
+    const serviceClient = createServiceRoleClient();
+
     // Get cafe info for revalidation before deleting
-    const rating = await getRatingById(supabase, ratingId);
+    const rating = await getRatingById(serviceClient, ratingId);
 
     // Delete review text and clean up votes
-    const result = await adminDeleteReviewText(supabase, ratingId);
+    const result = await adminDeleteReviewText(serviceClient, ratingId);
     if (!result.success) return result;
 
-    await deleteHelpfulVotesForRating(supabase, ratingId);
+    await deleteHelpfulVotesForRating(serviceClient, ratingId);
 
     // Revalidate
     if (rating) {
-      const { data: cafe } = await supabase
+      const { data: cafe } = await serviceClient
         .from('cafes')
         .select('slug')
         .eq('id', rating.cafeId)
