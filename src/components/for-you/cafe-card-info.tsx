@@ -48,7 +48,11 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
       {/* Gradient overlay at bottom */}
       <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none">
         <div className="bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-4 pt-20">
-          <div className="pointer-events-auto">
+          <Link
+            href={ROUTES.CAFE_DETAIL(cafe.slug)}
+            className="pointer-events-auto block"
+            prefetch={false}
+          >
             {/* Name + district */}
             <h3 className="text-lg font-semibold leading-tight text-white drop-shadow-md">
               {cafeName}
@@ -118,7 +122,7 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
                 })}
               </div>
             )}
-          </div>
+          </Link>
         </div>
       </div>
 
