@@ -262,6 +262,8 @@ const ko: Record<string, string> = {
   'common.loadingDashboard': '대시보드 로딩 중...',
   'common.loadingProfile': '프로필 로딩 중...',
   'common.loadingRoulette': '룰렛 로딩 중...',
+  'common.loadingCafes': '카페 로딩 중...',
+  'common.loadingForYou': '추천 로딩 중...',
   'common.error': '오류가 발생했습니다',
 
   // Auth pages
