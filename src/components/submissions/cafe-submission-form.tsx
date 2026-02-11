@@ -152,9 +152,40 @@ export function CafeSubmissionForm({
     setDuplicates([]);
   };
 
+  const handleSubmitAnother = () => {
+    setSubmittedCafeName(null);
+    setSelectedPlace(null);
+    setOperatingHours({});
+    setError(null);
+  };
+
   // Show rate limit block if user has reached their daily limit
   if (isRateLimited && rateLimit) {
     return <RateLimitBlock rateLimit={rateLimit} />;
+  }
+
+  // Show success confirmation
+  if (submittedCafeName) {
+    return (
+      <Card className="w-full max-w-2xl mx-auto">
+        <CardContent className="pt-8 pb-8 text-center space-y-4">
+          <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto" />
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold">{t('submissions.success.submitted')}</h3>
+            <p className="text-muted-foreground font-medium">{submittedCafeName}</p>
+            <p className="text-sm text-muted-foreground">{t('submissions.success.description')}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2 justify-center pt-2">
+            <Button asChild variant="outline">
+              <Link href="/profile/submissions">{t('submissions.success.viewSubmissions')}</Link>
+            </Button>
+            <Button onClick={handleSubmitAnother}>
+              {t('submissions.success.submitAnother')}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
