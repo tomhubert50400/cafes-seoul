@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { transformCafe, transformReview, transformUserRating, getStorageUrl } from '@/lib/supabase/transforms';
+import { transformCafe, transformCafeSummary, transformReview, transformUserRating, getStorageUrl } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import { checkFavoriteAction } from '@/lib/actions/favorites';
 import { getCafeReviewsAction } from '@/lib/actions/reviews';
-import { transformCafeSummary, getStorageUrl } from '@/lib/supabase/transforms';
 import type { Cafe, CafeSummary } from '@/types/cafe';
 import type { Review } from '@/types/review';
 import type { UserRating } from '@/types/ratings';
