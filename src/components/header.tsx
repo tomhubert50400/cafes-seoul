@@ -61,6 +61,7 @@ export function Header({ user }: HeaderProps = {}) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch={false}
                   className={cn(
                     'relative font-medium transition-colors flex items-center justify-center',
                     // Mobile: compact pill style, smaller for Vietnamese
