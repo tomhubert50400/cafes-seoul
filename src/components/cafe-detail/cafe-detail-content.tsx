@@ -72,6 +72,15 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <main className="mx-auto max-w-6xl px-4 py-8 overflow-x-hidden">
+        {/* Back button */}
+        <button
+          onClick={() => router.back()}
+          className="mb-3 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t('common.back')}
+        </button>
+
         {/* Breadcrumb */}
         <nav className="mb-4 text-sm text-muted-foreground">
           <Link href="/cafes" className="hover:text-foreground">
