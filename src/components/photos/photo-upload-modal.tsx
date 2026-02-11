@@ -209,7 +209,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
     if (state.selectedFiles.length === 0) return;
 
     if (!userId) {
-      toast.error('Please sign in to upload photos');
+      toast.error(t('photos.upload.signInRequired'));
       return;
     }
 
