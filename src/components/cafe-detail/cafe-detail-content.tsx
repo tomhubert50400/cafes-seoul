@@ -348,27 +348,26 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 />
               )}
 
-              {/* Share button */}
-              <Button
-                variant="outline"
-                className="mt-2 w-full"
-                onClick={async () => {
-                  const url = `${window.location.origin}/cafes/${cafe.slug}`;
-                  if (navigator.share) {
+              {/* Share button — native share sheet only */}
+              {typeof navigator !== 'undefined' && !!navigator.share && (
+                <Button
+                  variant="outline"
+                  className="mt-2 w-full"
+                  onClick={async () => {
                     try {
-                      await navigator.share({ title: cafeName, url });
+                      await navigator.share({
+                        title: cafeName,
+                        url: `${window.location.origin}/cafes/${cafe.slug}`,
+                      });
                     } catch {
                       // User cancelled
                     }
-                  } else {
-                    await navigator.clipboard.writeText(url);
-                    toast.success(t('share.linkCopied'));
-                  }
-                }}
-              >
-                <ShareIcon className="mr-2 h-4 w-4" />
-                {t('share.title')}
-              </Button>
+                  }}
+                >
+                  <ShareIcon className="mr-2 h-4 w-4" />
+                  {t('share.title')}
+                </Button>
+              )}
 
               {/* Static map */}
               <div className="mt-6 overflow-hidden rounded-lg border border-border">
