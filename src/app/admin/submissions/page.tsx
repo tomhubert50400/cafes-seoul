@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { SubmissionsTable } from '@/components/admin/submissions-table';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
+import { resolveAvatarUrl } from '@/lib/supabase/transforms';
 import type { SubmissionWithUser } from '@/types/submission';
 
 async function getLanguageFromCookies(): Promise<LanguageCode> {
