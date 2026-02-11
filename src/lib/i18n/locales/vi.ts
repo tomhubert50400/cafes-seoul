@@ -348,6 +348,7 @@ const vi: Record<string, string> = {
   'auth.error.verification_failed': 'Xác minh email thất bại. Liên kết có thể đã hết hạn hoặc đã được sử dụng.',
   'auth.error.missing_verification_params': 'Liên kết xác minh không hợp lệ. Vui lòng yêu cầu email xác minh mới.',
   'auth.error.user_not_found': 'Không tìm thấy ngườii dùng. Vui lòng kiểm tra email của bạn hoặc đăng ký lại.',
+  'auth.error.link_expired': 'Liên kết xác minh đã hết hạn hoặc đã được sử dụng. Vui lòng đăng ký lại hoặc gửi lại email xác minh.',
   'auth.error.accountAlreadyExists': 'Tài khoản với email này đã tồn tại. Vui lòng đăng nhập.',
 
   // OAuth
