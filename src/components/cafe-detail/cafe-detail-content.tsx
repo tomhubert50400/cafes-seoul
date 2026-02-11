@@ -39,6 +39,7 @@ interface CafeDetailContentProps {
   photos?: PhotoWithVoteStatus[];
   currentUser?: User | null;
   isFavorited?: boolean;
+  similarCafes?: CafeSummary[];
 }
 
 export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating, photos = [], currentUser = null, isFavorited = false }: CafeDetailContentProps) {
