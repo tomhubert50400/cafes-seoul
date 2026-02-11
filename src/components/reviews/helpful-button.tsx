@@ -104,26 +104,19 @@ export function HelpfulButton({
   const isDisabled = disabled || isOwnReview || !isLoggedIn;
 
   return (
-    <motion.button
+    <button
       onClick={handleToggle}
       disabled={isPending || isDisabled}
       className={cn(
-        'flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm transition-colors',
+        'flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm transition-all',
         optimisticIsVoted
           ? 'bg-primary/10 text-primary'
           : 'bg-muted/50 text-muted-foreground hover:bg-muted',
+        !isDisabled && 'active:scale-95',
+        justToggled && !isFirstRender.current && 'animate-[pop-sm_0.2s_ease-out]',
         isDisabled && 'cursor-not-allowed opacity-50',
         isPending && 'opacity-70'
       )}
-      whileTap={!isDisabled ? { scale: 0.95 } : undefined}
-      animate={{
-        scale: justToggled && !isFirstRender.current ? [1, 1.1, 1] : 1,
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 500,
-        damping: 15,
-      }}
       title={
         isOwnReview
           ? t('reviews.cafe.cannotVoteOwn')
@@ -146,6 +139,6 @@ export function HelpfulButton({
       {optimisticCount > 0 && (
         <span className="font-medium">{optimisticCount}</span>
       )}
-    </motion.button>
+    </button>
   );
 }
