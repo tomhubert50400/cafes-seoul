@@ -114,6 +114,7 @@ export function CafeSubmissionForm({
       if (result?.error) {
         setError(result.error);
       } else {
+        setSubmittedCafeName(selectedPlace.name);
         onSuccess?.();
       }
     } catch (err) {
