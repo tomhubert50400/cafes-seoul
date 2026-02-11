@@ -315,7 +315,7 @@ export function transformRatingUser(row: Record<string, unknown>): RatingUser {
     id: row.id as string,
     username: row.username as string,
     displayName: row.display_name as string | null,
-    avatarUrl: row.avatar_url as string | null,
+    avatarUrl: resolveAvatarUrl(row.avatar_url as string | null),
   };
 }
 
