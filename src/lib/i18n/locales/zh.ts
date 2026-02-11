@@ -348,6 +348,7 @@ const zh: Record<string, string> = {
   'auth.error.verification_failed': '邮箱验证失败。链接可能已过期或已被使用。',
   'auth.error.missing_verification_params': '无效的验证链接。请请求新的验证邮件。',
   'auth.error.user_not_found': '未找到用户。请检查您的邮箱或重新注册。',
+  'auth.error.accountAlreadyExists': '此邮箱已注册。请直接登录。',
 
   // OAuth
   'auth.oauth.divider': '或',
