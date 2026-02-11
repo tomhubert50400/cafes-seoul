@@ -2,6 +2,12 @@ export default function CafeDetailLoading() {
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-6xl px-4 py-8">
+        {/* Back button skeleton */}
+        <div className="mb-3 flex items-center gap-1.5">
+          <div className="h-4 w-4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+          <div className="h-4 w-10 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+        </div>
+
         {/* Breadcrumb skeleton */}
         <nav className="mb-4 flex items-center gap-2">
           <div className="h-4 w-12 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
