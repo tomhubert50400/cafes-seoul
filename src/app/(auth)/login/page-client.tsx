@@ -63,11 +63,9 @@ export function LoginPageClient({ oauthError, message }: LoginPageClientProps) {
 
   // Translate message codes
   const translatedMessage = message
-    ? message === 'already_verified'
-      ? t('auth.verify.already')
-      : message === 'verified_login'
-        ? t('auth.verify.verified_login')
-        : message
+    ? message === 'verified_login'
+      ? t('auth.verify.verified_login')
+      : message
     : undefined
 
   return (
