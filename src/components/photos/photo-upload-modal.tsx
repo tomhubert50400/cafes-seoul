@@ -140,7 +140,7 @@ export function PhotoUploadModal({ cafeId, onUploadSuccess, disabled = false, de
         setState((prev) => ({
           ...prev,
           selectedFiles: [],
-          errors: [limitCheck.reason || 'Upload limit reached'],
+          errors: [t(limitCheck.reason || 'photos.limits.reached')],
         }));
         return;
       }
