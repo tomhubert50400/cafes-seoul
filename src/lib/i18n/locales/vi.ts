@@ -844,6 +844,7 @@ const vi: Record<string, string> = {
 
   'common.cancel': 'Huy',
   'common.delete': 'Xoa',
+  'common.back': 'Quay lại',
   'common.close': 'Dong',
 
   // User Dashboard
