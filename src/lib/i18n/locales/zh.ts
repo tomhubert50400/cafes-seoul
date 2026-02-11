@@ -788,6 +788,9 @@ const zh: Record<string, string> = {
   'admin.delete.confirm': '确定要删除这个咖啡馆吗？此操作无法撤销。所有相关的照片、评价和收藏也将被删除。',
   'admin.delete.success': '咖啡馆删除成功',
   'admin.delete.error': '咖啡馆删除失败',
+  'admin.deleteReview': '删除评论',
+  'admin.confirmDeleteReview': '确定要删除此评论吗？此操作无法撤销。',
+  'admin.reviewDeleted': '评论已删除',
 
   // Admin Messages
   'admin.messages.title': '消息',
