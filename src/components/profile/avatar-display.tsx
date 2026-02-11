@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { getInitials, getAvatarColor } from '@/lib/utils/avatar';
 import { cn } from '@/lib/utils';
 
@@ -38,12 +37,13 @@ export function AvatarDisplay({
 
   if (avatarUrl) {
     return (
-      <Image
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
         src={avatarUrl}
         alt={displayName || 'User avatar'}
         width={sizePx[size]}
         height={sizePx[size]}
-        unoptimized
+        loading="lazy"
         className={cn(
           'rounded-full object-cover',
           sizeClasses[size],
