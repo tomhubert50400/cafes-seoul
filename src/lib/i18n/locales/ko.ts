@@ -850,6 +850,7 @@ const ko: Record<string, string> = {
 
   'common.cancel': '취소',
   'common.delete': '삭제',
+  'common.back': '뒤로',
   'common.close': '닫기',
 
   // User Dashboard
