@@ -887,6 +887,7 @@ const zh: Record<string, string> = {
   'reviews.sort.ratingLow': '评分最低',
   'reviews.sort.dateNew': '最新优先',
   'reviews.sort.dateOld': '最早优先',
+  'reviews.sort.mostHelpful': '最有帮助',
   'reviews.filter.minScore': '最低评分',
   'reviews.card.viewCafe': '查看咖啡馆',
   'reviews.card.ratedOn': '评价日期',
