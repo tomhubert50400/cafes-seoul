@@ -228,6 +228,73 @@ async function getCafePhotos(
   }
 }
 
+const CAFE_SUMMARY_SELECT = `
+  id, name, slug, address, district_id,
+  latitude, longitude,
+  overall_rating, total_ratings,
+  rating_food, rating_drinks, rating_temperature, rating_seating,
+  rating_ambiance, rating_wifi, rating_noise, rating_outlets, rating_value,
+  price_range, cafe_type,
+  has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
+  operating_hours,
+  photos(storage_path, upvote_count, status)
+`;
+
+type PhotoRow = { storage_path: string; upvote_count: number; status: string };
+
+async function getSimilarCafes(cafe: Cafe): Promise<CafeSummary[]> {
+  const supabase = await createClient();
+
+  // Fetch cafes with same type, excluding current cafe
+  const { data: sameType } = await supabase
+    .from('cafes')
+    .select(CAFE_SUMMARY_SELECT)
+    .eq('cafe_type', cafe.cafeType)
+    .eq('status', 'active')
+    .neq('id', cafe.id)
+    .order('overall_rating', { ascending: false })
+    .limit(4);
+
+  const results = (sameType || []).map((row) => {
+    const photos = row.photos as PhotoRow[] | null;
+    const topPhoto = photos
+      ?.filter((p) => p.status === 'approved')
+      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+    return transformCafeSummary({
+      ...row,
+      primary_image_url: topPhoto?.storage_path || null,
+    });
+  });
+
+  // If fewer than 4 results, fill with same district cafes
+  if (results.length < 4) {
+    const existingIds = [cafe.id, ...results.map((c) => c.id)];
+    const { data: sameDistrict } = await supabase
+      .from('cafes')
+      .select(CAFE_SUMMARY_SELECT)
+      .eq('district_id', cafe.districtId)
+      .eq('status', 'active')
+      .not('id', 'in', `(${existingIds.join(',')})`)
+      .order('overall_rating', { ascending: false })
+      .limit(4 - results.length);
+
+    if (sameDistrict) {
+      for (const row of sameDistrict) {
+        const photos = row.photos as PhotoRow[] | null;
+        const topPhoto = photos
+          ?.filter((p) => p.status === 'approved')
+          .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+        results.push(transformCafeSummary({
+          ...row,
+          primary_image_url: topPhoto?.storage_path || null,
+        }));
+      }
+    }
+  }
+
+  return results;
+}
+
 export default async function CafeDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const cafe = await getCafe(slug);
