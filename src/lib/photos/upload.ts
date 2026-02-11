@@ -139,7 +139,7 @@ export async function checkDailyLimit(
       console.error('Error checking daily limit:', rpcError);
       return {
         canUpload: false,
-        reason: 'Unable to check upload limit. Please try again.',
+        reason: 'photos.limits.checkError',
       };
     }
 
