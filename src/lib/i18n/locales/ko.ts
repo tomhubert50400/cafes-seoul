@@ -482,7 +482,7 @@ const ko: Record<string, string> = {
   'auth.verify.instructions': '이메일의 링크를 클릭하여 계정을 활성화하세요',
   'auth.verify.resend': '이메일 다시 본내기',
   'auth.verify.back': '회원가입으로 돌아가기',
-  'auth.verify.already': '이메일이 이미 인증되었을 수 있습니다. 로그인을 시도핳세요.',
+  'auth.verify.checkSpam': '이메일을 찾을 수 없나요? 스팸 또는 정크 폴더를 확인해주세요.',
   'auth.verify.verified_login': '이메일이 인증되었습니다! 로그인해주세요.',
 
   // Submissions
