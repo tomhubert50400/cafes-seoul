@@ -568,6 +568,9 @@ const fr: Record<string, string> = {
 
   'submissions.success.submitted': 'Café proposé pour approbation !',
   'submissions.success.updated': 'Proposition mise à jour avec succès !',
+  'submissions.success.description': 'Votre proposition sera examinée sous 1 à 3 jours. Vous pouvez suivre son statut sur votre profil.',
+  'submissions.success.viewSubmissions': 'Voir mes propositions',
+  'submissions.success.submitAnother': 'Proposer un autre café',
 
   // My Submissions Page
   'mySubmissions.title': 'Mes propositions',
