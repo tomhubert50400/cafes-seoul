@@ -90,6 +90,8 @@ export function MapWithFilters({
               presets={allPresets}
               isLoggedIn={isLoggedIn}
               favoritesCount={favoriteIds?.length ?? 0}
+              selectedStation={selectedStation}
+              onStationSelect={setSelectedStation}
             />
           </SheetContent>
         </Sheet>
