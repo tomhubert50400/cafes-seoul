@@ -729,7 +729,8 @@ export async function getApprovedCafes(options?: {
       .eq('status', 'active');
 
     if (options?.search) {
-      countQuery = countQuery.or(`name->en.ilike.%${options.search}%,name->ko.ilike.%${options.search}%`);
+      const sanitized = options.search.trim().replace(/[%_\\]/g, '\\$&');
+      countQuery = countQuery.or(`name->en.ilike.%${sanitized}%,name->ko.ilike.%${sanitized}%`);
     }
 
     const { count } = await countQuery;
@@ -743,7 +744,8 @@ export async function getApprovedCafes(options?: {
       .range(offset, offset + limit - 1);
 
     if (options?.search) {
-      cafesQuery = cafesQuery.or(`name->en.ilike.%${options.search}%,name->ko.ilike.%${options.search}%`);
+      const sanitized = options.search.trim().replace(/[%_\\]/g, '\\$&');
+      cafesQuery = cafesQuery.or(`name->en.ilike.%${sanitized}%,name->ko.ilike.%${sanitized}%`);
     }
 
     const { data: cafes, error } = await cafesQuery;
