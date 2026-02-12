@@ -43,7 +43,7 @@ export function CafeMap({
 
     // Apply existing filters first
     if (filters) {
-      result = filterCafes(result, filters);
+      result = filterCafes(result, filters, selectedStation);
     }
 
     // Apply favorites filter
@@ -52,7 +52,7 @@ export function CafeMap({
     }
 
     return result;
-  }, [cafes, filters, favoriteIds]);
+  }, [cafes, filters, favoriteIds, selectedStation]);
 
   // Check if showing empty favorites state
   const showEmptyFavorites =
