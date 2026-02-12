@@ -65,6 +65,7 @@ export function MapWithFilters({
           favoritesCount={favoriteIds?.length ?? 0}
           selectedStation={selectedStation}
           onStationSelect={setSelectedStation}
+          stations={allStations}
         />
       </aside>
 
@@ -100,6 +101,7 @@ export function MapWithFilters({
               favoritesCount={favoriteIds?.length ?? 0}
               selectedStation={selectedStation}
               onStationSelect={setSelectedStation}
+              stations={allStations}
             />
           </SheetContent>
         </Sheet>
