@@ -14,15 +14,11 @@ import { getRecommendations } from '@/lib/supabase/recommendations';
 import type { CafeSummary } from '@/types/cafe';
 
 const getFeaturedCafes = unstable_cache(
-  async (): Promise<CafeSummary[]> => {
-    const headersList = await headers();
-    const host = headersList.get('host') || 'localhost:3000';
-    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-
+  async (baseUrl: string): Promise<CafeSummary[]> => {
     try {
       const response = await fetchCafes(
         { limit: 6, sortBy: 'rating', sortOrder: 'desc' },
-        `${protocol}://${host}`
+        baseUrl
       );
       return response.data;
     } catch (error) {
