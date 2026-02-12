@@ -245,6 +245,17 @@ const en: Record<string, string> = {
   'map.filters.favoritesOnlyTooltip': 'Log in to filter by favorites',
   'map.filters.noFavorites': 'No favorites to display',
   'map.filters.browseCafes': 'Browse cafes to add favorites',
+
+  // Metro station filter
+  'metro.metroStation': 'Metro Station',
+  'metro.selectStation': 'Search metro station...',
+  'metro.walkingTime': 'Walking:',
+  'metro.minuteWalk': 'min',
+  'metro.nearStation': 'Near station',
+  'metro.clearStation': 'Clear station',
+  'metro.noResults': 'No stations found',
+  'metro.typeToSearch': 'Type to search stations',
+
   'map.presets.title': 'Quick Vibes',
   'map.presets.workStudy': 'Work & Study',
   'map.presets.aestheticDate': 'Date Spot',
