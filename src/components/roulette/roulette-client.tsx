@@ -316,8 +316,41 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
         </div>
 
         {/* Search results: neighborhoods first, then districts */}
-        {districtSearch.trim() && (matchingDistricts.length > 0 || matchingNeighborhoods.length > 0) && (
+        {districtSearch.trim() && (matchingDistricts.length > 0 || matchingNeighborhoods.length > 0 || matchingStationGroups.length > 0) && (
           <div className="flex flex-wrap gap-1.5">
+            {/* Matching metro stations */}
+            {matchingStationGroups.map((group) => {
+              const primary = group[0];
+              return (
+                <Badge
+                  key={`s-${primary.id}`}
+                  variant="outline"
+                  className="cursor-pointer hover:bg-accent transition-colors py-1 px-2.5 gap-1"
+                  onClick={() => {
+                    setSelectedStation(primary);
+                    updateFilter('stationId', primary.id);
+                    updateFilter('districts', []);
+                    setSelectedDistrictIds([]);
+                    setSelectedNeighborhoodSlugs([]);
+                    setDistrictSearch('');
+                  }}
+                >
+                  <TrainFront className="h-3 w-3" />
+                  {getLocalizedText(primary.name, language)}
+                  {group.map((s) =>
+                    s.line && (
+                      <span
+                        key={s.id}
+                        className="inline-flex items-center justify-center h-3.5 min-w-3.5 px-0.5 rounded text-[9px] font-bold text-white leading-none"
+                        style={{ backgroundColor: s.line.color }}
+                      >
+                        {s.line.lineNumber}
+                      </span>
+                    )
+                  )}
+                </Badge>
+              );
+            })}
             {/* Matching neighborhoods (proximity-based filtering) */}
             {matchingNeighborhoods
               .filter((n) => !selectedNeighborhoodSlugs.includes(n.slug))
