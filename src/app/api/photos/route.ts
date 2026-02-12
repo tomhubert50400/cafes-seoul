@@ -28,8 +28,8 @@ export async function GET(request: NextRequest) {
     // Parse query parameters
     const { searchParams } = new URL(request.url);
     const cafeId = searchParams.get('cafeId');
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
-    const limit = Math.min(parseInt(searchParams.get('limit') || '6', 10), 20); // Max 20
+    const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10) || 0);
+    const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '6', 10) || 1), 20); // 1-20
 
     // Validate required parameter
     if (!cafeId) {
