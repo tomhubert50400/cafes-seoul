@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { Heart, MapPin, ExternalLink, Navigation } from 'lucide-react';
 import { toast } from 'sonner';
