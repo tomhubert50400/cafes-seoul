@@ -301,11 +301,14 @@ export function SearchFilters({ className }: SearchFiltersProps) {
 
   // Debounced search with proper timeout cleanup
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const [isSearchPending, setIsSearchPending] = useState(false);
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    setIsSearchPending(!!value);
     searchTimeoutRef.current = setTimeout(() => {
       updateParams('q', value || null);
+      setIsSearchPending(false);
     }, 500);
   }, [updateParams]);
 
