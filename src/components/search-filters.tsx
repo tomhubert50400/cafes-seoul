@@ -182,7 +182,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
 
   const activeDistrict = searchParams.get('district') || null;
   const activeNeighborhood = searchParams.get('neighborhood') || null;
-  const hasLocationFilter = !!activeDistrict || !!activeNeighborhood;
+  const hasLocationFilter = !!activeDistrict || !!activeNeighborhood || !!selectedStation;
 
   // Resolve active location label for display
   const activeLocationLabel = useMemo(() => {
