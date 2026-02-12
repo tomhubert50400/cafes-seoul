@@ -25,6 +25,7 @@ interface RouletteFilterSheetProps {
   isLoggedIn?: boolean;
   selectedStation?: MetroStation | null;
   onStationSelect?: (station: MetroStation | null) => void;
+  stations?: MetroStation[];
 }
 
 export function RouletteFilterSheet({
