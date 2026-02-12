@@ -80,7 +80,7 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
   const [showAllAreas, setShowAllAreas] = useState(false);
 
   const filteredCafes = useMemo(() => {
-    let result = filterCafes(cafes, filters);
+    let result = filterCafes(cafes, filters, selectedStation);
 
     // Apply favorites filter
     if (filters?.showFavoritesOnly && favoriteIds?.length) {
