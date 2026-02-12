@@ -245,6 +245,17 @@ const zh: Record<string, string> = {
   'map.filters.favoritesOnlyTooltip': '登录后可按收藏筛选',
   'map.filters.noFavorites': '没有收藏可显示',
   'map.filters.browseCafes': '浏览咖啡馆以添加收藏',
+
+  // 地铁站筛选
+  'metro.metroStation': '地铁站',
+  'metro.selectStation': '搜索地铁站...',
+  'metro.walkingTime': '步行:',
+  'metro.minuteWalk': '分钟',
+  'metro.nearStation': '站附近',
+  'metro.clearStation': '清除站点',
+  'metro.noResults': '未找到站点',
+  'metro.typeToSearch': '输入搜索站点',
+
   'map.presets.title': '快速筛选',
   'map.presets.workStudy': '工作学习',
   'map.presets.aestheticDate': '约会',
