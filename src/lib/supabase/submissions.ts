@@ -96,6 +96,7 @@ export async function updateSubmission(
         neighborhood_id: data.neighborhoodId || null,
         kakao_place_id: data.kakaoPlaceId || null,
         operating_hours: data.operatingHours || {},
+        photo_urls: data.photoUrls || [],
         updated_at: new Date().toISOString(),
       })
       .eq('id', submissionId)
