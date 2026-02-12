@@ -37,10 +37,7 @@ export function MapWithFilters({
   const [allStations, setAllStations] = useState<MetroStation[]>([]);
 
   useEffect(() => {
-    fetch('/api/stations')
-      .then((res) => res.ok ? res.json() : [])
-      .then((data) => { if (Array.isArray(data)) setAllStations(data); })
-      .catch(() => {});
+    fetchStations().then(setAllStations);
   }, []);
 
   const handleCafeSelect = useCallback((cafe: CafeSummary | null) => {
