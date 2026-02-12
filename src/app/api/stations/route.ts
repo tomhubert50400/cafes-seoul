@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
   }
 
   const stations = (data || []).map((row) => {
-    const line = row.metro_lines as {
+    const lineData = row.metro_lines as unknown as {
       id: number;
       line_number: string;
       name: Record<string, string>;
@@ -47,11 +47,11 @@ export async function GET(request: NextRequest) {
       lineId: row.line_id,
       latitude: row.latitude,
       longitude: row.longitude,
-      line: line ? {
-        id: line.id,
-        lineNumber: line.line_number,
-        name: line.name,
-        color: line.color,
+      line: lineData ? {
+        id: lineData.id,
+        lineNumber: lineData.line_number,
+        name: lineData.name,
+        color: lineData.color,
       } : undefined,
     };
   });
