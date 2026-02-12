@@ -52,15 +52,19 @@ export function AdminCafesManager({ initialCafes, totalCount, translations }: Ad
     }
 
     setIsSearching(true);
+    const currentSearchId = ++searchIdRef.current;
 
     debounceRef.current = setTimeout(() => {
       startTransition(async () => {
         const result = await searchCafes(searchQuery);
-        if (result.success && result.cafes) {
+        // Only apply results if this is still the latest search
+        if (currentSearchId === searchIdRef.current && result.success && result.cafes) {
           setCafes(result.cafes);
           setDisplayedTotal(result.total ?? result.cafes.length);
         }
-        setIsSearching(false);
+        if (currentSearchId === searchIdRef.current) {
+          setIsSearching(false);
+        }
       });
     }, 300); // 300ms debounce
   }, [initialCafes, totalCount]);
