@@ -20,64 +20,27 @@ export default async function AdminDashboard() {
   const supabase = await createClient();
   const lang = await getLanguageFromCookies();
 
-  // Fetch submission counts by status
+  // Fetch all counts and recent activity in a single parallel batch
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
   const [
     { count: pendingSubmissions },
     { count: approvedSubmissions },
     { count: declinedSubmissions },
-  ] = await Promise.all([
-    supabase
-      .from('cafe_submissions')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'pending'),
-    supabase
-      .from('cafe_submissions')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'approved'),
-    supabase
-      .from('cafe_submissions')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'declined'),
-  ]);
-
-  // Fetch photo counts by status
-  const [
     { count: pendingPhotos },
     { count: approvedPhotos },
     { count: rejectedPhotos },
+    { data: recentSubmissions },
+    { data: recentPhotos },
   ] = await Promise.all([
-    supabase
-      .from('photos')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'pending'),
-    supabase
-      .from('photos')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'approved'),
-    supabase
-      .from('photos')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'rejected'),
-  ]);
-
-  // Fetch recent moderation activity (last 7 days only)
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-
-  const [{ data: recentSubmissions }, { data: recentPhotos }] = await Promise.all([
-    supabase
-      .from('cafe_submissions')
-      .select('id, name, status, updated_at')
-      .in('status', ['approved', 'declined'])
-      .gte('updated_at', sevenDaysAgo)
-      .order('updated_at', { ascending: false })
-      .limit(10),
-    supabase
-      .from('photos')
-      .select('id, cafe_id, status, updated_at, cafe:cafes(name)')
-      .in('status', ['approved', 'rejected'])
-      .gte('updated_at', sevenDaysAgo)
-      .order('updated_at', { ascending: false })
-      .limit(10),
+    supabase.from('cafe_submissions').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('cafe_submissions').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
+    supabase.from('cafe_submissions').select('*', { count: 'exact', head: true }).eq('status', 'declined'),
+    supabase.from('photos').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('photos').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
+    supabase.from('photos').select('*', { count: 'exact', head: true }).eq('status', 'rejected'),
+    supabase.from('cafe_submissions').select('id, name, status, updated_at').in('status', ['approved', 'declined']).gte('updated_at', sevenDaysAgo).order('updated_at', { ascending: false }).limit(10),
+    supabase.from('photos').select('id, cafe_id, status, updated_at, cafe:cafes(name)').in('status', ['approved', 'rejected']).gte('updated_at', sevenDaysAgo).order('updated_at', { ascending: false }).limit(10),
   ]);
 
   // Transform and combine activities
