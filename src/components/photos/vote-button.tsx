@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toggleVote } from '@/lib/photos/voting';
