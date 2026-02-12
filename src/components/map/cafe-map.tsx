@@ -74,12 +74,27 @@ export function CafeMap({
     ? (selectedCafe.address[language] || selectedCafe.address.ko || selectedCafe.address.en)
     : '';
 
+  // Compute map center based on selected station
+  const mapCenter = selectedStation
+    ? { lat: selectedStation.latitude, lng: selectedStation.longitude }
+    : { lat: 37.5665, lng: 126.9780 };
+
+  // Compute zoom level based on walking radius
+  const mapLevel = selectedStation
+    ? (filters?.walkingMinutes === 5 ? 4 : filters?.walkingMinutes === 15 ? 6 : 5)
+    : 7;
+
+  // Radius circle for station
+  const stationRadius = selectedStation && filters?.walkingMinutes
+    ? walkingMinutesToMeters(filters.walkingMinutes as 5 | 10 | 15)
+    : selectedStation ? 800 : 0;
+
   return (
     <div className="relative h-full w-full min-h-[400px] md:min-h-0">
       <Map
-        center={{ lat: 37.5665, lng: 126.9780 }}
+        center={mapCenter}
         style={{ width: '100%', height: '100%', minHeight: '400px' }}
-        level={7}
+        level={mapLevel}
         onClick={() => handleClose()}
       >
         <MarkerClusterer
