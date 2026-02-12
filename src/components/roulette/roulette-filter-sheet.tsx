@@ -39,6 +39,7 @@ export function RouletteFilterSheet({
   isLoggedIn,
   selectedStation,
   onStationSelect,
+  stations,
 }: RouletteFilterSheetProps) {
   const { t } = useI18n();
 
