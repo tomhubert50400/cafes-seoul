@@ -158,3 +158,24 @@ input:-webkit-autofill {
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
+
+/* Heart pop animation for double-tap favorite (GPU-accelerated) */
+@keyframes heart-pop {
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.heart-pop-animation {
+  animation: heart-pop 0.6s ease-out forwards;
+  will-change: transform, opacity;
+}
