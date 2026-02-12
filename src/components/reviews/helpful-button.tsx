@@ -77,8 +77,8 @@ export function HelpfulButton({
     }
 
     startTransition(async () => {
-      // Set animation flag before optimistic update
-      setJustToggled(true);
+      // Only set animation if not already pending (prevents stacking)
+      if (!isPending) setJustToggled(true);
 
       // Optimistic update - UI changes immediately
       setOptimisticIsVoted(!optimisticIsVoted);
