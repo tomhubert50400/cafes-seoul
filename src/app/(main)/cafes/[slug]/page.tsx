@@ -362,8 +362,45 @@ export default async function CafeDetailPage({ params }: PageProps) {
     };
   }
 
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://cafes-seoul.com';
+  const cafeName = cafe.name.en || cafe.name.ko || Object.values(cafe.name)[0] || 'Cafe';
+  const cafeAddress = cafe.address.en || cafe.address.ko || Object.values(cafe.address)[0] || 'Seoul';
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CafeOrCoffeeShop',
+    name: cafeName,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: cafeAddress,
+      addressLocality: 'Seoul',
+      addressCountry: 'KR',
+    },
+    ...(cafe.latitude && cafe.longitude && {
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: cafe.latitude,
+        longitude: cafe.longitude,
+      },
+    }),
+    ...(cafe.overallRating && cafe.totalRatings && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: cafe.overallRating.toFixed(1),
+        bestRating: '5',
+        worstRating: '1',
+        ratingCount: cafe.totalRatings,
+      },
+    }),
+    url: `${BASE_URL}/cafes/${cafe.slug}`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <CafeDetailContent
         cafe={cafe}
         reviews={reviews}
