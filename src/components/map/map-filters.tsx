@@ -24,6 +24,8 @@ interface MapFiltersProps {
   matchedPresetId?: string | null;
   presets?: FilterPreset[];
   className?: string;
+  selectedStation?: MetroStation | null;
+  onStationSelect?: (station: MetroStation | null) => void;
 }
 
 export function MapFiltersPanel({
@@ -37,6 +39,8 @@ export function MapFiltersPanel({
   matchedPresetId,
   presets,
   className,
+  selectedStation,
+  onStationSelect,
 }: MapFiltersProps) {
   const { t } = useI18n();
 
