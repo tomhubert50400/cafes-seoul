@@ -33,6 +33,14 @@ export function MapWithFilters({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
   const [selectedStation, setSelectedStation] = useState<MetroStation | null>(null);
+  const [allStations, setAllStations] = useState<MetroStation[]>([]);
+
+  useEffect(() => {
+    fetch('/api/stations')
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => { if (Array.isArray(data)) setAllStations(data); })
+      .catch(() => {});
+  }, []);
 
   const handleCafeSelect = useCallback((cafe: CafeSummary | null) => {
     setSelectedCafe(cafe);
