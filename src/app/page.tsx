@@ -46,8 +46,31 @@ export default async function HomePage() {
     }
   }
 
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://cafes-seoul.com';
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Seoul Cafe Guide',
+    alternateName: '서울 카페 가이드',
+    url: BASE_URL,
+    description: 'Discover the best cafes in Seoul. Rate, review, and find your perfect cafe.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${BASE_URL}/cafes?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header user={user} />
       <HeroSection />
       {user && recommendedCafes.length > 0 ? (
