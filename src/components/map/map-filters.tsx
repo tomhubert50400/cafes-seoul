@@ -4,11 +4,14 @@ import { Button } from '@/components/ui/button';
 import { RatingSlider } from './rating-slider';
 import { FeatureToggle } from './feature-toggle';
 import { PresetBadges } from './preset-badges';
-import { Wifi, Plug, Dog, Armchair, Car, X, Heart, Clock } from 'lucide-react';
+import { Wifi, Plug, Dog, Armchair, Car, X, Heart, Clock, TrainFront } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
+import { StationSelector } from '@/components/filters/station-selector';
+import { WalkingTimeSelector } from '@/components/filters/walking-time-selector';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { MapFilters, FilterPreset } from '@/types/map';
+import type { MetroStation, WalkingMinutes } from '@/types/metro';
 
 interface MapFiltersProps {
   filters: MapFilters;
