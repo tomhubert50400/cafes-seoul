@@ -15,6 +15,7 @@ import { RouletteResult } from './roulette-result';
 import { RouletteFilterSheet } from './roulette-filter-sheet';
 import type { CafeSummary } from '@/types/cafe';
 import type { UserVibe } from '@/types/vibes';
+import type { MetroStation } from '@/types/metro';
 
 type Phase = 'idle' | 'spinning' | 'result';
 
