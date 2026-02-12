@@ -46,9 +46,15 @@ export function VoteButton({
     hasVoted: initialHasVoted,
   });
 
+  // Debounce ref to prevent rapid clicks before state updates
+  const lastClickRef = useRef(0);
+
   const handleClick = useCallback(async () => {
-    // Prevent multiple clicks while pending
+    // Prevent multiple clicks while pending or within 500ms debounce
     if (isPending) return;
+    const now = Date.now();
+    if (now - lastClickRef.current < 500) return;
+    lastClickRef.current = now;
 
     // Calculate optimistic values
     const newHasVoted = !hasVoted;
