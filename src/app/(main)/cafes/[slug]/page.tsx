@@ -308,41 +308,37 @@ export default async function CafeDetailPage({ params }: PageProps) {
   if (!cafe) {
     notFound();
   }
-  const reviews = await getCafeReviews(cafe.id);
+  // Fetch reviews, text reviews, and user in parallel (no dependencies between them)
+  const supabase = await createClient();
+  const [reviews, textReviewsResult, { data: { user } }] = await Promise.all([
+    getCafeReviews(cafe.id),
+    getCafeReviewsAction(cafe.id),
+    supabase.auth.getUser(),
+  ]);
 
-  // Fetch text reviews (from cafe_ratings with review_text)
-  const textReviewsResult = await getCafeReviewsAction(cafe.id);
   const textReviews: ReviewWithAuthor[] = textReviewsResult.success && textReviewsResult.reviews
     ? textReviewsResult.reviews
     : [];
 
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const userRating = await getUserRating(cafe.id, user?.id);
-  const photos = await getCafePhotos(cafe.id, user?.id);
-
-  // Fetch similar cafes and check favorites in parallel
-  const [similarCafes, isFavoritedResult] = await Promise.all([
+  // Now fetch all user-dependent data in parallel
+  const [userRating, photos, similarCafes, isFavoritedResult, profileResult] = await Promise.all([
+    getUserRating(cafe.id, user?.id),
+    getCafePhotos(cafe.id, user?.id),
     getSimilarCafes(cafe),
     user ? checkFavoriteAction(cafe.id) : Promise.resolve({ success: false, isFavorited: false }),
+    user
+      ? supabase.from('profiles').select('id, role').eq('id', user.id).maybeSingle()
+      : Promise.resolve({ data: null, error: null }),
   ]);
   const isFavorited = isFavoritedResult.success && isFavoritedResult.isFavorited === true;
 
-  // Fetch user profile to get role
+  // Build currentUser from profile
   let currentUser: User | null = null;
   if (user) {
-    // Use service role to fetch profile since regular users might not have SELECT permission on all fields
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('id, role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (profileError) {
-      console.error('Error fetching profile for role check:', profileError.message);
+    if (profileResult.error) {
+      console.error('Error fetching profile for role check:', profileResult.error.message);
     }
 
-    // Create currentUser with role from profile
     currentUser = {
       id: user.id,
       email: user.email || '',
@@ -353,7 +349,7 @@ export default async function CafeDetailPage({ params }: PageProps) {
       preferredLanguage: 'en',
       isModerator: false,
       isVerified: false,
-      role: (profile?.role as UserRole) || 'user',
+      role: (profileResult.data?.role as UserRole) || 'user',
       roleUpdatedAt: null,
       totalReviews: 0,
       totalHelpfulVotes: 0,
