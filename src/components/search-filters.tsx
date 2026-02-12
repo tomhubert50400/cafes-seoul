@@ -162,6 +162,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
 
   const clearAllFilters = useCallback(() => {
     clearMapFilters();
+    setSelectedStation(null);
     setLocationSearch('');
     router.push('?');
   }, [router, clearMapFilters]);
