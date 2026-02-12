@@ -168,7 +168,7 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
     [selectedNeighborhoodSlugs]
   );
 
-  const hasAnyLocationFilter = selectedDistricts.length > 0 || selectedNeighborhoods.length > 0;
+  const hasAnyLocationFilter = selectedDistricts.length > 0 || selectedNeighborhoods.length > 0 || !!selectedStation;
 
   const handleSpin = useCallback(() => {
     if (filteredCafes.length === 0) return;
