@@ -31,6 +31,7 @@ export function CafeSlide({
   const { t, language } = useI18n();
   const [showMap, setShowMap] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
+  const heartAnimRef = useRef(false);
   const cafeName = getLocalizedText(cafe.name, language);
 
   const handleFavorite = useCallback(() => {
@@ -46,9 +47,10 @@ export function CafeSlide({
       toast.error(t('forYou.loginToFavorite'));
       return;
     }
-    // Show heart animation
+    // Debounce: skip if animation already playing
+    if (heartAnimRef.current) return;
+    heartAnimRef.current = true;
     setHeartAnim(true);
-    setTimeout(() => setHeartAnim(false), 600);
     // Only favorite if not already favorited
     if (!isFavorited) {
       onToggleFavorite(cafe.id);
