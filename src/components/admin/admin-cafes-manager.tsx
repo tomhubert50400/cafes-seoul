@@ -22,6 +22,7 @@ export function AdminCafesManager({ initialCafes, totalCount, translations }: Ad
   const [isSearching, setIsSearching] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const searchIdRef = useRef(0);
 
   // Show back to top button when scrolled down
   useEffect(() => {
