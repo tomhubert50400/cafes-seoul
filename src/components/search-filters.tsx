@@ -264,6 +264,28 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     [router, searchParams]
   );
 
+  const selectStation = useCallback(
+    (station: MetroStation) => {
+      setSelectedStation(station);
+      updateFilter('stationId', station.id);
+      updateFilter('districts', []);
+      // Clear district/neighborhood URL params
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('district');
+      params.delete('neighborhood');
+      params.delete('page');
+      router.push(`?${params.toString()}`);
+      setLocationSearch('');
+      setLocationDropdownOpen(false);
+    },
+    [router, searchParams, updateFilter]
+  );
+
+  const clearStation = useCallback(() => {
+    setSelectedStation(null);
+    updateFilter('stationId', null);
+  }, [updateFilter]);
+
   const clearLocation = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete('district');
@@ -271,7 +293,12 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     params.delete('page');
     router.push(`?${params.toString()}`);
     setLocationSearch('');
-  }, [router, searchParams]);
+    // Also clear station if active
+    if (selectedStation) {
+      setSelectedStation(null);
+      updateFilter('stationId', null);
+    }
+  }, [router, searchParams, selectedStation, updateFilter]);
 
   // Debounced search with proper timeout cleanup
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
