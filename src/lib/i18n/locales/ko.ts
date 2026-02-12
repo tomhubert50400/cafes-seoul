@@ -9,7 +9,7 @@ const ko: Record<string, string> = {
   'nav.profile': '프로필',
   'nav.myReviews': '내 리뷰',
   'nav.settings': '설정',
-  'site.name': '서울 카페',
+  'site.name': '서울의 카페',
 
   // Homepage - Hero
   'home.hero.title1': '서울의',
