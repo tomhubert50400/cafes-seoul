@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Search, X, TrainFront } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -11,31 +11,14 @@ import type { MetroStation } from '@/types/metro';
 interface StationSelectorProps {
   selectedStation: MetroStation | null;
   onSelect: (station: MetroStation | null) => void;
+  stations: MetroStation[];
 }
 
-export function StationSelector({ selectedStation, onSelect }: StationSelectorProps) {
+export function StationSelector({ selectedStation, onSelect, stations }: StationSelectorProps) {
   const { t, language } = useI18n();
-  const [stations, setStations] = useState<MetroStation[]>([]);
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Fetch stations on mount
-  useEffect(() => {
-    fetch('/api/stations')
-      .then((res) => {
-        if (!res.ok) throw new Error(`Stations API error: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setStations(data);
-        } else {
-          console.error('Stations API returned non-array:', data);
-        }
-      })
-      .catch((err) => console.error('Failed to fetch stations:', err));
-  }, []);
 
   // Close on outside click
   useEffect(() => {
@@ -152,7 +135,12 @@ export function StationSelector({ selectedStation, onSelect }: StationSelectorPr
             })
           ) : (
             <p className="text-sm text-muted-foreground px-2 py-1.5">
-              {search.trim() ? t('metro.noResults') : t('metro.typeToSearch')}
+              {stations.length === 0
+                ? t('metro.typeToSearch')
+                : search.trim()
+                  ? t('metro.noResults')
+                  : t('metro.typeToSearch')
+              }
             </p>
           )}
         </div>
