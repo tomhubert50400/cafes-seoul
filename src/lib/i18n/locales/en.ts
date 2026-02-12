@@ -9,7 +9,7 @@ const en: Record<string, string> = {
   'nav.profile': 'Profile',
   'nav.myReviews': 'My Reviews',
   'nav.settings': 'Settings',
-  'site.name': 'Seoul Cafe',
+  'site.name': 'Cafes in Seoul',
 
   // Homepage - Hero
   'home.hero.title1': 'Discover the',
