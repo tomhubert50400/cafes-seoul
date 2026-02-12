@@ -11,7 +11,8 @@ import { getDistanceMeters } from '@/lib/constants/districts';
  */
 export function filterCafes(
   cafes: CafeSummary[],
-  filters: MapFilters
+  filters: MapFilters,
+  selectedStation?: MetroStation | null
 ): CafeSummary[] {
   return cafes.filter((cafe) => {
     // Rating filters - cafe must have rating AND meet minimum
