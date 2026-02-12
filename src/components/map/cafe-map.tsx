@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo, useCallback } from 'react';
-import { Map, MarkerClusterer, CustomOverlayMap } from 'react-kakao-maps-sdk';
+import { useMemo, useCallback, useEffect, useRef } from 'react';
+import { Map, MarkerClusterer, CustomOverlayMap, Circle } from 'react-kakao-maps-sdk';
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Star, MapPin, Navigation, ExternalLink, Heart, Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
