@@ -584,6 +584,16 @@ const en: Record<string, string> = {
   'submissions.success.viewSubmissions': 'View My Submissions',
   'submissions.success.submitAnother': 'Submit Another Cafe',
 
+  // Submission Photos
+  'submissions.photos.title': 'Photos',
+  'submissions.photos.description': 'Add 1 to 3 photos of the cafe (required)',
+  'submissions.photos.required': 'At least 1 photo is required to submit a cafe.',
+  'submissions.photos.tooMany': 'Maximum {max} photos allowed.',
+  'submissions.photos.select': 'Click to select photos (1-3)',
+  'submissions.photos.formats': 'JPG, PNG, or WebP (max 15MB each)',
+  'submissions.photos.uploading': 'Uploading photos...',
+  'submissions.photos.authRequired': 'Please sign in to upload photos.',
+
   // My Submissions Page
   'mySubmissions.title': 'My Submissions',
   'mySubmissions.subtitle': 'Track the status of cafes you\'ve submitted',
