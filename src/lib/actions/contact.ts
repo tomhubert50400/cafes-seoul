@@ -3,27 +3,13 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
-import type { SupabaseClient } from '@supabase/supabase-js';
 import { contactMessageSchema } from '@/lib/validations/contact';
 import {
   createContactMessage,
   updateMessageReadStatus,
   deleteContactMessage,
 } from '@/lib/supabase/contact-messages';
-
-// ============================================
-// HELPER: Verify admin role
-// ============================================
-
-async function verifyAdminRole(supabase: SupabaseClient, userId: string): Promise<boolean> {
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userId)
-    .single();
-
-  return profile?.role === 'admin';
-}
+import { verifyAdminRole } from '@/lib/auth/verify-admin';
 
 // ============================================
 // SEND CONTACT MESSAGE (public)
