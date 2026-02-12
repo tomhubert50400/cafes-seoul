@@ -428,6 +428,8 @@ export function SearchFilters({ className }: SearchFiltersProps) {
               matchedPresetId={matchedPreset?.id ?? null}
               presets={allPresets}
               className="min-[319px]:pl-8 min-[340px]:pl-4"
+              selectedStation={selectedStation}
+              onStationSelect={setSelectedStation}
             />
           </SheetContent>
         </Sheet>
