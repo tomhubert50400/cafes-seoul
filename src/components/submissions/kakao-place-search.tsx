@@ -143,6 +143,20 @@ export function KakaoPlaceSearch({
         </div>
       )}
 
+      {/* Loading skeleton dropdown */}
+      {isLoading && query.length >= 2 && !selectedPlace && (
+        <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-lg">
+          <div className="py-1 space-y-1">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="px-3 py-2 space-y-1.5">
+                <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+                <div className="h-3 w-1/2 animate-pulse rounded bg-muted" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Dropdown results */}
       {isOpen && results.length > 0 && (
         <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-lg">
