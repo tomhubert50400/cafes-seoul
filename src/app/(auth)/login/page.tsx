@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { LoginPageClient } from './page-client'
+
+export const metadata: Metadata = {
+  title: 'Log In',
+  description: 'Log in to your Seoul Cafe Guide account.',
+}
 
 interface LoginPageProps {
   searchParams: Promise<{ error?: string; message?: string }>
