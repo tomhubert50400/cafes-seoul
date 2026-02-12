@@ -245,6 +245,17 @@ const ko: Record<string, string> = {
   'map.filters.favoritesOnlyTooltip': '로그인하여 즐겨찾기로 필터링하세요',
   'map.filters.noFavorites': '표시할 즐겨찾기가 없습니다',
   'map.filters.browseCafes': '카페를 둘러보고 즐겨찾기를 추가하세요',
+
+  // 지하철역 필터
+  'metro.metroStation': '지하철역',
+  'metro.selectStation': '지하철역 검색...',
+  'metro.walkingTime': '도보:',
+  'metro.minuteWalk': '분',
+  'metro.nearStation': '역 근처',
+  'metro.clearStation': '역 초기화',
+  'metro.noResults': '역을 찾을 수 없습니다',
+  'metro.typeToSearch': '역 이름을 입력하세요',
+
   'map.presets.title': '분위기 찾기',
   'map.presets.workStudy': '작업 & 공부',
   'map.presets.aestheticDate': '데이트',
