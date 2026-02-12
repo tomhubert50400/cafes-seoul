@@ -11,7 +11,6 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useI18n } from '@/lib/i18n';
 import { validatePhotoFile, formatFileSize } from '@/lib/photos/validation';
 import { processImage } from '@/lib/utils/process-image';
-import { uploadPhotoToStorage } from '@/lib/photos/upload';
 import { createClient } from '@/lib/supabase/client';
 import type { SubmissionFormData } from '@/lib/validations/submission';
 import type { CafeSummary, TranslatedText } from '@/types/cafe';
