@@ -26,6 +26,7 @@ interface MapFiltersProps {
   className?: string;
   selectedStation?: MetroStation | null;
   onStationSelect?: (station: MetroStation | null) => void;
+  stations?: MetroStation[];
 }
 
 export function MapFiltersPanel({
