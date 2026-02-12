@@ -23,6 +23,7 @@ interface CafeMapProps {
   onCafeSelect?: (cafe: CafeSummary | null) => void;
   favoriteIds?: string[];
   userId?: string;
+  selectedStation?: MetroStation | null;
 }
 
 export function CafeMap({
@@ -32,6 +33,7 @@ export function CafeMap({
   onCafeSelect,
   favoriteIds,
   userId,
+  selectedStation,
 }: CafeMapProps) {
   const { t, language } = useI18n();
 
