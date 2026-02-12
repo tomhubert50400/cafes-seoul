@@ -74,6 +74,16 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
   const recentIdsRef = useRef<Set<string>>(new Set());
   const [selectedStation, setSelectedStation] = useState<MetroStation | null>(null);
+  const [allStations, setAllStations] = useState<MetroStation[]>([]);
+
+  // Fetch metro stations once for location search
+  useEffect(() => {
+    fetch('/api/stations')
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => { if (Array.isArray(data)) setAllStations(data); })
+      .catch(() => {});
+  }, []);
+
   const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>([]);
   const [selectedNeighborhoodSlugs, setSelectedNeighborhoodSlugs] = useState<string[]>([]);
   const [districtSearch, setDistrictSearch] = useState('');
