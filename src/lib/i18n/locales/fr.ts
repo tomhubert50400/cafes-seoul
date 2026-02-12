@@ -584,6 +584,16 @@ const fr: Record<string, string> = {
   'submissions.success.viewSubmissions': 'Voir mes propositions',
   'submissions.success.submitAnother': 'Proposer un autre café',
 
+  // Submission Photos
+  'submissions.photos.title': 'Photos',
+  'submissions.photos.description': 'Ajoutez 1 à 3 photos du café (obligatoire)',
+  'submissions.photos.required': 'Au moins 1 photo est requise pour proposer un café.',
+  'submissions.photos.tooMany': 'Maximum {max} photos autorisées.',
+  'submissions.photos.select': 'Sélectionner des photos (1-3)',
+  'submissions.photos.formats': 'JPG, PNG ou WebP (15 Mo max)',
+  'submissions.photos.uploading': 'Envoi des photos...',
+  'submissions.photos.authRequired': 'Veuillez vous connecter pour envoyer des photos.',
+
   // My Submissions Page
   'mySubmissions.title': 'Mes propositions',
   'mySubmissions.subtitle': 'Suivez le statut des cafés que vous avez proposés',
