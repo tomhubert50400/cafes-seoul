@@ -42,6 +42,7 @@ export function MapFiltersPanel({
   className,
   selectedStation,
   onStationSelect,
+  stations = [],
 }: MapFiltersProps) {
   const { t } = useI18n();
 
