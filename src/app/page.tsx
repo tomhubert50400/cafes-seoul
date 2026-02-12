@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import { unstable_cache } from 'next/cache';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { HeroSection } from '@/components/home/hero-section';
@@ -12,22 +13,26 @@ import { createClient } from '@/lib/supabase/server';
 import { getRecommendations } from '@/lib/supabase/recommendations';
 import type { CafeSummary } from '@/types/cafe';
 
-async function getFeaturedCafes(): Promise<CafeSummary[]> {
-  const headersList = await headers();
-  const host = headersList.get('host') || 'localhost:3000';
-  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+const getFeaturedCafes = unstable_cache(
+  async (): Promise<CafeSummary[]> => {
+    const headersList = await headers();
+    const host = headersList.get('host') || 'localhost:3000';
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
-  try {
-    const response = await fetchCafes(
-      { limit: 6, sortBy: 'rating', sortOrder: 'desc' },
-      `${protocol}://${host}`
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching featured cafes:', error);
-    return [];
-  }
-}
+    try {
+      const response = await fetchCafes(
+        { limit: 6, sortBy: 'rating', sortOrder: 'desc' },
+        `${protocol}://${host}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching featured cafes:', error);
+      return [];
+    }
+  },
+  ['featured-cafes'],
+  { revalidate: 3600, tags: ['cafes'] }
+);
 
 export default async function HomePage() {
   const [featuredCafes, supabase] = await Promise.all([
