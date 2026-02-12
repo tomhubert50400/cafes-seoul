@@ -67,6 +67,9 @@ export interface CafeSubmission {
   
   /** Reference to created cafe (populated when approved) */
   cafeId: string | null;
+
+  /** Storage paths for submitted photos */
+  photoUrls: string[];
 }
 
 /**
