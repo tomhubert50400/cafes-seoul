@@ -67,7 +67,7 @@ export function DirectionsChooser({
             >
               <img
                 src={option.icon}
-                alt=""
+                alt={option.name}
                 width={24}
                 height={24}
                 className="shrink-0"
