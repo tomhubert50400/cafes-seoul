@@ -24,19 +24,7 @@ import type {
 } from '@/types/submission';
 import type { SubmissionFormData } from '@/lib/validations/submission';
 import type { CafeSummary } from '@/types/cafe';
-
-/**
- * Helper to verify if user is admin
- */
-async function isAdmin(supabase: Awaited<ReturnType<typeof createClient>>, userId: string): Promise<boolean> {
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userId)
-    .single();
-
-  return profile?.role === 'admin';
-}
+import { verifyAdminRole as isAdmin } from '@/lib/auth/verify-admin';
 
 // ============================================
 // SUBMIT CAFE
