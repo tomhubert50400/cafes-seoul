@@ -31,8 +31,13 @@ const getFeaturedCafes = unstable_cache(
 );
 
 export default async function HomePage() {
+  const headersList = await headers();
+  const host = headersList.get('host') || 'localhost:3000';
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const baseUrl = `${protocol}://${host}`;
+
   const [featuredCafes, supabase] = await Promise.all([
-    getFeaturedCafes(),
+    getFeaturedCafes(baseUrl),
     createClient(),
   ]);
   const { data: { user } } = await supabase.auth.getUser();
