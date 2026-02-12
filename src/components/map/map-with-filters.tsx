@@ -10,6 +10,7 @@ import { useMapFilters } from '@/hooks/use-map-filters';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
 import type { UserVibe } from '@/types/vibes';
+import { fetchStations } from '@/lib/supabase/stations';
 import type { MetroStation } from '@/types/metro';
 
 interface MapWithFiltersProps {
