@@ -47,7 +47,16 @@ export function useMapFilters(userVibes?: UserVibe[]) {
     key: K,
     value: MapFilters[K]
   ) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    setFilters((prev) => {
+      const next = { ...prev, [key]: value };
+      // Station and districts are mutually exclusive
+      if (key === 'stationId' && value != null) {
+        next.districts = [];
+      } else if (key === 'districts' && Array.isArray(value) && value.length > 0) {
+        next.stationId = null;
+      }
+      return next;
+    });
   }, []);
 
   const clearFilters = useCallback(() => {
