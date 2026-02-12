@@ -27,13 +27,13 @@ const notoSansKr = Noto_Sans_KR({
 
 export const metadata: Metadata = {
   title: {
-    default: "Seoul Cafe Guide | 서울 카페 가이드",
-    template: "%s | Seoul Cafe",
+    default: "Cafes in Seoul | 서울 카페",
+    template: "%s | Cafes in Seoul",
   },
   description: "Discover the best cafes in Seoul. 서울의 베스트 카페를 찾아보세요.",
   openGraph: {
     type: 'website',
-    siteName: 'Seoul Cafe Guide',
+    siteName: 'Cafes in Seoul',
   },
   twitter: {
     card: 'summary_large_image',
