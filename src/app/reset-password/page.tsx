@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
+
+export const metadata: Metadata = {
+  title: 'Reset Password',
+  description: 'Reset your Seoul Cafe Guide account password.',
+}
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/lib/constants/routes'
