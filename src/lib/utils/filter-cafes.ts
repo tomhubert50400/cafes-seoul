@@ -103,23 +103,33 @@ export function filterCafes(
 }
 
 /**
+ * Keys that are secondary/dependent and should not count on their own
+ * (walkingMinutes is only meaningful when stationId is set)
+ */
+const DEPENDENT_FILTER_KEYS: (keyof MapFilters)[] = ['walkingMinutes'];
+
+function isFilterActive(key: string, value: unknown, filters: MapFilters): boolean {
+  // walkingMinutes only counts if a station is selected
+  if (key === 'walkingMinutes') return filters.stationId != null;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === 'number') return value > 0;
+  return value != null && value !== false;
+}
+
+/**
  * Check if any filters are active
  */
 export function hasActiveFilters(filters: MapFilters): boolean {
-  return Object.values(filters).some((value) => {
-    if (Array.isArray(value)) return value.length > 0;
-    if (typeof value === 'number') return value > 0;
-    return value != null && value !== false;
-  });
+  return Object.entries(filters).some(([key, value]) =>
+    isFilterActive(key, value, filters)
+  );
 }
 
 /**
  * Get count of active filters
  */
 export function getActiveFilterCount(filters: MapFilters): number {
-  return Object.values(filters).filter((value) => {
-    if (Array.isArray(value)) return value.length > 0;
-    if (typeof value === 'number') return value > 0;
-    return value != null && value !== false;
-  }).length;
+  return Object.entries(filters).filter(([key, value]) =>
+    isFilterActive(key, value, filters)
+  ).length;
 }
