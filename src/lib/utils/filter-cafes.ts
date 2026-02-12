@@ -1,6 +1,9 @@
 import type { CafeSummary } from '@/types/cafe';
 import type { MapFilters } from '@/types/map';
+import type { MetroStation } from '@/types/metro';
+import { walkingMinutesToMeters } from '@/types/metro';
 import { isCafeOpenNow } from '@/lib/hours';
+import { getDistanceMeters } from '@/lib/constants/districts';
 
 /**
  * Filter cafes based on rating criteria and features
