@@ -245,6 +245,17 @@ const vi: Record<string, string> = {
   'map.filters.favoritesOnlyTooltip': 'Đăng nhập để lọc theo yêu thích',
   'map.filters.noFavorites': 'Không có yêu thích nào',
   'map.filters.browseCafes': 'Duyệt quán để thêm yêu thích',
+
+  // Bộ lọc ga tàu điện
+  'metro.metroStation': 'Ga tàu điện',
+  'metro.selectStation': 'Tìm ga tàu điện...',
+  'metro.walkingTime': 'Đi bộ:',
+  'metro.minuteWalk': 'phút',
+  'metro.nearStation': 'Gần ga',
+  'metro.clearStation': 'Xóa ga',
+  'metro.noResults': 'Không tìm thấy ga',
+  'metro.typeToSearch': 'Nhập để tìm ga',
+
   'map.presets.title': 'Tìm nhanh',
   'map.presets.workStudy': 'Làm việc & Học',
   'map.presets.aestheticDate': 'Hẹn hò',
