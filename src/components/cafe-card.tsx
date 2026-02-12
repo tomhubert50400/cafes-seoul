@@ -170,6 +170,8 @@ export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, u
   );
 }, (prev, next) =>
   prev.cafe.id === next.cafe.id &&
+  prev.cafe.overallRating === next.cafe.overallRating &&
+  prev.cafe.totalRatings === next.cafe.totalRatings &&
   prev.isFavorited === next.isFavorited &&
   prev.userId === next.userId &&
   prev.className === next.className &&
