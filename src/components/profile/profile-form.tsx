@@ -67,16 +67,25 @@ export function ProfileForm({ profile, avatarUrl, translations: t }: ProfileForm
   };
 
   const handleAvatarCrop = async (blob: Blob) => {
+    // Show optimistic preview immediately
+    const previewUrl = URL.createObjectURL(blob);
+    setCurrentAvatarUrl(previewUrl);
+
     const formData = new FormData();
     formData.append('avatar', blob, 'avatar.jpg');
 
     startTransition(async () => {
       const result = await uploadAvatarAction(formData);
 
+      // Clean up preview blob URL
+      URL.revokeObjectURL(previewUrl);
+
       if (result.success && result.avatarUrl) {
         setCurrentAvatarUrl(result.avatarUrl);
         toast.success(t.saveSuccess);
       } else {
+        // Revert to original on failure
+        setCurrentAvatarUrl(avatarUrl);
         toast.error(result.error || t.saveError);
       }
     });
