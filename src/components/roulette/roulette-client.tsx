@@ -204,6 +204,8 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
           matchedPresetId={matchedPreset?.id ?? null}
           presets={allPresets}
           isLoggedIn={isLoggedIn}
+          selectedStation={selectedStation}
+          onStationSelect={setSelectedStation}
         />
       </div>
 
