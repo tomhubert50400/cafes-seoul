@@ -227,6 +227,7 @@ export function transformCafeSubmission(row: Record<string, unknown>): CafeSubmi
     approvedAt: row.approved_at as string | null,
     approvedBy: row.approved_by as string | null,
     cafeId: row.cafe_id as string | null,
+    photoUrls: (row.photo_urls as string[]) || [],
   };
 }
 
