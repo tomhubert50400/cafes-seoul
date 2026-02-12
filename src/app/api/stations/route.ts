@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
   if (q) {
     // Search by Korean or English name
-    query = query.or(`name->ko.ilike.%${q}%,name->en.ilike.%${q}%`);
+    query = query.or(`name->>ko.ilike.%${q}%,name->>en.ilike.%${q}%`);
   }
 
   const { data, error } = await query;
