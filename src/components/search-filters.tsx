@@ -217,6 +217,24 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     );
   }, [locationSearch]);
 
+  // Group stations by name+location (merge multi-line stations)
+  const matchingStationGroups = useMemo(() => {
+    if (!locationSearch.trim()) return [];
+    const q = locationSearch.toLowerCase();
+    const matched = allStations.filter((s) =>
+      Object.values(s.name).some((v) => v.toLowerCase().includes(q)) ||
+      s.line?.lineNumber.toLowerCase().includes(q)
+    );
+    const map = new Map<string, MetroStation[]>();
+    for (const station of matched) {
+      const key = `${station.name.ko}_${station.latitude.toFixed(3)}_${station.longitude.toFixed(3)}`;
+      const existing = map.get(key);
+      if (existing) existing.push(station);
+      else map.set(key, [station]);
+    }
+    return Array.from(map.values()).slice(0, 10);
+  }, [locationSearch, allStations]);
+
   // Close dropdown on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
