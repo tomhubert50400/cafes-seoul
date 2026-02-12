@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 const notoSansKr = Noto_Sans_KR({
   variable: "--font-noto-sans-kr",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
 });
 
