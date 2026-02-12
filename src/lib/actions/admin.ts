@@ -911,6 +911,7 @@ export async function getPendingSubmissions(options?: {
     approvedAt: s.approved_at,
     approvedBy: s.approved_by,
     cafeId: s.cafe_id,
+    photoUrls: s.photo_urls || [],
     user: {
       id: s.user?.id || '',
       email: s.user?.email || '',
