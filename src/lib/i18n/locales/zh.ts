@@ -584,6 +584,16 @@ const zh: Record<string, string> = {
   'submissions.success.viewSubmissions': '查看我的提交',
   'submissions.success.submitAnother': '提交另一家咖啡馆',
 
+  // Submission Photos
+  'submissions.photos.title': '照片',
+  'submissions.photos.description': '添加1至3张咖啡馆照片（必填）',
+  'submissions.photos.required': '提交咖啡馆至少需要1张照片。',
+  'submissions.photos.tooMany': '最多允许{max}张照片。',
+  'submissions.photos.select': '选择照片（1-3张）',
+  'submissions.photos.formats': 'JPG、PNG或WebP（每张最大15MB）',
+  'submissions.photos.uploading': '正在上传照片...',
+  'submissions.photos.authRequired': '请登录后上传照片。',
+
   // My Submissions Page
   'mySubmissions.title': '我的提交',
   'mySubmissions.subtitle': '追踪您提交的咖啡馆状态',
