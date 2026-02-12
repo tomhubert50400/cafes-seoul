@@ -25,15 +25,22 @@ export function Header({ user }: HeaderProps = {}) {
   const pathname = usePathname();
   const { t, language } = useI18n();
 
-  // Preload map chunk in background after initial page paint (works on mobile + desktop)
+  // Preload map chunk in background during idle time
   useEffect(() => {
-    const id = setTimeout(() => {
+    const preload = () => {
       import('@/components/map/cafe-map-dynamic').then(mod => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (mod.CafeMapWrapperDynamic as any).preload?.();
       });
-    }, 2000);
-    return () => clearTimeout(id);
+    };
+
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(preload, { timeout: 5000 });
+      return () => window.cancelIdleCallback(id);
+    } else {
+      const id = setTimeout(preload, 2000);
+      return () => clearTimeout(id);
+    }
   }, []);
 
   return (
