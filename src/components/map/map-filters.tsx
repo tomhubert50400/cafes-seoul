@@ -161,6 +161,33 @@ export function MapFiltersPanel({
         )}
       </div>
 
+      {/* Metro Station Filter */}
+      {onStationSelect && (
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
+            <TrainFront className="h-3.5 w-3.5" />
+            {t('metro.metroStation')}
+          </h3>
+          <StationSelector
+            selectedStation={selectedStation ?? null}
+            onSelect={(station) => {
+              onStationSelect(station);
+              if (station) {
+                onChange({ ...filters, stationId: station.id, districts: [] });
+              } else {
+                onChange({ ...filters, stationId: null });
+              }
+            }}
+          />
+          {selectedStation && (
+            <WalkingTimeSelector
+              value={(filters.walkingMinutes ?? 10) as WalkingMinutes}
+              onChange={(minutes) => onChange({ ...filters, walkingMinutes: minutes })}
+            />
+          )}
+        </div>
+      )}
+
       {/* Rating Filters */}
       <div className="space-y-6">
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
