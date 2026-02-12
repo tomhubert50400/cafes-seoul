@@ -9,7 +9,7 @@ const fr: Record<string, string> = {
   'nav.profile': 'Profil',
   'nav.myReviews': 'Mes avis',
   'nav.settings': 'Paramètres',
-  'site.name': 'Cafés Séoul',
+  'site.name': 'Cafés à Séoul',
 
   // Homepage - Hero
   'home.hero.title1': 'Découvrez les',
