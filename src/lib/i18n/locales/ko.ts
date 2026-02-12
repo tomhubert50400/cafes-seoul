@@ -584,6 +584,16 @@ const ko: Record<string, string> = {
   'submissions.success.viewSubmissions': '내 제출 보기',
   'submissions.success.submitAnother': '다른 카페 제출',
 
+  // Submission Photos
+  'submissions.photos.title': '사진',
+  'submissions.photos.description': '카페 사진을 1~3장 추가하세요 (필수)',
+  'submissions.photos.required': '카페를 제출하려면 최소 1장의 사진이 필요합니다.',
+  'submissions.photos.tooMany': '최대 {max}장까지 업로드할 수 있습니다.',
+  'submissions.photos.select': '사진 선택 (1-3장)',
+  'submissions.photos.formats': 'JPG, PNG 또는 WebP (최대 15MB)',
+  'submissions.photos.uploading': '사진 업로드 중...',
+  'submissions.photos.authRequired': '사진을 업로드하려면 로그인이 필요합니다.',
+
   // My Submissions Page
   'mySubmissions.title': '내 제출 목록',
   'mySubmissions.subtitle': '제출한 카페의 상태를 확인하세요',
