@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { RatingStars } from '@/components/rating-stars';
 import { useI18n } from '@/lib/i18n';
 
@@ -11,7 +12,7 @@ interface RatingDisplayProps {
   className?: string;
 }
 
-export function RatingDisplay({
+export const RatingDisplay = memo(function RatingDisplay({
   overallRating,
   totalRatings,
   showStars = true,
@@ -37,4 +38,4 @@ export function RatingDisplay({
       </span>
     </div>
   );
-}
+});
