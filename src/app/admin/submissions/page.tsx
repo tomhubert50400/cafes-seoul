@@ -66,6 +66,7 @@ export default async function AdminSubmissionsPage() {
       approvedAt: s.approved_at,
       approvedBy: s.approved_by,
       cafeId: s.cafe_id,
+      photoUrls: s.photo_urls || [],
       user: {
         id: profile?.id || s.user_id,
         email: profile?.username || '',
