@@ -214,13 +214,16 @@ export function PhotoUpload({ cafeId, onUploadSuccess, disabled = false }: Photo
         setState((prev) => ({ ...prev, isProcessing: false }));
 
         // Upload to storage with progress
+        let lastReportedProgress = 0;
         const uploadResult = await uploadPhotoWithProgress(
           supabase,
           processed.blob,
           cafeId,
           userId,
           (progress) => {
-            // Scale progress: each file contributes equally to total
+            // Throttle: only update state every 5% to avoid excessive re-renders
+            if (progress - lastReportedProgress < 5 && progress < 100) return;
+            lastReportedProgress = progress;
             const fileProgress = (i + progress / 100) / totalFiles * 100;
             setState((prev) => ({ ...prev, uploadProgress: fileProgress }));
           }
