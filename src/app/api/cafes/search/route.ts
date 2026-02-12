@@ -17,6 +17,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Sanitize search query for ILIKE wildcards
+  const sanitizedQ = q.replace(/[%_\\]/g, '\\$&');
+
   // Search across all languages (name + address JSONB fields)
   const { data, error } = await supabase
     .from('cafes')
@@ -41,7 +44,7 @@ export async function GET(request: NextRequest) {
     `)
     .eq('status', 'active')
     .or(
-      `search_text.ilike.%${q}%,specialties.cs.{${q}}`
+      `search_text.ilike.%${sanitizedQ}%,specialties.cs.{${sanitizedQ}}`
     )
     .order('overall_rating', { ascending: false })
     .limit(limit);
