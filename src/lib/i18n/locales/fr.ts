@@ -245,6 +245,17 @@ const fr: Record<string, string> = {
   'map.filters.favoritesOnlyTooltip': 'Connectez-vous pour filtrer par favoris',
   'map.filters.noFavorites': 'Aucun favori à afficher',
   'map.filters.browseCafes': 'Parcourir les cafés pour ajouter des favoris',
+
+  // Filtre station de métro
+  'metro.metroStation': 'Station de métro',
+  'metro.selectStation': 'Rechercher une station...',
+  'metro.walkingTime': 'Marche :',
+  'metro.minuteWalk': 'min',
+  'metro.nearStation': 'Près de la station',
+  'metro.clearStation': 'Effacer la station',
+  'metro.noResults': 'Aucune station trouvée',
+  'metro.typeToSearch': 'Tapez pour chercher',
+
   'map.presets.title': 'Ambiances',
   'map.presets.workStudy': 'Travail & Étude',
   'map.presets.aestheticDate': 'Rendez-vous',
