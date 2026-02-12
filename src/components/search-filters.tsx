@@ -55,6 +55,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
   const { t, language } = useI18n();
   const { user } = useAuth();
   const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
+  const [selectedStation, setSelectedStation] = useState<MetroStation | null>(null);
   const {
     filters,
     updateFilter,
