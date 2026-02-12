@@ -234,6 +234,7 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
           isLoggedIn={isLoggedIn}
           selectedStation={selectedStation}
           onStationSelect={setSelectedStation}
+          stations={allStations}
         />
       </div>
 
