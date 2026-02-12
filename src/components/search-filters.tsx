@@ -28,6 +28,7 @@ import { useMapFilters } from '@/hooks/use-map-filters';
 import { useAuth } from '@/lib/auth';
 import type { MapFilters } from '@/types/map';
 import type { UserVibe } from '@/types/vibes';
+import { fetchStations } from '@/lib/supabase/stations';
 import type { MetroStation } from '@/types/metro';
 
 const BOOLEAN_FILTER_MAP: Record<string, string> = {
