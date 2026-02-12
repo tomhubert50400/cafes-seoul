@@ -78,6 +78,7 @@ export function RouletteFilterSheet({
           className="min-[319px]:pl-8 min-[340px]:pl-4"
           selectedStation={selectedStation}
           onStationSelect={onStationSelect}
+          stations={stations}
         />
       </SheetContent>
     </Sheet>
