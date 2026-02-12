@@ -76,11 +76,12 @@ export function PhotosTable({ photos, storageUrl, translations }: PhotosTablePro
           <Card key={photo.id} className="overflow-hidden">
             <div className="relative aspect-square bg-muted">
               <Image
-                src={getPhotoUrl(photo.storage_path, 400)}
+                src={getPhotoUrl(photo.storage_path, 300)}
                 alt={photo.cafe_name || 'Cafe photo'}
                 fill
                 className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                loading="lazy"
               />
             </div>
             <div className="p-3">
