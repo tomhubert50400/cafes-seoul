@@ -578,6 +578,16 @@ const vi: Record<string, string> = {
   'submissions.success.viewSubmissions': 'Xem đã gửi của tôi',
   'submissions.success.submitAnother': 'Gửi quán khác',
 
+  // Submission Photos
+  'submissions.photos.title': 'Ảnh',
+  'submissions.photos.description': 'Thêm 1 đến 3 ảnh quán cà phê (bắt buộc)',
+  'submissions.photos.required': 'Cần ít nhất 1 ảnh để gửi quán cà phê.',
+  'submissions.photos.tooMany': 'Tối đa {max} ảnh.',
+  'submissions.photos.select': 'Chọn ảnh (1-3)',
+  'submissions.photos.formats': 'JPG, PNG hoặc WebP (tối đa 15MB)',
+  'submissions.photos.uploading': 'Đang tải ảnh lên...',
+  'submissions.photos.authRequired': 'Vui lòng đăng nhập để tải ảnh lên.',
+
   // My Submissions Page
   'mySubmissions.title': 'Đã gửi của tôi',
   'mySubmissions.subtitle': 'Theo dõi trạng thái quán cà phê bạn đã gửi',
