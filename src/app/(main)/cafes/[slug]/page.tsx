@@ -40,12 +40,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const imageUrl = topPhoto ? getStorageUrl(topPhoto.storage_path) : null;
 
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://cafes-seoul.com';
+
   return {
     title: cafeName,
     description: `${cafeName} in ${cafeAddress}. ${cafe.overallRating ? `Rated ${cafe.overallRating.toFixed(1)}/5` : 'Discover this cafe'} on Seoul Cafe Guide.`,
+    alternates: {
+      canonical: `${BASE_URL}/cafes/${slug}`,
+    },
     openGraph: {
       title: cafeName,
       description: `${cafeName} - ${cafeAddress}`,
+      url: `${BASE_URL}/cafes/${slug}`,
       ...(imageUrl && { images: [{ url: imageUrl, alt: cafeName }] }),
     },
     twitter: {
