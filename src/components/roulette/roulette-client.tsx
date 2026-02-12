@@ -73,6 +73,7 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
   const [phase, setPhase] = useState<Phase>('idle');
   const [selectedCafe, setSelectedCafe] = useState<CafeSummary | null>(null);
   const recentIdsRef = useRef<Set<string>>(new Set());
+  const [selectedStation, setSelectedStation] = useState<MetroStation | null>(null);
   const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>([]);
   const [selectedNeighborhoodSlugs, setSelectedNeighborhoodSlugs] = useState<string[]>([]);
   const [districtSearch, setDistrictSearch] = useState('');
