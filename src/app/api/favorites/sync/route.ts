@@ -23,8 +23,9 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const added: string[] = Array.isArray(body.added) ? body.added.filter((id: unknown) => typeof id === 'string' && UUID_RE.test(id)) : [];
-    const removed: string[] = Array.isArray(body.removed) ? body.removed.filter((id: unknown) => typeof id === 'string' && UUID_RE.test(id)) : [];
+    const MAX_BATCH_SIZE = 100;
+    const added: string[] = (Array.isArray(body.added) ? body.added.filter((id: unknown) => typeof id === 'string' && UUID_RE.test(id)) : []).slice(0, MAX_BATCH_SIZE);
+    const removed: string[] = (Array.isArray(body.removed) ? body.removed.filter((id: unknown) => typeof id === 'string' && UUID_RE.test(id)) : []).slice(0, MAX_BATCH_SIZE);
 
     if (added.length === 0 && removed.length === 0) {
       return NextResponse.json({ ok: true });
