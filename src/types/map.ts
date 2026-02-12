@@ -23,6 +23,10 @@ export interface MapFilters {
   cafeTypes?: string[];
   districts?: number[];
 
+  // Metro station filter
+  stationId?: number | null;
+  walkingMinutes?: 5 | 10 | 15;
+
   // Status filter
   openNow?: boolean;
 
