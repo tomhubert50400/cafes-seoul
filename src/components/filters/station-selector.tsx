@@ -23,9 +23,18 @@ export function StationSelector({ selectedStation, onSelect }: StationSelectorPr
   // Fetch stations on mount
   useEffect(() => {
     fetch('/api/stations')
-      .then((res) => res.json())
-      .then((data) => setStations(data))
-      .catch(() => {});
+      .then((res) => {
+        if (!res.ok) throw new Error(`Stations API error: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setStations(data);
+        } else {
+          console.error('Stations API returned non-array:', data);
+        }
+      })
+      .catch((err) => console.error('Failed to fetch stations:', err));
   }, []);
 
   // Close on outside click
