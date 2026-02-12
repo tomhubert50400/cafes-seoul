@@ -12,6 +12,7 @@ import {
 import { MapFiltersPanel } from '@/components/map/map-filters';
 import { useI18n } from '@/lib/i18n';
 import type { MapFilters, FilterPreset } from '@/types/map';
+import type { MetroStation } from '@/types/metro';
 
 interface RouletteFilterSheetProps {
   filters: MapFilters;
@@ -22,6 +23,8 @@ interface RouletteFilterSheetProps {
   matchedPresetId?: string | null;
   presets?: FilterPreset[];
   isLoggedIn?: boolean;
+  selectedStation?: MetroStation | null;
+  onStationSelect?: (station: MetroStation | null) => void;
 }
 
 export function RouletteFilterSheet({
@@ -33,6 +36,8 @@ export function RouletteFilterSheet({
   matchedPresetId,
   presets,
   isLoggedIn,
+  selectedStation,
+  onStationSelect,
 }: RouletteFilterSheetProps) {
   const { t } = useI18n();
 
