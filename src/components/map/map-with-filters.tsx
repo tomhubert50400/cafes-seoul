@@ -107,6 +107,7 @@ export function MapWithFilters({
             onCafeSelect={handleCafeSelect}
             favoriteIds={favoriteIds}
             userId={userId}
+            selectedStation={selectedStation}
           />
         </div>
       </main>
