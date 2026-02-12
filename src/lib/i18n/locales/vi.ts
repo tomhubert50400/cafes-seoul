@@ -9,7 +9,7 @@ const vi: Record<string, string> = {
   'nav.profile': 'Hồ sơ',
   'nav.myReviews': 'Đánh giá của tôi',
   'nav.settings': 'Cài đặt',
-  'site.name': 'Cà phê Seoul',
+  'site.name': 'Cà phê ở Seoul',
 
   // Homepage - Hero
   'home.hero.title1': 'Khám phá',
