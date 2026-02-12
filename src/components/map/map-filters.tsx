@@ -172,6 +172,7 @@ export function MapFiltersPanel({
           </h3>
           <StationSelector
             selectedStation={selectedStation ?? null}
+            stations={stations}
             onSelect={(station) => {
               onStationSelect(station);
               if (station) {
