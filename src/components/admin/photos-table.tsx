@@ -42,8 +42,8 @@ export function PhotosTable({ photos, storageUrl, translations }: PhotosTablePro
     });
   };
 
-  const getPhotoUrl = (storagePath: string, width?: number) => {
-    const transformParams = width ? `?width=${width}&height=${width}&resize=cover` : '';
+  const getPhotoUrl = (storagePath: string, width?: number, quality: number = 75) => {
+    const transformParams = width ? `?width=${width}&height=${width}&resize=cover&quality=${quality}` : '';
     return `${storageUrl}/storage/v1/object/public/cafe-images/${storagePath}${transformParams}`;
   };
 
