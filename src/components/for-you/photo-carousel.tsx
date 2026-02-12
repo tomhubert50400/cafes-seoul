@@ -97,6 +97,11 @@ export function PhotoCarousel({ photoUrls, cafeName, onDoubleTap }: PhotoCarouse
         priority={currentIndex === 0}
       />
 
+      {/* Preload adjacent images for instant transitions */}
+      {currentIndex < photoUrls.length - 1 && (
+        <link rel="preload" as="image" href={photoUrls[currentIndex + 1]} />
+      )}
+
       {/* Tap zones */}
       <div
         className="absolute inset-0 z-[5]"
