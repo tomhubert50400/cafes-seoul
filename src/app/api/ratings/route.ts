@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const cafeId = searchParams.get('cafeId');
-    const limit = parseInt(searchParams.get('limit') || '20', 10);
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
+    const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '20', 10) || 1), 100);
+    const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10) || 0);
 
     if (!cafeId) {
       return NextResponse.json(
