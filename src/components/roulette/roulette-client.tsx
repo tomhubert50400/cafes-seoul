@@ -294,6 +294,8 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
               onClick={() => {
                 setSelectedDistrictIds([]);
                 setSelectedNeighborhoodSlugs([]);
+                setSelectedStation(null);
+                updateFilter('stationId', null);
                 setDistrictSearch('');
               }}
               className="text-xs text-muted-foreground hover:text-foreground transition-colors ml-1"
