@@ -328,13 +328,18 @@ export function SearchFilters({ className }: SearchFiltersProps) {
     <div className={cn('space-y-4', className)}>
       {/* Search bar */}
       <div className="flex gap-2">
-        <Input
-          type="search"
-          placeholder={t('filter.searchPlaceholder')}
-          defaultValue={searchParams.get('q') || ''}
-          onChange={handleSearchChange}
-          className="flex-1"
-        />
+        <div className="relative flex-1">
+          <Input
+            type="search"
+            placeholder={t('filter.searchPlaceholder')}
+            defaultValue={searchParams.get('q') || ''}
+            onChange={handleSearchChange}
+            className="flex-1 pr-9"
+          />
+          {isSearchPending && (
+            <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
+          )}
+        </div>
       </div>
 
       {/* Filter row */}
