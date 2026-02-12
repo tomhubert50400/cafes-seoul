@@ -69,6 +69,7 @@ export default async function SubmitCafePage() {
           <p className="font-medium">Submission Guidelines:</p>
           <ul className="mt-2 list-inside list-disc space-y-1">
             <li>Please verify the cafe does not already exist in our directory</li>
+            <li>Include 1 to 3 photos of the cafe</li>
             <li>Include accurate address information</li>
             <li>Submissions are reviewed within 1-3 days</li>
             <li>You can edit or delete your submission while it is pending</li>
