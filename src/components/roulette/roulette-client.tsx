@@ -140,6 +140,24 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
     );
   }, [districtSearch]);
 
+  // Search metro stations (grouped by name+location)
+  const matchingStationGroups = useMemo(() => {
+    if (!districtSearch.trim()) return [];
+    const q = districtSearch.toLowerCase();
+    const matched = allStations.filter((s) =>
+      Object.values(s.name).some((v) => v.toLowerCase().includes(q)) ||
+      s.line?.lineNumber.toLowerCase().includes(q)
+    );
+    const map = new Map<string, MetroStation[]>();
+    for (const station of matched) {
+      const key = `${station.name.ko}_${station.latitude.toFixed(3)}_${station.longitude.toFixed(3)}`;
+      const existing = map.get(key);
+      if (existing) existing.push(station);
+      else map.set(key, [station]);
+    }
+    return Array.from(map.values()).slice(0, 10);
+  }, [districtSearch, allStations]);
+
   const selectedDistricts = useMemo(
     () => SEOUL_DISTRICTS.filter((d) => selectedDistrictIds.includes(d.id)),
     [selectedDistrictIds]
