@@ -271,6 +271,33 @@ export function CafeMap({
             </div>
           </CustomOverlayMap>
         )}
+        {/* Metro station marker + radius circle */}
+        {selectedStation && (
+          <>
+            <Circle
+              center={{ lat: selectedStation.latitude, lng: selectedStation.longitude }}
+              radius={stationRadius}
+              strokeWeight={2}
+              strokeColor={selectedStation.line?.color || '#3B82F6'}
+              strokeOpacity={0.6}
+              fillColor={selectedStation.line?.color || '#3B82F6'}
+              fillOpacity={0.1}
+            />
+            <CustomOverlayMap
+              position={{ lat: selectedStation.latitude, lng: selectedStation.longitude }}
+              yAnchor={1}
+              zIndex={50}
+            >
+              <div
+                className="flex items-center gap-1 px-2 py-1 rounded-full shadow-lg text-white text-xs font-bold"
+                style={{ backgroundColor: selectedStation.line?.color || '#3B82F6' }}
+              >
+                <span>M</span>
+                <span>{selectedStation.name[language] || selectedStation.name.ko || selectedStation.name.en}</span>
+              </div>
+            </CustomOverlayMap>
+          </>
+        )}
       </Map>
 
       {/* Empty favorites overlay */}
