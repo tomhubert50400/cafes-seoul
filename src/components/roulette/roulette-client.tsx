@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { Search, X, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, X, MapPin, TrainFront, ChevronDown, ChevronUp } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useI18n } from '@/lib/i18n';
