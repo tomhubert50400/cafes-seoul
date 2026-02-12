@@ -83,6 +83,16 @@ export function filterCafes(
       if (!filters.districts.includes(cafe.districtId)) return false;
     }
 
+    // Metro station proximity filter
+    if (filters.stationId != null && selectedStation) {
+      const radiusMeters = walkingMinutesToMeters(filters.walkingMinutes ?? 10);
+      const distance = getDistanceMeters(
+        cafe.latitude, cafe.longitude,
+        selectedStation.latitude, selectedStation.longitude
+      );
+      if (distance > radiusMeters) return false;
+    }
+
     // Open now filter
     if (filters.openNow) {
       if (!isCafeOpenNow(cafe.operatingHours)) return false;
