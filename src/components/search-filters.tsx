@@ -58,6 +58,16 @@ export function SearchFilters({ className }: SearchFiltersProps) {
   const { user } = useAuth();
   const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const [selectedStation, setSelectedStation] = useState<MetroStation | null>(null);
+  const [allStations, setAllStations] = useState<MetroStation[]>([]);
+
+  // Fetch metro stations once for location search
+  useEffect(() => {
+    fetch('/api/stations')
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => { if (Array.isArray(data)) setAllStations(data); })
+      .catch(() => {});
+  }, []);
+
   const {
     filters,
     updateFilter,
