@@ -242,6 +242,30 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
         {/* Selected location badges (districts + neighborhoods) */}
         {hasAnyLocationFilter && (
           <div className="flex flex-wrap items-center gap-1.5">
+            {/* Selected station */}
+            {selectedStation && (
+              <Badge variant="secondary" className="gap-1 py-1 px-2.5 text-sm">
+                <TrainFront className="h-3 w-3" />
+                {selectedStation.line && (
+                  <span
+                    className="inline-flex items-center justify-center h-3.5 min-w-3.5 px-0.5 rounded text-[9px] font-bold text-white leading-none"
+                    style={{ backgroundColor: selectedStation.line.color }}
+                  >
+                    {selectedStation.line.lineNumber}
+                  </span>
+                )}
+                {getLocalizedText(selectedStation.name, language)}
+                <button
+                  onClick={() => {
+                    setSelectedStation(null);
+                    updateFilter('stationId', null);
+                  }}
+                  className="ml-0.5 hover:text-foreground transition-colors"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
             {selectedNeighborhoods.map((n) => (
               <Badge key={`n-${n.slug}`} variant="secondary" className="gap-1 py-1 px-2.5 text-sm">
                 <MapPin className="h-3 w-3" />
