@@ -95,7 +95,7 @@ export function RouletteSpinner({ cafes, winner, onComplete }: RouletteSpinnerPr
                     {cafe.primaryImageUrl ? (
                       <img
                         src={cafe.primaryImageUrl}
-                        alt=""
+                        alt={getLocalizedText(cafe.name, language)}
                         className="h-full w-full object-cover"
                       />
                     ) : (
