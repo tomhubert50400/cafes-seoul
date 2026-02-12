@@ -55,4 +55,8 @@ function CafeMarkerComponent({
   );
 }
 
-export const CafeMarker = memo(CafeMarkerComponent);
+export const CafeMarker = memo(CafeMarkerComponent, (prev, next) =>
+  prev.cafe.id === next.cafe.id &&
+  prev.isSelected === next.isSelected &&
+  prev.isFavorited === next.isFavorited
+);
