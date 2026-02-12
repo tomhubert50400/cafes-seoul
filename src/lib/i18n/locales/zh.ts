@@ -9,7 +9,7 @@ const zh: Record<string, string> = {
   'nav.profile': '个人资料',
   'nav.myReviews': '我的评论',
   'nav.settings': '设置',
-  'site.name': '首尔咖啡',
+  'site.name': '首尔的咖啡馆',
 
   // Homepage - Hero
   'home.hero.title1': '发现首尔',
