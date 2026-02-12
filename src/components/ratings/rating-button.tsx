@@ -108,14 +108,16 @@ export function RatingButton({
           <DialogHeader>
             <DialogTitle>{t('rating.title')}</DialogTitle>
           </DialogHeader>
-          <RatingForm
-            cafeId={cafeId}
-            cafeName={cafeName}
-            existingRating={existingRating}
-            cafeFeatures={cafeFeatures}
-            onSuccess={handleSuccess}
-            onCancel={() => setIsOpen(false)}
-          />
+          {isOpen && (
+            <RatingForm
+              cafeId={cafeId}
+              cafeName={cafeName}
+              existingRating={existingRating}
+              cafeFeatures={cafeFeatures}
+              onSuccess={handleSuccess}
+              onCancel={() => setIsOpen(false)}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </>
