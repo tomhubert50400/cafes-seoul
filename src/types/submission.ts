@@ -103,6 +103,9 @@ export interface CafeSubmissionInput {
 
   /** Operating hours (optional, user-provided) */
   operatingHours?: OperatingHours;
+
+  /** Storage paths for submitted photos (1-3 required) */
+  photoUrls: string[];
 }
 
 /**
