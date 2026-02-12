@@ -390,8 +390,40 @@ export function SearchFilters({ className }: SearchFiltersProps) {
               {locationDropdownOpen && (
                 <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover p-2 shadow-md max-h-[320px] overflow-y-auto">
                   {/* Search results */}
-                  {locationSearch.trim() && (matchingNeighborhoods.length > 0 || matchingDistricts.length > 0) ? (
+                  {locationSearch.trim() && (matchingNeighborhoods.length > 0 || matchingDistricts.length > 0 || matchingStationGroups.length > 0) ? (
                     <div className="space-y-1">
+                      {/* Metro stations */}
+                      {matchingStationGroups.length > 0 && (
+                        <>
+                          {matchingStationGroups.map((group) => {
+                            const primary = group[0];
+                            return (
+                              <button
+                                key={`s-${primary.id}`}
+                                className="flex items-center gap-2 w-full rounded-sm px-2 py-1.5 text-sm hover:bg-accent transition-colors text-left"
+                                onClick={() => selectStation(primary)}
+                              >
+                                <TrainFront className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                                <span className="flex-1 truncate">{getLocalizedText(primary.name, language)}</span>
+                                <span className="flex items-center gap-1 shrink-0">
+                                  {group.map((s) =>
+                                    s.line && (
+                                      <span
+                                        key={s.id}
+                                        className="inline-flex items-center justify-center h-4 min-w-4 px-1 rounded text-[10px] font-bold text-white leading-none"
+                                        style={{ backgroundColor: s.line.color }}
+                                      >
+                                        {s.line.lineNumber}
+                                      </span>
+                                    )
+                                  )}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </>
+                      )}
+                      {/* Neighborhoods */}
                       {matchingNeighborhoods.map((n) => {
                         const parentDistrict = SEOUL_DISTRICTS.find((d) => d.id === n.districtId);
                         return (
@@ -410,6 +442,7 @@ export function SearchFilters({ className }: SearchFiltersProps) {
                           </button>
                         );
                       })}
+                      {/* Districts */}
                       {matchingDistricts.map((d) => (
                         <button
                           key={`d-${d.slug}`}
