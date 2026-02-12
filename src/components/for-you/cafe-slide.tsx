@@ -70,11 +70,14 @@ export function CafeSlide({
 
       {/* Double-tap heart animation */}
       {heartAnim && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
-          <Heart
-            className="h-24 w-24 text-red-500 fill-red-500 animate-ping"
-            style={{ animationDuration: '0.6s', animationIterationCount: 1 }}
-          />
+        <div
+          className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+          onAnimationEnd={() => {
+            setHeartAnim(false);
+            heartAnimRef.current = false;
+          }}
+        >
+          <Heart className="h-24 w-24 text-red-500 fill-red-500 heart-pop-animation" />
         </div>
       )}
 
