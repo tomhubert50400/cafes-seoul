@@ -13,6 +13,8 @@ import { filterCafes } from '@/lib/utils/filter-cafes';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
 import type { MapFilters } from '@/types/map';
+import type { MetroStation } from '@/types/metro';
+import { walkingMinutesToMeters } from '@/types/metro';
 
 interface CafeMapProps {
   cafes: CafeSummary[];
