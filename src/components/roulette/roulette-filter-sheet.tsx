@@ -74,6 +74,8 @@ export function RouletteFilterSheet({
           matchedPresetId={matchedPresetId}
           presets={presets}
           className="min-[319px]:pl-8 min-[340px]:pl-4"
+          selectedStation={selectedStation}
+          onStationSelect={onStationSelect}
         />
       </SheetContent>
     </Sheet>
