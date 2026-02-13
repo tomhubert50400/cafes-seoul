@@ -2,7 +2,7 @@ export default function ForYouLoading() {
   return (
     <div className="flex flex-col bg-black">
       <main className="flex-1">
-        <div className="relative h-[calc(100vh-3.5rem)] w-full overflow-hidden">
+        <div className="relative h-[calc(100vh-var(--safe-header-height))] w-full overflow-hidden">
           <div className="absolute inset-0 animate-pulse bg-zinc-900" />
           <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
             <div className="h-7 w-2/3 rounded bg-zinc-700" />
