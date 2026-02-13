@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
+import { CapacitorInit } from "@/components/capacitor-init";
 import { I18nProvider } from "@/lib/i18n";
 import { DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME, SUPPORTED_LANGUAGES } from "@/lib/i18n/languages";
 import type { LanguageCode } from "@/lib/i18n/languages";
