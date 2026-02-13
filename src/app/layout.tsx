@@ -71,11 +71,13 @@ export default async function RootLayout({
       >
         <CapacitorInit />
         <I18nProvider initialLanguage={initialLanguage}>
-          <div id="main-content">
-            {children}
-          </div>
-          <Toaster position="top-right" richColors closeButton />
-          <CookieConsent />
+          <AuthPromptProvider>
+            <div id="main-content">
+              {children}
+            </div>
+            <Toaster position="top-right" richColors closeButton />
+            <CookieConsent />
+          </AuthPromptProvider>
         </I18nProvider>
         <Script
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAPS_API_KEY}&libraries=clusterer,services&autoload=false`}
