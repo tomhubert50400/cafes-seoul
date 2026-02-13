@@ -87,7 +87,7 @@ export function FavoriteButton({
         // Auto-rollback already happened via useOptimistic
         toast.error('Failed to update favorite');
       }
-    });
+    }));
   };
 
   return (
