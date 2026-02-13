@@ -115,7 +115,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 />
                 {/* Corner CTA on main: always on mobile, desktop only when no side images */}
                 <button
-                  onClick={() => window.dispatchEvent(new Event('open-photo-upload'))}
+                  onClick={() => requireAuth(() => window.dispatchEvent(new Event('open-photo-upload')))}
                   className={cn(
                     "absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors",
                     galleryImages.length > 1 && "md:hidden"
