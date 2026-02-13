@@ -58,7 +58,7 @@ export function CafeSlide({
   }, [isAuthenticated, isFavorited, onToggleFavorite, cafe.id, t]);
 
   return (
-    <section className="relative h-[calc(100dvh-3.5rem)] w-full snap-start overflow-hidden">
+    <section className="relative h-[calc(100dvh-var(--safe-header-height))] w-full snap-start overflow-hidden">
       {/* Full-screen photo background */}
       <div className="absolute inset-0">
         <PhotoCarousel
