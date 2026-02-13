@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { toggleHelpfulAction } from '@/lib/actions/reviews';
 import { useI18n } from '@/lib/i18n';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 
 interface HelpfulButtonProps {
   ratingId: string;
