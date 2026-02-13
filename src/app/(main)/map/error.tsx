@@ -16,7 +16,7 @@ export default function MapError({
   }, [error]);
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center bg-muted/20">
+    <div className="flex h-[calc(100vh-var(--safe-header-height))] items-center justify-center bg-muted/20">
       <div className="text-center max-w-md mx-auto p-6">
         <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
         <h2 className="text-lg font-semibold mb-2">Failed to load map</h2>
