@@ -163,7 +163,7 @@ export function ForYouClient({
       ))}
 
       {/* Empty state as last slide */}
-      <div className="h-[calc(100dvh-var(--safe-header-height))] w-full snap-start flex items-center justify-center">
+      <div className="h-[calc(100dvh-var(--safe-header-height))] w-full snap-start snap-always flex items-center justify-center">
         <EmptyState isAuthenticated={isAuthenticated} />
       </div>
     </div>
