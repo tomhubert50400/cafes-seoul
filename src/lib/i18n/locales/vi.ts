@@ -376,6 +376,12 @@ const vi: Record<string, string> = {
   'auth.oauth.error.expired': 'Đăng nhập mất quá lâu. Vui lòng thử lại.',
   'auth.oauth.error.default': 'Xác thực OAuth thất bại',
 
+  // Auth Prompt
+  'auth.prompt.title': 'Đăng nhập để tiếp tục',
+  'auth.prompt.description': 'Tạo tài khoản hoặc đăng nhập để lưu yêu thích, đánh giá quán cà phê, tải ảnh lên và nhiều hơn nữa.',
+  'auth.prompt.emailLink': 'Đăng nhập bằng email',
+  'auth.prompt.signupLink': 'Tạo tài khoản',
+
   // Forgot Password
   'auth.forgotPassword.link': 'Quên mật khẩu?',
   'auth.forgotPassword.title': 'Đặt lại mật khẩu',
