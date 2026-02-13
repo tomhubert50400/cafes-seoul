@@ -44,7 +44,7 @@ export function RatingButton({
   autoOpenFromUrl = false,
 }: RatingButtonProps) {
   const { t } = useI18n();
-  const { user } = useAuth();
+  const { user, requireAuth } = useRequireAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
