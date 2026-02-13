@@ -376,6 +376,12 @@ const zh: Record<string, string> = {
   'auth.oauth.error.expired': '登录时间过长，请重试。',
   'auth.oauth.error.default': 'OAuth 认证失败',
 
+  // Auth Prompt
+  'auth.prompt.title': '请登录以继续',
+  'auth.prompt.description': '创建账户或登录以保存收藏、评价咖啡馆、上传照片等。',
+  'auth.prompt.emailLink': '使用邮箱登录',
+  'auth.prompt.signupLink': '创建账户',
+
   // Forgot Password
   'auth.forgotPassword.link': '忘记密码？',
   'auth.forgotPassword.title': '重置密码',
