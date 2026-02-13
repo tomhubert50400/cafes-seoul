@@ -126,6 +126,15 @@ export function CafeCardInfo({ cafe, showMap, onToggleMap, topDimensions }: Cafe
         </div>
       </div>
 
+      {/* Map backdrop - closes map on tap outside */}
+      {showMap && (
+        <div
+          className="absolute inset-0 z-[15]"
+          onClick={onToggleMap}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Map drawer */}
       <div
         className={`absolute bottom-0 left-0 right-0 z-20 rounded-t-2xl overflow-hidden shadow-2xl transition-transform duration-300 ease-out ${
