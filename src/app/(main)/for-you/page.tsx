@@ -22,7 +22,7 @@ function shuffle<T>(arr: T[]): T[] {
 
 function ForYouSkeleton() {
   return (
-    <div className="relative h-[calc(100vh-3.5rem)] w-full overflow-hidden">
+    <div className="relative h-[calc(100vh-var(--safe-header-height))] w-full overflow-hidden">
       {/* Simulates the full-screen card layout */}
       <div className="absolute inset-0 animate-pulse bg-zinc-900" />
       <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
