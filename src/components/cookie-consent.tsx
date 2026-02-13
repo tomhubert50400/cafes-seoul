@@ -13,6 +13,9 @@ export function CookieConsent() {
   const { t } = useI18n();
 
   useEffect(() => {
+    // Cookie consent is not needed in native app
+    if (isNativePlatform()) return;
+
     const hasConsent = document.cookie
       .split('; ')
       .some((c) => c.startsWith(`${COOKIE_NAME}=`));
