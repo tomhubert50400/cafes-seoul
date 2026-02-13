@@ -69,16 +69,11 @@ export function HelpfulButton({
       return;
     }
 
-    if (!isLoggedIn) {
-      toast.error(t('reviews.cafe.loginToVote'));
-      return;
-    }
-
     if (disabled) {
       return;
     }
 
-    startTransition(async () => {
+    requireAuth(() => startTransition(async () => {
       // Only set animation if not already pending (prevents stacking)
       if (!isPending) setJustToggled(true);
 
