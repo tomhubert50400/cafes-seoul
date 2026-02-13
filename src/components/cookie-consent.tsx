@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useI18n } from '@/lib/i18n';
+import { isNativePlatform } from '@/lib/capacitor/platform';
 
 const COOKIE_NAME = 'cookie-consent';
 const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year in seconds
