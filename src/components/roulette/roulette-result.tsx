@@ -84,7 +84,7 @@ export function RouletteResult({
                   <Plus className="h-3 w-3 text-white" />
                 </div>
               </div>
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{t('cafe.noImage')}</p>
+              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{t('cafe.noImage').replace('{name}', cafeName)}</p>
               <p className="text-xs text-zinc-500/90 dark:text-zinc-400/90">{t('cafe.addFirstPhoto')}</p>
             </Link>
           )}
