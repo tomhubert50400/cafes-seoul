@@ -95,7 +95,7 @@ export function HelpfulButton({
         // Auto-rollback already happened via useOptimistic
         toast.error(t('reviews.cafe.voteError'));
       }
-    });
+    }));
   };
 
   const isDisabled = disabled || isOwnReview || !isLoggedIn;
