@@ -172,7 +172,7 @@ export function CafeMap({
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full text-zinc-400">
                       <MapPin className="h-6 w-6" />
-                      <p className="text-xs mt-1">{t('cafe.noImage')}</p>
+                      <p className="text-xs mt-1">{t('cafe.noImage').replace('{name}', selectedCafeName)}</p>
                       <Link
                         href={`/cafes/${selectedCafe.slug}?upload=true#photos-section`}
                         className="text-xs text-primary hover:underline mt-0.5"
