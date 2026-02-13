@@ -69,14 +69,22 @@ export function PhotosSection({
         </h2>
 
         {/* Upload Button */}
-        {currentUser ? (
+        {user ? (
           <PhotoUploadModal
             cafeId={cafeId}
             onUploadSuccess={handleUploadSuccess}
             defaultOpen={shouldOpenUpload || forceOpen}
           />
         ) : (
-          <SignInButton />
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5"
+            onClick={() => requireAuth(() => {})}
+          >
+            <Plus className="h-4 w-4" />
+            {t('photos.addPhoto') || 'Add Photo'}
+          </Button>
         )}
       </div>
 
