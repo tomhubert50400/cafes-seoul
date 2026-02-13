@@ -68,6 +68,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-sans antialiased overflow-x-hidden`}
       >
+        <CapacitorInit />
         <I18nProvider initialLanguage={initialLanguage}>
           <div id="main-content">
             {children}
