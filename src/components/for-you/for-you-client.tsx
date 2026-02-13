@@ -141,7 +141,7 @@ export function ForYouClient({
   return (
     <div
       ref={scrollRef}
-      className="h-[calc(100dvh-3.5rem)] overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-hide"
+      className="h-[calc(100dvh-var(--safe-header-height))] overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-hide"
       style={{ scrollSnapType: 'y mandatory' }}
     >
       {/* Scroll hint */}
@@ -163,7 +163,7 @@ export function ForYouClient({
       ))}
 
       {/* Empty state as last slide */}
-      <div className="h-[calc(100dvh-3.5rem)] w-full snap-start flex items-center justify-center">
+      <div className="h-[calc(100dvh-var(--safe-header-height))] w-full snap-start flex items-center justify-center">
         <EmptyState isAuthenticated={isAuthenticated} />
       </div>
     </div>
