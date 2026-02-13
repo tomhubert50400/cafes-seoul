@@ -5,6 +5,7 @@ import { Heart } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { toggleFavoriteAction } from '@/lib/actions/favorites';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 
 interface FavoriteButtonProps {
   cafeId: string;
