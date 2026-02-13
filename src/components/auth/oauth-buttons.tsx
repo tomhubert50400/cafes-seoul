@@ -25,7 +25,7 @@ export function OAuthButtons() {
       }
 
       if (result.url) {
-        window.location.href = result.url
+        await openOAuthUrl(result.url)
       }
     } catch {
       setError(t('auth.oauth.error.default'))
