@@ -108,29 +108,3 @@ export function PhotosSection({
   );
 }
 
-// ============================================
-// SIGN IN BUTTON FOR GUESTS
-// ============================================
-
-function SignInButton() {
-  const { t } = useI18n();
-  const router = useRouter();
-
-  const handleSignIn = () => {
-    // Navigate to login with return URL
-    const returnUrl = encodeURIComponent(window.location.pathname);
-    router.push(`/login?redirect=${returnUrl}`);
-  };
-
-  return (
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={handleSignIn}
-      className="gap-1.5"
-    >
-      <LogIn className="h-4 w-4" />
-      {t('photos.signInToUpload') || 'Sign in to add'}
-    </Button>
-  );
-}
