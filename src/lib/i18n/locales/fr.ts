@@ -376,6 +376,12 @@ const fr: Record<string, string> = {
   'auth.oauth.error.expired': 'La connexion a pris trop de temps. Veuillez réessayer.',
   'auth.oauth.error.default': 'L\'authentification OAuth a échoué',
 
+  // Auth Prompt
+  'auth.prompt.title': 'Connectez-vous pour continuer',
+  'auth.prompt.description': 'Créez un compte ou connectez-vous pour enregistrer vos favoris, noter les cafés, ajouter des photos et plus encore.',
+  'auth.prompt.emailLink': 'Se connecter par e-mail',
+  'auth.prompt.signupLink': 'Créer un compte',
+
   // Forgot Password
   'auth.forgotPassword.link': 'Mot de passe oublié ?',
   'auth.forgotPassword.title': 'Réinitialiser le mot de passe',
