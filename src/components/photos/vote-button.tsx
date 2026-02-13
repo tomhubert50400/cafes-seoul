@@ -49,10 +49,14 @@ export function VoteButton({
 
   // Debounce ref to prevent rapid clicks before state updates
   const lastClickRef = useRef(0);
+  const { requireAuth } = useRequireAuth();
 
   const handleClick = useCallback(async () => {
     // Prevent multiple clicks while pending or within 500ms debounce
     if (isPending) return;
+
+    // Gate behind auth
+    requireAuth(async () => {
     const now = Date.now();
     if (now - lastClickRef.current < 500) return;
     lastClickRef.current = now;
