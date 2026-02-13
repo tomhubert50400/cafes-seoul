@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/lib/i18n'
 import { loginWithOAuth, type OAuthProvider } from '@/app/actions/auth'
+import { openOAuthUrl } from '@/lib/capacitor/auth'
 
 export function OAuthButtons() {
   const { t } = useI18n()
