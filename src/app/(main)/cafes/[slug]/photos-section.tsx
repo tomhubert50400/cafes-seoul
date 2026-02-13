@@ -34,6 +34,7 @@ export function PhotosSection({
   currentUser,
 }: PhotosSectionProps) {
   const { t } = useI18n();
+  const { user, requireAuth } = useRequireAuth();
   const searchParams = useSearchParams();
   const shouldOpenUpload = searchParams.get('upload') === 'true';
   const [forceOpen, setForceOpen] = useState(false);
