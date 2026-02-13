@@ -26,6 +26,7 @@ export function HelpfulButton({
   isLoggedIn = true,
 }: HelpfulButtonProps) {
   const { t } = useI18n();
+  const { requireAuth } = useRequireAuth();
 
   // Track actual voted state (synced with server)
   const [isVoted, setIsVoted] = useState(initialVoted);
