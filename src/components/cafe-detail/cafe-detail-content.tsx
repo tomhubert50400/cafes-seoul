@@ -172,13 +172,11 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
             <div className="mb-6">
               <div className="flex items-center gap-3">
                 <h1 className="text-3xl font-bold">{cafeName}</h1>
-                {currentUser && (
-                  <FavoriteButton
-                    cafeId={cafe.id}
-                    initialIsFavorited={isFavorited}
-                    size="sm"
-                  />
-                )}
+                <FavoriteButton
+                  cafeId={cafe.id}
+                  initialIsFavorited={isFavorited}
+                  size="sm"
+                />
               </div>
 
               {/* Rating */}
