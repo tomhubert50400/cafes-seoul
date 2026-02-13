@@ -354,14 +354,9 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 className="mt-2 w-full"
                 onClick={async () => {
                   const url = `${window.location.origin}/cafes/${cafe.slug}`;
-                  if (navigator.share) {
-                    try {
-                      await navigator.share({ title: cafeName, url });
-                    } catch {
-                      // User cancelled
-                    }
-                  } else {
-                    await navigator.clipboard.writeText(url);
+                  const { shareUrl } = await import('@/lib/capacitor/share');
+                  const shared = await shareUrl({ title: cafeName, url });
+                  if (!shared) {
                     toast.success(t('share.linkCopied'));
                   }
                 }}
