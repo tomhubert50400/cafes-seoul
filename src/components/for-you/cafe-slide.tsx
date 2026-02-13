@@ -3,11 +3,11 @@
 import { useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { Heart, MapPin, ExternalLink, Navigation } from 'lucide-react';
-import { toast } from 'sonner';
 import { PhotoCarousel } from './photo-carousel';
 import { CafeCardInfo } from './cafe-card-info';
 import { DirectionsChooser } from '@/components/directions-chooser';
 import { useI18n } from '@/lib/i18n';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 import { getLocalizedText } from '@/types/cafe';
 import { ROUTES } from '@/lib/constants/routes';
 import type { ForYouCafe } from '@/types/for-you';
