@@ -72,7 +72,7 @@ export function ForYouClient({
     }
   }, []);
 
-  // Flush on page unload or tab hide
+  // Flush on page unload, tab hide, or native app background
   useEffect(() => {
     const handleBeforeUnload = () => flushFavorites();
     const handleVisibilityChange = () => {
@@ -81,11 +81,21 @@ export function ForYouClient({
 
     window.addEventListener('beforeunload', handleBeforeUnload);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Capacitor: also flush when app goes to background
+    let cleanupAppListener: (() => void) | undefined;
+    import('@/lib/capacitor/app-listeners').then(({ onAppBackground }) => {
+      onAppBackground(flushFavorites).then((cleanup) => {
+        cleanupAppListener = cleanup;
+      });
+    });
+
     return () => {
       // Flush on component unmount (e.g. client-side navigation)
       flushFavorites();
       window.removeEventListener('beforeunload', handleBeforeUnload);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      cleanupAppListener?.();
     };
   }, [flushFavorites]);
 
