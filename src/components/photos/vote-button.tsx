@@ -104,7 +104,8 @@ export function VoteButton({
     } finally {
       setIsPending(false);
     }
-  }, [photoId, count, hasVoted, isPending, originalValues, onVoteChange]);
+    });
+  }, [photoId, count, hasVoted, isPending, originalValues, onVoteChange, requireAuth]);
 
   // Determine aria-label and title based on state
   const ariaLabel = `${count} upvotes`;
