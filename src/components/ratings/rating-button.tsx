@@ -6,7 +6,7 @@ import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useI18n } from '@/lib/i18n';
-import { useAuth } from '@/lib/auth';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 import { RatingForm } from './rating-form';
 import type { CafeFeatures } from './rating-form';
 import type { UserRating } from '@/types/ratings';
