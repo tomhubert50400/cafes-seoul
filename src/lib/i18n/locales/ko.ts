@@ -376,6 +376,12 @@ const ko: Record<string, string> = {
   'auth.oauth.error.expired': '로그인 시간이 초과되었습니다. 다시 시도해주세요.',
   'auth.oauth.error.default': 'OAuth 인증에 실패했습니다',
 
+  // Auth Prompt
+  'auth.prompt.title': '로그인이 필요합니다',
+  'auth.prompt.description': '즐겨찾기 저장, 카페 평가, 사진 업로드 등을 위해 계정을 만들거나 로그인하세요.',
+  'auth.prompt.emailLink': '이메일로 로그인',
+  'auth.prompt.signupLink': '계정 만들기',
+
   // Forgot Password
   'auth.forgotPassword.link': '비밀번호를 잊으셨나요?',
   'auth.forgotPassword.title': '비밀번호 재설정',
