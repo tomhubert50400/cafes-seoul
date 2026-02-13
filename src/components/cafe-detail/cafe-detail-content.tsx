@@ -157,7 +157,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
               <div className="text-center">
                 <p className="text-muted-foreground">{t('cafe.noImage').replace('{name}', cafeName)}</p>
                 <button
-                  onClick={() => window.dispatchEvent(new Event('open-photo-upload'))}
+                  onClick={() => requireAuth(() => window.dispatchEvent(new Event('open-photo-upload')))}
                   className="mt-1 text-sm text-primary hover:underline"
                 >
                   {t('cafe.addFirstPhoto')}
