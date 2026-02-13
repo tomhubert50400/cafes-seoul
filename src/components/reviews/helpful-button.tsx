@@ -98,7 +98,7 @@ export function HelpfulButton({
     }));
   };
 
-  const isDisabled = disabled || isOwnReview || !isLoggedIn;
+  const isDisabled = disabled || isOwnReview;
 
   return (
     <button
