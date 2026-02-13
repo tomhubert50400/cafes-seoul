@@ -376,6 +376,12 @@ const en: Record<string, string> = {
   'auth.oauth.error.expired': 'Login took too long. Please try again.',
   'auth.oauth.error.default': 'OAuth authentication failed',
 
+  // Auth Prompt (modal shown when unauthenticated user clicks a protected CTA)
+  'auth.prompt.title': 'Sign in to continue',
+  'auth.prompt.description': 'Create an account or sign in to save favorites, rate cafes, upload photos, and more.',
+  'auth.prompt.emailLink': 'Sign in with email',
+  'auth.prompt.signupLink': 'Create an account',
+
   // Forgot Password
   'auth.forgotPassword.link': 'Forgot password?',
   'auth.forgotPassword.title': 'Reset Password',
