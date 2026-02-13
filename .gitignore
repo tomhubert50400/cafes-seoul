@@ -48,6 +48,10 @@ project-overview.json
 # scripts
 /scripts/
 
+# capacitor
+/android/
+/ios/
+
 # claude
 /.claude/*
 
