@@ -65,19 +65,14 @@ export function RatingButton({
     e.preventDefault();
     e.stopPropagation();
 
-    if (!user) {
-      // Redirect to login with return URL (include rate param)
-      const returnUrl = encodeURIComponent(`/cafes/${cafeSlug}?rate=true`);
-      window.location.href = `/login?redirect=${returnUrl}`;
-      return;
-    }
-
-    if (redirectToPage) {
-      // Navigate to cafe page with rate param
-      router.push(`/cafes/${cafeSlug}?rate=true`);
-    } else {
-      setIsOpen(true);
-    }
+    requireAuth(() => {
+      if (redirectToPage) {
+        // Navigate to cafe page with rate param
+        router.push(`/cafes/${cafeSlug}?rate=true`);
+      } else {
+        setIsOpen(true);
+      }
+    });
   };
 
   const handleSuccess = () => {
