@@ -6,7 +6,12 @@ import { useI18n } from '@/lib/i18n'
 import { loginWithOAuth, type OAuthProvider } from '@/app/actions/auth'
 import { openOAuthUrl } from '@/lib/capacitor/auth'
 
-export function OAuthButtons() {
+interface OAuthButtonsProps {
+  next?: string
+  showDivider?: boolean
+}
+
+export function OAuthButtons({ next, showDivider = true }: OAuthButtonsProps = {}) {
   const { t } = useI18n()
   const [loadingProvider, setLoadingProvider] = useState<OAuthProvider | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -16,7 +21,7 @@ export function OAuthButtons() {
     setError(null)
 
     try {
-      const result = await loginWithOAuth(provider)
+      const result = await loginWithOAuth(provider, next)
 
       if (result.error) {
         setError(result.error)
