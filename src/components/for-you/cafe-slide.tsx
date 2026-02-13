@@ -29,33 +29,30 @@ export function CafeSlide({
   topDimensions,
 }: CafeSlideProps) {
   const { t, language } = useI18n();
+  const { requireAuth } = useRequireAuth();
   const [showMap, setShowMap] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const heartAnimRef = useRef(false);
   const cafeName = getLocalizedText(cafe.name, language);
 
   const handleFavorite = useCallback(() => {
-    if (!isAuthenticated) {
-      toast.error(t('forYou.loginToFavorite'));
-      return;
-    }
-    onToggleFavorite(cafe.id);
-  }, [isAuthenticated, onToggleFavorite, cafe.id, t]);
+    requireAuth(() => {
+      onToggleFavorite(cafe.id);
+    });
+  }, [requireAuth, onToggleFavorite, cafe.id]);
 
   const handleDoubleTap = useCallback(() => {
-    if (!isAuthenticated) {
-      toast.error(t('forYou.loginToFavorite'));
-      return;
-    }
-    // Debounce: skip if animation already playing
-    if (heartAnimRef.current) return;
-    heartAnimRef.current = true;
-    setHeartAnim(true);
-    // Only favorite if not already favorited
-    if (!isFavorited) {
-      onToggleFavorite(cafe.id);
-    }
-  }, [isAuthenticated, isFavorited, onToggleFavorite, cafe.id, t]);
+    requireAuth(() => {
+      // Debounce: skip if animation already playing
+      if (heartAnimRef.current) return;
+      heartAnimRef.current = true;
+      setHeartAnim(true);
+      // Only favorite if not already favorited
+      if (!isFavorited) {
+        onToggleFavorite(cafe.id);
+      }
+    });
+  }, [requireAuth, isFavorited, onToggleFavorite, cafe.id]);
 
   return (
     <section className="relative h-[calc(100dvh-var(--safe-header-height))] w-full snap-start overflow-hidden">
