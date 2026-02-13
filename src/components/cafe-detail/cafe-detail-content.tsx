@@ -153,7 +153,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
             <div className="flex aspect-[21/9] flex-col items-center justify-center gap-3 rounded-lg bg-zinc-100 dark:bg-zinc-800">
               <CoffeeIcon className="h-16 w-16 text-zinc-300 dark:text-zinc-600" />
               <div className="text-center">
-                <p className="text-muted-foreground">{t('cafe.noImage')}</p>
+                <p className="text-muted-foreground">{t('cafe.noImage').replace('{name}', cafeName)}</p>
                 <button
                   onClick={() => window.dispatchEvent(new Event('open-photo-upload'))}
                   className="mt-1 text-sm text-primary hover:underline"
