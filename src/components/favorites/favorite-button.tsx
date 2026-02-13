@@ -60,12 +60,14 @@ export function FavoriteButton({
     isFirstRender.current = false;
   }, []);
 
+  const { requireAuth } = useRequireAuth();
+
   const handleToggle = (e: React.MouseEvent) => {
     // Prevent navigation when button is inside Link
     e.preventDefault();
     e.stopPropagation();
 
-    startTransition(async () => {
+    requireAuth(() => startTransition(async () => {
       // Set animation flag before optimistic update
       setJustToggled(true);
 
