@@ -1,12 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Camera, LogIn } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Camera, Plus } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { PhotoGallery } from '@/components/photos/photo-gallery';
 import { PhotoUploadModal } from '@/components/photos/photo-upload-modal';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 import type { PhotoWithVoteStatus } from '@/types/photos';
 import type { User } from '@/types/user';
 
