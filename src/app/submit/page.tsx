@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { CafeSubmissionForm } from '@/components/submissions';
-import { getRateLimitStatus, checkDuplicateSubmissions, checkKakaoPlaceIdDuplicate, submitCafe } from '@/lib/actions/submissions';
+import { getRateLimitStatus, checkDuplicateSubmissions, checkNaverPlaceIdDuplicate, submitCafe } from '@/lib/actions/submissions';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
