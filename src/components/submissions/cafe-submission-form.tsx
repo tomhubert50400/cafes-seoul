@@ -17,9 +17,9 @@ import type { CafeSummary, TranslatedText } from '@/types/cafe';
 import type { SubmissionRateLimit } from '@/types/submission';
 import { DuplicateDetectionModal } from './duplicate-detection-modal';
 import { RateLimitBlock } from './rate-limit-block';
-import { KakaoPlaceSearch } from './kakao-place-search';
+import { NaverPlaceSearch } from './naver-place-search';
 import { HoursInput } from './hours-input';
-import type { KakaoPlaceSearchResult } from '@/lib/kakao/geocode';
+import type { NaverPlaceSearchResult } from '@/lib/naver/search';
 import type { OperatingHours } from '@/types/cafe';
 
 const MAX_PHOTOS = 3;
