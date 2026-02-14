@@ -545,6 +545,7 @@ const fr: Record<string, string> = {
   'submissions.form.selectCafeFirst': 'Veuillez sélectionner un café dans les résultats de recherche',
   'submissions.form.hoursLabel': 'Horaires d\'ouverture (optionnel)',
   'submissions.form.hoursHelp': 'Ajoutez les horaires si vous les connaissez',
+  'submissions.form.checkNaverMap': 'Vérifier sur Naver Map',
 
   'submissions.duplicates.title': 'Doublons potentiels détectés',
   'submissions.duplicates.description': 'Nous avons trouvé des cafés similaires à votre proposition',
