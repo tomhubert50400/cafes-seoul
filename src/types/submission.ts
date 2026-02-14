@@ -41,8 +41,11 @@ export interface CafeSubmission {
   /** Neighborhood reference (if known) */
   neighborhoodId: number | null;
 
-  /** Kakao Place ID (if selected from Kakao search) */
+  /** Kakao Place ID (legacy, for existing data) */
   kakaoPlaceId: string | null;
+
+  /** Naver Place ID (if selected from Naver search) */
+  naverPlaceId: string | null;
 
   /** Current submission status */
   status: SubmissionStatus;
