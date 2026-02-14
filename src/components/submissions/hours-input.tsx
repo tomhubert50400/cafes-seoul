@@ -59,6 +59,12 @@ export function HoursInput({ value, onChange, naverMapUrl, isLoading }: HoursInp
         )}
       </div>
       <p className="text-xs text-muted-foreground">{t('submissions.form.hoursHelp')}</p>
+      {isLoading && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Loader2 className="h-3 w-3 animate-spin" />
+          {t('submissions.form.fetchingHours')}
+        </div>
+      )}
       <div className="space-y-2">
         {DAY_KEYS.map((day) => {
           const hours = value[day];
