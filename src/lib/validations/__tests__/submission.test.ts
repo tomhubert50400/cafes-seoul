@@ -63,6 +63,7 @@ describe('submissionSchema', () => {
       longitude: 126.978,
       districtId: 1,
       neighborhoodId: 5,
+      photoUrls: ['https://example.com/photo.jpg'],
     });
     expect(result.success).toBe(true);
   });
