@@ -539,6 +539,7 @@ const vi: Record<string, string> = {
   'submissions.form.selectCafeFirst': 'Vui lòng chọn một quán cà phê từ kết quả tìm kiếm',
   'submissions.form.hoursLabel': 'Giờ mở cửa (tùy chọn)',
   'submissions.form.hoursHelp': 'Thêm giờ mở cửa nếu bạn biết',
+  'submissions.form.checkNaverMap': 'Kiểm tra trên Naver Map',
 
   'submissions.duplicates.title': 'Phát hiện trùng lặp',
   'submissions.duplicates.description': 'Chúng tôi tìm thấy quán cà phê có thể giống với gửi của bạn',
