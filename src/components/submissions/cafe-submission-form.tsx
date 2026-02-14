@@ -147,7 +147,7 @@ export function CafeSubmissionForm({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-  }, [selectedPhotos.length, t]);
+  }, [selectedPhotos.length, userPhotoLimit, t]);
 
   const handleRemovePhoto = useCallback((index: number) => {
     setSelectedPhotos((prev) => {
