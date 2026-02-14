@@ -1,4 +1,7 @@
--- Update create_cafe_from_submission to accept naver_place_id
+-- Drop old function signature (10 params) before creating the new one (11 params)
+DROP FUNCTION IF EXISTS public.create_cafe_from_submission(JSONB, JSONB, TEXT, NUMERIC, NUMERIC, INTEGER, INTEGER, TEXT, TEXT, JSONB);
+
+-- Recreate with naver_place_id parameter
 -- Keep p_kakao_place_id for backward compatibility with existing data
 CREATE OR REPLACE FUNCTION public.create_cafe_from_submission(
     p_name JSONB,
