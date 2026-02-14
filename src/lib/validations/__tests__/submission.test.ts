@@ -95,6 +95,7 @@ describe('submissionSchema', () => {
       name: { en: 'My Cafe' },
       address: { en: '123 Seoul Street' },
       phone: '',
+      photoUrls: ['https://example.com/photo.jpg'],
     });
     expect(result.success).toBe(true);
   });
