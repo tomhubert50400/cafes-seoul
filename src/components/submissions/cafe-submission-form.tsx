@@ -30,8 +30,8 @@ export interface CafeSubmissionFormProps {
   onSubmit: (data: SubmissionFormData) => Promise<{ error: string } | void>;
   /** Callback to check for duplicate cafes */
   onCheckDuplicates: (name: TranslatedText, address: TranslatedText) => Promise<CafeSummary[]>;
-  /** Callback to check kakao_place_id duplicate */
-  onCheckKakaoPlaceId?: (id: string) => Promise<{ exists: boolean; foundIn?: string }>;
+  /** Callback to check naver_place_id duplicate */
+  onCheckNaverPlaceId?: (id: string) => Promise<{ exists: boolean; foundIn?: string }>;
   /** Rate limit information */
   rateLimit?: SubmissionRateLimit | null;
   /** Loading state */
