@@ -58,6 +58,7 @@ export default async function AdminSubmissionsPage() {
       districtId: s.district_id,
       neighborhoodId: s.neighborhood_id,
       kakaoPlaceId: s.kakao_place_id,
+      naverPlaceId: s.naver_place_id,
       status: s.status,
       rejectionReason: s.rejection_reason,
       adminNotes: s.admin_notes,
