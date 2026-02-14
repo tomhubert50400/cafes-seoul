@@ -594,13 +594,15 @@ const zh: Record<string, string> = {
 
   // Submission Photos
   'submissions.photos.title': '照片',
-  'submissions.photos.description': '添加1至3张咖啡馆照片（必填）',
+  'submissions.photos.description': '照片会自动从Naver获取。您也可以添加自己的照片（可选）。',
   'submissions.photos.required': '提交咖啡馆至少需要1张照片。',
   'submissions.photos.tooMany': '最多允许{max}张照片。',
-  'submissions.photos.select': '选择照片（1-3张）',
+  'submissions.photos.select': '添加自己的照片',
   'submissions.photos.formats': 'JPG、PNG或WebP（每张最大15MB）',
   'submissions.photos.uploading': '正在上传照片...',
   'submissions.photos.authRequired': '请登录后上传照片。',
+  'submissions.photos.naverPhoto': 'Naver照片',
+  'submissions.photos.fetchingPhoto': '获取照片中...',
 
   // My Submissions Page
   'mySubmissions.title': '我的提交',
