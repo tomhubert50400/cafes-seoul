@@ -19,7 +19,7 @@ import { DuplicateDetectionModal } from './duplicate-detection-modal';
 import { RateLimitBlock } from './rate-limit-block';
 import { NaverPlaceSearch } from './naver-place-search';
 import { HoursInput } from './hours-input';
-import { fetchNaverPlaceHours, type NaverPlaceSearchResult } from '@/lib/naver/search';
+import { fetchNaverPlaceHours, fetchNaverPlacePhoto, type NaverPlaceSearchResult } from '@/lib/naver/search';
 import type { OperatingHours } from '@/types/cafe';
 
 const MAX_PHOTOS = 3;
