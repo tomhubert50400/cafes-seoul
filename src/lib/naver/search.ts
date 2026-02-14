@@ -230,3 +230,89 @@ export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearch
     return [];
   }
 }
+
+// ============================================
+// OPERATING HOURS
+// ============================================
+
+interface GraphQLBusinessHours {
+  day: string;
+  businessHours: { start: string; end: string };
+}
+
+interface GraphQLPlaceDetail {
+  data: {
+    placeDetail: {
+      newBusinessHours: {
+        businessHours: GraphQLBusinessHours[];
+      } | null;
+    } | null;
+  };
+}
+
+const DAY_MAP: Record<string, string> = {
+  MON: 'mon', MONDAY: 'mon',
+  TUE: 'tue', TUESDAY: 'tue',
+  WED: 'wed', WEDNESDAY: 'wed',
+  THU: 'thu', THURSDAY: 'thu',
+  FRI: 'fri', FRIDAY: 'fri',
+  SAT: 'sat', SATURDAY: 'sat',
+  SUN: 'sun', SUNDAY: 'sun',
+};
+
+/**
+ * Fetch operating hours from Naver Place GraphQL API.
+ * Only works with real Naver Place IDs (numeric), not hash-generated ones.
+ * Returns null on failure (rate-limited, blocked, invalid ID, etc.).
+ */
+export async function fetchNaverPlaceHours(
+  naverPlaceId: string
+): Promise<Record<string, { open: string; close: string }> | null> {
+  // Only attempt with real numeric Naver Place IDs
+  if (!naverPlaceId || naverPlaceId.startsWith('naver_') || !/^\d+$/.test(naverPlaceId)) {
+    return null;
+  }
+
+  try {
+    const res = await fetch('https://pcmap-api.place.naver.com/place/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Referer': `https://pcmap.place.naver.com/restaurant/${naverPlaceId}/home`,
+      },
+      body: JSON.stringify({
+        operationName: 'getPlaceDetail',
+        variables: { input: { deviceType: 'pc', id: naverPlaceId, isNx: false } },
+        query: `query getPlaceDetail($input: PlaceDetailInput!) {
+          placeDetail(input: $input) {
+            newBusinessHours {
+              businessHours { day businessHours { start end } }
+            }
+          }
+        }`,
+      }),
+    });
+
+    if (!res.ok) return null;
+
+    const data: GraphQLPlaceDetail = await res.json();
+    const hours = data.data?.placeDetail?.newBusinessHours?.businessHours;
+    if (!hours || hours.length === 0) return null;
+
+    const result: Record<string, { open: string; close: string }> = {};
+    for (const entry of hours) {
+      const dayKey = DAY_MAP[entry.day?.toUpperCase()];
+      if (dayKey && entry.businessHours) {
+        result[dayKey] = {
+          open: entry.businessHours.start,
+          close: entry.businessHours.end,
+        };
+      }
+    }
+
+    return Object.keys(result).length > 0 ? result : null;
+  } catch {
+    return null;
+  }
+}
