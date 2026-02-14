@@ -111,6 +111,8 @@ export function CafeSubmissionForm({
   };
 
   // Photo handlers
+  const userPhotoLimit = MAX_PHOTOS - (naverPhotoPath ? 1 : 0);
+
   const handlePhotoSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (!fileList || fileList.length === 0) return;
@@ -119,7 +121,7 @@ export function CafeSubmissionForm({
     const errors: string[] = [];
     const newPhotos: SelectedPhoto[] = [];
 
-    const remaining = MAX_PHOTOS - selectedPhotos.length;
+    const remaining = userPhotoLimit - selectedPhotos.length;
     if (files.length > remaining) {
       errors.push(t('submissions.photos.tooMany').replace('{max}', String(MAX_PHOTOS)));
     }
