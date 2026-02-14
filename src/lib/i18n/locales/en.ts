@@ -594,13 +594,15 @@ const en: Record<string, string> = {
 
   // Submission Photos
   'submissions.photos.title': 'Photos',
-  'submissions.photos.description': 'Add 1 to 3 photos of the cafe (required)',
+  'submissions.photos.description': 'A photo is auto-fetched from Naver. You can also add your own photos (optional).',
   'submissions.photos.required': 'At least 1 photo is required to submit a cafe.',
   'submissions.photos.tooMany': 'Maximum {max} photos allowed.',
-  'submissions.photos.select': 'Click to select photos (1-3)',
+  'submissions.photos.select': 'Click to add your own photos',
   'submissions.photos.formats': 'JPG, PNG, or WebP (max 15MB each)',
   'submissions.photos.uploading': 'Uploading photos...',
   'submissions.photos.authRequired': 'Please sign in to upload photos.',
+  'submissions.photos.naverPhoto': 'From Naver',
+  'submissions.photos.fetchingPhoto': 'Fetching photo...',
 
   // My Submissions Page
   'mySubmissions.title': 'My Submissions',
