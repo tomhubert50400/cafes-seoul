@@ -212,16 +212,19 @@ export function CafeSubmissionForm({
     return uploadedPaths;
   };
 
-  const buildSubmissionData = (place: NaverPlaceSearchResult, photoUrls: string[]): SubmissionFormData => ({
-    name: { ko: place.name },
-    address: { ko: place.roadAddress || place.address },
-    phone: place.phone || undefined,
-    latitude: place.latitude,
-    longitude: place.longitude,
-    naverPlaceId: place.id,
-    operatingHours: Object.keys(operatingHours).length > 0 ? operatingHours : undefined,
-    photoUrls,
-  });
+  const buildSubmissionData = (place: NaverPlaceSearchResult, userPhotoUrls: string[]): SubmissionFormData => {
+    const photoUrls = [...(naverPhotoPath ? [naverPhotoPath] : []), ...userPhotoUrls];
+    return {
+      name: { ko: place.name },
+      address: { ko: place.roadAddress || place.address },
+      phone: place.phone || undefined,
+      latitude: place.latitude,
+      longitude: place.longitude,
+      naverPlaceId: place.id,
+      operatingHours: Object.keys(operatingHours).length > 0 ? operatingHours : undefined,
+      photoUrls,
+    };
+  };
 
   const handleSubmit = async () => {
     if (!selectedPlace) {
