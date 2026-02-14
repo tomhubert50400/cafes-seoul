@@ -50,7 +50,7 @@ interface SelectedPhoto {
 export function CafeSubmissionForm({
   onSubmit,
   onCheckDuplicates,
-  onCheckKakaoPlaceId,
+  onCheckNaverPlaceId,
   rateLimit,
   isLoading = false,
   mode = 'create',
