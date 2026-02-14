@@ -318,21 +318,6 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 )}
               </div>
 
-              {/* Map links */}
-              <div className="mt-6 flex gap-2">
-                {cafe.naverPlaceId && (
-                  <Button variant="outline" size="sm" asChild className="flex-1">
-                    <a
-                      href={`${EXTERNAL_URLS.NAVER_MAP}/place/${cafe.naverPlaceId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t('cafe.naverMap')}
-                    </a>
-                  </Button>
-                )}
-              </div>
-
               {/* Get me there button */}
               {cafe.latitude && cafe.longitude && (
                 <DirectionsChooser
