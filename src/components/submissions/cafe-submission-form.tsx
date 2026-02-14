@@ -571,7 +571,7 @@ export function CafeSubmissionForm({
           <Button
             type="button"
             className="w-full"
-            disabled={!selectedPlace || selectedPhotos.length < MIN_PHOTOS || isSubmitting || isLoading || isUploadingPhotos}
+            disabled={!selectedPlace || (selectedPhotos.length === 0 && !naverPhotoPath) || isSubmitting || isLoading || isUploadingPhotos || isFetchingPhoto}
             onClick={handleSubmit}
           >
             {isSubmitting || isLoading || isUploadingPhotos ? (
