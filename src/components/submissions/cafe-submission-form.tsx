@@ -64,6 +64,7 @@ export function CafeSubmissionForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [operatingHours, setOperatingHours] = useState<OperatingHours>({});
+  const [isFetchingHours, setIsFetchingHours] = useState(false);
   const [submittedCafeName, setSubmittedCafeName] = useState<string | null>(null);
 
   // Photo state
@@ -78,6 +79,19 @@ export function CafeSubmissionForm({
   const handlePlaceSelect = (place: NaverPlaceSearchResult) => {
     setSelectedPlace(place);
     setError(null);
+
+    // Auto-fetch operating hours from Naver Place
+    setIsFetchingHours(true);
+    fetchNaverPlaceHours(place.name)
+      .then((hours) => {
+        if (hours) {
+          setOperatingHours(hours as OperatingHours);
+        }
+      })
+      .catch(() => {
+        // Silently fail - user can enter hours manually
+      })
+      .finally(() => setIsFetchingHours(false));
   };
 
   // Photo handlers
