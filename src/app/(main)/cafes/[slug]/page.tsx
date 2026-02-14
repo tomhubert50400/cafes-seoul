@@ -63,21 +63,37 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function getCafe(slug: string): Promise<Cafe | null> {
+async function getCafe(slugOrId: string): Promise<Cafe | null> {
   const supabase = await createClient();
 
+  // Try by slug first
   const { data: cafe, error } = await supabase
     .from('cafes')
     .select('*')
-    .eq('slug', slug)
+    .eq('slug', slugOrId)
     .eq('status', 'active')
     .single();
 
-  if (error || !cafe) {
-    return null;
+  if (!error && cafe) {
+    return transformCafe(cafe);
   }
 
-  return transformCafe(cafe);
+  // Fallback: try by UUID (for links from submission cards)
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (uuidRegex.test(slugOrId)) {
+    const { data: cafeById, error: idError } = await supabase
+      .from('cafes')
+      .select('*')
+      .eq('id', slugOrId)
+      .eq('status', 'active')
+      .single();
+
+    if (!idError && cafeById) {
+      return transformCafe(cafeById);
+    }
+  }
+
+  return null;
 }
 
 async function getCafeReviews(cafeId: string): Promise<Review[]> {
