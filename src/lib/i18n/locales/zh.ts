@@ -545,6 +545,7 @@ const zh: Record<string, string> = {
   'submissions.form.selectCafeFirst': '请从搜索结果中选择一家咖啡馆',
   'submissions.form.hoursLabel': '营业时间（可选）',
   'submissions.form.hoursHelp': '如果您知道营业时间，请填写',
+  'submissions.form.checkNaverMap': '在Naver地图上查看',
 
   'submissions.duplicates.title': '发现潜在重复',
   'submissions.duplicates.description': '我们发现可能与您的提交相似的咖啡馆',
