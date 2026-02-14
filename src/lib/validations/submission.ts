@@ -53,7 +53,7 @@ export const submissionSchema = z.object({
   longitude: z.number().min(-180).max(180).optional(),
   districtId: z.number().int().positive().optional(),
   neighborhoodId: z.number().int().positive().optional(),
-  kakaoPlaceId: z.string().optional(),
+  naverPlaceId: z.string().optional(),
   operatingHours: z.any().optional(),
   photoUrls: z.array(z.string()).min(1, 'At least 1 photo is required').max(3, 'Maximum 3 photos allowed'),
 });
