@@ -74,9 +74,7 @@ async function getCafe(rawSlugOrId: string): Promise<Cafe | null> {
     // Already decoded or invalid encoding — use as-is
   }
 
-  console.log('[getCafe] raw:', rawSlugOrId, '| decoded:', slugOrId);
-
-  // Try by slug first
+  // Try by exact slug first
   const { data: cafe, error } = await supabase
     .from('cafes')
     .select('*')
@@ -84,10 +82,27 @@ async function getCafe(rawSlugOrId: string): Promise<Cafe | null> {
     .eq('status', 'active')
     .single();
 
-  console.log('[getCafe] slug query result:', { found: !!cafe, error: error?.message });
-
   if (!error && cafe) {
     return transformCafe(cafe);
+  }
+
+  // Fallback: match by slug suffix (the unique timestamp part after last '-')
+  // Handles slug base changes (e.g. Korean → ASCII) while suffix stays the same
+  const lastDash = slugOrId.lastIndexOf('-');
+  if (lastDash > 0) {
+    const suffix = slugOrId.slice(lastDash + 1);
+    if (suffix.length >= 6) {
+      const { data: cafeBySuffix, error: suffixError } = await supabase
+        .from('cafes')
+        .select('*')
+        .like('slug', `%-${suffix}`)
+        .eq('status', 'active')
+        .single();
+
+      if (!suffixError && cafeBySuffix) {
+        return transformCafe(cafeBySuffix);
+      }
+    }
   }
 
   // Fallback: try by UUID (for links from submission cards)
