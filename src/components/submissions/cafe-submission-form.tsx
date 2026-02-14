@@ -180,13 +180,13 @@ export function CafeSubmissionForm({
     return uploadedPaths;
   };
 
-  const buildSubmissionData = (place: KakaoPlaceSearchResult, photoUrls: string[]): SubmissionFormData => ({
+  const buildSubmissionData = (place: NaverPlaceSearchResult, photoUrls: string[]): SubmissionFormData => ({
     name: { ko: place.name },
     address: { ko: place.roadAddress || place.address },
     phone: place.phone || undefined,
     latitude: place.latitude,
     longitude: place.longitude,
-    kakaoPlaceId: place.id,
+    naverPlaceId: place.id,
     operatingHours: Object.keys(operatingHours).length > 0 ? operatingHours : undefined,
     photoUrls,
   });
