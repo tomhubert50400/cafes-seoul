@@ -85,14 +85,14 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
     }
   }
 
-  // 6. Check if an inactive cafe with the same kakao_place_id already exists
+  // 6. Check if an inactive cafe with the same naver_place_id already exists
   let cafe: { id: string };
 
-  if (submission.kakao_place_id) {
+  if (submission.naver_place_id) {
     const { data: existingCafe } = await supabase
       .from('cafes')
       .select('id')
-      .eq('kakao_place_id', submission.kakao_place_id)
+      .eq('naver_place_id', submission.naver_place_id)
       .eq('status', 'inactive')
       .single();
 
@@ -121,8 +121,8 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
         p_district_id: submission.district_id,
         p_neighborhood_id: submission.neighborhood_id,
         p_slug: slug,
-        p_kakao_place_id: submission.kakao_place_id,
         p_operating_hours: submission.operating_hours || {},
+        p_naver_place_id: submission.naver_place_id,
       });
 
       if (cafeError || !cafeResult) {
@@ -133,7 +133,7 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
       cafe = { id: cafeResult };
     }
   } else {
-    // No kakao_place_id — create new cafe
+    // No naver_place_id — create new cafe
     const slug = generateSlug(submission.name.en || submission.name.ko || 'cafe');
     const { data: cafeResult, error: cafeError } = await supabase.rpc('create_cafe_from_submission', {
       p_name: submission.name,
@@ -144,7 +144,6 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
       p_district_id: submission.district_id,
       p_neighborhood_id: submission.neighborhood_id,
       p_slug: slug,
-      p_kakao_place_id: null,
       p_operating_hours: submission.operating_hours || {},
     });
 
