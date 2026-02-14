@@ -63,8 +63,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function getCafe(slugOrId: string): Promise<Cafe | null> {
+async function getCafe(rawSlugOrId: string): Promise<Cafe | null> {
   const supabase = await createClient();
+
+  // Decode URI-encoded slugs (Korean chars arrive as %EC%9D%BC... from URL)
+  let slugOrId = rawSlugOrId;
+  try {
+    slugOrId = decodeURIComponent(rawSlugOrId);
+  } catch {
+    // Already decoded or invalid encoding — use as-is
+  }
 
   // Try by slug first
   const { data: cafe, error } = await supabase
