@@ -325,6 +325,7 @@ export function CafeSubmissionForm({
     setSubmittedCafeName(null);
     setSelectedPlace(null);
     setOperatingHours({});
+    setNaverPhotoPath(null);
     setSelectedPhotos((prev) => {
       prev.forEach((p) => URL.revokeObjectURL(p.previewUrl));
       return [];
