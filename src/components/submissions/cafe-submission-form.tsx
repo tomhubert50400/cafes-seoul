@@ -20,10 +20,10 @@ import { RateLimitBlock } from './rate-limit-block';
 import { NaverPlaceSearch } from './naver-place-search';
 import { HoursInput } from './hours-input';
 import { fetchNaverPlaceHours, fetchNaverPlacePhoto, type NaverPlaceSearchResult } from '@/lib/naver/search';
+import { getPhotoUrl } from '@/lib/utils/photos';
 import type { OperatingHours } from '@/types/cafe';
 
 const MAX_PHOTOS = 3;
-const MIN_PHOTOS = 1;
 
 export interface CafeSubmissionFormProps {
   /** Callback when form is submitted - returns error object on failure instead of throwing */
