@@ -40,7 +40,7 @@ export async function createSubmission(
         longitude: data.longitude || null,
         district_id: data.districtId || null,
         neighborhood_id: data.neighborhoodId || null,
-        kakao_place_id: data.kakaoPlaceId || null,
+        naver_place_id: data.naverPlaceId || null,
         operating_hours: data.operatingHours || {},
         photo_urls: data.photoUrls || [],
         status: 'pending',
