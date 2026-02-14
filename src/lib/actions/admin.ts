@@ -155,7 +155,28 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
     cafe = { id: cafeResult };
   }
 
-  // 7. Update submission status
+  // 7. Transfer photos from submission to photos table
+  if (submission.photo_urls && submission.photo_urls.length > 0) {
+    const photoInserts = submission.photo_urls.map((storagePath: string) => ({
+      cafe_id: cafe.id,
+      user_id: submission.user_id,
+      storage_path: storagePath,
+      status: 'approved' as const,
+      approved_at: new Date().toISOString(),
+      approved_by: user.id,
+    }));
+
+    const { error: photoError } = await supabase
+      .from('photos')
+      .insert(photoInserts);
+
+    if (photoError) {
+      console.error('Error inserting photos:', photoError);
+      // Non-blocking: cafe was created, just log the photo error
+    }
+  }
+
+  // 8. Update submission status
   const { error: updateError } = await supabase
     .from('cafe_submissions')
     .update({
@@ -172,7 +193,7 @@ export async function approveSubmission(input: z.infer<typeof approveSchema>): P
     return { success: false, error: 'Failed to update submission status' };
   }
 
-  // 8. Revalidate paths
+  // 9. Revalidate paths
   revalidatePath('/admin/submissions');
   revalidatePath('/admin');
   revalidatePath('/cafes');
