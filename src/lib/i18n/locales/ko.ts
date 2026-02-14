@@ -594,13 +594,15 @@ const ko: Record<string, string> = {
 
   // Submission Photos
   'submissions.photos.title': '사진',
-  'submissions.photos.description': '카페 사진을 1~3장 추가하세요 (필수)',
+  'submissions.photos.description': '네이버에서 자동으로 사진을 가져옵니다. 직접 사진을 추가할 수도 있습니다 (선택).',
   'submissions.photos.required': '카페를 제출하려면 최소 1장의 사진이 필요합니다.',
   'submissions.photos.tooMany': '최대 {max}장까지 업로드할 수 있습니다.',
-  'submissions.photos.select': '사진 선택 (1-3장)',
+  'submissions.photos.select': '직접 사진 추가하기',
   'submissions.photos.formats': 'JPG, PNG 또는 WebP (최대 15MB)',
   'submissions.photos.uploading': '사진 업로드 중...',
   'submissions.photos.authRequired': '사진을 업로드하려면 로그인이 필요합니다.',
+  'submissions.photos.naverPhoto': '네이버 사진',
+  'submissions.photos.fetchingPhoto': '사진 가져오는 중...',
 
   // My Submissions Page
   'mySubmissions.title': '내 제출 목록',
