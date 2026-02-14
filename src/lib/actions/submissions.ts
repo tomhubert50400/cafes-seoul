@@ -76,11 +76,11 @@ export async function submitCafe(
       return { success: false, error: `Validation failed: ${issues}` };
     }
 
-    // 5. Check for kakao_place_id duplicate (server-side enforcement)
-    if (validation.data.kakaoPlaceId) {
-      const kakaoCheck = await checkKakaoPlaceIdExists(supabase, validation.data.kakaoPlaceId);
-      if (kakaoCheck.exists) {
-        const errorMsg = kakaoCheck.foundIn === 'cafes'
+    // 5. Check for naver_place_id duplicate (server-side enforcement)
+    if (validation.data.naverPlaceId) {
+      const naverCheck = await checkNaverPlaceIdExists(supabase, validation.data.naverPlaceId);
+      if (naverCheck.exists) {
+        const errorMsg = naverCheck.foundIn === 'cafes'
           ? 'This cafe already exists in our directory'
           : 'This cafe has already been submitted and is pending review';
         return { success: false, error: errorMsg };
