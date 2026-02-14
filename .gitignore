@@ -48,9 +48,9 @@ project-overview.json
 # scripts
 /scripts/
 
-# capacitor
-/android/
-/ios/
+# capacitor native projects (regenerated via `npx cap add`)
+/ios
+/android
 
 # claude
 /.claude/*
