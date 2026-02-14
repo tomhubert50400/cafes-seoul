@@ -12,14 +12,15 @@ import { verifyAdminRole } from '@/lib/auth/verify-admin';
 // ============================================
 
 function generateSlug(name: string): string {
-  return (
-    name
-      .toLowerCase()
-      .replace(/[^a-z0-9\uAC00-\uD7A3]+/g, '-')
-      .replace(/^-|-$/g, '') +
-    '-' +
-    Date.now().toString(36)
-  );
+  const ascii = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+  // If name is Korean-only (no ASCII letters left), use "cafe" as base
+  const base = ascii || 'cafe';
+
+  return `${base}-${Date.now().toString(36)}`;
 }
 
 // ============================================
