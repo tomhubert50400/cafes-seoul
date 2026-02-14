@@ -232,7 +232,7 @@ export function CafeSubmissionForm({
       return;
     }
 
-    if (selectedPhotos.length < MIN_PHOTOS) {
+    if (selectedPhotos.length === 0 && !naverPhotoPath) {
       setError(t('submissions.photos.required'));
       return;
     }
