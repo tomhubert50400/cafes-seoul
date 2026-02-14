@@ -372,7 +372,7 @@ export function CafeSubmissionForm({
               <div className="flex items-start justify-between">
                 <h3 className="font-semibold text-lg">{selectedPlace.name}</h3>
                 <a
-                  href={selectedPlace.kakaoUrl}
+                  href={selectedPlace.naverUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
