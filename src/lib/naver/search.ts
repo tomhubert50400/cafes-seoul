@@ -232,77 +232,98 @@ export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearch
 }
 
 // ============================================
-// OPERATING HOURS
+// OPERATING HOURS (via Naver Place GraphQL)
 // ============================================
 
-interface GraphQLBusinessHours {
+const GRAPHQL_URL = 'https://pcmap-api.place.naver.com/place/graphql';
+const GRAPHQL_HEADERS = {
+  'Content-Type': 'application/json',
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Origin': 'https://pcmap.place.naver.com',
+};
+
+interface GraphQLBusinessHoursEntry {
   day: string;
-  businessHours: { start: string; end: string };
+  businessHours: { start: string; end: string } | null;
 }
 
-interface GraphQLPlaceDetail {
-  data: {
-    placeDetail: {
-      newBusinessHours: {
-        businessHours: GraphQLBusinessHours[];
-      } | null;
-    } | null;
-  };
-}
-
-const DAY_MAP: Record<string, string> = {
-  MON: 'mon', MONDAY: 'mon',
-  TUE: 'tue', TUESDAY: 'tue',
-  WED: 'wed', WEDNESDAY: 'wed',
-  THU: 'thu', THURSDAY: 'thu',
-  FRI: 'fri', FRIDAY: 'fri',
-  SAT: 'sat', SATURDAY: 'sat',
-  SUN: 'sun', SUNDAY: 'sun',
+/**
+ * Korean day character → our day key
+ * Day field format from API: "토", "토(2/14)", "월(2/16)" etc.
+ */
+const KO_DAY_MAP: Record<string, string> = {
+  '월': 'mon',
+  '화': 'tue',
+  '수': 'wed',
+  '목': 'thu',
+  '금': 'fri',
+  '토': 'sat',
+  '일': 'sun',
 };
 
 /**
- * Fetch operating hours from Naver Place GraphQL API.
- * Only works with real Naver Place IDs (numeric), not hash-generated ones.
- * Returns null on failure (rate-limited, blocked, invalid ID, etc.).
+ * Extract Korean day character from day field like "토(2/14)" → "토"
  */
-export async function fetchNaverPlaceHours(
-  naverPlaceId: string
-): Promise<Record<string, { open: string; close: string }> | null> {
-  // Only attempt with real numeric Naver Place IDs
-  if (!naverPlaceId || naverPlaceId.startsWith('naver_') || !/^\d+$/.test(naverPlaceId)) {
-    return null;
-  }
+function parseKoreanDay(day: string): string | null {
+  const firstChar = day?.charAt(0);
+  return KO_DAY_MAP[firstChar] || null;
+}
 
+/**
+ * Search Naver Place GraphQL API to find a place by name.
+ * Returns the Naver Place ID of the best match, or null.
+ */
+async function findNaverPlaceId(cafeName: string): Promise<string | null> {
   try {
-    const res = await fetch('https://pcmap-api.place.naver.com/place/graphql', {
+    const res = await fetch(GRAPHQL_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Referer': `https://pcmap.place.naver.com/restaurant/${naverPlaceId}/home`,
-      },
+      headers: { ...GRAPHQL_HEADERS, 'Referer': 'https://pcmap.place.naver.com/restaurant/list' },
       body: JSON.stringify({
-        operationName: 'getPlaceDetail',
-        variables: { input: { deviceType: 'pc', id: naverPlaceId, isNx: false } },
-        query: `query getPlaceDetail($input: PlaceDetailInput!) {
-          placeDetail(input: $input) {
-            newBusinessHours {
-              businessHours { day businessHours { start end } }
-            }
-          }
-        }`,
+        query: `{ places(input: {query: ${JSON.stringify(cafeName)}}) { items { id name } } }`,
       }),
     });
 
     if (!res.ok) return null;
 
-    const data: GraphQLPlaceDetail = await res.json();
-    const hours = data.data?.placeDetail?.newBusinessHours?.businessHours;
-    if (!hours || hours.length === 0) return null;
+    const data = await res.json();
+    const items = data?.data?.places?.items;
+    if (!items || items.length === 0) return null;
+
+    // Return the first result's ID (best match)
+    return items[0].id || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch operating hours from Naver Place GraphQL API by Place ID.
+ */
+async function fetchHoursByPlaceId(
+  placeId: string
+): Promise<Record<string, { open: string; close: string }> | null> {
+  try {
+    const res = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: { ...GRAPHQL_HEADERS, 'Referer': `https://pcmap.place.naver.com/restaurant/${placeId}/home` },
+      body: JSON.stringify({
+        query: `query { placeDetail(input: {deviceType: "pc", id: ${JSON.stringify(placeId)}, isNx: false}) { newBusinessHours { businessHours { day businessHours { start end } } } } }`,
+      }),
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    // newBusinessHours is an array; first element has main business hours
+    const hoursArray = data?.data?.placeDetail?.newBusinessHours;
+    if (!Array.isArray(hoursArray) || hoursArray.length === 0) return null;
+
+    const entries: GraphQLBusinessHoursEntry[] = hoursArray[0].businessHours;
+    if (!entries || entries.length === 0) return null;
 
     const result: Record<string, { open: string; close: string }> = {};
-    for (const entry of hours) {
-      const dayKey = DAY_MAP[entry.day?.toUpperCase()];
+    for (const entry of entries) {
+      const dayKey = parseKoreanDay(entry.day);
       if (dayKey && entry.businessHours) {
         result[dayKey] = {
           open: entry.businessHours.start,
@@ -312,6 +333,26 @@ export async function fetchNaverPlaceHours(
     }
 
     return Object.keys(result).length > 0 ? result : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch operating hours for a cafe by searching Naver Place.
+ * Two-step process: search for the cafe → get hours from place detail.
+ * Returns null on any failure (graceful degradation).
+ */
+export async function fetchNaverPlaceHours(
+  cafeName: string
+): Promise<Record<string, { open: string; close: string }> | null> {
+  if (!cafeName || cafeName.trim().length < 2) return null;
+
+  try {
+    const placeId = await findNaverPlaceId(cafeName);
+    if (!placeId) return null;
+
+    return await fetchHoursByPlaceId(placeId);
   } catch {
     return null;
   }
