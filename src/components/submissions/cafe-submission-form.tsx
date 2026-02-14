@@ -445,7 +445,7 @@ export function CafeSubmissionForm({
             <div className="space-y-3">
               <div>
                 <h4 className="text-sm font-medium">
-                  {t('submissions.photos.title')} <span className="text-destructive">*</span>
+                  {t('submissions.photos.title')}
                 </h4>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   {t('submissions.photos.description')}
@@ -472,12 +472,34 @@ export function CafeSubmissionForm({
                 multiple
                 onChange={handlePhotoSelect}
                 className="hidden"
-                disabled={isSubmitting || selectedPhotos.length >= MAX_PHOTOS}
+                disabled={isSubmitting || selectedPhotos.length >= userPhotoLimit}
               />
 
-              {/* Photo Previews */}
-              {selectedPhotos.length > 0 && (
+              {/* Photo Previews (Naver + User) */}
+              {(naverPhotoPath || isFetchingPhoto || selectedPhotos.length > 0) && (
                 <div className="grid grid-cols-3 gap-3">
+                  {/* Naver photo */}
+                  {isFetchingPhoto && !naverPhotoPath && (
+                    <div className="aspect-square rounded-lg overflow-hidden border bg-muted flex flex-col items-center justify-center gap-1.5">
+                      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                      <span className="text-[10px] text-muted-foreground">{t('submissions.photos.fetchingPhoto')}</span>
+                    </div>
+                  )}
+                  {naverPhotoPath && (
+                    <div className="relative aspect-square rounded-lg overflow-hidden border bg-muted">
+                      <Image
+                        src={getPhotoUrl(naverPhotoPath)}
+                        alt="Naver"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-green-600/90 text-white text-[9px] font-medium">
+                        {t('submissions.photos.naverPhoto')}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* User photos */}
                   {selectedPhotos.map((photo, index) => (
                     <div key={`${photo.file.name}-${index}`} className="relative group aspect-square rounded-lg overflow-hidden border bg-muted">
                       <Image
@@ -501,7 +523,7 @@ export function CafeSubmissionForm({
                   ))}
 
                   {/* Add more button */}
-                  {selectedPhotos.length < MAX_PHOTOS && (
+                  {selectedPhotos.length < userPhotoLimit && (
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
@@ -510,15 +532,15 @@ export function CafeSubmissionForm({
                     >
                       <Upload className="h-5 w-5 text-muted-foreground" />
                       <span className="text-[10px] text-muted-foreground">
-                        {selectedPhotos.length}/{MAX_PHOTOS}
+                        +{userPhotoLimit - selectedPhotos.length}
                       </span>
                     </button>
                   )}
                 </div>
               )}
 
-              {/* Empty state - select photos */}
-              {selectedPhotos.length === 0 && (
+              {/* Empty state - select photos (only when no naver photo and not fetching) */}
+              {selectedPhotos.length === 0 && !naverPhotoPath && !isFetchingPhoto && (
                 <Button
                   type="button"
                   variant="outline"
