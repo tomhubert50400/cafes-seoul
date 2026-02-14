@@ -207,14 +207,14 @@ export function CafeSubmissionForm({
     setPhotoErrors([]);
 
     try {
-      // Check for exact kakao_place_id duplicate (blocking)
-      if (onCheckKakaoPlaceId && selectedPlace.id) {
-        const kakaoResult = await onCheckKakaoPlaceId(selectedPlace.id);
-        if (kakaoResult.exists) {
+      // Check for exact naver_place_id duplicate (blocking)
+      if (onCheckNaverPlaceId && selectedPlace.id) {
+        const naverResult = await onCheckNaverPlaceId(selectedPlace.id);
+        if (naverResult.exists) {
           setError(
-            kakaoResult.foundIn === 'cafes'
-              ? t('submissions.duplicateKakao.existsInDirectory')
-              : t('submissions.duplicateKakao.alreadySubmitted')
+            naverResult.foundIn === 'cafes'
+              ? t('submissions.duplicateNaver.existsInDirectory')
+              : t('submissions.duplicateNaver.alreadySubmitted')
           );
           setIsSubmitting(false);
           return;
