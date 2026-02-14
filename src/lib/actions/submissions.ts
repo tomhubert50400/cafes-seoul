@@ -13,7 +13,7 @@ import {
   incrementRateLimit,
   findDuplicateCafes,
   getSubmissionStatistics,
-  checkKakaoPlaceIdExists,
+  checkNaverPlaceIdExists,
 } from '@/lib/supabase/submissions';
 import { approveSubmission } from '@/lib/actions/admin';
 import type {
