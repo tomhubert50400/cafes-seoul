@@ -101,8 +101,8 @@ export interface CafeSubmissionInput {
   /** Neighborhood reference (if known) */
   neighborhoodId?: number;
 
-  /** Kakao Place ID (if selected from Kakao search) */
-  kakaoPlaceId?: string;
+  /** Naver Place ID (if selected from Naver search) */
+  naverPlaceId?: string;
 
   /** Operating hours (optional, user-provided) */
   operatingHours?: OperatingHours;
