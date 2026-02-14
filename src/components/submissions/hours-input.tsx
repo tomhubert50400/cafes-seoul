@@ -1,5 +1,6 @@
 'use client';
 
+import { ExternalLink } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import type { OperatingHours, DayHours } from '@/types/cafe';
 
@@ -8,9 +9,10 @@ const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
 interface HoursInputProps {
   value: OperatingHours;
   onChange: (hours: OperatingHours) => void;
+  naverMapUrl?: string;
 }
 
-export function HoursInput({ value, onChange }: HoursInputProps) {
+export function HoursInput({ value, onChange, naverMapUrl }: HoursInputProps) {
   const { t } = useI18n();
 
   const handleDayChange = (day: string, field: 'open' | 'close', val: string) => {
