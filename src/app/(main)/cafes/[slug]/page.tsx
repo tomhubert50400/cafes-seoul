@@ -74,6 +74,8 @@ async function getCafe(rawSlugOrId: string): Promise<Cafe | null> {
     // Already decoded or invalid encoding — use as-is
   }
 
+  console.log('[getCafe] raw:', rawSlugOrId, '| decoded:', slugOrId);
+
   // Try by slug first
   const { data: cafe, error } = await supabase
     .from('cafes')
@@ -81,6 +83,8 @@ async function getCafe(rawSlugOrId: string): Promise<Cafe | null> {
     .eq('slug', slugOrId)
     .eq('status', 'active')
     .single();
+
+  console.log('[getCafe] slug query result:', { found: !!cafe, error: error?.message });
 
   if (!error && cafe) {
     return transformCafe(cafe);
