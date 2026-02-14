@@ -81,6 +81,7 @@ export function CafeSubmissionForm({
   const handlePlaceSelect = (place: NaverPlaceSearchResult) => {
     setSelectedPlace(place);
     setError(null);
+    setNaverPhotoPath(null);
 
     // Auto-fetch operating hours from Naver Place
     setIsFetchingHours(true);
@@ -94,6 +95,19 @@ export function CafeSubmissionForm({
         // Silently fail - user can enter hours manually
       })
       .finally(() => setIsFetchingHours(false));
+
+    // Auto-fetch photo from Naver Place (in parallel)
+    setIsFetchingPhoto(true);
+    fetchNaverPlacePhoto(place.name)
+      .then((path) => {
+        if (path) {
+          setNaverPhotoPath(path);
+        }
+      })
+      .catch(() => {
+        // Silently fail - user can upload their own photos
+      })
+      .finally(() => setIsFetchingPhoto(false));
   };
 
   // Photo handlers
