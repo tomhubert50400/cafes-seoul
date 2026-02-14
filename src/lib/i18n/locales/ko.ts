@@ -545,6 +545,7 @@ const ko: Record<string, string> = {
   'submissions.form.selectCafeFirst': '검색 결과에서 카페를 선택해주세요',
   'submissions.form.hoursLabel': '영업시간 (선택사항)',
   'submissions.form.hoursHelp': '알고 계시면 영업시간을 입력해주세요',
+  'submissions.form.checkNaverMap': '네이버 지도에서 확인',
 
   'submissions.duplicates.title': '중복 가능성 발견',
   'submissions.duplicates.description': '제출하신 카페와 유사한 카페를 찾았습니다',
