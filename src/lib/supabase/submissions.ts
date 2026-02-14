@@ -433,31 +433,31 @@ async function findDuplicateCafesFallback(
 }
 
 // ============================================
-// KAKAO PLACE ID DUPLICATE CHECK
+// NAVER PLACE ID DUPLICATE CHECK
 // ============================================
 
-export type KakaoPlaceIdCheckResult = {
+export type NaverPlaceIdCheckResult = {
   exists: boolean;
   foundIn?: 'cafes' | 'submissions';
   status?: string;
 };
 
 /**
- * Check if a kakao_place_id already exists in cafes or cafe_submissions
+ * Check if a naver_place_id already exists in cafes or cafe_submissions
  * Uses the RPC function with fallback to direct query
  */
-export async function checkKakaoPlaceIdExists(
+export async function checkNaverPlaceIdExists(
   supabase: SupabaseClient,
-  kakaoPlaceId: string
-): Promise<KakaoPlaceIdCheckResult> {
+  naverPlaceId: string
+): Promise<NaverPlaceIdCheckResult> {
   try {
-    const { data, error } = await supabase.rpc('check_kakao_place_id_exists', {
-      p_kakao_place_id: kakaoPlaceId,
+    const { data, error } = await supabase.rpc('check_naver_place_id_exists', {
+      p_naver_place_id: naverPlaceId,
     });
 
     if (error) {
-      console.warn('RPC check_kakao_place_id_exists failed, using fallback:', error.message);
-      return checkKakaoPlaceIdFallback(supabase, kakaoPlaceId);
+      console.warn('RPC check_naver_place_id_exists failed, using fallback:', error.message);
+      return checkNaverPlaceIdFallback(supabase, naverPlaceId);
     }
 
     if (data && data.length > 0) {
@@ -470,20 +470,20 @@ export async function checkKakaoPlaceIdExists(
 
     return { exists: false };
   } catch (err) {
-    console.error('Error checking kakao_place_id:', err);
-    return checkKakaoPlaceIdFallback(supabase, kakaoPlaceId);
+    console.error('Error checking naver_place_id:', err);
+    return checkNaverPlaceIdFallback(supabase, naverPlaceId);
   }
 }
 
-async function checkKakaoPlaceIdFallback(
+async function checkNaverPlaceIdFallback(
   supabase: SupabaseClient,
-  kakaoPlaceId: string
-): Promise<KakaoPlaceIdCheckResult> {
+  naverPlaceId: string
+): Promise<NaverPlaceIdCheckResult> {
   try {
     const { data, error } = await supabase
       .from('cafes')
       .select('id')
-      .eq('kakao_place_id', kakaoPlaceId)
+      .eq('naver_place_id', naverPlaceId)
       .limit(1);
 
     if (!error && data && data.length > 0) {
