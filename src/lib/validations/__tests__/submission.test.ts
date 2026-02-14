@@ -49,6 +49,7 @@ describe('submissionSchema', () => {
     const result = submissionSchema.safeParse({
       name: { en: 'My Cafe' },
       address: { en: '123 Seoul Street' },
+      photoUrls: ['https://example.com/photo.jpg'],
     });
     expect(result.success).toBe(true);
   });
