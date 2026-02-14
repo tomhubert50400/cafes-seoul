@@ -206,7 +206,7 @@ export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearch
       latitude: parseNaverCoordinate(item.mapy),
       longitude: parseNaverCoordinate(item.mapx),
       category: item.category,
-      naverUrl: item.link || `https://map.naver.com/v5/search/${encodeURIComponent(stripBoldTags(item.title))}`,
+      naverUrl: `https://map.naver.com/v5/search/${encodeURIComponent(stripBoldTags(item.title) + ' ' + (item.roadAddress || item.address))}`,
     }));
 
     // Translate names/addresses for Latin queries
