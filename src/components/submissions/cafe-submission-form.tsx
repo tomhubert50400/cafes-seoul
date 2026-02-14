@@ -75,7 +75,7 @@ export function CafeSubmissionForm({
   // Check if rate limit has been reached
   const isRateLimited = rateLimit?.remaining === 0;
 
-  const handlePlaceSelect = (place: KakaoPlaceSearchResult) => {
+  const handlePlaceSelect = (place: NaverPlaceSearchResult) => {
     setSelectedPlace(place);
     setError(null);
   };
