@@ -65,6 +65,8 @@ export function CafeSubmissionForm({
   const [error, setError] = useState<string | null>(null);
   const [operatingHours, setOperatingHours] = useState<OperatingHours>({});
   const [isFetchingHours, setIsFetchingHours] = useState(false);
+  const [naverPhotoPath, setNaverPhotoPath] = useState<string | null>(null);
+  const [isFetchingPhoto, setIsFetchingPhoto] = useState(false);
   const [submittedCafeName, setSubmittedCafeName] = useState<string | null>(null);
 
   // Photo state
