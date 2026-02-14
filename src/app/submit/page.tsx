@@ -48,9 +48,9 @@ export default async function SubmitCafePage() {
                 return { error: result.error || 'Failed to submit cafe' };
               }
             }}
-            onCheckKakaoPlaceId={async (kakaoPlaceId) => {
+            onCheckNaverPlaceId={async (naverPlaceId) => {
               'use server';
-              const result = await checkKakaoPlaceIdDuplicate(kakaoPlaceId);
+              const result = await checkNaverPlaceIdDuplicate(naverPlaceId);
               return { exists: result.exists ?? false, foundIn: result.foundIn };
             }}
             onCheckDuplicates={async (name, address) => {
