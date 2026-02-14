@@ -43,7 +43,20 @@ export function HoursInput({ value, onChange, naverMapUrl }: HoursInputProps) {
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">{t('submissions.form.hoursLabel')}</label>
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium">{t('submissions.form.hoursLabel')}</label>
+        {naverMapUrl && (
+          <a
+            href={naverMapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t('submissions.form.checkNaverMap')}
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        )}
+      </div>
       <p className="text-xs text-muted-foreground">{t('submissions.form.hoursHelp')}</p>
       <div className="space-y-2">
         {DAY_KEYS.map((day) => {
