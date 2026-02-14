@@ -161,6 +161,8 @@ export function CafeSubmissionForm({
   }, []);
 
   const uploadPhotos = async (): Promise<string[] | null> => {
+    if (selectedPhotos.length === 0) return [];
+
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
