@@ -518,7 +518,7 @@ export function CafeSubmissionForm({
 
           {/* Operating Hours */}
           {selectedPlace && (
-            <HoursInput value={operatingHours} onChange={setOperatingHours} naverMapUrl={selectedPlace.naverUrl} />
+            <HoursInput value={operatingHours} onChange={setOperatingHours} naverMapUrl={selectedPlace.naverUrl} isLoading={isFetchingHours} />
           )}
 
           {/* Submit Button */}
