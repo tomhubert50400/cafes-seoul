@@ -339,6 +339,73 @@ async function fetchHoursByPlaceId(
 }
 
 /**
+ * Fetch a photo from Naver Place for a cafe.
+ * Two-step process: search for the cafe → get first image from place detail.
+ * Downloads the image and uploads it to Supabase storage.
+ * Returns the storage path or null on failure (graceful degradation).
+ */
+export async function fetchNaverPlacePhoto(cafeName: string): Promise<string | null> {
+  if (!cafeName || cafeName.trim().length < 2) return null;
+
+  try {
+    const placeId = await findNaverPlaceId(cafeName);
+    if (!placeId) return null;
+
+    // Query GraphQL for images
+    const res = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: { ...GRAPHQL_HEADERS, 'Referer': `https://pcmap.place.naver.com/restaurant/${placeId}/photo` },
+      body: JSON.stringify({
+        query: `query { placeDetail(input: {deviceType: "pc", id: ${JSON.stringify(placeId)}, isNx: false}) { images { images { origin } } } }`,
+      }),
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const images = data?.data?.placeDetail?.images?.images;
+    if (!Array.isArray(images) || images.length === 0) return null;
+
+    const originUrl: string | undefined = images[0]?.origin;
+    if (!originUrl) return null;
+
+    // Download the image
+    const imageRes = await fetch(originUrl);
+    if (!imageRes.ok) return null;
+
+    const imageBuffer = await imageRes.arrayBuffer();
+    const contentType = imageRes.headers.get('content-type') || 'image/jpeg';
+
+    // Upload to Supabase storage using service role (bypass RLS)
+    const { createServiceRoleClient } = await import('@/lib/supabase/server');
+    const supabase = createServiceRoleClient();
+
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 10);
+    const ext = contentType.includes('png') ? 'png' : contentType.includes('webp') ? 'webp' : 'jpg';
+    const path = `naver-photos/${timestamp}-${random}.${ext}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('cafe-images')
+      .upload(path, imageBuffer, {
+        contentType,
+        cacheControl: '86400',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error('Naver photo upload error:', uploadError.message);
+      return null;
+    }
+
+    return path;
+  } catch (error) {
+    console.error('Naver photo fetch error:', error);
+    return null;
+  }
+}
+
+/**
  * Fetch operating hours for a cafe by searching Naver Place.
  * Two-step process: search for the cafe → get hours from place detail.
  * Returns null on any failure (graceful degradation).
