@@ -60,7 +60,7 @@ export function CafeSubmissionForm({
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [duplicates, setDuplicates] = useState<CafeSummary[]>([]);
   const [pendingData, setPendingData] = useState<SubmissionFormData | null>(null);
-  const [selectedPlace, setSelectedPlace] = useState<KakaoPlaceSearchResult | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<NaverPlaceSearchResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [operatingHours, setOperatingHours] = useState<OperatingHours>({});
