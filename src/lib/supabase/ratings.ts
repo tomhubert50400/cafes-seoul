@@ -37,7 +37,7 @@ export async function upsertRating(
           pet_friendly: data.petFriendly ?? false,
           has_parking: data.hasParking ?? false,
           lighting: data.lighting ?? 0,
-          outlets: data.outlets ?? 0,
+          aesthetic: data.aesthetic ?? 0,
           review_text: data.reviewText || null,
           updated_at: new Date().toISOString(),
         },
