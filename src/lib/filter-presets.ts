@@ -109,11 +109,11 @@ export function matchesPreset(
   // Explicitly check ALL MapFilters keys except showFavoritesOnly
   const allFilterKeys: (keyof MapFilters)[] = [
     'seatingMin',
-    'wifiMin',
+    'serviceMin',
     'foodMin',
     'drinksMin',
     'lightingMin',
-    'outletsMin',
+    'aestheticMin',
     'quietnessMin',
     'priceValueMin',
     'comfortMin',
