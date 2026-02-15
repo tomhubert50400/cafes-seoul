@@ -665,7 +665,7 @@ const en: Record<string, string> = {
   'rating.petFriendlyDescription': 'Is this cafe welcoming to pets?',
   'rating.lighting': 'Lighting',
   'rating.drinks': 'Drinks',
-  'rating.wifi': 'WiFi',
+  'rating.service': 'Service',
   'rating.seating': 'Seating',
   'rating.food': 'Food',
   'rating.outlets': 'Outlets',
