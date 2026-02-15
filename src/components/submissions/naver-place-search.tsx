@@ -226,14 +226,14 @@ export function NaverPlaceSearch({
       {selectedPlace && (
         <div className="mt-2 p-3 rounded-lg border bg-muted/50 text-sm">
           <div className="font-medium">
-            {selectedPlace.romanizedName || selectedPlace.name}
+            {(showRomanized && selectedPlace.romanizedName) ? selectedPlace.romanizedName : selectedPlace.name}
           </div>
-          {selectedPlace.romanizedName && (
+          {showRomanized && selectedPlace.romanizedName && (
             <div className="text-xs text-muted-foreground">{selectedPlace.name}</div>
           )}
           <div className="flex items-center gap-1 text-muted-foreground mt-1">
             <MapPin className="h-3 w-3" />
-            <span>{selectedPlace.romanizedAddress || selectedPlace.roadAddress || selectedPlace.address}</span>
+            <span>{(showRomanized && selectedPlace.romanizedAddress) ? selectedPlace.romanizedAddress : (selectedPlace.roadAddress || selectedPlace.address)}</span>
           </div>
           {selectedPlace.phone && (
             <div className="flex items-center gap-1 text-muted-foreground mt-1">
