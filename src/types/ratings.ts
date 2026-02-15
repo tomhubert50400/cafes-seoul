@@ -391,7 +391,7 @@ export function toDatabaseRating(input: RatingInput): Record<string, unknown> {
     comfort: input.comfort ?? 0,
     food: input.food ?? 0,
     lighting: input.lighting ?? 0,
-    outlets: input.outlets ?? 0,
+    aesthetic: input.aesthetic ?? 0,
     has_wifi: input.hasWifi ?? false,
     has_power_outlets: input.hasPowerOutlets ?? false,
     is_laptop_friendly: input.isLaptopFriendly ?? false,
