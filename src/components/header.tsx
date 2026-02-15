@@ -107,7 +107,7 @@ export function Header({ user }: HeaderProps = {}) {
                 <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
               </Button>
               <Button size="sm" asChild className="min-h-[44px]">
-                <Link href={ROUTES.SIGNUP} prefetch={false}>{t('nav.signup')}</Link>
+                <Link href={ROUTES.SIGNUP}>{t('nav.signup')}</Link>
               </Button>
             </div>
           )}
