@@ -433,14 +433,14 @@ export async function getCafeRatingStats(
         `
         overall:avg(overall)::float,
         drinks:avg(nullif(drinks, 0))::float,
-        wifi:avg(nullif(wifi, 0))::float,
+        service:avg(nullif(service, 0))::float,
         price_value:avg(nullif(price_value, 0))::float,
         quietness:avg(nullif(quietness, 0))::float,
         seating:avg(nullif(seating, 0))::float,
         comfort:avg(nullif(comfort, 0))::float,
         food:avg(nullif(food, 0))::float,
         lighting:avg(nullif(lighting, 0))::float,
-        outlets:avg(nullif(outlets, 0))::float,
+        aesthetic:avg(nullif(aesthetic, 0))::float,
         pet_friendly_percent:avg(case when pet_friendly then 1.0 else 0.0 end)::float,
         count:count(*)::int
       `
