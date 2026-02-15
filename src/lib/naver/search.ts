@@ -311,32 +311,15 @@ export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearch
     const graphqlResults = await searchNaverPlacesGraphQL(query);
 
     if (graphqlResults.length > 0) {
-      // Translate for Latin queries
-      if (isLatinQuery(query)) {
-        const textsToTranslate = graphqlResults.flatMap((r) => [r.name, r.roadAddress || r.address]);
-        const translated = await translateKorean(textsToTranslate);
-        for (let i = 0; i < graphqlResults.length; i++) {
-          const name = translated[i * 2];
-          const address = translated[i * 2 + 1];
-          if (name) graphqlResults[i].romanizedName = name;
-          if (address) graphqlResults[i].romanizedAddress = address;
-        }
-      }
+      await translateResults(graphqlResults);
       return graphqlResults;
     }
 
     // Fallback: Local Search API
     const localResults = await searchNaverPlacesLocal(query);
 
-    if (isLatinQuery(query) && localResults.length > 0) {
-      const textsToTranslate = localResults.flatMap((r) => [r.name, r.roadAddress || r.address]);
-      const translated = await translateKorean(textsToTranslate);
-      for (let i = 0; i < localResults.length; i++) {
-        const name = translated[i * 2];
-        const address = translated[i * 2 + 1];
-        if (name) localResults[i].romanizedName = name;
-        if (address) localResults[i].romanizedAddress = address;
-      }
+    if (localResults.length > 0) {
+      await translateResults(localResults);
     }
 
     return localResults;
