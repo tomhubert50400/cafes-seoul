@@ -17,14 +17,14 @@ interface RatingsSectionProps {
 // Ordre d'affichage des dimensions
 const DIMENSION_ORDER = [
   'drinks',
-  'wifi', 
+  'service',
   'priceValue',
   'quietness',
   'seating',
   'comfort',
   'food',
   'lighting',
-  'outlets'
+  'aesthetic'
 ];
 
 export function RatingsSection({ cafe, userRating, onRatingSubmitted }: RatingsSectionProps) {
