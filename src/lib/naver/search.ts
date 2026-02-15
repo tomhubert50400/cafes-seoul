@@ -232,7 +232,7 @@ export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearch
 }
 
 // ============================================
-// OPERATING HOURS (via Naver Place GraphQL)
+// NAVER PLACE GRAPHQL (shared config)
 // ============================================
 
 const GRAPHQL_URL = 'https://pcmap-api.place.naver.com/place/graphql';
@@ -241,6 +241,113 @@ const GRAPHQL_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   'Origin': 'https://pcmap.place.naver.com',
 };
+
+// ============================================
+// PLACE LOOKUP BY URL
+// ============================================
+
+/**
+ * Extract Naver Place ID from various Naver Map URL formats.
+ * Supports:
+ *   https://map.naver.com/p/entry/place/1234567890
+ *   https://map.naver.com/v5/entry/place/1234567890
+ *   https://map.naver.com/p/search/.../place/1234567890
+ *   https://m.place.naver.com/restaurant/1234567890
+ *   https://m.place.naver.com/cafe/1234567890
+ *   https://pcmap.place.naver.com/restaurant/1234567890/home
+ */
+function extractPlaceIdFromUrl(url: string): string | null {
+  const patterns = [
+    /place\/(\d+)/,
+    /restaurant\/(\d+)/,
+    /cafe\/(\d+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+/**
+ * Fetch full place details from Naver Place GraphQL API by Place ID.
+ */
+async function fetchPlaceDetailsById(placeId: string): Promise<NaverPlaceSearchResult | null> {
+  try {
+    const res = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        ...GRAPHQL_HEADERS,
+        'Referer': `https://pcmap.place.naver.com/restaurant/${placeId}/home`,
+      },
+      body: JSON.stringify({
+        query: `query {
+          placeDetail(input: {deviceType: "pc", id: ${JSON.stringify(placeId)}, isNx: false}) {
+            name
+            address
+            roadAddress
+            phone
+            virtualPhone
+            x
+            y
+            category
+          }
+        }`,
+      }),
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const detail = data?.data?.placeDetail;
+    if (!detail) return null;
+
+    return {
+      id: placeId,
+      name: detail.name || '',
+      address: detail.address || '',
+      roadAddress: detail.roadAddress || '',
+      phone: detail.phone || detail.virtualPhone || '',
+      latitude: parseFloat(detail.y) || 0,
+      longitude: parseFloat(detail.x) || 0,
+      category: Array.isArray(detail.category) ? detail.category.join('>') : (detail.category || ''),
+      naverUrl: `https://map.naver.com/v5/entry/place/${placeId}`,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch cafe details from a Naver Map URL.
+ * Accepts short links (naver.me) and full Naver Map URLs.
+ * Resolves short links by following redirects, then extracts the Place ID
+ * and fetches full details via the Naver Place GraphQL API.
+ */
+export async function fetchNaverPlaceByUrl(url: string): Promise<NaverPlaceSearchResult | null> {
+  if (!url || url.trim().length === 0) return null;
+
+  let targetUrl = url.trim();
+
+  // Resolve naver.me short links by following redirects
+  if (targetUrl.includes('naver.me')) {
+    try {
+      const response = await fetch(targetUrl, { redirect: 'follow' });
+      targetUrl = response.url;
+    } catch {
+      return null;
+    }
+  }
+
+  const placeId = extractPlaceIdFromUrl(targetUrl);
+  if (!placeId) return null;
+
+  return fetchPlaceDetailsById(placeId);
+}
+
+// ============================================
+// OPERATING HOURS (via Naver Place GraphQL)
+// ============================================
 
 interface GraphQLBusinessHoursEntry {
   day: string;
