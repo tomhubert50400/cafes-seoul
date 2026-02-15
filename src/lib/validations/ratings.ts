@@ -51,7 +51,7 @@ export type RatingFormData = {
   petFriendly: boolean;
   hasParking: boolean;
   lighting: number;
-  outlets: number;
+  aesthetic: number;
   reviewText?: string;
 };
 
