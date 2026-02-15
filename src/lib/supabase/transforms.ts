@@ -298,7 +298,7 @@ export function transformUserRating(row: Record<string, unknown>): UserRating {
     petFriendly: row.pet_friendly as boolean || false,
     hasParking: row.has_parking as boolean || false,
     lighting: parseInt(row.lighting as string, 10) || 0,
-    outlets: parseInt(row.outlets as string, 10) || 0,
+    aesthetic: parseInt(row.aesthetic as string, 10) || 0,
     reviewText: row.review_text as string | null,
     reviewEditedAt: row.review_edited_at as string | null,
     createdAt: row.created_at as string,
