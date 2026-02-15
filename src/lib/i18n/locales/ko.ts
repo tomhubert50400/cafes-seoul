@@ -227,7 +227,7 @@ const ko: Record<string, string> = {
   'map.filters.features': '특징',
   'map.filters.any': '무관',
   'map.filters.seating': '좌석',
-  'map.filters.wifi': '와이파이',
+  'map.filters.service': '서비스',
   'map.filters.food': '음식',
   'map.filters.drinks': '음료',
   'map.filters.lighting': '조명',
