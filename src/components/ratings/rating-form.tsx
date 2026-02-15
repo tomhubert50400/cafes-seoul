@@ -368,12 +368,12 @@ export function RatingForm({
             />
 
             <Controller
-              name="outlets"
+              name="aesthetic"
               control={control}
               render={({ field }) => (
                 <DimensionSlider
-                  name="outlets"
-                  label={t('rating.outlets')}
+                  name="aesthetic"
+                  label={t('rating.aesthetic')}
                   value={field.value}
                   onChange={field.onChange}
                 />
