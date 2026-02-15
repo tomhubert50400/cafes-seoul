@@ -41,9 +41,9 @@ export function filterCafes(
       if (rating == null || rating < filters.lightingMin) return false;
     }
 
-    if (filters.outletsMin != null && filters.outletsMin > 0) {
-      const rating = cafe.ratings?.outlets;
-      if (rating == null || rating < filters.outletsMin) return false;
+    if (filters.aestheticMin != null && filters.aestheticMin > 0) {
+      const rating = cafe.ratings?.aesthetic;
+      if (rating == null || rating < filters.aestheticMin) return false;
     }
 
     if (filters.quietnessMin != null && filters.quietnessMin > 0) {
