@@ -44,8 +44,8 @@ const BOOLEAN_FILTER_MAP: Record<string, string> = {
 const STATION_FILTER_KEYS = ['stationId', 'walkingMinutes'] as const;
 
 const RATING_FILTER_KEYS: (keyof MapFilters)[] = [
-  'seatingMin', 'wifiMin', 'foodMin', 'drinksMin', 'lightingMin',
-  'outletsMin', 'quietnessMin', 'priceValueMin', 'comfortMin',
+  'seatingMin', 'serviceMin', 'foodMin', 'drinksMin', 'lightingMin',
+  'aestheticMin', 'quietnessMin', 'priceValueMin', 'comfortMin',
 ];
 
 interface SearchFiltersProps {
