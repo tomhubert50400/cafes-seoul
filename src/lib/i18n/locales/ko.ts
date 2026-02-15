@@ -231,7 +231,7 @@ const ko: Record<string, string> = {
   'map.filters.food': '음식',
   'map.filters.drinks': '음료',
   'map.filters.lighting': '조명',
-  'map.filters.outlets': '콘센트',
+  'map.filters.aesthetic': '인테리어',
   'map.filters.quietness': '조용함',
   'map.filters.priceValue': '가성비',
   'map.filters.comfort': '편안함',
