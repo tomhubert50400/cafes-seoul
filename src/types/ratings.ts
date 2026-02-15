@@ -272,10 +272,10 @@ export function isRatingDimensionOptional(dim: UserRatingDimension): boolean {
  */
 export function getRatedDimensions(rating: UserRating): OptionalRatingDimension[] {
   const dimensions: OptionalRatingDimension[] = [
-    'drinks', 'wifi', 'priceValue', 'quietness', 
-    'seating', 'comfort', 'food', 'lighting', 'outlets'
+    'drinks', 'service', 'priceValue', 'quietness',
+    'seating', 'comfort', 'food', 'lighting', 'aesthetic'
   ];
-  
+
   return dimensions.filter(dim => rating[dim] > 0);
 }
 
@@ -287,8 +287,8 @@ export function getRatedDimensions(rating: UserRating): OptionalRatingDimension[
  */
 export function getOptionalAverage(rating: UserRating): number | null {
   const dimensions: OptionalRatingDimension[] = [
-    'drinks', 'wifi', 'priceValue', 'quietness', 
-    'seating', 'comfort', 'food', 'lighting', 'outlets'
+    'drinks', 'service', 'priceValue', 'quietness',
+    'seating', 'comfort', 'food', 'lighting', 'aesthetic'
   ];
   
   const ratedValues = dimensions
