@@ -37,8 +37,8 @@ export function ReviewCard({ review }: ReviewCardProps) {
 
   // Get all rated dimensions (non-zero values)
   const dimensions: OptionalRatingDimension[] = [
-    'drinks', 'wifi', 'priceValue', 'quietness',
-    'seating', 'comfort', 'food', 'lighting', 'outlets'
+    'drinks', 'service', 'priceValue', 'quietness',
+    'seating', 'comfort', 'food', 'lighting', 'aesthetic'
   ];
   const ratedDimensions = dimensions.filter(dim => review[dim] > 0);
 
