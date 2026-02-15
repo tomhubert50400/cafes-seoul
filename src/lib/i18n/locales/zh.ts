@@ -665,7 +665,7 @@ const zh: Record<string, string> = {
   'rating.petFriendlyDescription': '这家咖啡馆欢迎宠物吗？',
   'rating.lighting': '灯光',
   'rating.drinks': '饮品',
-  'rating.wifi': 'WiFi',
+  'rating.service': '服务',
   'rating.seating': '座位',
   'rating.food': '食物',
   'rating.outlets': '插座',
