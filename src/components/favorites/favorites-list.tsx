@@ -99,14 +99,14 @@ export function FavoritesList({ favorites, userId }: FavoritesListProps) {
             primaryImageUrl: favorite.cafe.primaryImageUrl,
             ratings: {
               drinks: null,
-              wifi: null,
+              service: null,
               priceValue: null,
               quietness: null,
               seating: null,
               comfort: null,
               food: null,
               lighting: null,
-              outlets: null,
+              aesthetic: null,
             },
           };
 
