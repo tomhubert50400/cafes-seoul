@@ -228,9 +228,9 @@ export function MapFiltersPanel({
         />
 
         <RatingSlider
-          label={t('map.filters.outlets')}
-          value={filters.outletsMin ?? null}
-          onChange={(value) => updateFilter('outletsMin', value)}
+          label={t('map.filters.aesthetic')}
+          value={filters.aestheticMin ?? null}
+          onChange={(value) => updateFilter('aestheticMin', value)}
         />
 
         <RatingSlider
