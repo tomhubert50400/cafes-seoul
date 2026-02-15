@@ -22,7 +22,7 @@ export const ratingFormSchema = z.object({
   petFriendly: z.boolean().default(false),
   hasParking: z.boolean().default(false),
   lighting: z.number().int().min(0).max(5).default(0),
-  outlets: z.number().int().min(0).max(5).default(0),
+  aesthetic: z.number().int().min(0).max(5).default(0),
   // Optional review text (max 500 chars)
   reviewText: z
     .string()
