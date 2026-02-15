@@ -6,7 +6,7 @@ const validRating: RatingFormData = {
   cafeId: '550e8400-e29b-41d4-a716-446655440000',
   overall: 4,
   drinks: 0,
-  wifi: 0,
+  service: 0,
   priceValue: 0,
   quietness: 0,
   seating: 0,
