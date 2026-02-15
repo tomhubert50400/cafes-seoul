@@ -105,9 +105,9 @@ describe('filterCafes', () => {
 
   it('excludes cafes with null ratings when rating filter is set', () => {
     const cafes = [
-      makeCafe({ id: '1', ratings: { drinks: null, wifi: null, priceValue: null, quietness: null, seating: null, comfort: null, food: null, lighting: null, outlets: null } }),
+      makeCafe({ id: '1', ratings: { drinks: null, service: null, priceValue: null, quietness: null, seating: null, comfort: null, food: null, lighting: null, aesthetic: null } }),
     ];
-    const result = filterCafes(cafes, { wifiMin: 3 });
+    const result = filterCafes(cafes, { serviceMin: 3 });
     expect(result).toHaveLength(0);
   });
 });
