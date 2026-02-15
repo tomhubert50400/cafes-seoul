@@ -299,6 +299,22 @@ async function searchNaverPlacesLocal(query: string): Promise<NaverPlaceSearchRe
 }
 
 /**
+ * Translate Korean names/addresses to English for all results.
+ * Always runs so that romanizedName is available for submission (en field).
+ */
+async function translateResults(results: NaverPlaceSearchResult[]): Promise<void> {
+  if (results.length === 0) return;
+  const textsToTranslate = results.flatMap((r) => [r.name, r.roadAddress || r.address]);
+  const translated = await translateKorean(textsToTranslate);
+  for (let i = 0; i < results.length; i++) {
+    const name = translated[i * 2];
+    const address = translated[i * 2 + 1];
+    if (name) results[i].romanizedName = name;
+    if (address) results[i].romanizedAddress = address;
+  }
+}
+
+/**
  * Search for places using Naver Map's data.
  * Tries the GraphQL API first (same backend as Naver Map, most up-to-date),
  * then falls back to the official Local Search API.
