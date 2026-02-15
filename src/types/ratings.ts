@@ -167,7 +167,7 @@ export interface RatingInput {
 export const RATING_DIMENSION_LABELS: Record<UserRatingDimension, { ko: string; en: string }> = {
   overall: { ko: '전체 평점', en: 'Overall' },
   drinks: { ko: '음료', en: 'Drinks' },
-  wifi: { ko: '와이파이', en: 'Wi-Fi' },
+  service: { ko: '서비스', en: 'Service' },
   priceValue: { ko: '가성비', en: 'Value' },
   quietness: { ko: '조용함', en: 'Quietness' },
   seating: { ko: '좌석', en: 'Seating' },
