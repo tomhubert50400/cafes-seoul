@@ -81,11 +81,11 @@ export function CafeDetailPanel({ cafe, onClose }: CafeDetailPanelProps) {
         {/* Rating breakdown preview */}
         {cafe.ratings && (
           <div className="grid grid-cols-2 gap-2 text-sm">
-            {cafe.ratings.wifi != null && cafe.ratings.wifi > 0 && (
+            {cafe.ratings.service != null && cafe.ratings.service > 0 && (
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t('rating.wifi')}</span>
+                <span className="text-muted-foreground">{t('rating.service')}</span>
                 <span className="flex items-center gap-1">
-                  {cafe.ratings.wifi.toFixed(1)}
+                  {cafe.ratings.service.toFixed(1)}
                   <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                 </span>
               </div>
