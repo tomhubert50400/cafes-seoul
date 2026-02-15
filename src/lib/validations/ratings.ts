@@ -39,7 +39,7 @@ export type RatingFormData = {
   cafeId: string;
   overall: number;
   drinks: number;
-  wifi: number;
+  service: number;
   priceValue: number;
   quietness: number;
   seating: number;
