@@ -38,8 +38,8 @@ export interface UserRating {
   food: number;
   /** Lighting/ambiance rating 0-5 */
   lighting: number;
-  /** Power outlet availability rating 0-5 */
-  outlets: number;
+  /** Aesthetic/ambiance/decor rating 0-5 */
+  aesthetic: number;
   
   // Boolean feature indicators
   /** Whether the user marked cafe as having wifi */
