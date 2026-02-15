@@ -62,12 +62,12 @@ describe('filterCafes', () => {
     expect(result[0].id).toBe('1');
   });
 
-  it('filters by minimum wifi rating', () => {
+  it('filters by minimum service rating', () => {
     const cafes = [
-      makeCafe({ id: '1', ratings: { drinks: null, wifi: 4, priceValue: null, quietness: null, seating: null, comfort: null, food: null, lighting: null, outlets: null } }),
-      makeCafe({ id: '2', ratings: { drinks: null, wifi: 2, priceValue: null, quietness: null, seating: null, comfort: null, food: null, lighting: null, outlets: null } }),
+      makeCafe({ id: '1', ratings: { drinks: null, service: 4, priceValue: null, quietness: null, seating: null, comfort: null, food: null, lighting: null, aesthetic: null } }),
+      makeCafe({ id: '2', ratings: { drinks: null, service: 2, priceValue: null, quietness: null, seating: null, comfort: null, food: null, lighting: null, aesthetic: null } }),
     ];
-    const result = filterCafes(cafes, { wifiMin: 3 });
+    const result = filterCafes(cafes, { serviceMin: 3 });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe('1');
   });
