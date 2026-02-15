@@ -84,7 +84,7 @@ export async function getRecommendations(
       latitude, longitude,
       overall_rating, total_ratings,
       rating_food, rating_drinks, rating_temperature, rating_seating,
-      rating_ambiance, rating_wifi, rating_noise, rating_outlets, rating_value,
+      rating_ambiance, rating_service, rating_noise, rating_aesthetic, rating_value,
       price_range, cafe_type,
       has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
       operating_hours,
