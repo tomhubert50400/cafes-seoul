@@ -76,7 +76,7 @@ export function RatingForm({
         petFriendly: existingRating.petFriendly,
         hasParking: existingRating.hasParking,
         lighting: existingRating.lighting,
-        outlets: existingRating.outlets,
+        aesthetic: existingRating.aesthetic,
         reviewText: existingRating.reviewText || '',
       }
     : {
