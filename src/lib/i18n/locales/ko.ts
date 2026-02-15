@@ -668,7 +668,7 @@ const ko: Record<string, string> = {
   'rating.service': '서비스',
   'rating.seating': '좌석',
   'rating.food': '음식',
-  'rating.outlets': '콘센트',
+  'rating.aesthetic': '인테리어',
 
   // Sections
   'rating.essentials': '필수',
