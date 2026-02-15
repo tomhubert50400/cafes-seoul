@@ -30,8 +30,8 @@ export const RatingDisplay = memo(function RatingDisplay({
   }
 
   return (
-    <div className={`flex items-center gap-1.5 ${className}`} aria-label={`${overallRating.toFixed(1)} out of 5 stars, ${totalRatings} ratings`}>
-      {showStars && <RatingStars rating={overallRating} size={size} />}
+    <div className={`flex items-center gap-1.5 ${className ?? ''}`} aria-label={`${overallRating.toFixed(1)} out of 5 stars, ${totalRatings} ratings`}>
+      {showStars && <RatingStars rating={overallRating} size={size} showValue={false} />}
       <span className="font-medium">{overallRating.toFixed(1)}</span>
       <span className="text-muted-foreground">
         ({t('rating.count').replace('{{count}}', String(totalRatings))})
