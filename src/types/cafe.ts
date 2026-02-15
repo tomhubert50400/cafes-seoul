@@ -159,9 +159,9 @@ export const RATING_DIMENSIONS = {
   temperature: { ko: '실내 온도', en: 'Temperature' },
   seating: { ko: '좌석', en: 'Seating' },
   ambiance: { ko: '분위기', en: 'Ambiance' },
-  wifi: { ko: '와이파이', en: 'WiFi' },
+  service: { ko: '서비스', en: 'Service' },
   noise: { ko: '소음 수준', en: 'Noise Level' },
-  outlets: { ko: '콘센트', en: 'Outlets' },
+  aesthetic: { ko: '인테리어', en: 'Aesthetic' },
   value: { ko: '가성비', en: 'Value' },
 } as const;
 
