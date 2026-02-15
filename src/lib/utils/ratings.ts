@@ -14,7 +14,7 @@ import type { OptionalRatingDimension } from '@/types/ratings';
  */
 const DIMENSION_LABELS: Record<OptionalRatingDimension, Record<string, string>> = {
   drinks: { ko: '음료', en: 'Drinks', fr: 'Boissons', zh: '饮品', vi: 'Do uong' },
-  wifi: { ko: '와이파이', en: 'Wi-Fi', fr: 'Wi-Fi', zh: 'Wi-Fi', vi: 'Wi-Fi' },
+  service: { ko: '서비스', en: 'Service', fr: 'Service', zh: '服务', vi: 'Dich vu' },
   priceValue: { ko: '가성비', en: 'Value', fr: 'Rapport qualite-prix', zh: '性价比', vi: 'Gia tri' },
   quietness: { ko: '조용함', en: 'Quietness', fr: 'Calme', zh: '安静', vi: 'Yen tinh' },
   seating: { ko: '좌석', en: 'Seating', fr: 'Places', zh: '座位', vi: 'Cho ngoi' },
