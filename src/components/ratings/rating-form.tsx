@@ -83,7 +83,7 @@ export function RatingForm({
         cafeId,
         overall: 0,
         drinks: 0,
-        wifi: 0,
+        service: 0,
         priceValue: 0,
         quietness: 0,
         seating: 0,
