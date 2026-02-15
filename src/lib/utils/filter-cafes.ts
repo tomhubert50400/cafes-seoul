@@ -21,9 +21,9 @@ export function filterCafes(
       if (rating == null || rating < filters.seatingMin) return false;
     }
     
-    if (filters.wifiMin != null && filters.wifiMin > 0) {
-      const rating = cafe.ratings?.wifi;
-      if (rating == null || rating < filters.wifiMin) return false;
+    if (filters.serviceMin != null && filters.serviceMin > 0) {
+      const rating = cafe.ratings?.service;
+      if (rating == null || rating < filters.serviceMin) return false;
     }
     
     if (filters.foodMin != null && filters.foodMin > 0) {
