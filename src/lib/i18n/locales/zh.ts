@@ -668,7 +668,7 @@ const zh: Record<string, string> = {
   'rating.service': '服务',
   'rating.seating': '座位',
   'rating.food': '食物',
-  'rating.outlets': '插座',
+  'rating.aesthetic': '美学',
 
   // Sections
   'rating.essentials': '必备',
