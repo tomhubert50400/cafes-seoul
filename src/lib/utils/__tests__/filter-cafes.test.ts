@@ -140,6 +140,6 @@ describe('getActiveFilterCount', () => {
   });
 
   it('counts active filters correctly', () => {
-    expect(getActiveFilterCount({ hasWifi: true, wifiMin: 3, priceRange: [1] })).toBe(3);
+    expect(getActiveFilterCount({ hasWifi: true, serviceMin: 3, priceRange: [1] })).toBe(3);
   });
 });
