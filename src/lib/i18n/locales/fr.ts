@@ -668,7 +668,7 @@ const fr: Record<string, string> = {
   'rating.service': 'Service',
   'rating.seating': 'Places assises',
   'rating.food': 'Nourriture',
-  'rating.outlets': 'Prises',
+  'rating.aesthetic': 'Esthétique',
 
   // Sections
   'rating.essentials': 'Essentiels',
