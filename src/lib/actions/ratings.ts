@@ -69,7 +69,7 @@ export async function submitRating(data: RatingFormData): Promise<{
       petFriendly: validatedData.petFriendly,
       hasParking: validatedData.hasParking,
       lighting: validatedData.lighting,
-      outlets: validatedData.outlets,
+      aesthetic: validatedData.aesthetic,
       reviewText: validatedData.reviewText,
     });
 
