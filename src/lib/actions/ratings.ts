@@ -57,7 +57,7 @@ export async function submitRating(data: RatingFormData): Promise<{
       cafeId: validatedData.cafeId,
       overall: validatedData.overall,
       drinks: validatedData.drinks,
-      wifi: validatedData.wifi,
+      service: validatedData.service,
       priceValue: validatedData.priceValue,
       quietness: validatedData.quietness,
       seating: validatedData.seating,
