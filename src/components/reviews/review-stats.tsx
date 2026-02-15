@@ -24,8 +24,8 @@ export function ReviewStats({ allReviews, filteredReviews }: ReviewStatsProps) {
 
   // Calculate per-dimension averages (only for dimensions that have ratings)
   const dimensions: OptionalRatingDimension[] = [
-    'drinks', 'wifi', 'priceValue', 'quietness',
-    'seating', 'comfort', 'food', 'lighting', 'outlets'
+    'drinks', 'service', 'priceValue', 'quietness',
+    'seating', 'comfort', 'food', 'lighting', 'aesthetic'
   ];
 
   const dimensionAverages = dimensions.map(dim => {
