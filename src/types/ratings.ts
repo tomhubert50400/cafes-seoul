@@ -201,28 +201,28 @@ export type UserRatingDimension =
 export type NumericRatingDimension = 
   | 'overall'
   | 'drinks'
-  | 'wifi'
+  | 'service'
   | 'priceValue'
   | 'quietness'
   | 'seating'
   | 'comfort'
   | 'food'
   | 'lighting'
-  | 'outlets';
+  | 'aesthetic';
 
 /**
  * Optional numeric dimensions (not including overall which is mandatory)
  */
-export type OptionalRatingDimension = 
+export type OptionalRatingDimension =
   | 'drinks'
-  | 'wifi'
+  | 'service'
   | 'priceValue'
   | 'quietness'
   | 'seating'
   | 'comfort'
   | 'food'
   | 'lighting'
-  | 'outlets';
+  | 'aesthetic';
 
 /**
  * Rating sections for UI organization
