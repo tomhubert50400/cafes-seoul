@@ -227,7 +227,7 @@ const zh: Record<string, string> = {
   'map.filters.features': '特点',
   'map.filters.any': '任何',
   'map.filters.seating': '座位',
-  'map.filters.wifi': '无线网络',
+  'map.filters.service': '服务',
   'map.filters.food': '食物',
   'map.filters.drinks': '饮料',
   'map.filters.lighting': '照明',
