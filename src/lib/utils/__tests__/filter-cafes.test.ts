@@ -122,7 +122,7 @@ describe('hasActiveFilters', () => {
   });
 
   it('returns true when a numeric filter is active', () => {
-    expect(hasActiveFilters({ wifiMin: 3 })).toBe(true);
+    expect(hasActiveFilters({ serviceMin: 3 })).toBe(true);
   });
 
   it('returns true when an array filter is active', () => {
