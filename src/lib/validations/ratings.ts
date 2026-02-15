@@ -92,7 +92,7 @@ export function toRatingInput(data: RatingFormData) {
     petFriendly: data.petFriendly,
     hasParking: data.hasParking,
     lighting: data.lighting || 0,
-    outlets: data.outlets || 0,
+    aesthetic: data.aesthetic || 0,
     reviewText: data.reviewText,
   };
 }
