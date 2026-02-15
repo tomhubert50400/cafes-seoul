@@ -64,7 +64,7 @@ export function RatingForm({
         cafeId,
         overall: existingRating.overall,
         drinks: existingRating.drinks,
-        wifi: existingRating.wifi,
+        service: existingRating.service,
         priceValue: existingRating.priceValue,
         quietness: existingRating.quietness,
         seating: existingRating.seating,
