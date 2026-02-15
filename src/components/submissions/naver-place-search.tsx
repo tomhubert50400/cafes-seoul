@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, MapPin, Phone, Loader2, X } from 'lucide-react';
+import { Search, MapPin, Phone, Loader2, X, Link2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { searchNaverPlaces, type NaverPlaceSearchResult } from '@/lib/naver/search';
+import { searchNaverPlaces, fetchNaverPlaceByUrl, type NaverPlaceSearchResult } from '@/lib/naver/search';
 import { useDebouncedValue } from '@/lib/hooks/use-debounced-value';
+import { useI18n } from '@/lib/i18n';
 
 export interface NaverPlaceSearchProps {
   onSelect: (place: NaverPlaceSearchResult) => void;
@@ -19,6 +20,7 @@ export function NaverPlaceSearch({
   placeholder = 'Search for a cafe...',
   className,
 }: NaverPlaceSearchProps) {
+  const { t } = useI18n();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<NaverPlaceSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +28,12 @@ export function NaverPlaceSearch({
   const [selectedPlace, setSelectedPlace] = useState<NaverPlaceSearchResult | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // URL paste mode
+  const [linkMode, setLinkMode] = useState(false);
+  const [linkUrl, setLinkUrl] = useState('');
+  const [linkLoading, setLinkLoading] = useState(false);
+  const [linkError, setLinkError] = useState('');
 
   const debouncedQuery = useDebouncedValue(query, 300);
 
@@ -70,6 +78,9 @@ export function NaverPlaceSearch({
     setSelectedPlace(place);
     setQuery(place.romanizedName || place.name);
     setIsOpen(false);
+    setLinkMode(false);
+    setLinkUrl('');
+    setLinkError('');
     onSelect(place);
   }, [onSelect]);
 
@@ -78,6 +89,9 @@ export function NaverPlaceSearch({
     setQuery('');
     setResults([]);
     setIsOpen(false);
+    setLinkMode(false);
+    setLinkUrl('');
+    setLinkError('');
     inputRef.current?.focus();
   }, []);
 
@@ -89,37 +103,122 @@ export function NaverPlaceSearch({
     }
   };
 
+  const handleLinkLookup = async () => {
+    if (!linkUrl.trim()) return;
+
+    // Basic URL validation
+    if (!linkUrl.includes('naver') && !linkUrl.includes('map.naver')) {
+      setLinkError(t('submissions.form.linkInvalidUrl'));
+      return;
+    }
+
+    setLinkLoading(true);
+    setLinkError('');
+
+    try {
+      const place = await fetchNaverPlaceByUrl(linkUrl);
+      if (place) {
+        handleSelect(place);
+      } else {
+        setLinkError(t('submissions.form.linkNotFound'));
+      }
+    } catch {
+      setLinkError(t('submissions.form.linkNotFound'));
+    } finally {
+      setLinkLoading(false);
+    }
+  };
+
   return (
     <div ref={containerRef} className={cn('relative', className)}>
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          ref={inputRef}
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          onFocus={() => results.length > 0 && !selectedPlace && setIsOpen(true)}
-          placeholder={placeholder}
-          className={cn(
-            'pl-10 pr-10',
-            selectedPlace && 'border-green-500 bg-green-50 dark:bg-green-950/20'
+      {/* Search mode */}
+      {!linkMode && (
+        <>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              onFocus={() => results.length > 0 && !selectedPlace && setIsOpen(true)}
+              placeholder={placeholder}
+              className={cn(
+                'pl-10 pr-10',
+                selectedPlace && 'border-green-500 bg-green-50 dark:bg-green-950/20'
+              )}
+            />
+            {isLoading && (
+              <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
+            )}
+            {selectedPlace && !isLoading && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
+                onClick={handleClear}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+
+          {/* "Can't find?" link - show when not selected */}
+          {!selectedPlace && (
+            <button
+              type="button"
+              className="mt-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              onClick={() => setLinkMode(true)}
+            >
+              <Link2 className="h-3 w-3" />
+              {t('submissions.form.cantFindCafe')}
+            </button>
           )}
-        />
-        {isLoading && (
-          <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
-        )}
-        {selectedPlace && !isLoading && (
-          <Button
+        </>
+      )}
+
+      {/* Link paste mode */}
+      {linkMode && !selectedPlace && (
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="url"
+                value={linkUrl}
+                onChange={(e) => { setLinkUrl(e.target.value); setLinkError(''); }}
+                placeholder={t('submissions.form.linkPlaceholder')}
+                className="pl-10"
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleLinkLookup(); } }}
+              />
+            </div>
+            <Button
+              type="button"
+              size="sm"
+              onClick={handleLinkLookup}
+              disabled={linkLoading || !linkUrl.trim()}
+            >
+              {linkLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                t('submissions.form.linkLookup')
+              )}
+            </Button>
+          </div>
+          {linkError && (
+            <p className="text-xs text-destructive">{linkError}</p>
+          )}
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
-            onClick={handleClear}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            onClick={() => { setLinkMode(false); setLinkUrl(''); setLinkError(''); }}
           >
-            <X className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
+            <Search className="h-3 w-3" />
+            {t('submissions.form.backToSearch')}
+          </button>
+        </div>
+      )}
 
       {/* Selected place preview */}
       {selectedPlace && (
@@ -144,7 +243,7 @@ export function NaverPlaceSearch({
       )}
 
       {/* Loading skeleton dropdown */}
-      {isLoading && query.length >= 2 && !selectedPlace && (
+      {!linkMode && isLoading && query.length >= 2 && !selectedPlace && (
         <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-lg">
           <div className="py-1 space-y-1">
             {Array.from({ length: 3 }).map((_, i) => (
@@ -158,7 +257,7 @@ export function NaverPlaceSearch({
       )}
 
       {/* Dropdown results */}
-      {isOpen && results.length > 0 && (
+      {!linkMode && isOpen && results.length > 0 && (
         <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-lg">
           <ul className="max-h-60 overflow-auto py-1">
             {results.map((place) => (
@@ -197,10 +296,10 @@ export function NaverPlaceSearch({
       )}
 
       {/* No results message */}
-      {isOpen && results.length === 0 && query.length >= 2 && !isLoading && (
+      {!linkMode && isOpen && results.length === 0 && query.length >= 2 && !isLoading && (
         <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover p-3 shadow-lg">
           <p className="text-sm text-muted-foreground text-center">
-            No cafes found. Try a different search term.
+            {t('submissions.form.noResults')}
           </p>
         </div>
       )}
