@@ -142,8 +142,8 @@ export interface RatingInput {
   food?: number;
   /** Lighting/ambiance rating (undefined = not rated) */
   lighting?: number;
-  /** Power outlet availability rating (undefined = not rated) */
-  outlets?: number;
+  /** Aesthetic/ambiance/decor rating (undefined = not rated) */
+  aesthetic?: number;
 
   /** Wifi indicator (default: false) */
   hasWifi?: boolean;
