@@ -5,10 +5,9 @@ import type { UserVibe } from '@/types/vibes';
  * Predefined filter presets for common cafe vibe scenarios.
  *
  * Dimension mappings (from RESEARCH.md):
- * - "aesthetic" -> lightingMin (no dedicated aesthetic filter)
  * - "max_noise: 2" -> quietnessMin: 4 (inverse scale)
  * - "power_outlets" -> hasPowerOutlets: true
- * - Service dimension omitted (no filter exists)
+ * - WiFi presence covered by hasWifi boolean
  */
 export const FILTER_PRESETS: FilterPreset[] = [
   {
@@ -16,9 +15,10 @@ export const FILTER_PRESETS: FilterPreset[] = [
     labelKey: 'map.presets.workStudy',
     icon: 'Laptop',
     filters: {
-      wifiMin: 4,
+      serviceMin: 4,
       quietnessMin: 4,
       comfortMin: 4,
+      hasWifi: true,
       hasPowerOutlets: true,
       isLaptopFriendly: true,
     },
@@ -28,7 +28,7 @@ export const FILTER_PRESETS: FilterPreset[] = [
     labelKey: 'map.presets.aestheticDate',
     icon: 'Heart',
     filters: {
-      lightingMin: 5,
+      aestheticMin: 5,
       drinksMin: 4,
       comfortMin: 4,
     },
