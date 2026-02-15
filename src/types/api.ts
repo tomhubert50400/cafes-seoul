@@ -46,11 +46,11 @@ export interface CafeListParams {
 
   // Rating dimension filters (minimum values, 1-5)
   seatingMin?: number;
-  wifiMin?: number;
+  serviceMin?: number;
   foodMin?: number;
   drinksMin?: number;
   lightingMin?: number;
-  outletsMin?: number;
+  aestheticMin?: number;
   quietnessMin?: number;
   priceValueMin?: number;
   comfortMin?: number;
