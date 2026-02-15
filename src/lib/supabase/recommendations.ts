@@ -8,14 +8,14 @@ export type RatingDimension = keyof RatingBreakdown;
 // Maps DB column names to RatingBreakdown keys
 const DB_TO_DIMENSION: Record<string, RatingDimension> = {
   coffee: 'drinks',
-  wifi: 'wifi',
+  service: 'service',
   price_value: 'priceValue',
   quietness: 'quietness',
   seating: 'seating',
   comfort: 'comfort',
   food: 'food',
   lighting: 'lighting',
-  outlets: 'outlets',
+  aesthetic: 'aesthetic',
 };
 
 const DIMENSION_COLUMNS = Object.keys(DB_TO_DIMENSION);
