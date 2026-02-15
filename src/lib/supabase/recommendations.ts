@@ -30,7 +30,7 @@ export async function getUserTopDimensions(
   userId: string | null,
   count: number = 3
 ): Promise<RatingDimension[]> {
-  const DEFAULT_DIMS: RatingDimension[] = ['drinks', 'quietness', 'wifi'];
+  const DEFAULT_DIMS: RatingDimension[] = ['drinks', 'quietness', 'service'];
 
   if (!userId) return DEFAULT_DIMS;
 
