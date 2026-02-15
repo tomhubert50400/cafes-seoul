@@ -99,7 +99,8 @@ export function NaverPlaceSearch({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    if (selectedPlace && value !== (selectedPlace.romanizedName || selectedPlace.name)) {
+    const displayName = (showRomanized && selectedPlace?.romanizedName) ? selectedPlace.romanizedName : selectedPlace?.name;
+    if (selectedPlace && value !== displayName) {
       setSelectedPlace(null);
     }
   };
