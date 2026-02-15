@@ -215,9 +215,9 @@ export function VibeModal({
               onChange={(value) => updateFilter('lightingMin', value)}
             />
             <RatingSlider
-              label={t('map.filters.outlets')}
-              value={(filters.outletsMin as number) ?? null}
-              onChange={(value) => updateFilter('outletsMin', value)}
+              label={t('map.filters.aesthetic')}
+              value={(filters.aestheticMin as number) ?? null}
+              onChange={(value) => updateFilter('aestheticMin', value)}
             />
             <RatingSlider
               label={t('map.filters.quietness')}
