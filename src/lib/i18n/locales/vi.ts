@@ -659,7 +659,7 @@ const vi: Record<string, string> = {
   'rating.petFriendlyDescription': 'Quán này có chấp nhận thú cưng không?',
   'rating.lighting': 'Ánh sáng',
   'rating.drinks': 'Đồ uống',
-  'rating.wifi': 'WiFi',
+  'rating.service': 'Dịch vụ',
   'rating.seating': 'Chỗ ngồi',
   'rating.food': 'Đồ ăn',
   'rating.outlets': 'Ổ cắm',
