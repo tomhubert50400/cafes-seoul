@@ -374,7 +374,7 @@ async function updateCafeAveragesFallback(
         overall_rating: (statsData?.overall as number) || 0,
         total_ratings: totalCount,
         rating_drinks: statsData?.drinks as number | null,
-        rating_wifi: statsData?.wifi as number | null,
+        rating_service: statsData?.service as number | null,
         rating_price_value: statsData?.price_value as number | null,
         rating_quietness: statsData?.quietness as number | null,
         rating_seating: statsData?.seating as number | null,
