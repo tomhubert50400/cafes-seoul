@@ -65,7 +65,7 @@ export function transformCafe(row: Record<string, unknown>): Cafe {
       comfort: row.rating_comfort ? parseFloat(row.rating_comfort as string) : null,
       food: row.rating_food ? parseFloat(row.rating_food as string) : null,
       lighting: row.rating_lighting ? parseFloat(row.rating_lighting as string) : null,
-      outlets: row.rating_outlets ? parseFloat(row.rating_outlets as string) : null,
+      aesthetic: row.rating_aesthetic ? parseFloat(row.rating_aesthetic as string) : null,
     },
     status: row.status as CafeStatus,
     verifiedAt: row.verified_at as string | null,
@@ -105,7 +105,7 @@ export function transformCafeSummary(row: Record<string, unknown>): CafeSummary 
       comfort: row.rating_comfort ? parseFloat(row.rating_comfort as string) : null,
       food: row.rating_food ? parseFloat(row.rating_food as string) : null,
       lighting: row.rating_lighting ? parseFloat(row.rating_lighting as string) : null,
-      outlets: row.rating_outlets ? parseFloat(row.rating_outlets as string) : null,
+      aesthetic: row.rating_aesthetic ? parseFloat(row.rating_aesthetic as string) : null,
     },
   };
 }
