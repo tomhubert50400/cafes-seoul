@@ -227,7 +227,7 @@ const vi: Record<string, string> = {
   'map.filters.features': 'Tính năng',
   'map.filters.any': 'Bất kỳ',
   'map.filters.seating': 'Chỗ ngồi',
-  'map.filters.wifi': 'WiFi',
+  'map.filters.service': 'Dịch vụ',
   'map.filters.food': 'Đồ ăn',
   'map.filters.drinks': 'Đồ uống',
   'map.filters.lighting': 'Ánh sáng',
