@@ -231,7 +231,7 @@ const zh: Record<string, string> = {
   'map.filters.food': '食物',
   'map.filters.drinks': '饮料',
   'map.filters.lighting': '照明',
-  'map.filters.outlets': '插座',
+  'map.filters.aesthetic': '美学',
   'map.filters.quietness': '安静',
   'map.filters.priceValue': '性价比',
   'map.filters.comfort': '舒适度',
