@@ -384,7 +384,7 @@ export function toDatabaseRating(input: RatingInput): Record<string, unknown> {
     cafe_id: input.cafeId,
     overall: input.overall,
     drinks: input.drinks ?? 0,
-    wifi: input.wifi ?? 0,
+    service: input.service ?? 0,
     price_value: input.priceValue ?? 0,
     quietness: input.quietness ?? 0,
     seating: input.seating ?? 0,
