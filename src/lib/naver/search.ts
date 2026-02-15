@@ -450,7 +450,7 @@ export async function fetchNaverPlaceByUrl(url: string): Promise<NaverPlaceSearc
       }
     } catch { /* coordinates are optional, continue without them */ }
 
-    return {
+    const result: NaverPlaceSearchResult = {
       id: placeId,
       name: base.name,
       address: base.address || '',
@@ -461,6 +461,11 @@ export async function fetchNaverPlaceByUrl(url: string): Promise<NaverPlaceSearc
       category: base.category || '',
       naverUrl: `https://map.naver.com/v5/entry/place/${placeId}`,
     };
+
+    // Translate name/address to English
+    await translateResults([result]);
+
+    return result;
   } catch {
     return null;
   }
