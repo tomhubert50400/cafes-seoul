@@ -466,7 +466,7 @@ export async function getCafeRatingStats(
       comfort: (statsData?.comfort as number | null) ?? null,
       food: (statsData?.food as number | null) ?? null,
       lighting: (statsData?.lighting as number | null) ?? null,
-      outlets: (statsData?.outlets as number | null) ?? null,
+      aesthetic: (statsData?.aesthetic as number | null) ?? null,
       petFriendlyPercent: (statsData?.pet_friendly_percent as number | null) ?? null,
       totalCount: (statsData?.count as number) || 0,
     };
