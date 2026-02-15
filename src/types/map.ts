@@ -2,11 +2,11 @@
 export interface MapFilters {
   // Rating dimensions (0-5, 0 = any)
   seatingMin?: number | null;
-  wifiMin?: number | null;
+  serviceMin?: number | null;
   foodMin?: number | null;
   drinksMin?: number | null;
   lightingMin?: number | null;
-  outletsMin?: number | null;
+  aestheticMin?: number | null;
   quietnessMin?: number | null;
   priceValueMin?: number | null;
   comfortMin?: number | null;
