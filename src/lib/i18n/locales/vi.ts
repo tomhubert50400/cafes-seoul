@@ -662,7 +662,7 @@ const vi: Record<string, string> = {
   'rating.service': 'Dịch vụ',
   'rating.seating': 'Chỗ ngồi',
   'rating.food': 'Đồ ăn',
-  'rating.outlets': 'Ổ cắm',
+  'rating.aesthetic': 'Thẩm mỹ',
 
   // Sections
   'rating.essentials': 'Thiết yếu',
