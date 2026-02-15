@@ -114,7 +114,7 @@ export function Header({ user }: HeaderProps = {}) {
           {/* Mobile auth - single button */}
           {!user && (
             <Button size="sm" asChild className="md:hidden min-h-[32px]">
-              <Link href={ROUTES.LOGIN} prefetch={false}>{t('nav.login')}</Link>
+              <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
             </Button>
           )}
         </div>
