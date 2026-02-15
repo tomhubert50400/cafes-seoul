@@ -459,7 +459,7 @@ export async function getCafeRatingStats(
     return {
       overall: (statsData?.overall as number) || 0,
       drinks: (statsData?.drinks as number | null) ?? null,
-      wifi: (statsData?.wifi as number | null) ?? null,
+      service: (statsData?.service as number | null) ?? null,
       priceValue: (statsData?.price_value as number | null) ?? null,
       quietness: (statsData?.quietness as number | null) ?? null,
       seating: (statsData?.seating as number | null) ?? null,
