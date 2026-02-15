@@ -13,11 +13,11 @@ import {
 
 const DEFAULT_FILTERS: MapFilters = {
   seatingMin: null,
-  wifiMin: null,
+  serviceMin: null,
   foodMin: null,
   drinksMin: null,
   lightingMin: null,
-  outletsMin: null,
+  aestheticMin: null,
   quietnessMin: null,
   priceValueMin: null,
   comfortMin: null,
