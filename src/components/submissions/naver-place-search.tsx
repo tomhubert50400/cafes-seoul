@@ -20,7 +20,8 @@ export function NaverPlaceSearch({
   placeholder = 'Search for a cafe...',
   className,
 }: NaverPlaceSearchProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
+  const showRomanized = language !== 'ko';
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<NaverPlaceSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
