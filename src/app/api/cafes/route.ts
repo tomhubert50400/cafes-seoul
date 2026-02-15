@@ -140,11 +140,11 @@ export async function GET(request: NextRequest) {
 
   // Rating dimension filters
   if (params.seatingMin) query = query.gte('rating_seating', params.seatingMin);
-  if (params.wifiMin) query = query.gte('rating_wifi', params.wifiMin);
+  if (params.serviceMin) query = query.gte('rating_service', params.serviceMin);
   if (params.foodMin) query = query.gte('rating_food', params.foodMin);
   if (params.drinksMin) query = query.gte('rating_drinks', params.drinksMin);
   if (params.lightingMin) query = query.gte('rating_lighting', params.lightingMin);
-  if (params.outletsMin) query = query.gte('rating_outlets', params.outletsMin);
+  if (params.aestheticMin) query = query.gte('rating_aesthetic', params.aestheticMin);
   if (params.quietnessMin) query = query.gte('rating_quietness', params.quietnessMin);
   if (params.priceValueMin) query = query.gte('rating_price_value', params.priceValueMin);
   if (params.comfortMin) query = query.gte('rating_comfort', params.comfortMin);
