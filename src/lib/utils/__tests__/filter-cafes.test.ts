@@ -130,7 +130,7 @@ describe('hasActiveFilters', () => {
   });
 
   it('returns false for zero numeric filters', () => {
-    expect(hasActiveFilters({ wifiMin: 0 })).toBe(false);
+    expect(hasActiveFilters({ serviceMin: 0 })).toBe(false);
   });
 });
 
