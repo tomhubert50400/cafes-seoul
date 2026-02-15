@@ -415,14 +415,14 @@ export async function getCafeRatingStats(
 ): Promise<{
   overall: number;
   drinks: number | null;
-  wifi: number | null;
+  service: number | null;
   priceValue: number | null;
   quietness: number | null;
   seating: number | null;
   comfort: number | null;
   food: number | null;
   lighting: number | null;
-  outlets: number | null;
+  aesthetic: number | null;
   petFriendlyPercent: number | null;
   totalCount: number;
 } | null> {
