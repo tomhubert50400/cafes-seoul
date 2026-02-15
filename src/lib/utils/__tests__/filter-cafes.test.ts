@@ -30,7 +30,7 @@ const makeCafe = (overrides: Partial<CafeSummary> = {}): CafeSummary => ({
     comfort: 4,
     food: 3,
     lighting: 4,
-    outlets: 5,
+    aesthetic: 5,
   },
   ...overrides,
 });
