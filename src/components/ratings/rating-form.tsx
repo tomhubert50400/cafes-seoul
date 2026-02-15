@@ -263,12 +263,12 @@ export function RatingForm({
             />
 
             <Controller
-              name="wifi"
+              name="service"
               control={control}
               render={({ field }) => (
                 <DimensionSlider
-                  name="wifi"
-                  label={t('rating.wifi')}
+                  name="service"
+                  label={t('rating.service')}
                   value={field.value}
                   onChange={field.onChange}
                 />
