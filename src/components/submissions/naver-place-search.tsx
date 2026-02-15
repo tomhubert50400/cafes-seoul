@@ -77,7 +77,7 @@ export function NaverPlaceSearch({
 
   const handleSelect = useCallback((place: NaverPlaceSearchResult) => {
     setSelectedPlace(place);
-    setQuery(place.romanizedName || place.name);
+    setQuery((showRomanized && place.romanizedName) ? place.romanizedName : place.name);
     setIsOpen(false);
     setLinkMode(false);
     setLinkUrl('');
