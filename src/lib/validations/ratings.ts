@@ -68,7 +68,7 @@ export function hasOptionalRatings(data: RatingFormData): boolean {
     data.comfort,
     data.food,
     data.lighting,
-    data.outlets,
+    data.aesthetic,
   ].some(v => v > 0) || data.hasWifi || data.hasPowerOutlets || data.isLaptopFriendly || data.petFriendly || data.hasParking;
 }
 
