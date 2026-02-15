@@ -95,7 +95,7 @@ export function RatingForm({
         petFriendly: false,
         hasParking: false,
         lighting: 0,
-        outlets: 0,
+        aesthetic: 0,
         reviewText: '',
       };
 
