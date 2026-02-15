@@ -80,7 +80,7 @@ export function toRatingInput(data: RatingFormData) {
     cafeId: data.cafeId,
     overall: data.overall,
     drinks: data.drinks || 0,
-    wifi: data.wifi || 0,
+    service: data.service || 0,
     priceValue: data.priceValue || 0,
     quietness: data.quietness || 0,
     seating: data.seating || 0,
