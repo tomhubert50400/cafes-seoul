@@ -35,7 +35,7 @@ describe('ratingFormSchema', () => {
       cafeId: '550e8400-e29b-41d4-a716-446655440000',
       overall: 5,
       drinks: 4,
-      wifi: 3,
+      service: 3,
       priceValue: 5,
       quietness: 2,
       seating: 4,
