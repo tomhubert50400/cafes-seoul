@@ -10,7 +10,7 @@ export const ratingFormSchema = z.object({
   overall: z.number().int().min(1, { message: 'validation.overallRequired' }).max(5),
   // Optional dimensions (0-5, 0 = not rated) - all have default values
   drinks: z.number().int().min(0).max(5).default(0),
-  wifi: z.number().int().min(0).max(5).default(0),
+  service: z.number().int().min(0).max(5).default(0),
   priceValue: z.number().int().min(0).max(5).default(0),
   quietness: z.number().int().min(0).max(5).default(0),
   seating: z.number().int().min(0).max(5).default(0),
