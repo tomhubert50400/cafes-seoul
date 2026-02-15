@@ -23,7 +23,7 @@ const makeCafe = (overrides: Partial<CafeSummary> = {}): CafeSummary => ({
   primaryImageUrl: null,
   ratings: {
     drinks: 4,
-    wifi: 5,
+    service: 5,
     priceValue: 3,
     quietness: 4,
     seating: 3,
