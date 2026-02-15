@@ -128,8 +128,8 @@ export interface RatingInput {
   // Optional dimensions (undefined = 0 = not rated)
   /** Drinks quality rating (undefined = not rated) */
   drinks?: number;
-  /** Wi-Fi quality rating (undefined = not rated) */
-  wifi?: number;
+  /** Staff/service quality rating (undefined = not rated) */
+  service?: number;
   /** Price/value rating (undefined = not rated) */
   priceValue?: number;
   /** Quietness rating (undefined = not rated) */
