@@ -115,7 +115,7 @@ describe('toRatingInput', () => {
     const input = toRatingInput({ ...validRating, drinks: 4, hasWifi: true });
     expect(input.drinks).toBe(4);
     expect(input.hasWifi).toBe(true);
-    expect(input.wifi).toBe(0);
+    expect(input.service).toBe(0);
   });
 
   it('defaults falsy values to 0', () => {
