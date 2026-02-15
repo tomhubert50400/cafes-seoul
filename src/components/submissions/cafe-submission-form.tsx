@@ -217,8 +217,14 @@ export function CafeSubmissionForm({
   const buildSubmissionData = (place: NaverPlaceSearchResult, userPhotoUrls: string[]): SubmissionFormData => {
     const photoUrls = [...(naverPhotoPath ? [naverPhotoPath] : []), ...userPhotoUrls];
     return {
-      name: { ko: place.name },
-      address: { ko: place.roadAddress || place.address },
+      name: {
+        ko: place.name,
+        ...(place.romanizedName ? { en: place.romanizedName } : {}),
+      },
+      address: {
+        ko: place.roadAddress || place.address,
+        ...(place.romanizedAddress ? { en: place.romanizedAddress } : {}),
+      },
       phone: place.phone || undefined,
       latitude: place.latitude,
       longitude: place.longitude,
