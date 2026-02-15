@@ -24,8 +24,8 @@ export interface UserRating {
   // Optional dimensions (0 = not rated, 1-5 = valid rating)
   /** Drinks quality rating 0-5 */
   drinks: number;
-  /** Wi-Fi quality rating 0-5 */
-  wifi: number;
+  /** Staff/service quality rating 0-5 */
+  service: number;
   /** Price/value rating 0-5 */
   priceValue: number;
   /** Quietness rating 0-5 */
