@@ -1,9 +1,11 @@
 'use server';
 
 /**
- * Naver Local Search API
- * - Place Search for cafe submission autocomplete
- * - Coordinate parsing (mapx/mapy → WGS84)
+ * Naver Place Search
+ * - Primary search via Naver Place GraphQL API (same backend as Naver Map)
+ * - Fallback via Naver Local Search API (official, uses API keys)
+ * - Place lookup by URL (extract place ID from Naver Map links)
+ * - Operating hours & photos via Naver Place GraphQL API
  */
 
 // ============================================
@@ -44,6 +46,17 @@ export interface NaverPlaceSearchResult {
   romanizedAddress?: string;
 }
 
+interface GraphQLPlaceItem {
+  id: string;
+  name: string;
+  x: string;
+  y: string;
+  address: string;
+  roadAddress: string;
+  phone: string;
+  category: string;
+}
+
 // ============================================
 // HELPERS
 // ============================================
@@ -64,10 +77,9 @@ function stripBoldTags(text: string): string {
  *   https://naver.me/xxxx (short link, can't extract)
  * Falls back to generating deterministic ID from item data
  */
-function extractNaverPlaceId(item: NaverLocalItem): string {
+function extractNaverPlaceIdFromItem(item: NaverLocalItem): string {
   const link = item.link;
   if (link) {
-    // Try various Naver Place URL patterns
     const patterns = [
       /place\/(\d+)/,
       /restaurant\/(\d+)/,
@@ -91,6 +103,29 @@ function extractNaverPlaceId(item: NaverLocalItem): string {
 }
 
 /**
+ * Extract Naver Place ID from various Naver Map URL formats.
+ * Supports:
+ *   https://map.naver.com/p/entry/place/1234567890
+ *   https://map.naver.com/v5/entry/place/1234567890
+ *   https://map.naver.com/p/search/.../place/1234567890
+ *   https://m.place.naver.com/restaurant/1234567890
+ *   https://m.place.naver.com/cafe/1234567890
+ *   https://pcmap.place.naver.com/restaurant/1234567890/home
+ */
+function extractPlaceIdFromUrl(url: string): string | null {
+  const patterns = [
+    /place\/(\d+)/,
+    /restaurant\/(\d+)/,
+    /cafe\/(\d+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+/**
  * Parse Naver mapx/mapy coordinates to WGS84.
  * Naver changed from KATECH to WGS84 coordinates (scaled by 10^7).
  * - If value > 360 → divide by 10^7 (scaled integer format)
@@ -99,7 +134,6 @@ function extractNaverPlaceId(item: NaverLocalItem): string {
 function parseNaverCoordinate(value: string): number {
   const num = parseFloat(value);
   if (isNaN(num)) return 0;
-  // If it looks like a scaled integer (e.g., 1270475020 for 127.0475020)
   if (Math.abs(num) > 360) {
     return num / 10_000_000;
   }
@@ -142,96 +176,6 @@ async function translateKorean(texts: string[]): Promise<string[]> {
 }
 
 // ============================================
-// PLACE SEARCH
-// ============================================
-
-/**
- * Search for places using Naver Local Search API
- * @param query - Search query (cafe name or address)
- * @returns Array of matching places
- */
-export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearchResult[]> {
-  const clientId = process.env.NAVER_CLIENT_ID;
-  const clientSecret = process.env.NAVER_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
-    console.error('NAVER_CLIENT_ID or NAVER_CLIENT_SECRET not configured');
-    return [];
-  }
-
-  if (!query || query.trim().length < 2) {
-    return [];
-  }
-
-  try {
-    // Append "카페" (cafe) to help filter results if query is Latin
-    const searchQuery = isLatinQuery(query) ? `${query} 카페` : query;
-
-    const url = new URL('https://openapi.naver.com/v1/search/local.json');
-    url.searchParams.set('query', searchQuery);
-    url.searchParams.set('display', '10');
-    url.searchParams.set('sort', 'comment'); // Sort by review count for relevance
-
-    const response = await fetch(url.toString(), {
-      headers: {
-        'X-Naver-Client-Id': clientId,
-        'X-Naver-Client-Secret': clientSecret,
-      },
-    });
-
-    if (!response.ok) {
-      console.error('Naver search API error:', response.status);
-      return [];
-    }
-
-    const data: NaverLocalResponse = await response.json();
-    const items = data.items || [];
-
-    // Filter to cafe-like categories
-    const cafeCategories = ['카페', '커피', 'cafe', 'coffee', '디저트', '베이커리'];
-    const filteredItems = items.filter((item) => {
-      const cat = item.category.toLowerCase();
-      return cafeCategories.some((c) => cat.includes(c));
-    });
-
-    // Use filtered if we got results, otherwise use all (Naver's category can be inconsistent)
-    const resultItems = filteredItems.length > 0 ? filteredItems : items;
-
-    const results: NaverPlaceSearchResult[] = resultItems.map((item) => ({
-      id: extractNaverPlaceId(item),
-      name: stripBoldTags(item.title),
-      address: item.address,
-      roadAddress: item.roadAddress,
-      phone: item.telephone,
-      latitude: parseNaverCoordinate(item.mapy),
-      longitude: parseNaverCoordinate(item.mapx),
-      category: item.category,
-      naverUrl: `https://map.naver.com/v5/search/${encodeURIComponent(stripBoldTags(item.title) + ' ' + (item.roadAddress || item.address))}`,
-    }));
-
-    // Translate names/addresses for Latin queries
-    if (isLatinQuery(query) && results.length > 0) {
-      const textsToTranslate = results.flatMap((r) => [
-        r.name,
-        r.roadAddress || r.address,
-      ]);
-      const translated = await translateKorean(textsToTranslate);
-      for (let i = 0; i < results.length; i++) {
-        const name = translated[i * 2];
-        const address = translated[i * 2 + 1];
-        if (name) results[i].romanizedName = name;
-        if (address) results[i].romanizedAddress = address;
-      }
-    }
-
-    return results;
-  } catch (error) {
-    console.error('Naver search error:', error);
-    return [];
-  }
-}
-
-// ============================================
 // NAVER PLACE GRAPHQL (shared config)
 // ============================================
 
@@ -243,97 +187,204 @@ const GRAPHQL_HEADERS = {
 };
 
 // ============================================
+// PLACE SEARCH (GraphQL primary, Local Search fallback)
+// ============================================
+
+/**
+ * Search via Naver Place GraphQL API (same backend as Naver Map).
+ * Returns the most up-to-date results.
+ */
+async function searchNaverPlacesGraphQL(query: string): Promise<NaverPlaceSearchResult[]> {
+  try {
+    const res = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: { ...GRAPHQL_HEADERS, 'Referer': 'https://pcmap.place.naver.com/restaurant/list' },
+      body: JSON.stringify({
+        query: `{ places(input: {query: ${JSON.stringify(query)}}) { items { id name x y address roadAddress phone category } } }`,
+      }),
+    });
+
+    if (!res.ok) return [];
+
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      // Got HTML (rate limited) instead of JSON
+      return [];
+    }
+
+    const items: GraphQLPlaceItem[] = data?.data?.places?.items || [];
+    if (items.length === 0) return [];
+
+    // Filter to cafe-like categories
+    const cafeCategories = ['카페', '커피', 'cafe', 'coffee', '디저트', '베이커리'];
+    const filteredItems = items.filter((item) => {
+      const cat = (item.category || '').toLowerCase();
+      return cafeCategories.some((c) => cat.includes(c));
+    });
+
+    // Use filtered if we got results, otherwise use all
+    const resultItems = filteredItems.length > 0 ? filteredItems : items;
+
+    return resultItems.slice(0, 10).map((item) => ({
+      id: item.id,
+      name: item.name || '',
+      address: item.address || '',
+      roadAddress: item.roadAddress || '',
+      phone: item.phone || '',
+      latitude: parseFloat(item.y) || 0,
+      longitude: parseFloat(item.x) || 0,
+      category: item.category || '',
+      naverUrl: `https://map.naver.com/v5/entry/place/${item.id}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Search via Naver Local Search API (official, uses API keys).
+ * Used as fallback when GraphQL is unavailable.
+ */
+async function searchNaverPlacesLocal(query: string): Promise<NaverPlaceSearchResult[]> {
+  const clientId = process.env.NAVER_CLIENT_ID;
+  const clientSecret = process.env.NAVER_CLIENT_SECRET;
+
+  if (!clientId || !clientSecret) return [];
+
+  try {
+    const searchQuery = isLatinQuery(query) ? `${query} 카페` : query;
+
+    const url = new URL('https://openapi.naver.com/v1/search/local.json');
+    url.searchParams.set('query', searchQuery);
+    url.searchParams.set('display', '10');
+    url.searchParams.set('sort', 'comment');
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        'X-Naver-Client-Id': clientId,
+        'X-Naver-Client-Secret': clientSecret,
+      },
+    });
+
+    if (!response.ok) return [];
+
+    const data: NaverLocalResponse = await response.json();
+    const items = data.items || [];
+
+    const cafeCategories = ['카페', '커피', 'cafe', 'coffee', '디저트', '베이커리'];
+    const filteredItems = items.filter((item) => {
+      const cat = item.category.toLowerCase();
+      return cafeCategories.some((c) => cat.includes(c));
+    });
+
+    const resultItems = filteredItems.length > 0 ? filteredItems : items;
+
+    return resultItems.map((item) => ({
+      id: extractNaverPlaceIdFromItem(item),
+      name: stripBoldTags(item.title),
+      address: item.address,
+      roadAddress: item.roadAddress,
+      phone: item.telephone,
+      latitude: parseNaverCoordinate(item.mapy),
+      longitude: parseNaverCoordinate(item.mapx),
+      category: item.category,
+      naverUrl: `https://map.naver.com/v5/search/${encodeURIComponent(stripBoldTags(item.title) + ' ' + (item.roadAddress || item.address))}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Search for places using Naver Map's data.
+ * Tries the GraphQL API first (same backend as Naver Map, most up-to-date),
+ * then falls back to the official Local Search API.
+ */
+export async function searchNaverPlaces(query: string): Promise<NaverPlaceSearchResult[]> {
+  if (!query || query.trim().length < 2) return [];
+
+  try {
+    // Primary: GraphQL API (same data as Naver Map)
+    const graphqlResults = await searchNaverPlacesGraphQL(query);
+
+    if (graphqlResults.length > 0) {
+      // Translate for Latin queries
+      if (isLatinQuery(query)) {
+        const textsToTranslate = graphqlResults.flatMap((r) => [r.name, r.roadAddress || r.address]);
+        const translated = await translateKorean(textsToTranslate);
+        for (let i = 0; i < graphqlResults.length; i++) {
+          const name = translated[i * 2];
+          const address = translated[i * 2 + 1];
+          if (name) graphqlResults[i].romanizedName = name;
+          if (address) graphqlResults[i].romanizedAddress = address;
+        }
+      }
+      return graphqlResults;
+    }
+
+    // Fallback: Local Search API
+    const localResults = await searchNaverPlacesLocal(query);
+
+    if (isLatinQuery(query) && localResults.length > 0) {
+      const textsToTranslate = localResults.flatMap((r) => [r.name, r.roadAddress || r.address]);
+      const translated = await translateKorean(textsToTranslate);
+      for (let i = 0; i < localResults.length; i++) {
+        const name = translated[i * 2];
+        const address = translated[i * 2 + 1];
+        if (name) localResults[i].romanizedName = name;
+        if (address) localResults[i].romanizedAddress = address;
+      }
+    }
+
+    return localResults;
+  } catch (error) {
+    console.error('Naver search error:', error);
+    return [];
+  }
+}
+
+// ============================================
 // PLACE LOOKUP BY URL
 // ============================================
 
 /**
- * Extract Naver Place ID from various Naver Map URL formats.
- * Supports:
- *   https://map.naver.com/p/entry/place/1234567890
- *   https://map.naver.com/v5/entry/place/1234567890
- *   https://map.naver.com/p/search/.../place/1234567890
- *   https://m.place.naver.com/restaurant/1234567890
- *   https://m.place.naver.com/cafe/1234567890
- *   https://pcmap.place.naver.com/restaurant/1234567890/home
- */
-function extractPlaceIdFromUrl(url: string): string | null {
-  const patterns = [
-    /place\/(\d+)/,
-    /restaurant\/(\d+)/,
-    /cafe\/(\d+)/,
-  ];
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match) return match[1];
-  }
-  return null;
-}
-
-/**
- * Fetch full place details from Naver Place GraphQL API by Place ID.
- */
-async function fetchPlaceDetailsById(placeId: string): Promise<NaverPlaceSearchResult | null> {
-  try {
-    const res = await fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers: {
-        ...GRAPHQL_HEADERS,
-        'Referer': `https://pcmap.place.naver.com/restaurant/${placeId}/home`,
-      },
-      body: JSON.stringify({
-        query: `query {
-          placeDetail(input: {deviceType: "pc", id: ${JSON.stringify(placeId)}, isNx: false}) {
-            name
-            address
-            roadAddress
-            phone
-            virtualPhone
-            x
-            y
-            category
-          }
-        }`,
-      }),
-    });
-
-    if (!res.ok) return null;
-
-    const data = await res.json();
-    const detail = data?.data?.placeDetail;
-    if (!detail) return null;
-
-    return {
-      id: placeId,
-      name: detail.name || '',
-      address: detail.address || '',
-      roadAddress: detail.roadAddress || '',
-      phone: detail.phone || detail.virtualPhone || '',
-      latitude: parseFloat(detail.y) || 0,
-      longitude: parseFloat(detail.x) || 0,
-      category: Array.isArray(detail.category) ? detail.category.join('>') : (detail.category || ''),
-      naverUrl: `https://map.naver.com/v5/entry/place/${placeId}`,
-    };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Fetch cafe details from a Naver Map URL.
- * Accepts short links (naver.me) and full Naver Map URLs.
- * Resolves short links by following redirects, then extracts the Place ID
- * and fetches full details via the Naver Place GraphQL API.
+ * Resolve a Naver Map URL to place details.
+ * Handles:
+ * - naver.me short links (resolved via HTTP redirect or HTML parsing)
+ * - Full Naver Map URLs (place ID extracted from URL path)
+ *
+ * Uses the GraphQL `places` search to get full data (with coordinates),
+ * with `placeDetail.base` as a lookup source for the place name.
  */
 export async function fetchNaverPlaceByUrl(url: string): Promise<NaverPlaceSearchResult | null> {
   if (!url || url.trim().length === 0) return null;
 
   let targetUrl = url.trim();
 
-  // Resolve naver.me short links by following redirects
+  // Resolve naver.me short links
   if (targetUrl.includes('naver.me')) {
     try {
+      // Try HTTP redirect first
       const response = await fetch(targetUrl, { redirect: 'follow' });
-      targetUrl = response.url;
+      const resolvedUrl = response.url;
+
+      // If redirect worked and we got a different URL, use it
+      if (resolvedUrl !== targetUrl && extractPlaceIdFromUrl(resolvedUrl)) {
+        targetUrl = resolvedUrl;
+      } else {
+        // Redirect didn't give us a place URL, try parsing the HTML
+        const html = await response.text();
+        // Look for Naver Map URLs in the HTML (meta tags, scripts, etc.)
+        const urlMatch = html.match(/https?:\/\/[^\s"'<>]*(?:place|restaurant|cafe)\/(\d+)[^\s"'<>]*/);
+        if (urlMatch) {
+          targetUrl = urlMatch[0];
+        } else {
+          return null;
+        }
+      }
     } catch {
       return null;
     }
@@ -342,7 +393,78 @@ export async function fetchNaverPlaceByUrl(url: string): Promise<NaverPlaceSearc
   const placeId = extractPlaceIdFromUrl(targetUrl);
   if (!placeId) return null;
 
-  return fetchPlaceDetailsById(placeId);
+  // Step 1: Get basic info from placeDetail.base (name, address, phone)
+  try {
+    const detailRes = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        ...GRAPHQL_HEADERS,
+        'Referer': `https://pcmap.place.naver.com/restaurant/${placeId}/home`,
+      },
+      body: JSON.stringify({
+        query: `query { placeDetail(input: {deviceType: "pc", id: ${JSON.stringify(placeId)}, isNx: false}) { base { name address roadAddress phone virtualPhone category } } }`,
+      }),
+    });
+
+    if (!detailRes.ok) return null;
+
+    const detailText = await detailRes.text();
+    let detailData;
+    try {
+      detailData = JSON.parse(detailText);
+    } catch {
+      return null;
+    }
+
+    const base = detailData?.data?.placeDetail?.base;
+    if (!base?.name) return null;
+
+    // Step 2: Search by name to get coordinates
+    let latitude = 0;
+    let longitude = 0;
+
+    try {
+      const searchRes = await fetch(GRAPHQL_URL, {
+        method: 'POST',
+        headers: { ...GRAPHQL_HEADERS, 'Referer': 'https://pcmap.place.naver.com/restaurant/list' },
+        body: JSON.stringify({
+          query: `{ places(input: {query: ${JSON.stringify(base.name)}}) { items { id x y } } }`,
+        }),
+      });
+
+      if (searchRes.ok) {
+        const searchText = await searchRes.text();
+        try {
+          const searchData = JSON.parse(searchText);
+          const items = searchData?.data?.places?.items || [];
+          // Find the matching place by ID
+          const match = items.find((item: { id: string }) => item.id === placeId);
+          if (match) {
+            latitude = parseFloat(match.y) || 0;
+            longitude = parseFloat(match.x) || 0;
+          } else if (items.length > 0) {
+            // Use first result as approximate location
+            latitude = parseFloat(items[0].y) || 0;
+            longitude = parseFloat(items[0].x) || 0;
+          }
+        } catch { /* ignore parse errors */ }
+      }
+    } catch { /* coordinates are optional, continue without them */ }
+
+    return {
+      id: placeId,
+      name: base.name,
+      address: base.address || '',
+      roadAddress: base.roadAddress || '',
+      phone: base.phone || base.virtualPhone || '',
+      latitude,
+      longitude,
+      category: base.category || '',
+      naverUrl: `https://map.naver.com/v5/entry/place/${placeId}`,
+    };
+  } catch {
+    return null;
+  }
 }
 
 // ============================================
@@ -396,7 +518,6 @@ async function findNaverPlaceId(cafeName: string): Promise<string | null> {
     const items = data?.data?.places?.items;
     if (!items || items.length === 0) return null;
 
-    // Return the first result's ID (best match)
     return items[0].id || null;
   } catch {
     return null;
@@ -421,7 +542,6 @@ async function fetchHoursByPlaceId(
     if (!res.ok) return null;
 
     const data = await res.json();
-    // newBusinessHours is an array; first element has main business hours
     const hoursArray = data?.data?.placeDetail?.newBusinessHours;
     if (!Array.isArray(hoursArray) || hoursArray.length === 0) return null;
 
