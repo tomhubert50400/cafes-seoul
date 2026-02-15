@@ -204,9 +204,9 @@ export function MapFiltersPanel({
         />
 
         <RatingSlider
-          label={t('map.filters.wifi')}
-          value={filters.wifiMin ?? null}
-          onChange={(value) => updateFilter('wifiMin', value)}
+          label={t('map.filters.service')}
+          value={filters.serviceMin ?? null}
+          onChange={(value) => updateFilter('serviceMin', value)}
         />
 
         <RatingSlider
