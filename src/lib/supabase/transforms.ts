@@ -58,7 +58,7 @@ export function transformCafe(row: Record<string, unknown>): Cafe {
     totalRatings: row.total_ratings as number,
     ratings: {
       drinks: row.rating_drinks ? parseFloat(row.rating_drinks as string) : null,
-      wifi: row.rating_wifi ? parseFloat(row.rating_wifi as string) : null,
+      service: row.rating_service ? parseFloat(row.rating_service as string) : null,
       priceValue: row.rating_price_value ? parseFloat(row.rating_price_value as string) : null,
       quietness: row.rating_quietness ? parseFloat(row.rating_quietness as string) : null,
       seating: row.rating_seating ? parseFloat(row.rating_seating as string) : null,
@@ -98,7 +98,7 @@ export function transformCafeSummary(row: Record<string, unknown>): CafeSummary 
     distance: row.distance_meters ? parseFloat(row.distance_meters as string) : undefined,
     ratings: {
       drinks: row.rating_drinks ? parseFloat(row.rating_drinks as string) : null,
-      wifi: row.rating_wifi ? parseFloat(row.rating_wifi as string) : null,
+      service: row.rating_service ? parseFloat(row.rating_service as string) : null,
       priceValue: row.rating_price_value ? parseFloat(row.rating_price_value as string) : null,
       quietness: row.rating_quietness ? parseFloat(row.rating_quietness as string) : null,
       seating: row.rating_seating ? parseFloat(row.rating_seating as string) : null,
