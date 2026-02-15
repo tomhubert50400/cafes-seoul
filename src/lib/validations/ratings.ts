@@ -61,7 +61,7 @@ export type RatingFormData = {
 export function hasOptionalRatings(data: RatingFormData): boolean {
   return [
     data.drinks,
-    data.wifi,
+    data.service,
     data.priceValue,
     data.quietness,
     data.seating,
