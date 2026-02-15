@@ -14,7 +14,7 @@ const makeCafe = (overrides: Partial<CafeSummary> = {}): CafeSummary => ({
   overallRating: 4.0,
   totalRatings: 10,
   priceRange: 2,
-  cafeType: 'cafe',
+  cafeType: 'specialty_coffee',
   hasWifi: true,
   hasPowerOutlets: true,
   isPetFriendly: false,
