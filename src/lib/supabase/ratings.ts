@@ -381,7 +381,7 @@ async function updateCafeAveragesFallback(
         rating_comfort: statsData?.comfort as number | null,
         rating_food: statsData?.food as number | null,
         rating_lighting: statsData?.lighting as number | null,
-        rating_outlets: statsData?.outlets as number | null,
+        rating_aesthetic: statsData?.aesthetic as number | null,
         // Aggregate booleans: true if >= 50% of raters said yes
         has_wifi: totalCount > 0 && (statsData?.wifi_pct as number) >= 0.5 ? true : undefined,
         has_power_outlets: totalCount > 0 && (statsData?.outlets_pct as number) >= 0.5 ? true : undefined,
