@@ -47,7 +47,7 @@ describe('ratingFormSchema', () => {
       petFriendly: false,
       hasParking: true,
       lighting: 4,
-      outlets: 3,
+      aesthetic: 3,
       reviewText: 'Great cafe!',
     });
     expect(result.success).toBe(true);
