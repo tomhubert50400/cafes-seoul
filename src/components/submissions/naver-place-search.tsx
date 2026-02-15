@@ -273,15 +273,15 @@ export function NaverPlaceSearch({
                   onClick={() => handleSelect(place)}
                 >
                   <div className="font-medium text-sm">
-                    {place.romanizedName || place.name}
+                    {(showRomanized && place.romanizedName) ? place.romanizedName : place.name}
                   </div>
-                  {place.romanizedName && (
+                  {showRomanized && place.romanizedName && (
                     <div className="text-xs text-muted-foreground">{place.name}</div>
                   )}
                   <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
                     <MapPin className="h-3 w-3 shrink-0" />
                     <span className="truncate">
-                      {place.romanizedAddress || place.roadAddress || place.address}
+                      {(showRomanized && place.romanizedAddress) ? place.romanizedAddress : (place.roadAddress || place.address)}
                     </span>
                   </div>
                   {place.phone && (
