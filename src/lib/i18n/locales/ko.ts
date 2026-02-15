@@ -665,7 +665,7 @@ const ko: Record<string, string> = {
   'rating.petFriendlyDescription': '반려동물 동반이 가능한가요?',
   'rating.lighting': '조명',
   'rating.drinks': '음료',
-  'rating.wifi': '와이파이',
+  'rating.service': '서비스',
   'rating.seating': '좌석',
   'rating.food': '음식',
   'rating.outlets': '콘센트',
