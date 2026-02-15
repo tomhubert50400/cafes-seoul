@@ -230,7 +230,7 @@ export type OptionalRatingDimension =
  */
 export const RATING_SECTIONS = {
   /** Essential cafe qualities */
-  essentials: ['drinks', 'wifi', 'priceValue'] as const,
+  essentials: ['drinks', 'service', 'priceValue'] as const,
   /** Comfort-related aspects */
   comfort: ['quietness', 'seating', 'comfort'] as const,
   /** Additional features */
