@@ -286,7 +286,7 @@ export function transformUserRating(row: Record<string, unknown>): UserRating {
     cafeId: row.cafe_id as string,
     overall: parseInt(row.overall as string, 10) || 0,
     drinks: parseInt(row.drinks as string, 10) || 0,
-    wifi: parseInt(row.wifi as string, 10) || 0,
+    service: parseInt(row.service as string, 10) || 0,
     priceValue: parseInt(row.price_value as string, 10) || 0,
     quietness: parseInt(row.quietness as string, 10) || 0,
     seating: parseInt(row.seating as string, 10) || 0,
