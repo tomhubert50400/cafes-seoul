@@ -21,7 +21,7 @@ const DIMENSION_LABELS: Record<OptionalRatingDimension, Record<string, string>> 
   comfort: { ko: '편안함', en: 'Comfort', fr: 'Confort', zh: '舒适', vi: 'Thoai mai' },
   food: { ko: '음식', en: 'Food', fr: 'Nourriture', zh: '食物', vi: 'Do an' },
   lighting: { ko: '조명', en: 'Lighting', fr: 'Eclairage', zh: '灯光', vi: 'Anh sang' },
-  outlets: { ko: '콘센트', en: 'Outlets', fr: 'Prises', zh: '插座', vi: 'O cam' },
+  aesthetic: { ko: '인테리어', en: 'Aesthetic', fr: 'Esthétique', zh: '美学', vi: 'Tham my' },
 };
 
 /**
