@@ -234,7 +234,7 @@ export const RATING_SECTIONS = {
   /** Comfort-related aspects */
   comfort: ['quietness', 'seating', 'comfort'] as const,
   /** Additional features */
-  extras: ['food', 'petFriendly', 'lighting', 'outlets'] as const,
+  extras: ['food', 'lighting', 'aesthetic'] as const,
 };
 
 /**
