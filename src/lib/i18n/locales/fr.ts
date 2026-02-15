@@ -231,7 +231,7 @@ const fr: Record<string, string> = {
   'map.filters.food': 'Nourriture',
   'map.filters.drinks': 'Boissons',
   'map.filters.lighting': 'Éclairage',
-  'map.filters.outlets': 'Prises',
+  'map.filters.aesthetic': 'Esthétique',
   'map.filters.quietness': 'Calme',
   'map.filters.priceValue': 'Rapport qualité-prix',
   'map.filters.comfort': 'Confort',
