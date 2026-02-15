@@ -185,7 +185,7 @@ export const RATING_DIMENSION_LABELS: Record<UserRatingDimension, { ko: string; 
 export type UserRatingDimension = 
   | 'overall'
   | 'drinks'
-  | 'wifi'
+  | 'service'
   | 'priceValue'
   | 'quietness'
   | 'seating'
@@ -193,7 +193,7 @@ export type UserRatingDimension =
   | 'food'
   | 'petFriendly'
   | 'lighting'
-  | 'outlets';
+  | 'aesthetic';
 
 /**
  * Numeric rating dimensions only (excluding petFriendly boolean)
