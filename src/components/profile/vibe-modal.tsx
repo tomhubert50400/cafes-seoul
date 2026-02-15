@@ -195,9 +195,9 @@ export function VibeModal({
               onChange={(value) => updateFilter('seatingMin', value)}
             />
             <RatingSlider
-              label={t('map.filters.wifi')}
-              value={(filters.wifiMin as number) ?? null}
-              onChange={(value) => updateFilter('wifiMin', value)}
+              label={t('map.filters.service')}
+              value={(filters.serviceMin as number) ?? null}
+              onChange={(value) => updateFilter('serviceMin', value)}
             />
             <RatingSlider
               label={t('map.filters.food')}
