@@ -665,7 +665,7 @@ const fr: Record<string, string> = {
   'rating.petFriendlyDescription': 'Ce café accueille-t-il les animaux ?',
   'rating.lighting': 'Éclairage',
   'rating.drinks': 'Boissons',
-  'rating.wifi': 'WiFi',
+  'rating.service': 'Service',
   'rating.seating': 'Places assises',
   'rating.food': 'Nourriture',
   'rating.outlets': 'Prises',
