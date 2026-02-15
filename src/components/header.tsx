@@ -104,7 +104,7 @@ export function Header({ user }: HeaderProps = {}) {
           ) : (
             <div className="hidden md:flex items-center gap-2">
               <Button variant="ghost" size="sm" asChild className="min-h-[44px]">
-                <Link href={ROUTES.LOGIN} prefetch={false}>{t('nav.login')}</Link>
+                <Link href={ROUTES.LOGIN}>{t('nav.login')}</Link>
               </Button>
               <Button size="sm" asChild className="min-h-[44px]">
                 <Link href={ROUTES.SIGNUP} prefetch={false}>{t('nav.signup')}</Link>
