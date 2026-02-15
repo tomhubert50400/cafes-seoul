@@ -175,7 +175,7 @@ export const RATING_DIMENSION_LABELS: Record<UserRatingDimension, { ko: string; 
   food: { ko: '음식', en: 'Food' },
   petFriendly: { ko: '반려동물 친화', en: 'Pet Friendly' },
   lighting: { ko: '조명', en: 'Lighting' },
-  outlets: { ko: '콘센트', en: 'Outlets' },
+  aesthetic: { ko: '인테리어', en: 'Aesthetic' },
 };
 
 /**
