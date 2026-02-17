@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { transformCafeSummary, getStorageUrl } from './transforms';
+import { transformCafeSummary, getStorageUrl, extractPhotoData } from './transforms';
 import type { CafeSummary, RatingBreakdown } from '@/types/cafe';
 import type { ForYouCafe } from '@/types/for-you';
 
