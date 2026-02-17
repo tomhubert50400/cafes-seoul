@@ -29,9 +29,15 @@ export function extractPhotoData(photos: PhotoRow[] | null | undefined): {
   primary_image_url: string | null;
   photo_urls: string[];
 } {
+  const seen = new Set<string>();
   const approved = (photos || [])
     .filter((p) => p.status === 'approved')
     .sort((a, b) => b.upvote_count - a.upvote_count)
+    .filter((p) => {
+      if (seen.has(p.storage_path)) return false;
+      seen.add(p.storage_path);
+      return true;
+    })
     .slice(0, 5);
 
   return {
