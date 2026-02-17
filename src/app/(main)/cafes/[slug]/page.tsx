@@ -289,8 +289,6 @@ const CAFE_SUMMARY_SELECT = `
   photos(storage_path, upvote_count, status)
 `;
 
-type PhotoRow = { storage_path: string; upvote_count: number; status: string };
-
 async function getSimilarCafes(cafe: Cafe): Promise<CafeSummary[]> {
   const supabase = await createClient();
 
@@ -305,13 +303,11 @@ async function getSimilarCafes(cafe: Cafe): Promise<CafeSummary[]> {
     .limit(4);
 
   const results = (sameType || []).map((row) => {
-    const photos = row.photos as PhotoRow[] | null;
-    const topPhoto = photos
-      ?.filter((p) => p.status === 'approved')
-      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+    const { primary_image_url, photo_urls } = extractPhotoData(row.photos as any);
     return transformCafeSummary({
       ...row,
-      primary_image_url: topPhoto?.storage_path || null,
+      primary_image_url,
+      photo_urls,
     });
   });
 
@@ -329,13 +325,11 @@ async function getSimilarCafes(cafe: Cafe): Promise<CafeSummary[]> {
 
     if (sameDistrict) {
       for (const row of sameDistrict) {
-        const photos = row.photos as PhotoRow[] | null;
-        const topPhoto = photos
-          ?.filter((p) => p.status === 'approved')
-          .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+        const { primary_image_url, photo_urls } = extractPhotoData(row.photos as any);
         results.push(transformCafeSummary({
           ...row,
-          primary_image_url: topPhoto?.storage_path || null,
+          primary_image_url,
+          photo_urls,
         }));
       }
     }
