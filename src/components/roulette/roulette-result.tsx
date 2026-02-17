@@ -17,6 +17,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import type { CafeSummary } from '@/types/cafe';
 import type { MapFilters } from '@/types/map';
 import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
+import { CardPhotoSlider } from '@/components/card-photo-slider';
 
 interface RouletteResultProps {
   cafe: CafeSummary;
