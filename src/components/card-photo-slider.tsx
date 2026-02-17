@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useRef, useCallback } from 'react';
+import { memo, useState, useRef, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
@@ -20,46 +20,48 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
   aspectRatio = 'aspect-[4/3]',
 }: CardPhotoSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const didSwipeRef = useRef(false);
-  // Track if touch direction is determined to be horizontal
   const isHorizontalRef = useRef<boolean | null>(null);
 
-  // --- Touch events (mobile) ---
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-    didSwipeRef.current = false;
-    isHorizontalRef.current = null;
-  }, []);
+  // Attach touch listeners with { passive: false } so preventDefault works
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || photoUrls.length <= 1) return;
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!touchStartRef.current) return;
-    const touch = e.touches[0];
-    const dx = Math.abs(touch.clientX - touchStartRef.current.x);
-    const dy = Math.abs(touch.clientY - touchStartRef.current.y);
+    const onTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+      didSwipeRef.current = false;
+      isHorizontalRef.current = null;
+    };
 
-    // Once we have enough movement, lock the direction
-    if (isHorizontalRef.current === null && (dx > 8 || dy > 8)) {
-      isHorizontalRef.current = dx > dy;
-    }
+    const onTouchMove = (e: TouchEvent) => {
+      if (!touchStartRef.current) return;
+      const touch = e.touches[0];
+      const dx = Math.abs(touch.clientX - touchStartRef.current.x);
+      const dy = Math.abs(touch.clientY - touchStartRef.current.y);
 
-    // If horizontal swipe, prevent vertical scroll
-    if (isHorizontalRef.current) {
-      e.preventDefault();
-      didSwipeRef.current = true;
-    }
-  }, []);
+      // Lock direction once we have enough movement
+      if (isHorizontalRef.current === null && (dx > 8 || dy > 8)) {
+        isHorizontalRef.current = dx > dy;
+      }
 
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
+      // If horizontal swipe, prevent page scroll
+      if (isHorizontalRef.current) {
+        e.preventDefault();
+        didSwipeRef.current = true;
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
       if (!touchStartRef.current) return;
       const touch = e.changedTouches[0];
       const dx = touch.clientX - touchStartRef.current.x;
-      const absDx = Math.abs(dx);
       touchStartRef.current = null;
 
-      if (isHorizontalRef.current && absDx > 30) {
+      if (isHorizontalRef.current && Math.abs(dx) > 30) {
         didSwipeRef.current = true;
         if (dx < 0) {
           setCurrentIndex((prev) => Math.min(photoUrls.length - 1, prev + 1));
@@ -68,11 +70,20 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
         }
       }
       isHorizontalRef.current = null;
-    },
-    [photoUrls.length]
-  );
+    };
 
-  // --- Mouse events (desktop) ---
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    el.addEventListener('touchend', onTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [photoUrls.length]);
+
+  // --- Mouse events (desktop drag) ---
   const mouseStartRef = useRef<{ x: number } | null>(null);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -111,11 +122,9 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
 
   return (
     <div
+      ref={containerRef}
       className={cn('relative overflow-hidden select-none', aspectRatio)}
       style={{ touchAction: 'pan-y' }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onClickCapture={handleClickCapture}
