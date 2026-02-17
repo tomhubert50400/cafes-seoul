@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { transformCafe, transformCafeSummary, transformReview, transformUserRating, getStorageUrl } from '@/lib/supabase/transforms';
+import { transformCafe, transformCafeSummary, transformReview, transformUserRating, getStorageUrl, extractPhotoData } from '@/lib/supabase/transforms';
 import { CafeDetailContent } from '@/components/cafe-detail/cafe-detail-content';
 import { checkFavoriteAction } from '@/lib/actions/favorites';
 import { getCafeReviewsAction } from '@/lib/actions/reviews';
