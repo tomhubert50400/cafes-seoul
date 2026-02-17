@@ -32,6 +32,7 @@ import { useRequireAuth } from '@/hooks/use-require-auth';
 import { CafeReviewsList } from '@/components/reviews/cafe-reviews-list';
 import { CafeCard } from '@/components/cafe-card';
 import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
+import { CardPhotoSlider } from '@/components/card-photo-slider';
 
 interface CafeDetailContentProps {
   cafe: Cafe;
