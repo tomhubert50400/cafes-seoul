@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { transformCafeSummary, extractPhotoData } from '@/lib/supabase/transforms';
 import type { CafeListParams, PaginatedResponse } from '@/types/api';
 import type { CafeSummary } from '@/types/cafe';
 import { getDistrictBySlug, POPULAR_NEIGHBORHOODS, NEIGHBORHOOD_RADIUS_M } from '@/lib/constants/districts';
