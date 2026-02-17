@@ -66,14 +66,13 @@ export function RouletteResult({
           </div>
 
           {/* Cafe image */}
-          {cafe.primaryImageUrl ? (
-            <div className="aspect-video w-full overflow-hidden">
-              <img
-                src={cafe.primaryImageUrl}
-                alt={cafeName}
-                className="h-full w-full object-cover"
-              />
-            </div>
+          {(cafe.photoUrls && cafe.photoUrls.length > 0) || cafe.primaryImageUrl ? (
+            <CardPhotoSlider
+              photoUrls={cafe.photoUrls && cafe.photoUrls.length > 0 ? cafe.photoUrls : [cafe.primaryImageUrl!]}
+              alt={cafeName}
+              sizes="(max-width: 640px) 100vw, 600px"
+              aspectRatio="aspect-video"
+            />
           ) : (
             <Link
               href={`${ROUTES.CAFE_DETAIL(cafe.slug)}?upload=true#photos-section`}
