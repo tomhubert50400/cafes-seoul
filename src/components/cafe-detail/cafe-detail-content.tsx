@@ -104,54 +104,72 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
         {/* Image gallery */}
         <div className="mb-8 overflow-hidden rounded-xl">
           {galleryImages.length > 0 ? (
-            <div className="grid gap-2 md:grid-cols-4 md:grid-rows-2">
-              {/* Main large image */}
-              <div className="relative aspect-square md:col-span-2 md:row-span-2">
-                <Image
-                  src={galleryImages[0].url}
-                  alt={galleryImages[0].alt}
-                  fill
-                  className="rounded-lg object-cover"
+            <>
+              {/* Mobile: swipeable slider */}
+              <div className="relative md:hidden">
+                <CardPhotoSlider
+                  photoUrls={galleryImages.map((img) => img.url)}
+                  alt={cafeName}
+                  sizes="100vw"
                   priority
+                  aspectRatio="aspect-square"
                 />
-                {/* Corner CTA on main: always on mobile, desktop only when no side images */}
                 <button
                   onClick={() => requireAuth(() => window.dispatchEvent(new Event('open-photo-upload')))}
-                  className={cn(
-                    "absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors",
-                    galleryImages.length > 1 && "md:hidden"
-                  )}
+                  className="absolute bottom-2 right-2 z-20 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
                 >
                   <Camera className="h-4 w-4" />
                 </button>
               </div>
-              {/* Up to 4 more side images */}
-              {galleryImages.slice(1).map((img, index) => {
-                const isLast = index === galleryImages.length - 2;
-                return (
-                  <div key={img.id} className="relative hidden aspect-square md:block">
-                    <Image
-                      src={img.url}
-                      alt={img.alt}
-                      fill
-                      className="rounded-lg object-cover"
-                    />
-                    {/* Corner CTA on last side image */}
-                    {isLast && (
-                      <button
-                        onClick={() => requireAuth(() => window.dispatchEvent(new Event('open-photo-upload')))}
-                        className="absolute bottom-3 right-3 flex items-center justify-center h-12 w-12 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
-                      >
-                        <div className="relative">
-                          <Camera className="h-5 w-5" />
-                          <span className="absolute -top-1.5 -right-0.5 text-xs font-bold leading-none">+</span>
-                        </div>
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+              {/* Desktop: grid layout */}
+              <div className="hidden md:grid gap-2 md:grid-cols-4 md:grid-rows-2">
+                {/* Main large image */}
+                <div className="relative aspect-square md:col-span-2 md:row-span-2">
+                  <Image
+                    src={galleryImages[0].url}
+                    alt={galleryImages[0].alt}
+                    fill
+                    className="rounded-lg object-cover"
+                    priority
+                  />
+                  {/* Corner CTA when no side images */}
+                  {galleryImages.length <= 1 && (
+                    <button
+                      onClick={() => requireAuth(() => window.dispatchEvent(new Event('open-photo-upload')))}
+                      className="absolute bottom-2 right-2 flex items-center justify-center h-8 w-8 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
+                    >
+                      <Camera className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                {/* Up to 4 more side images */}
+                {galleryImages.slice(1).map((img, index) => {
+                  const isLast = index === galleryImages.length - 2;
+                  return (
+                    <div key={img.id} className="relative aspect-square">
+                      <Image
+                        src={img.url}
+                        alt={img.alt}
+                        fill
+                        className="rounded-lg object-cover"
+                      />
+                      {/* Corner CTA on last side image */}
+                      {isLast && (
+                        <button
+                          onClick={() => requireAuth(() => window.dispatchEvent(new Event('open-photo-upload')))}
+                          className="absolute bottom-3 right-3 flex items-center justify-center h-12 w-12 rounded-full bg-white text-zinc-700 shadow-md hover:bg-zinc-100 transition-colors"
+                        >
+                          <div className="relative">
+                            <Camera className="h-5 w-5" />
+                            <span className="absolute -top-1.5 -right-0.5 text-xs font-bold leading-none">+</span>
+                          </div>
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           ) : (
             <div className="flex aspect-[21/9] flex-col items-center justify-center gap-3 rounded-lg bg-zinc-100 dark:bg-zinc-800">
               <CoffeeIcon className="h-16 w-16 text-zinc-300 dark:text-zinc-600" />
