@@ -135,7 +135,7 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {photoUrls.map((url, i) => (
-          <div key={url} className="relative h-full w-full shrink-0">
+          <div key={i} className="relative h-full w-full shrink-0">
             <Image
               src={url}
               alt={`${alt} ${i + 1}`}
