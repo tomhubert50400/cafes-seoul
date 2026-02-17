@@ -20,38 +20,77 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
   aspectRatio = 'aspect-[4/3]',
 }: CardPhotoSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const pointerStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const didSwipeRef = useRef(false);
+  // Track if touch direction is determined to be horizontal
+  const isHorizontalRef = useRef<boolean | null>(null);
 
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    pointerStartRef.current = { x: e.clientX, y: e.clientY, time: Date.now() };
+  // --- Touch events (mobile) ---
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
     didSwipeRef.current = false;
+    isHorizontalRef.current = null;
   }, []);
 
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!pointerStartRef.current) return;
-    const dx = Math.abs(e.clientX - pointerStartRef.current.x);
-    if (dx > 10) {
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const touch = e.touches[0];
+    const dx = Math.abs(touch.clientX - touchStartRef.current.x);
+    const dy = Math.abs(touch.clientY - touchStartRef.current.y);
+
+    // Once we have enough movement, lock the direction
+    if (isHorizontalRef.current === null && (dx > 8 || dy > 8)) {
+      isHorizontalRef.current = dx > dy;
+    }
+
+    // If horizontal swipe, prevent vertical scroll
+    if (isHorizontalRef.current) {
+      e.preventDefault();
       didSwipeRef.current = true;
     }
   }, []);
 
-  const handlePointerUp = useCallback(
-    (e: React.PointerEvent) => {
-      if (!pointerStartRef.current) return;
-      const dx = e.clientX - pointerStartRef.current.x;
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (!touchStartRef.current) return;
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - touchStartRef.current.x;
       const absDx = Math.abs(dx);
-      const absDy = Math.abs(e.clientY - pointerStartRef.current.y);
-      pointerStartRef.current = null;
+      touchStartRef.current = null;
 
-      // Only register horizontal swipe if > 30px and more horizontal than vertical
-      if (absDx > 30 && absDx > absDy) {
+      if (isHorizontalRef.current && absDx > 30) {
         didSwipeRef.current = true;
         if (dx < 0) {
-          // Swipe left -> next
           setCurrentIndex((prev) => Math.min(photoUrls.length - 1, prev + 1));
         } else {
-          // Swipe right -> previous
+          setCurrentIndex((prev) => Math.max(0, prev - 1));
+        }
+      }
+      isHorizontalRef.current = null;
+    },
+    [photoUrls.length]
+  );
+
+  // --- Mouse events (desktop) ---
+  const mouseStartRef = useRef<{ x: number } | null>(null);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    mouseStartRef.current = { x: e.clientX };
+    didSwipeRef.current = false;
+  }, []);
+
+  const handleMouseUp = useCallback(
+    (e: React.MouseEvent) => {
+      if (!mouseStartRef.current) return;
+      const dx = e.clientX - mouseStartRef.current.x;
+      mouseStartRef.current = null;
+
+      if (Math.abs(dx) > 30) {
+        didSwipeRef.current = true;
+        if (dx < 0) {
+          setCurrentIndex((prev) => Math.min(photoUrls.length - 1, prev + 1));
+        } else {
           setCurrentIndex((prev) => Math.max(0, prev - 1));
         }
       }
@@ -73,9 +112,12 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
   return (
     <div
       className={cn('relative overflow-hidden select-none', aspectRatio)}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
+      style={{ touchAction: 'pan-y' }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       onClickCapture={handleClickCapture}
     >
       {/* Sliding track */}
