@@ -114,6 +114,7 @@ export function transformCafeSummary(row: Record<string, unknown>): CafeSummary 
     isLaptopFriendly: row.is_laptop_friendly as boolean,
     hasParking: row.has_parking as boolean,
     primaryImageUrl: getStorageUrl(row.primary_image_url as string | null),
+    photoUrls: (row.photo_urls as string[] | undefined) || undefined,
     operatingHours: row.operating_hours ? (row.operating_hours as OperatingHours) : undefined,
     distance: row.distance_meters ? parseFloat(row.distance_meters as string) : undefined,
     ratings: {
