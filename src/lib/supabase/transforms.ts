@@ -22,6 +22,26 @@ export function resolveAvatarUrl(avatarUrl: string | null): string | null {
   return `${supabaseUrl}/storage/v1/object/public/${AVATARS_BUCKET}/${avatarUrl}`;
 }
 
+// Extract photo data from a photos array: primary image + up to 5 photo URLs
+type PhotoRow = { storage_path: string; upvote_count: number; status: string };
+
+export function extractPhotoData(photos: PhotoRow[] | null | undefined): {
+  primary_image_url: string | null;
+  photo_urls: string[];
+} {
+  const approved = (photos || [])
+    .filter((p) => p.status === 'approved')
+    .sort((a, b) => b.upvote_count - a.upvote_count)
+    .slice(0, 5);
+
+  return {
+    primary_image_url: approved[0]?.storage_path || null,
+    photo_urls: approved
+      .map((p) => getStorageUrl(p.storage_path))
+      .filter((url): url is string => url != null),
+  };
+}
+
 // Transform database cafe row to Cafe type
 export function transformCafe(row: Record<string, unknown>): Cafe {
   return {
