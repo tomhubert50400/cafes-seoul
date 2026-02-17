@@ -150,6 +150,30 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
         ))}
       </div>
 
+      {/* Desktop-only prev/next buttons */}
+      {photoUrls.length > 1 && (
+        <>
+          {currentIndex > 0 && (
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrentIndex((i) => i - 1); }}
+              className="absolute left-1.5 top-1/2 z-10 hidden -translate-y-1/2 md:flex h-7 w-7 items-center justify-center rounded-full bg-white/80 text-zinc-700 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+          )}
+          {currentIndex < photoUrls.length - 1 && (
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCurrentIndex((i) => i + 1); }}
+              className="absolute right-1.5 top-1/2 z-10 hidden -translate-y-1/2 md:flex h-7 w-7 items-center justify-center rounded-full bg-white/80 text-zinc-700 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          )}
+        </>
+      )}
+
       {/* Preload adjacent image */}
       {currentIndex < photoUrls.length - 1 && (
         <link rel="preload" as="image" href={photoUrls[currentIndex + 1]} />
