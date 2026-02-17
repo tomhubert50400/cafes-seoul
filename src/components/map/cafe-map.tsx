@@ -9,6 +9,7 @@ import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
 import { CafeMarker } from './cafe-marker';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { DirectionsChooser } from '@/components/directions-chooser';
+import { CardPhotoSlider } from '@/components/card-photo-slider';
 import { filterCafes } from '@/lib/utils/filter-cafes';
 import { useI18n } from '@/lib/i18n';
 import type { CafeSummary } from '@/types/cafe';
