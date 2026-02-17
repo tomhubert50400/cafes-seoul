@@ -42,7 +42,14 @@ export const CafeCard = memo(function CafeCard({ cafe, className, isFavorited, u
     >
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-        {cafe.primaryImageUrl ? (
+        {cafe.photoUrls && cafe.photoUrls.length > 1 ? (
+          <CardPhotoSlider
+            photoUrls={cafe.photoUrls}
+            alt={cafeName}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
+          />
+        ) : cafe.primaryImageUrl ? (
           <Image
             src={cafe.primaryImageUrl}
             alt={cafeName}
