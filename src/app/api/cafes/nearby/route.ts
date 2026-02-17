@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { transformCafeSummary, extractPhotoData } from '@/lib/supabase/transforms';
 import type { CafeSummary } from '@/types/cafe';
 
 export async function GET(request: NextRequest) {
