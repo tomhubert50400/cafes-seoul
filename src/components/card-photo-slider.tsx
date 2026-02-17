@@ -124,7 +124,7 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
   return (
     <div
       ref={containerRef}
-      className={cn('relative overflow-hidden select-none', aspectRatio)}
+      className={cn('group/slider relative overflow-hidden select-none', aspectRatio)}
       style={{ touchAction: 'pan-y' }}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
