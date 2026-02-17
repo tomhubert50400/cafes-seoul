@@ -45,6 +45,8 @@ export interface FavoriteCafe {
 export interface FavoriteCafeWithImage extends FavoriteCafe {
   /** Primary image URL for thumbnail display */
   primaryImageUrl: string | null;
+  /** All approved photo URLs for slider display */
+  photoUrls?: string[];
 }
 
 /**
