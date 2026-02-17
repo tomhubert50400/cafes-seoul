@@ -50,10 +50,11 @@ const getCachedCafes = unstable_cache(
     }
 
     return (data || []).map((row) => {
-      const { primary_image_url } = extractPhotoData(row.photos as any);
+      const { primary_image_url, photo_urls } = extractPhotoData(row.photos as any);
       return transformCafeSummary({
         ...row,
         primary_image_url,
+        photo_urls,
       });
     });
   },
