@@ -97,6 +97,7 @@ export function FavoritesList({ favorites, userId }: FavoritesListProps) {
             isLaptopFriendly: false,
             hasParking: false,
             primaryImageUrl: favorite.cafe.primaryImageUrl,
+            photoUrls: favorite.cafe.photoUrls,
             ratings: {
               drinks: null,
               service: null,
