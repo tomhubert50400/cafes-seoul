@@ -4,7 +4,7 @@ import type {
   FavoriteWithCafe,
   ToggleFavoriteResult,
 } from '@/types/favorites';
-import { getStorageUrl } from './transforms';
+import { getStorageUrl, extractPhotoData } from './transforms';
 
 // ============================================
 // TOGGLE FAVORITE
