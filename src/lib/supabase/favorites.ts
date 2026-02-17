@@ -114,11 +114,7 @@ export async function getUserFavorites(
     return data.map((row) => {
       // Cast through unknown to handle Supabase's type inference for joins
       const cafe = row.cafe as unknown as Record<string, unknown>;
-      const photos = cafe.photos as Array<{ storage_path: string; upvote_count: number; status: string }> | null;
-      const topPhoto = photos
-        ?.filter((p) => p.status === 'approved')
-        .sort((a, b) => b.upvote_count - a.upvote_count)[0];
-      const primaryImage = topPhoto?.storage_path || null;
+      const { primary_image_url, photo_urls } = extractPhotoData(cafe.photos as any);
 
       return {
         id: row.id as string,
@@ -132,7 +128,8 @@ export async function getUserFavorites(
           districtId: cafe.district_id as string,
           overallRating: cafe.overall_rating ? parseFloat(cafe.overall_rating as string) : null,
           totalRatings: (cafe.total_ratings as number) || 0,
-          primaryImageUrl: getStorageUrl(primaryImage),
+          primaryImageUrl: getStorageUrl(primary_image_url),
+          photoUrls: photo_urls,
         },
       };
     });
