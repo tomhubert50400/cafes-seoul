@@ -6,7 +6,7 @@ import { unstable_cache } from 'next/cache';
 import { cookies } from 'next/headers';
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { CafeMapSkeleton } from '@/components/map/cafe-map-skeleton';
-import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { transformCafeSummary, extractPhotoData } from '@/lib/supabase/transforms';
 import { getUserFavoriteIds } from '@/lib/supabase/favorites';
 import { ensureUserVibes } from '@/lib/supabase/vibes';
 import { getTranslation } from '@/lib/i18n/translations';
