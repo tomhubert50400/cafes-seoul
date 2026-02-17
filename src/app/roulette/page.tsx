@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 import { Footer } from '@/components/footer';
 import { RouletteClient } from '@/components/roulette/roulette-client';
-import { transformCafeSummary } from '@/lib/supabase/transforms';
+import { transformCafeSummary, extractPhotoData } from '@/lib/supabase/transforms';
 import { getUserFavoriteIds } from '@/lib/supabase/favorites';
 import type { CafeSummary } from '@/types/cafe';
 
