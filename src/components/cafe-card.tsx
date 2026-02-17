@@ -14,6 +14,7 @@ import { getLocalizedText } from '@/types/cafe';
 import { getDistrictById } from '@/lib/constants/districts';
 import { ROUTES } from '@/lib/constants/routes';
 import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
+import { CardPhotoSlider } from '@/components/card-photo-slider';
 
 interface CafeCardProps {
   cafe: CafeSummary;
