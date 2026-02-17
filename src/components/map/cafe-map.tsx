@@ -163,7 +163,14 @@ export function CafeMap({
 
                 {/* Photo */}
                 <div className="relative h-28 bg-zinc-100">
-                  {selectedCafe.primaryImageUrl ? (
+                  {selectedCafe.photoUrls && selectedCafe.photoUrls.length > 1 ? (
+                    <CardPhotoSlider
+                      photoUrls={selectedCafe.photoUrls}
+                      alt={selectedCafeName}
+                      sizes="280px"
+                      aspectRatio="h-28"
+                    />
+                  ) : selectedCafe.primaryImageUrl ? (
                     <Image
                       src={selectedCafe.primaryImageUrl}
                       alt={selectedCafeName}
