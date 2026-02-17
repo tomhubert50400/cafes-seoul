@@ -126,25 +126,17 @@ const CAFE_SELECT_WITH_PHOTOS = `
   photos(storage_path, upvote_count, status)
 `;
 
-type PhotoRow = { storage_path: string; upvote_count: number; status: string };
-
 function transformToForYouCafe(row: Record<string, unknown>): ForYouCafe {
-  const photos = row.photos as PhotoRow[] | null;
-  const approvedPhotos = (photos || [])
-    .filter((p) => p.status === 'approved')
-    .sort((a, b) => b.upvote_count - a.upvote_count);
-
-  const topPhoto = approvedPhotos[0];
+  const { primary_image_url, photo_urls } = extractPhotoData(row.photos as any);
   const summary = transformCafeSummary({
     ...row,
-    primary_image_url: topPhoto?.storage_path || null,
+    primary_image_url,
+    photo_urls,
   });
 
   return {
     ...summary,
-    photoUrls: approvedPhotos
-      .map((p) => getStorageUrl(p.storage_path))
-      .filter((url): url is string => url != null),
+    photoUrls: photo_urls,
   };
 }
 
