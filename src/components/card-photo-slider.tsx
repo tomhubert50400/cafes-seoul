@@ -2,6 +2,7 @@
 
 import { memo, useState, useRef, useCallback, useEffect } from 'react';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CardPhotoSliderProps {
