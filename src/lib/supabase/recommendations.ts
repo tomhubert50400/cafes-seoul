@@ -100,13 +100,11 @@ export async function getRecommendations(
   // Transform and maintain recommendation order
   const cafeMap = new Map<string, CafeSummary>();
   for (const row of cafes) {
-    const photos = row.photos as { storage_path: string; upvote_count: number; status: string }[] | null;
-    const topPhoto = photos
-      ?.filter((p) => p.status === 'approved')
-      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+    const { primary_image_url, photo_urls } = extractPhotoData(row.photos as any);
     cafeMap.set(row.id, transformCafeSummary({
       ...row,
-      primary_image_url: topPhoto?.storage_path || null,
+      primary_image_url,
+      photo_urls,
     }));
   }
 
