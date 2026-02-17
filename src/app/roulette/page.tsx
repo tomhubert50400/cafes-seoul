@@ -36,13 +36,11 @@ async function getCafes(): Promise<CafeSummary[]> {
   }
 
   return (data || []).map((row) => {
-    const photos = row.photos as { storage_path: string; upvote_count: number; status: string }[] | null;
-    const topPhoto = photos
-      ?.filter((p) => p.status === 'approved')
-      .sort((a, b) => b.upvote_count - a.upvote_count)[0];
+    const { primary_image_url, photo_urls } = extractPhotoData(row.photos as any);
     return transformCafeSummary({
       ...row,
-      primary_image_url: topPhoto?.storage_path || null,
+      primary_image_url,
+      photo_urls,
     });
   });
 }
