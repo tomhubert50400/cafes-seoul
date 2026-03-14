@@ -12,11 +12,11 @@ Implement comprehensive analytics tracking across the cafes-seoul app to underst
 Simple banner with "Accept" button, no granularity, Vercel Analytics loads regardless.
 
 ### New Design
-- **Default view**: Short explanatory text + "Accepter" button (all toggles ON by default)
-- **"Modifier les cookies" link**: Expands to show toggles
-  - **Essentiel** (always on, grayed out) — language preference, session
+- **Default view**: Short explanatory text + accept button (all toggles ON by default). Uses i18n translation keys (e.g., `t('cookies.accept')`, `t('cookies.settings')`)
+- **Settings link**: Expands to show toggles
+  - **Essential** (always on, grayed out) — language preference, session
   - **Analytics** — event tracking, browser language, device type
-  - **Localisation** — geolocation via navigator API
+  - **Location** — geolocation via navigator API
 - **No "Refuse" button** — user unchecks what they want to disable, then accepts
 - Cookie `cookie-consent` stores granular choices as JSON: `{essential: true, analytics: true, location: true}`
 - All tracking code checks consent before firing
@@ -25,7 +25,7 @@ Simple banner with "Accept" button, no granularity, Vercel Analytics loads regar
 
 ## 2. Geolocation
 
-- Triggered only after "Localisation" consent is granted
+- Triggered only after "Location" consent is granted
 - `navigator.geolocation.getCurrentPosition()` called once on consent, then on demand
 - **Client-side**: Exact position used for proximity sorting via existing `find_cafes_nearby` RPC
 - **Server-side storage**: Position rounded to 3 decimal places (~110m precision) in `analytics_events`
@@ -54,12 +54,13 @@ create table analytics_events (
   created_at timestamptz default now()
 );
 
-create index idx_analytics_event_type on analytics_events(event_type);
+create index idx_analytics_event_type_created on analytics_events(event_type, created_at);
 create index idx_analytics_user on analytics_events(user_id);
-create index idx_analytics_created on analytics_events(created_at);
 create index idx_analytics_session on analytics_events(session_id);
-create index idx_analytics_cafe on analytics_events using gin ((event_data->'cafe_id'));
+create index idx_analytics_cafe on analytics_events ((event_data->>'cafe_id'));
 ```
+
+Note: No public INSERT RLS policy. All inserts go through the `trackEvent()` server action which uses the service role client (bypasses RLS). This prevents abuse from unauthenticated clients flooding the table.
 
 ### Table: `cafe_monthly_stats`
 
@@ -79,11 +80,11 @@ create table cafe_monthly_stats (
   outbound_clicks integer default 0,
   shares integer default 0,
   avg_view_duration numeric default 0,
-  bounce_rate numeric default 0,
+  bounce_rate numeric default 0,          -- derived from cafe_view_duration events where duration < 10s
   unique_visitors integer default 0,
   repeat_visitors integer default 0,
   top_filters_missed jsonb default '[]',     -- [{filter, value, count}]
-  competitor_cafes jsonb default '[]',        -- [{cafe_id, co_view_count}]
+  competitor_cafes jsonb default '[]',       -- [{cafe_id, co_view_count}]
   visitor_languages jsonb default '{}',       -- {ko: 45, en: 30, ...}
   visitor_devices jsonb default '{}',         -- {mobile: 60, desktop: 40}
   peak_search_hours jsonb default '[]',       -- [{hour, count}]
@@ -93,7 +94,7 @@ create table cafe_monthly_stats (
   new_favorites_count integer default 0,
   roulette_appearances integer default 0,
   roulette_accepts integer default 0,
-  unique constraint (cafe_id, month)
+  UNIQUE (cafe_id, month)
 );
 
 create index idx_monthly_stats_cafe on cafe_monthly_stats(cafe_id);
@@ -111,7 +112,7 @@ create table cafe_owners (
   cafe_id uuid references cafes(id) on delete cascade not null,
   role text not null default 'owner' check (role in ('owner', 'manager')),
   created_at timestamptz default now(),
-  unique (user_id, cafe_id)
+  UNIQUE (user_id, cafe_id)
 );
 
 create index idx_cafe_owners_user on cafe_owners(user_id);
@@ -120,14 +121,13 @@ create index idx_cafe_owners_cafe on cafe_owners(cafe_id);
 
 ### Profile update
 
-Add `is_pro boolean default false` to `profiles` table.
+Add `is_pro boolean default false` to `profiles` table. This is a billing/subscription flag separate from `cafe_owners` — a user must have `is_pro = true` AND an entry in `cafe_owners` to access the pro dashboard. `is_pro` gates the subscription, `cafe_owners` gates which cafes they can see stats for.
 
 ### RLS Policies
 
 ```sql
--- analytics_events: insert only (no read for regular users, admin can read all)
+-- analytics_events: no public access. Inserts via service role (server action). Admin read only.
 alter table analytics_events enable row level security;
-create policy "Anyone can insert events" on analytics_events for insert with check (true);
 create policy "Admin can read all events" on analytics_events for select using (
   exists (select 1 from profiles where id = auth.uid() and is_moderator = true)
 );
@@ -157,10 +157,9 @@ create policy "Admin can manage" on cafe_owners for all using (
 
 | Event Type | event_data | Description |
 |---|---|---|
-| `page_view` | `{path, referrer}` | Every page navigation |
+| `page_view` | `{path, referrer}` | Every page navigation. Intentional duplication with Vercel Analytics to enable user/cafe joins in Supabase. |
 | `cafe_view` | `{cafe_id, slug, source: "map"\|"list"\|"roulette"\|"similar"}` | Cafe detail page opened |
-| `cafe_view_duration` | `{cafe_id, duration_seconds, scroll_depth_percent}` | Sent on page leave |
-| `cafe_bounce` | `{cafe_id, time_on_page, last_section_viewed}` | Left quickly (<10s) |
+| `cafe_view_duration` | `{cafe_id, duration_seconds, scroll_depth_percent}` | Sent on page leave. Bounce rate derived from events where `duration_seconds < 10`. |
 
 ### Search & Filters
 
@@ -176,15 +175,13 @@ create policy "Admin can manage" on cafe_owners for all using (
 | Event Type | event_data | Description |
 |---|---|---|
 | `marker_click` | `{cafe_id, zoom_level}` | Clicked cafe marker |
-| `map_viewport` | `{center_lat, center_lng, zoom, visible_cafes_count}` | Viewport settled |
-| `map_zoom` | `{from_level, to_level}` | Zoom change |
-| `map_pan` | `{center_lat, center_lng}` | Map panned to new center |
+| `map_viewport` | `{center_lat, center_lng, zoom, visible_cafes_count}` | Viewport settled after zoom or pan. Replaces separate zoom/pan events — captures the final state of any map interaction. |
 
 ### Funnel & Conversion
 
 | Event Type | event_data | Description |
 |---|---|---|
-| `cafe_impression` | `{cafe_id, context: "list"\|"map"\|"roulette", position_in_list}` | Cafe visible on screen |
+| `cafe_impression` | `{cafe_ids: [...], context: "list"\|"map"\|"roulette"}` | Batch of cafes visible on screen. Deduplicated per session (each cafe fires once per session). Uses IntersectionObserver. |
 | `directions_click` | `{cafe_id, source: "detail"\|"map_popup"}` | Clicked directions CTA |
 | `cta_click` | `{cafe_id, cta_type: "website"\|"social"\|"phone"}` | Clicked non-directions CTA |
 | `outbound_click` | `{cafe_id, url, link_type: "instagram"\|"naver"\|"website"}` | Clicked external link |
@@ -203,9 +200,10 @@ create policy "Admin can manage" on cafe_owners for all using (
 
 | Event Type | event_data | Description |
 |---|---|---|
-| `cafe_compare_session` | `{cafes_viewed: [...], chosen: id}` | Session cafe comparison |
-| `filter_miss` | `{cafe_id, filter_name, filter_value}` | Cafe didn't match active filter |
-| `repeat_view` | `{cafe_id, view_count, days_between}` | Returning to same cafe page |
+| `cafe_compare_session` | `{cafes_viewed: [...], selected: id\|null}` | Fired on session end (beforeunload) or after 30min inactivity. `selected` = cafe where user clicked directions or added to favorites. `null` if no conversion action taken. |
+| `repeat_view` | `{cafe_id, view_count, days_between}` | Returning to same cafe page. Computed by checking previous `cafe_view` events for this user/session. |
+
+Note: `filter_miss` has been removed — it requires the client to know which filters excluded which cafes, which is architecturally complex when filtering happens server-side. The same insight can be derived during monthly aggregation by cross-referencing popular filter combinations with cafe attributes.
 
 ### Roulette
 
@@ -239,9 +237,9 @@ interface AnalyticsHook {
   // Specialized hooks (composed internally)
   usePageView(): void;                              // auto page_view on route change
   useMapTracking(): MapTrackingHandlers;             // debounced map events
-  useCafeViewTracking(cafeId: string): void;         // duration + scroll + bounce
-  useImpressionTracking(cafeId: string): RefObject;  // intersection observer
-  useCompareSession(): void;                         // accumulates cafes viewed
+  useCafeViewTracking(cafeId: string): void;         // duration + scroll depth
+  useImpressionTracking(): RefObject;                // batched intersection observer
+  useCompareSession(): void;                         // accumulates cafes viewed, fires on session end
 }
 ```
 
@@ -249,7 +247,7 @@ interface AnalyticsHook {
 
 1. `track()` checks consent cookie
 2. If analytics consent: sends to Vercel (`track()` from `@vercel/analytics`) + Supabase (server action)
-3. Session ID generated on mount, stored in `sessionStorage`
+3. Session ID generated on mount via `crypto.randomUUID()`, stored in `sessionStorage` (per-tab — intentional, two tabs = two sessions for accurate tracking)
 4. Browser language + device type captured once per session
 5. Location (if consented) attached to events
 
@@ -272,7 +270,7 @@ async function trackEvent(event: {
 }): Promise<void>
 ```
 
-- Inserts into `analytics_events`
+- Uses **service role client** to insert into `analytics_events` (bypasses RLS)
 - Attaches `user_id` from auth session (if logged in)
 - Fire-and-forget (don't await on client for UX)
 
@@ -289,8 +287,9 @@ Calculates user taste profile on-demand from:
 3. **Most viewed cafes** (weight: 1) — implicit interest via `analytics_events`
 
 Returns weighted average scores (0-10) for each dimension:
-- coffee, wifi, price_value, quietness, seating, comfort, food, lighting, outlets
-- Plus boolean tendencies: pet_friendly, laptop_friendly
+- drinks, service, price_value, quietness, seating, comfort, food, lighting, aesthetic
+
+Plus boolean tendencies: pet_friendly, has_wifi, has_power_outlets, is_laptop_friendly, has_parking
 
 Can be upgraded to a materialized table (`user_preferences`) later if performance requires it.
 
@@ -314,8 +313,8 @@ Runs on the 1st of each month. For each cafe:
 
 1. Query `analytics_events` for the previous month
 2. Aggregate all KPIs (impressions, clicks, directions, shares, etc.)
-3. Calculate CTR, bounce rate, avg view duration
-4. Identify top missed filters, competitor cafes, visitor languages/devices
+3. Calculate CTR, bounce rate (from `cafe_view_duration` where `duration < 10s`), avg view duration
+4. Identify top missed filters (cross-reference popular filters with cafe attributes), competitor cafes, visitor languages/devices
 5. Calculate district rank
 6. Insert/upsert into `cafe_monthly_stats`
 
@@ -330,8 +329,8 @@ Runs on the 1st of each month. For each cafe:
 
 ### Prepared in this implementation:
 - `cafe_owners` table with RLS
-- `is_pro` field on `profiles`
-- RLS on `cafe_monthly_stats` restricting to cafe owners
+- `is_pro` field on `profiles` (billing/subscription flag)
+- RLS on `cafe_monthly_stats` restricting to cafe owners with pro status
 
 ### Out of scope (future):
 - `/pro` route with dashboard UI
@@ -346,8 +345,8 @@ Runs on the 1st of each month. For each cafe:
 - **No exact coordinates stored server-side** — rounded to 3 decimals (~110m)
 - **Anonymous tracking** — `user_id` is nullable, anonymous users get session-level tracking only
 - **Consent-gated** — all non-essential tracking requires explicit consent
-- **Data retention** — `analytics_events` can be pruned after aggregation into monthly stats (policy TBD)
-- **User deletion** — `on delete set null` on `user_id` preserves anonymous aggregate data
+- **Data retention** — raw `analytics_events` retained for 13 months, then pruned (1 month buffer after final monthly aggregation that references them). Pruning via `pg_cron` monthly job: `DELETE FROM analytics_events WHERE created_at < now() - interval '13 months'`
+- **User deletion** — `on delete set null` on `user_id` preserves anonymous aggregate data. Admin function `delete_user_analytics(user_id)` available for full GDPR erasure requests
 - **GDPR export** — events can be queried by `user_id` for data export requests
 
 ---
@@ -358,7 +357,7 @@ Runs on the 1st of each month. For each cafe:
 - [x] Cookie consent revamp (granular toggles)
 - [x] `analytics_events` table + RLS
 - [x] `useAnalytics()` hook with consent checking
-- [x] All event tracking (30 event types)
+- [x] All event tracking (27 event types)
 - [x] Geolocation with consent
 - [x] Browser language + device type detection
 - [x] Implicit preferences RPC
@@ -366,10 +365,10 @@ Runs on the 1st of each month. For each cafe:
 - [x] `cafe_monthly_stats` table
 - [x] `cafe_owners` table + `is_pro` profile field
 - [x] Monthly aggregation cron job
+- [x] Data retention policy (13 months)
 
 ### Future (Out of Scope)
 - [ ] Pro dashboard UI with line charts
 - [ ] "Recent searches" UI component
 - [ ] Realtime presence (WebSocket)
-- [ ] Data retention/pruning policy
 - [ ] Admin UI for cafe owner management
