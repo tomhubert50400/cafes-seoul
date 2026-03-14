@@ -6,32 +6,8 @@ const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
 
 const nextConfig: NextConfig = {
   images: {
-    qualities: [75, 90, 95],
-    formats: ['image/avif', 'image/webp'],
-    remotePatterns: [
-      ...(supabaseHostname
-        ? [{
-            protocol: 'https' as const,
-            hostname: supabaseHostname,
-            pathname: '/storage/v1/object/public/**',
-          }]
-        : []),
-      {
-        protocol: 'https',
-        hostname: 'flagcdn.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.kakaocdn.net',
-        pathname: '/**',
-      },
-    ],
+    loader: 'custom',
+    loaderFile: './src/lib/supabase-image-loader.ts',
   },
   async headers() {
     return [
