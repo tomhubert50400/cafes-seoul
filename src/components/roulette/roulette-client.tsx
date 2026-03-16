@@ -91,8 +91,8 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
     let result = filterCafes(cafes, filters, selectedStation);
 
     // Apply favorites filter
-    if (filters?.showFavoritesOnly && favoriteIds?.length) {
-      result = result.filter((cafe) => favoriteIds.includes(cafe.id));
+    if (filters?.showFavoritesOnly) {
+      result = result.filter((cafe) => favoriteIds?.includes(cafe.id) ?? false);
     }
 
     const hasDistricts = selectedDistrictIds.length > 0;
