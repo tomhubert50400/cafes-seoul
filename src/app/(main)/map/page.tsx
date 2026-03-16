@@ -102,6 +102,13 @@ async function MapContent() {
   ]);
   const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
 
+  // DEBUG: log favorites data server-side
+  console.log('[MAP DEBUG] user:', user?.id ?? 'null');
+  console.log('[MAP DEBUG] favoritesResult:', JSON.stringify(favoritesResult));
+  console.log('[MAP DEBUG] favoriteIds:', JSON.stringify(favoriteIds));
+  console.log('[MAP DEBUG] cafes count:', cafes.length);
+  console.log('[MAP DEBUG] first 3 cafe ids:', cafes.slice(0, 3).map(c => c.id));
+
   return (
     <>
       <div className="absolute inset-0 w-full h-full">
