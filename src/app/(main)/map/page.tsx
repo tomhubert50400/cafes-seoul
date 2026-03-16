@@ -29,9 +29,8 @@ const getCachedCafes = unstable_cache(
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    const { data, error } = await supabase
-      .from('cafes')
-      .select(`
+    // Supabase defaults to 1000 rows max — fetch all active cafes
+    const selectQuery = `
         id, name, slug, address, district_id,
         latitude, longitude,
         overall_rating, total_ratings,
@@ -41,8 +40,45 @@ const getCachedCafes = unstable_cache(
         has_wifi, has_power_outlets, is_pet_friendly, is_laptop_friendly, has_parking,
         operating_hours,
         photos(storage_path, upvote_count, status)
-      `)
-      .eq('status', 'active');
+    `;
+
+    // Fetch in batches of 1000 to get all cafes
+    const PAGE_SIZE = 1000;
+    let allData: typeof firstPage.data = [];
+    const firstPage = await supabase
+      .from('cafes')
+      .select(selectQuery, { count: 'exact' })
+      .eq('status', 'active')
+      .range(0, PAGE_SIZE - 1);
+
+    if (firstPage.error) {
+      console.error('Error fetching cafes:', firstPage.error);
+      return [];
+    }
+
+    allData = firstPage.data || [];
+    const total = firstPage.count || allData.length;
+
+    // Fetch remaining pages if needed
+    if (total > PAGE_SIZE) {
+      const remaining = Math.ceil((total - PAGE_SIZE) / PAGE_SIZE);
+      const pages = await Promise.all(
+        Array.from({ length: remaining }, (_, i) => {
+          const from = (i + 1) * PAGE_SIZE;
+          return supabase
+            .from('cafes')
+            .select(selectQuery)
+            .eq('status', 'active')
+            .range(from, from + PAGE_SIZE - 1);
+        })
+      );
+      for (const page of pages) {
+        if (page.data) allData = allData.concat(page.data);
+      }
+    }
+
+    const data = allData;
+    const error = null;
 
     if (error) {
       console.error('Error fetching cafes:', error);
