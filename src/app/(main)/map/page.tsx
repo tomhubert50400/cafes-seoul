@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 import { CafeMapWrapperDynamic } from '@/components/map/cafe-map-dynamic';
 import { CafeMapSkeleton } from '@/components/map/cafe-map-skeleton';
 import { transformCafeSummary, extractPhotoData } from '@/lib/supabase/transforms';
-import { getUserFavoriteIds } from '@/lib/supabase/favorites';
+import { getFavoriteIdsAction } from '@/lib/actions/favorites';
 import { ensureUserVibes } from '@/lib/supabase/vibes';
 import { getTranslation } from '@/lib/i18n/translations';
 import { LanguageCode, DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME } from '@/lib/i18n/languages';
