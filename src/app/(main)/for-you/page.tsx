@@ -40,8 +40,7 @@ function ForYouSkeleton() {
 // Async component — data fetching happens here, streamed via Suspense
 async function ForYouContent() {
   const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
+  const { data: { user } } = await supabase.auth.getUser();
 
   let cafes;
   let favoriteIds: string[] = [];
