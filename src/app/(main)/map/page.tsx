@@ -95,11 +95,12 @@ async function MapContent() {
     : DEFAULT_LANGUAGE;
 
   // Fetch cafes, favorite IDs, and vibes in parallel
-  const [cafes, favoriteIds, userVibes] = await Promise.all([
+  const [cafes, favoritesResult, userVibes] = await Promise.all([
     getCachedCafes(),
-    user ? getUserFavoriteIds(supabase, user.id) : Promise.resolve([]),
+    user ? getFavoriteIdsAction() : Promise.resolve({ success: false, cafeIds: [] as string[] }),
     user ? ensureUserVibes(supabase, user.id, lang).catch(() => [] as UserVibe[]) : Promise.resolve([] as UserVibe[]),
   ]);
+  const favoriteIds = favoritesResult.success ? favoritesResult.cafeIds ?? [] : [];
 
   return (
     <>
