@@ -121,9 +121,7 @@ async function MapContent() {
   const supabase = await createClient();
   const cookieStore = await cookies();
 
-  // getSession() reads JWT from cookie — no network round-trip
-  const { data: { session } } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
+  const { data: { user } } = await supabase.auth.getUser();
 
   const langCookie = cookieStore.get(LANGUAGE_COOKIE_NAME);
   const lang: LanguageCode = (langCookie?.value && ['en', 'ko', 'fr', 'zh', 'vi'].includes(langCookie.value))
