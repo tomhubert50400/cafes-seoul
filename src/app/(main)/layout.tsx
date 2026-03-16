@@ -7,10 +7,7 @@ export default async function MainLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  // getSession() reads JWT from cookie — no network round-trip (fast)
-  // getUser() verifies with Supabase servers — only needed for mutations
-  const { data: { session } } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
+  const { data: { user } } = await supabase.auth.getUser();
 
   return (
     <>
