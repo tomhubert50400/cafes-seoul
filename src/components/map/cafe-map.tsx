@@ -38,6 +38,11 @@ export function CafeMap({
 }: CafeMapProps) {
   const { t, language } = useI18n();
 
+  // DEBUG: log props on every render
+  console.log('[CAFEMAP DEBUG] favoriteIds prop:', JSON.stringify(favoriteIds));
+  console.log('[CAFEMAP DEBUG] cafes count:', cafes.length);
+  console.log('[CAFEMAP DEBUG] showFavoritesOnly:', filters?.showFavoritesOnly);
+
   // Filter cafes based on active filters
   const visibleCafes = useMemo(() => {
     let result = cafes;
@@ -49,7 +54,10 @@ export function CafeMap({
 
     // Apply favorites filter
     if (filters?.showFavoritesOnly) {
+      console.log('[CAFEMAP DEBUG] filtering favorites, favoriteIds:', JSON.stringify(favoriteIds));
+      console.log('[CAFEMAP DEBUG] cafes before filter:', result.length);
       result = result.filter((cafe) => favoriteIds?.includes(cafe.id) ?? false);
+      console.log('[CAFEMAP DEBUG] cafes after filter:', result.length);
     }
 
     return result;
@@ -58,6 +66,9 @@ export function CafeMap({
   // Check if showing empty favorites state
   const showEmptyFavorites =
     filters?.showFavoritesOnly && visibleCafes.length === 0;
+  if (showEmptyFavorites) {
+    console.log('[CAFEMAP DEBUG] SHOWING EMPTY FAVORITES OVERLAY');
+  }
 
   const handleMarkerClick = useCallback((cafe: CafeSummary) => {
     onCafeSelect?.(cafe);
