@@ -98,8 +98,8 @@ async function CafeListContent({
   const cafeListParams = parseSearchParams(params);
 
   const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  const userId = session?.user?.id;
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
 
   // Fetch favorites first so we can pass IDs to the API when filter is active
   const favoritesResult = userId
