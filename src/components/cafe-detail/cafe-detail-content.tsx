@@ -335,6 +335,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                       target="_blank"
                       rel="noopener noreferrer"
                       className="break-words hover:underline"
+                      onClick={() => track('outbound_click', { cafe_id: cafe.id, url: EXTERNAL_URLS.INSTAGRAM(cafe.instagramHandle!), link_type: 'instagram' })}
                     >
                       @{cafe.instagramHandle}
                     </a>
