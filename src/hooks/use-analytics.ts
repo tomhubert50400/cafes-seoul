@@ -45,6 +45,25 @@ function getLocation(): Promise<typeof cachedLocation> {
           latitude: Math.round(pos.coords.latitude * 1000) / 1000,
           longitude: Math.round(pos.coords.longitude * 1000) / 1000,
         };
+        // Try Kakao reverse geocoding for district
+        try {
+          if (typeof window !== 'undefined' && (window as any).kakao?.maps?.services) {
+            const geocoder = new (window as any).kakao.maps.services.Geocoder();
+            geocoder.coord2RegionCode(
+              pos.coords.longitude,
+              pos.coords.latitude,
+              (result: Array<{ region_2depth_name: string }>, status: string) => {
+                if (status === (window as any).kakao.maps.services.Status.OK && result?.[0]) {
+                  cachedLocation!.district = result[0].region_2depth_name;
+                }
+                resolve(cachedLocation);
+              }
+            );
+            return; // Don't resolve yet, wait for geocoder callback
+          }
+        } catch {
+          // Kakao SDK not ready
+        }
         resolve(cachedLocation);
       },
       () => resolve(null),
