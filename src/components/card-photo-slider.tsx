@@ -22,12 +22,37 @@ export const CardPhotoSlider = memo(function CardPhotoSlider({
   sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
   priority = false,
   aspectRatio = 'aspect-[4/3]',
+  cafeId,
 }: CardPhotoSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const didSwipeRef = useRef(false);
   const isHorizontalRef = useRef<boolean | null>(null);
+  const maxViewedIndexRef = useRef(0);
+  const { track } = useAnalytics();
+
+  // Track max viewed photo index
+  useEffect(() => {
+    if (currentIndex > maxViewedIndexRef.current) {
+      maxViewedIndexRef.current = currentIndex;
+    }
+  }, [currentIndex]);
+
+  // Fire photo swipe depth analytics on unmount
+  useEffect(() => {
+    return () => {
+      if (maxViewedIndexRef.current > 0 && photoUrls.length > 1) {
+        // TODO: cafeId may not always be available — pass it as a prop from parent if needed
+        track('photo_swipe_depth', {
+          cafe_id: cafeId ?? null,
+          total_photos: photoUrls.length,
+          max_viewed: maxViewedIndexRef.current + 1,
+        });
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Attach touch listeners with { passive: false } so preventDefault works
   useEffect(() => {
