@@ -68,7 +68,7 @@ export function MapWithFilters({
       </aside>
 
       {/* Mobile Filter Button & Sheet */}
-      <div className="md:hidden absolute top-4 left-4 z-50">
+      <div className="md:hidden absolute top-[max(1rem,env(safe-area-inset-top,1rem))] left-4 z-50">
         <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
           <SheetTrigger asChild>
             <Button variant="secondary" size="default" className="shadow-md min-h-[44px] min-w-[44px]">
