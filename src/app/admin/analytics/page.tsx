@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,35 +19,33 @@ interface AnalyticsEvent {
   created_at: string;
 }
 
+// Stacked display item: either a single event or a group of page_views
+type DisplayItem =
+  | { type: 'event'; event: AnalyticsEvent }
+  | { type: 'stack'; events: AnalyticsEvent[]; count: number; lastPath: string };
+
 const EVENT_COLORS: Record<string, string> = {
-  // Navigation
   page_view: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
   cafe_view: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
   cafe_view_duration: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
-  // Search
   search_text: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
   filter_apply: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
   search_no_results: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
   station_select: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  // Map
   marker_click: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
   map_viewport: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  // Funnel
   cafe_impression: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
   directions_click: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
   cta_click: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
   outbound_click: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
   cafe_share: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
-  // Engagement
   favorite_toggle: 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200',
   rating_submit: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
   photo_view: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
   photo_swipe_depth: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
-  // Roulette
   roulette_spin: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
   roulette_accept: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
   roulette_respin: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  // Auth
   signup: 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200',
   login: 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200',
 };
@@ -60,12 +58,29 @@ function formatTime(iso: string) {
   });
 }
 
-function formatEventData(data: Record<string, unknown>): string {
+function formatEventData(
+  data: Record<string, unknown>,
+  cafeNames: Map<string, string>
+): string {
   if (!data || Object.keys(data).length === 0) return '';
   const parts: string[] = [];
   for (const [key, value] of Object.entries(data)) {
     if (value === null || value === undefined) continue;
-    if (Array.isArray(value)) {
+    // Resolve cafe_id to name
+    if (key === 'cafe_id' && typeof value === 'string') {
+      const name = cafeNames.get(value);
+      parts.push(name ? `cafe: ${name}` : `cafe_id: ${value.slice(0, 8)}…`);
+    } else if (key === 'cafe_ids' && Array.isArray(value)) {
+      const names = value
+        .slice(0, 3)
+        .map((id) => cafeNames.get(id as string) || (id as string).slice(0, 8))
+        .join(', ');
+      const suffix = value.length > 3 ? ` +${value.length - 3}` : '';
+      parts.push(`cafes: ${names}${suffix}`);
+    } else if (key === 'rejected_cafe_id' || key === 'result_cafe_id') {
+      const name = cafeNames.get(value as string);
+      parts.push(name ? `${key.replace('_id', '')}: ${name}` : `${key}: ${(value as string).slice(0, 8)}…`);
+    } else if (Array.isArray(value)) {
       parts.push(`${key}: [${value.length}]`);
     } else if (typeof value === 'object') {
       parts.push(`${key}: {...}`);
@@ -76,29 +91,80 @@ function formatEventData(data: Record<string, unknown>): string {
   return parts.join(' · ');
 }
 
+/** Stack consecutive page_view events into grouped items */
+function stackEvents(events: AnalyticsEvent[]): DisplayItem[] {
+  const items: DisplayItem[] = [];
+  let i = 0;
+  while (i < events.length) {
+    if (events[i].event_type === 'page_view') {
+      // Collect consecutive page_views
+      const group: AnalyticsEvent[] = [events[i]];
+      while (i + 1 < events.length && events[i + 1].event_type === 'page_view') {
+        i++;
+        group.push(events[i]);
+      }
+      if (group.length === 1) {
+        items.push({ type: 'event', event: group[0] });
+      } else {
+        const paths = [...new Set(group.map((e) => e.event_data?.path || e.page_path || ''))];
+        items.push({
+          type: 'stack',
+          events: group,
+          count: group.length,
+          lastPath: paths.join(' → '),
+        });
+      }
+    } else {
+      items.push({ type: 'event', event: events[i] });
+    }
+    i++;
+  }
+  return items;
+}
+
 export default function AdminAnalyticsPage() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [paused, setPaused] = useState(false);
   const [filter, setFilter] = useState<string | null>(null);
   const [stats, setStats] = useState({ total: 0, sessions: new Set<string>() });
+  const [cafeNames, setCafeNames] = useState<Map<string, string>>(new Map());
   const pausedRef = useRef(paused);
-  const eventsRef = useRef(events);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Keep refs in sync
   useEffect(() => { pausedRef.current = paused; }, [paused]);
-  useEffect(() => { eventsRef.current = events; }, [events]);
+
+  // Load cafe names for resolving IDs
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from('cafes')
+      .select('id, name')
+      .eq('status', 'active')
+      .then(({ data }) => {
+        if (data) {
+          const map = new Map<string, string>();
+          for (const cafe of data) {
+            const name = typeof cafe.name === 'string'
+              ? cafe.name
+              : (cafe.name as Record<string, string>)?.en
+                || (cafe.name as Record<string, string>)?.ko
+                || 'Unknown';
+            map.set(cafe.id, name);
+          }
+          setCafeNames(map);
+        }
+      });
+  }, []);
 
   // Load recent events + subscribe to realtime
   useEffect(() => {
     const supabase = createClient();
 
-    // Load last 50 events
     supabase
       .from('analytics_events')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(50)
+      .limit(100)
       .then(({ data }) => {
         if (data) {
           const reversed = data.reverse();
@@ -110,7 +176,6 @@ export default function AdminAnalyticsPage() {
         }
       });
 
-    // Subscribe to new inserts
     const channel = supabase
       .channel('analytics-realtime')
       .on(
@@ -119,10 +184,7 @@ export default function AdminAnalyticsPage() {
         (payload) => {
           if (pausedRef.current) return;
           const newEvent = payload.new as AnalyticsEvent;
-          setEvents((prev) => {
-            const updated = [...prev, newEvent].slice(-200); // keep last 200
-            return updated;
-          });
+          setEvents((prev) => [...prev, newEvent].slice(-200));
           setStats((prev) => ({
             total: prev.total + 1,
             sessions: new Set([...prev.sessions, newEvent.session_id]),
@@ -136,7 +198,7 @@ export default function AdminAnalyticsPage() {
     };
   }, []);
 
-  // Auto-scroll to bottom when new events arrive
+  // Auto-scroll
   useEffect(() => {
     if (!paused) {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -146,6 +208,8 @@ export default function AdminAnalyticsPage() {
   const filteredEvents = filter
     ? events.filter((e) => e.event_type === filter)
     : events;
+
+  const displayItems = useMemo(() => stackEvents(filteredEvents), [filteredEvents]);
 
   const eventTypes = [...new Set(events.map((e) => e.event_type))].sort();
 
@@ -206,57 +270,93 @@ export default function AdminAnalyticsPage() {
 
       {/* Event feed */}
       <div className="rounded-lg border bg-card max-h-[65vh] overflow-y-auto">
-        {filteredEvents.length === 0 ? (
+        {displayItems.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             {paused ? 'Paused — no new events' : 'Waiting for events...'}
           </div>
         ) : (
           <div className="divide-y">
-            {filteredEvents.map((event) => (
-              <div
-                key={event.id}
-                className="flex flex-col gap-1 px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs text-muted-foreground font-mono w-[70px] shrink-0">
-                    {formatTime(event.created_at)}
-                  </span>
-                  <Badge
-                    variant="secondary"
-                    className={`text-xs ${EVENT_COLORS[event.event_type] || ''}`}
+            {displayItems.map((item, idx) => {
+              if (item.type === 'stack') {
+                const last = item.events[item.events.length - 1];
+                return (
+                  <div
+                    key={`stack-${idx}`}
+                    className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted/50 transition-colors"
                   >
-                    {event.event_type}
-                  </Badge>
-                  {event.page_path && (
-                    <span className="text-xs text-muted-foreground truncate max-w-[200px]">
-                      {event.page_path}
+                    <span className="text-xs text-muted-foreground font-mono w-[70px] shrink-0">
+                      {formatTime(last.created_at)}
+                    </span>
+                    <Badge
+                      variant="secondary"
+                      className={`text-xs ${EVENT_COLORS.page_view}`}
+                    >
+                      page_view
+                    </Badge>
+                    <span className="text-xs font-medium text-muted-foreground">
+                      ×{item.count}
+                    </span>
+                    <span className="text-xs text-muted-foreground truncate max-w-[300px]">
+                      {item.lastPath}
+                    </span>
+                    <div className="ml-auto">
+                      {last.user_id ? (
+                        <Badge variant="outline" className="text-[10px]">user</Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-[10px] opacity-50">anon</Badge>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
+              const event = item.event;
+              return (
+                <div
+                  key={event.id}
+                  className="flex flex-col gap-1 px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs text-muted-foreground font-mono w-[70px] shrink-0">
+                      {formatTime(event.created_at)}
+                    </span>
+                    <Badge
+                      variant="secondary"
+                      className={`text-xs ${EVENT_COLORS[event.event_type] || ''}`}
+                    >
+                      {event.event_type}
+                    </Badge>
+                    {event.page_path && event.event_type !== 'page_view' && (
+                      <span className="text-xs text-muted-foreground truncate max-w-[200px]">
+                        {event.page_path}
+                      </span>
+                    )}
+                    <div className="ml-auto flex items-center gap-2">
+                      {event.device_type && (
+                        <span className="text-xs text-muted-foreground">
+                          {event.device_type}
+                        </span>
+                      )}
+                      {event.district && (
+                        <span className="text-xs text-muted-foreground">
+                          {event.district}
+                        </span>
+                      )}
+                      {event.user_id ? (
+                        <Badge variant="outline" className="text-[10px]">user</Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-[10px] opacity-50">anon</Badge>
+                      )}
+                    </div>
+                  </div>
+                  {event.event_data && Object.keys(event.event_data).length > 0 && (
+                    <span className="text-xs text-muted-foreground pl-[78px] truncate">
+                      {formatEventData(event.event_data, cafeNames)}
                     </span>
                   )}
-                  <div className="ml-auto flex items-center gap-2">
-                    {event.device_type && (
-                      <span className="text-xs text-muted-foreground">
-                        {event.device_type}
-                      </span>
-                    )}
-                    {event.district && (
-                      <span className="text-xs text-muted-foreground">
-                        {event.district}
-                      </span>
-                    )}
-                    {event.user_id ? (
-                      <Badge variant="outline" className="text-[10px]">user</Badge>
-                    ) : (
-                      <Badge variant="outline" className="text-[10px] opacity-50">anon</Badge>
-                    )}
-                  </div>
                 </div>
-                {event.event_data && Object.keys(event.event_data).length > 0 && (
-                  <span className="text-xs text-muted-foreground pl-[78px] truncate">
-                    {formatEventData(event.event_data)}
-                  </span>
-                )}
-              </div>
-            ))}
+              );
+            })}
             <div ref={bottomRef} />
           </div>
         )}
