@@ -51,6 +51,8 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
   const { t, language } = useI18n();
   const { requireAuth } = useRequireAuth();
   const router = useRouter();
+  useCafeViewTracking(cafe.id, cafe.slug, 'direct');
+  const { track } = useAnalytics();
   const district = getDistrictById(cafe.districtId);
 
   const cafeName = getLocalizedText(cafe.name, language);
