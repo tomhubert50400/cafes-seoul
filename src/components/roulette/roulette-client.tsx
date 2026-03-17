@@ -17,6 +17,7 @@ import type { CafeSummary } from '@/types/cafe';
 import type { UserVibe } from '@/types/vibes';
 import { fetchStations } from '@/lib/supabase/stations';
 import type { MetroStation } from '@/types/metro';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 type Phase = 'idle' | 'spinning' | 'result';
 
