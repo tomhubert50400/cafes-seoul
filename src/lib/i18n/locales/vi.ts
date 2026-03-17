@@ -1056,8 +1056,15 @@ const vi: Record<string, string> = {
   'forYou.signUpPrompt': 'Dang ky de nhan goi y ca nhan',
 
   // Cookie consent
-  'cookies.message': 'Trang web nay su dung cookie de luu tuy chon ngon ngu va cai thien trai nghiem cua ban.',
+  'cookies.message': 'Chung toi su dung cookie va cong nghe tuong tu de cai thien trai nghiem cua ban.',
+  'cookies.settings': 'Cai dat',
   'cookies.accept': 'Chap nhan',
+  'cookies.essential': 'Thiet yeu',
+  'cookies.essentialDesc': 'Tuy chon ngon ngu, phien',
+  'cookies.analyticsLabel': 'Phan tich',
+  'cookies.analyticsDesc': 'Thong ke su dung de cai thien trang web',
+  'cookies.locationLabel': 'Vi tri',
+  'cookies.locationDesc': 'Tim quan ca phe gan ban',
   'cookies.learnMore': 'Tim hieu them',
 };
 
