@@ -53,6 +53,7 @@ export function RatingForm({
   onCancel,
 }: RatingFormProps) {
   const { t } = useI18n();
+  const { track } = useAnalytics();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
