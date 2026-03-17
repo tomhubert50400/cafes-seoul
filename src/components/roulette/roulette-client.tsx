@@ -189,7 +189,10 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
 
   const handleSpinComplete = useCallback(() => {
     setPhase('result');
-  }, []);
+    if (selectedCafe) {
+      track('roulette_accept', { cafe_id: selectedCafe.id });
+    }
+  }, [selectedCafe, track]);
 
   const handleSpinAgain = useCallback(() => {
     if (filteredCafes.length === 0) return;
