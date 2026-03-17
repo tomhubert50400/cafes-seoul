@@ -38,6 +38,8 @@ export function CafeMap({
   selectedStation,
 }: CafeMapProps) {
   const { t, language } = useI18n();
+  const { trackMarkerClick, trackViewport } = useMapTracking();
+  const mapRef = useRef<kakao.maps.Map | null>(null);
 
   // Filter cafes based on active filters
   const visibleCafes = useMemo(() => {
