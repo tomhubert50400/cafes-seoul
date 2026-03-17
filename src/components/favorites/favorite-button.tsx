@@ -82,6 +82,7 @@ export function FavoriteButton({
         if (result.success && result.isFavorited !== undefined) {
           // Sync actual state with server response
           setIsFavorited(result.isFavorited);
+          track('favorite_toggle', { cafe_id: cafeId, action: result.isFavorited ? 'add' : 'remove' });
         } else {
           throw new Error(result.error || 'Failed to update favorite');
         }
