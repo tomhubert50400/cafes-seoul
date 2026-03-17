@@ -216,7 +216,7 @@ export function SignupForm({ oauthError }: SignupFormProps) {
       stopLoading()
       abortControllerRef.current = null
     }
-  }, [clearErrors, setFormError, startLoading, stopLoading, t])
+  }, [clearErrors, setFormError, startLoading, stopLoading, t, track])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-4" aria-busy={isLoading}>
