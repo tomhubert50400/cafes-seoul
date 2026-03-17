@@ -64,7 +64,9 @@ export function CafeMap({
 
   const handleMarkerClick = useCallback((cafe: CafeSummary) => {
     onCafeSelect?.(cafe);
-  }, [onCafeSelect]);
+    const zoom = mapRef.current?.getLevel() ?? 0;
+    trackMarkerClick(cafe.id, zoom);
+  }, [onCafeSelect, trackMarkerClick]);
 
   const handleClose = useCallback(() => {
     onCafeSelect?.(null);
