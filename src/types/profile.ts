@@ -11,6 +11,7 @@ export interface Profile {
   bio: string | null
   preferred_language: string
   is_moderator: boolean
+  is_pro: boolean
   is_verified: boolean
   total_reviews: number
   total_helpful_votes: number
