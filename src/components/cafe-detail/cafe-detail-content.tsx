@@ -348,7 +348,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   latitude={cafe.latitude}
                   longitude={cafe.longitude}
                   trigger={
-                    <Button className="mt-3 w-full">
+                    <Button className="mt-3 w-full" onClick={() => track('directions_click', { cafe_id: cafe.id, source: 'detail' })}>
                       <NavigationIcon className="mr-2 h-4 w-4" />
                       {t('map.getDirections')}
                     </Button>
