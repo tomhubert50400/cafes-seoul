@@ -197,6 +197,7 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
   const handleSpinAgain = useCallback(() => {
     if (filteredCafes.length === 0) return;
 
+    const currentCafe = selectedCafe;
     const winner = selectRandomCafe(filteredCafes, recentIdsRef.current);
     recentIdsRef.current.add(winner.id);
 
@@ -205,9 +206,12 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
       recentIdsRef.current.add(winner.id);
     }
 
+    if (currentCafe) {
+      track('roulette_respin', { rejected_cafe_id: currentCafe.id });
+    }
     setSelectedCafe(winner);
     setPhase('spinning');
-  }, [filteredCafes]);
+  }, [filteredCafes, selectedCafe, track]);
 
   const handleAdjustFilters = useCallback(() => {
     setPhase('idle');
