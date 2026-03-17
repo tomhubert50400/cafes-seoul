@@ -102,6 +102,12 @@ export function CafeMap({
         style={{ width: '100%', height: '100%', minHeight: '400px' }}
         level={mapLevel}
         onClick={() => handleClose()}
+        onCreate={(map) => { mapRef.current = map; }}
+        onIdle={(map) => {
+          const center = map.getCenter();
+          const zoom = map.getLevel();
+          trackViewport(center.getLat(), center.getLng(), zoom, visibleCafes.length);
+        }}
       >
         <MarkerClusterer
           averageCenter={true}
