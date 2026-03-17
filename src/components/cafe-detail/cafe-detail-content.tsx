@@ -320,6 +320,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                       target="_blank"
                       rel="noopener noreferrer"
                       className="break-words hover:underline"
+                      onClick={() => track('outbound_click', { cafe_id: cafe.id, url: cafe.website, link_type: 'website' })}
                     >
                       {cafe.website.replace(/^https?:\/\//, '')}
                     </a>
