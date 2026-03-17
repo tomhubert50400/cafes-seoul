@@ -12,6 +12,8 @@ interface CardPhotoSliderProps {
   sizes?: string;
   priority?: boolean;
   aspectRatio?: string;
+  /** Optional cafe ID for analytics tracking */
+  cafeId?: string;
 }
 
 export const CardPhotoSlider = memo(function CardPhotoSlider({
