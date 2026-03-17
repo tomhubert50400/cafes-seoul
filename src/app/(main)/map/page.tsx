@@ -103,7 +103,7 @@ export default function MapPage() {
   return (
     <main
       className="relative overflow-hidden"
-      style={{ height: 'calc(100vh - var(--safe-header-height))', minHeight: '500px' }}
+      style={{ height: 'calc(100dvh - var(--safe-header-height))', minHeight: '500px' }}
     >
       <Suspense fallback={
         <div className="absolute inset-0 w-full h-full">
