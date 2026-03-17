@@ -367,6 +367,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                   if (!shared) {
                     toast.success(t('share.linkCopied'));
                   }
+                  track('cafe_share', { cafe_id: cafe.id, method: shared ? 'native' : 'copy_link' });
                 }}
               >
                 <ShareIcon className="mr-2 h-4 w-4" />
