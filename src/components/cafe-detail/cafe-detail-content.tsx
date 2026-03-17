@@ -29,6 +29,8 @@ import type { ReviewWithAuthor } from '@/types/reviews';
 import type { CafeSummary } from '@/types/cafe';
 import { FavoriteButton } from '@/components/favorites/favorite-button';
 import { useRequireAuth } from '@/hooks/use-require-auth';
+import { useCafeViewTracking } from '@/hooks/use-cafe-view-tracking';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { CafeReviewsList } from '@/components/reviews/cafe-reviews-list';
 import { CafeCard } from '@/components/cafe-card';
 import { TodayHoursDisplay } from '@/components/hours/today-hours-display';
