@@ -1062,8 +1062,15 @@ const zh: Record<string, string> = {
   'forYou.signUpPrompt': '注册获取个性化推荐',
 
   // Cookie consent
-  'cookies.message': '本站使用 Cookie 保存您的语言偏好并改善您的体验。',
+  'cookies.message': '我们使用 Cookie 和类似技术来改善您的体验。',
+  'cookies.settings': '设置',
   'cookies.accept': '接受',
+  'cookies.essential': '必需',
+  'cookies.essentialDesc': '语言偏好、会话',
+  'cookies.analyticsLabel': '分析',
+  'cookies.analyticsDesc': '改善网站的使用统计',
+  'cookies.locationLabel': '位置',
+  'cookies.locationDesc': '查找附近的咖啡馆',
   'cookies.learnMore': '了解更多',
 };
 
