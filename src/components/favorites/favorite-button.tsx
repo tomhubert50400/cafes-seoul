@@ -62,6 +62,7 @@ export function FavoriteButton({
   }, []);
 
   const { requireAuth } = useRequireAuth();
+  const { track } = useAnalytics();
 
   const handleToggle = (e: React.MouseEvent) => {
     // Prevent navigation when button is inside Link
