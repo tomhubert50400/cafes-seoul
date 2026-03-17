@@ -52,6 +52,9 @@ export default async function AdminLayout({
             <TabsTrigger value="messages" asChild className="min-h-[44px]">
               <Link href="/admin/messages">Messages</Link>
             </TabsTrigger>
+            <TabsTrigger value="analytics" asChild className="min-h-[44px]">
+              <Link href="/admin/analytics">Analytics</Link>
+            </TabsTrigger>
           </TabsList>
 
           <div className="mt-6">
