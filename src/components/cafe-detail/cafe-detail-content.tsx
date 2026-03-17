@@ -358,18 +358,64 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                 />
               )}
 
-              {/* Share button — native share sheet, clipboard fallback */}
+              {/* Share button — native share sheet, Kakao Share, clipboard fallback */}
               <Button
                 variant="outline"
                 className="mt-2 w-full"
                 onClick={async () => {
                   const url = `${window.location.origin}/cafes/${cafe.slug}`;
-                  const { shareUrl } = await import('@/lib/capacitor/share');
-                  const shared = await shareUrl({ title: cafeName, url });
-                  if (!shared) {
-                    toast.success(t('share.linkCopied'));
+
+                  // 1. Try Capacitor native share (mobile apps)
+                  const { isNativePlatform } = await import('@/lib/capacitor/platform');
+                  if (isNativePlatform()) {
+                    try {
+                      const { Share } = await import('@capacitor/share');
+                      await Share.share({ title: cafeName, url, dialogTitle: cafeName });
+                      track('cafe_share', { cafe_id: cafe.id, method: 'native' });
+                      return;
+                    } catch {
+                      // User cancelled or error — fall through
+                    }
                   }
-                  track('cafe_share', { cafe_id: cafe.id, method: shared ? 'native' : 'copy_link' });
+
+                  // 2. Try Web Share API
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({ title: cafeName, url });
+                      track('cafe_share', { cafe_id: cafe.id, method: 'native' });
+                      return;
+                    } catch {
+                      // User cancelled or not supported
+                    }
+                  }
+
+                  // 3. Try Kakao Share
+                  try {
+                    const kakao = (window as any).Kakao;
+                    if (kakao?.Share) {
+                      if (!kakao.isInitialized()) {
+                        kakao.init(process.env.NEXT_PUBLIC_KAKAO_MAPS_API_KEY);
+                      }
+                      kakao.Share.sendDefault({
+                        objectType: 'feed',
+                        content: {
+                          title: cafeName,
+                          description: cafeDescription || '',
+                          imageUrl: cafe.photos?.[0]?.url || '',
+                          link: { webUrl: url, mobileWebUrl: url },
+                        },
+                      });
+                      track('cafe_share', { cafe_id: cafe.id, method: 'kakao' });
+                      return;
+                    }
+                  } catch {
+                    // Kakao SDK not available
+                  }
+
+                  // 4. Fallback: copy to clipboard
+                  await navigator.clipboard.writeText(url);
+                  toast.success(t('share.linkCopied'));
+                  track('cafe_share', { cafe_id: cafe.id, method: 'copy_link' });
                 }}
               >
                 <ShareIcon className="mr-2 h-4 w-4" />
