@@ -1062,8 +1062,15 @@ const en: Record<string, string> = {
   'forYou.signUpPrompt': 'Sign up for personalized recommendations',
 
   // Cookie consent
-  'cookies.message': 'This site uses cookies to save your language preference and improve your experience.',
+  'cookies.message': 'We use cookies and similar technologies to improve your experience.',
+  'cookies.settings': 'Settings',
   'cookies.accept': 'Accept',
+  'cookies.essential': 'Essential',
+  'cookies.essentialDesc': 'Language preference, session',
+  'cookies.analyticsLabel': 'Analytics',
+  'cookies.analyticsDesc': 'Usage statistics to improve the site',
+  'cookies.locationLabel': 'Location',
+  'cookies.locationDesc': 'Find cafes near you',
   'cookies.learnMore': 'Learn more',
 };
 
