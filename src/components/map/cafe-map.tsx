@@ -16,6 +16,7 @@ import type { CafeSummary } from '@/types/cafe';
 import type { MapFilters } from '@/types/map';
 import type { MetroStation } from '@/types/metro';
 import { walkingMinutesToMeters } from '@/types/metro';
+import { useMapTracking } from '@/hooks/use-map-tracking';
 
 interface CafeMapProps {
   cafes: CafeSummary[];
