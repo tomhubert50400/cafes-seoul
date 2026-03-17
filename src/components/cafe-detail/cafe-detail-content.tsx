@@ -401,7 +401,7 @@ export function CafeDetailContent({ cafe, reviews, textReviews = [], userRating,
                         content: {
                           title: cafeName,
                           description: cafeDescription || '',
-                          imageUrl: cafe.photos?.[0]?.url || '',
+                          imageUrl: photos?.[0]?.url || '',
                           link: { webUrl: url, mobileWebUrl: url },
                         },
                       });
