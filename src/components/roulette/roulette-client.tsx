@@ -51,6 +51,7 @@ function selectRandomCafe(
 
 export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClientProps) {
   const { t, language } = useI18n();
+  const { track } = useAnalytics();
   const [userVibes, setUserVibes] = useState<UserVibe[]>([]);
   const {
     filters,
