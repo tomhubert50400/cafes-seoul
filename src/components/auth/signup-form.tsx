@@ -42,6 +42,7 @@ interface SignupFormProps {
 
 export function SignupForm({ oauthError }: SignupFormProps) {
   const { t } = useI18n()
+  const { track } = useAnalytics()
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [touchedFields, setTouchedFields] = useState({ username: false, email: false, password: false })
