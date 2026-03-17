@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useCallback, useEffect, useRef } from 'react';
+import { useMemo, useCallback, useEffect, useRef, useState } from 'react';
 import { Map, MarkerClusterer, CustomOverlayMap, Circle } from 'react-kakao-maps-sdk';
 import Image from 'next/image';
 import Link from 'next/link';
