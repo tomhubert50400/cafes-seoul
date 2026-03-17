@@ -75,9 +75,11 @@ export default async function RootLayout({
         <CapacitorInit />
         <I18nProvider initialLanguage={initialLanguage}>
           <AuthPromptProvider>
-            <div id="main-content">
-              {children}
-            </div>
+            <AnalyticsProvider>
+              <div id="main-content">
+                {children}
+              </div>
+            </AnalyticsProvider>
             <Toaster position="top-right" richColors closeButton />
             <CookieConsent />
           </AuthPromptProvider>
