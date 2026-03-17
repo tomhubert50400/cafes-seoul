@@ -41,6 +41,7 @@ interface LoginFormProps {
 
 export function LoginForm({ oauthError }: LoginFormProps) {
   const { t } = useI18n()
+  const { track } = useAnalytics()
   const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
   const [touchedFields, setTouchedFields] = useState({ email: false, password: false })
