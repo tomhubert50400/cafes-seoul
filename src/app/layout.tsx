@@ -9,6 +9,7 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { CapacitorInit } from "@/components/capacitor-init";
 import { I18nProvider } from "@/lib/i18n";
 import { AuthPromptProvider } from "@/hooks/use-require-auth";
+import { AnalyticsProvider } from "@/components/analytics-provider";
 import { DEFAULT_LANGUAGE, LANGUAGE_COOKIE_NAME, SUPPORTED_LANGUAGES } from "@/lib/i18n/languages";
 import type { LanguageCode } from "@/lib/i18n/languages";
 import "./globals.css";
