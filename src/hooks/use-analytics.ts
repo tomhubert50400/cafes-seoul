@@ -31,12 +31,41 @@ function getBrowserLanguage(): string {
 
 type LocationData = { latitude: number; longitude: number; district?: string } | null;
 
+const LOCATION_STORAGE_KEY = 'analytics_location';
+
 let cachedLocation: LocationData = null;
 let locationPromise: Promise<LocationData> | null = null;
 
+function loadCachedLocation(): LocationData {
+  if (typeof sessionStorage === 'undefined') return null;
+  try {
+    const stored = sessionStorage.getItem(LOCATION_STORAGE_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch { /* ignore */ }
+  return null;
+}
+
+function saveCachedLocation(loc: LocationData) {
+  if (!loc || typeof sessionStorage === 'undefined') return;
+  try {
+    sessionStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify(loc));
+  } catch { /* ignore */ }
+}
+
 function getLocation(): Promise<LocationData> {
+  // 1. In-memory cache
   if (cachedLocation) return Promise.resolve(cachedLocation);
+
+  // 2. SessionStorage cache (survives page navigations within same tab)
+  const stored = loadCachedLocation();
+  if (stored) {
+    cachedLocation = stored;
+    return Promise.resolve(cachedLocation);
+  }
+
+  // 3. Already requesting
   if (locationPromise) return locationPromise;
+
   if (!hasLocationConsent()) return Promise.resolve(null);
   if (typeof navigator === 'undefined' || !navigator.geolocation) return Promise.resolve(null);
 
@@ -58,14 +87,16 @@ function getLocation(): Promise<LocationData> {
                 if (status === (window as any).kakao.maps.services.Status.OK && result?.[0]) {
                   cachedLocation!.district = result[0].region_2depth_name;
                 }
+                saveCachedLocation(cachedLocation);
                 resolve(cachedLocation);
               }
             );
-            return; // Don't resolve yet, wait for geocoder callback
+            return;
           }
         } catch {
           // Kakao SDK not ready
         }
+        saveCachedLocation(cachedLocation);
         resolve(cachedLocation);
       },
       () => resolve(null),
