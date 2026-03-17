@@ -1062,8 +1062,15 @@ const ko: Record<string, string> = {
   'forYou.signUpPrompt': '맞춤 추천을 받으려면 가입하세요',
 
   // Cookie consent
-  'cookies.message': '이 사이트는 언어 설정을 저장하고 경험을 개선하기 위해 쿠키를 사용합니다.',
+  'cookies.message': '경험을 개선하기 위해 쿠키 및 유사 기술을 사용합니다.',
+  'cookies.settings': '설정',
   'cookies.accept': '수락',
+  'cookies.essential': '필수',
+  'cookies.essentialDesc': '언어 설정, 세션',
+  'cookies.analyticsLabel': '분석',
+  'cookies.analyticsDesc': '사이트 개선을 위한 사용 통계',
+  'cookies.locationLabel': '위치',
+  'cookies.locationDesc': '근처 카페 찾기',
   'cookies.learnMore': '자세히 보기',
 };
 
