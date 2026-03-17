@@ -7,3 +7,4 @@ export * from './map';
 export * from './ratings';
 export * from './photos';
 export * from './contact';
+export * from './analytics';
