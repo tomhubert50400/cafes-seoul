@@ -124,6 +124,11 @@ export function RatingForm({
       const result = await submitRating(data);
 
       if (result.success) {
+        track('rating_submit', {
+          cafe_id: cafeId,
+          overall: data.overall,
+          dimensions_filled: Object.entries(data).filter(([k, v]) => k !== 'cafeId' && v != null && v !== 0).length,
+        });
         onSuccess?.();
       } else {
         setSubmitError(result.error || t('rating.submitError'));
