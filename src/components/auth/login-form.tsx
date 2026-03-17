@@ -227,7 +227,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
       stopLoading()
       abortControllerRef.current = null
     }
-  }, [clearErrors, rememberMe, setFormError, startLoading, stopLoading, t])
+  }, [clearErrors, rememberMe, setFormError, startLoading, stopLoading, t, track])
 
   // Map server error messages to translated versions
   const translateServerMessage = (message?: string): string | undefined => {
