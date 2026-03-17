@@ -13,6 +13,7 @@ import type { UserRating } from '@/types/ratings';
 import { Star, Loader2, Wifi, Plug, Laptop, PawPrint, Car } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useAnalytics } from '@/hooks/use-analytics';
 
 export interface CafeFeatures {
   hasWifi: boolean;
