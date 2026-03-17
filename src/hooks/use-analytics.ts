@@ -29,10 +29,12 @@ function getBrowserLanguage(): string {
   return navigator.language;
 }
 
-let cachedLocation: { latitude: number; longitude: number; district?: string } | null = null;
-let locationPromise: Promise<typeof cachedLocation> | null = null;
+type LocationData = { latitude: number; longitude: number; district?: string } | null;
 
-function getLocation(): Promise<typeof cachedLocation> {
+let cachedLocation: LocationData = null;
+let locationPromise: Promise<LocationData> | null = null;
+
+function getLocation(): Promise<LocationData> {
   if (cachedLocation) return Promise.resolve(cachedLocation);
   if (locationPromise) return locationPromise;
   if (!hasLocationConsent()) return Promise.resolve(null);
