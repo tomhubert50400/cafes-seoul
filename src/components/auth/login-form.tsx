@@ -219,6 +219,7 @@ export function LoginForm({ oauthError }: LoginFormProps) {
       if (typeof err === 'object' && err !== null && 'digest' in err &&
         typeof (err as Record<string, unknown>).digest === 'string' &&
         ((err as Record<string, unknown>).digest as string).startsWith('NEXT_REDIRECT')) {
+        track('login', { method: 'email' })
         throw err
       }
       setError(t('common.error'))
