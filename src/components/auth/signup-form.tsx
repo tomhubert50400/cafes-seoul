@@ -15,6 +15,7 @@ import { OAuthButtons } from '@/components/auth/oauth-buttons'
 import { FormLoadingOverlay } from '@/components/auth/form-loading-overlay'
 import { showAuthError } from './auth-toast'
 import { useAutofillDetection } from '@/hooks/use-autofill-detection'
+import { useAnalytics } from '@/hooks/use-analytics'
 
 interface SubmitButtonProps {
   isValid: boolean
