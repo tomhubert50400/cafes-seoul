@@ -37,18 +37,18 @@ let cachedLocation: LocationData = null;
 let locationPromise: Promise<LocationData> | null = null;
 
 function loadCachedLocation(): LocationData {
-  if (typeof sessionStorage === 'undefined') return null;
+  if (typeof localStorage === 'undefined') return null;
   try {
-    const stored = sessionStorage.getItem(LOCATION_STORAGE_KEY);
+    const stored = localStorage.getItem(LOCATION_STORAGE_KEY);
     if (stored) return JSON.parse(stored);
   } catch { /* ignore */ }
   return null;
 }
 
 function saveCachedLocation(loc: LocationData) {
-  if (!loc || typeof sessionStorage === 'undefined') return;
+  if (!loc || typeof localStorage === 'undefined') return;
   try {
-    sessionStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify(loc));
+    localStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify(loc));
   } catch { /* ignore */ }
 }
 
