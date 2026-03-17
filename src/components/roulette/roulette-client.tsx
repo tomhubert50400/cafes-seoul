@@ -184,7 +184,8 @@ export function RouletteClient({ cafes, favoriteIds, isLoggedIn }: RouletteClien
 
     setSelectedCafe(winner);
     setPhase('spinning');
-  }, [filteredCafes]);
+    track('roulette_spin', { filters_applied: activeFilterCount, result_cafe_id: winner.id });
+  }, [filteredCafes, track, activeFilterCount]);
 
   const handleSpinComplete = useCallback(() => {
     setPhase('result');
