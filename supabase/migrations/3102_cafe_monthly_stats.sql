@@ -35,14 +35,6 @@ create index idx_monthly_stats_month on cafe_monthly_stats(month);
 -- RLS
 alter table cafe_monthly_stats enable row level security;
 
-create policy "Cafe owners can read their stats"
-  on cafe_monthly_stats for select
-  using (exists (
-    select 1 from cafe_owners
-    where cafe_owners.cafe_id = cafe_monthly_stats.cafe_id
-    and cafe_owners.user_id = auth.uid()
-  ));
-
 create policy "Admin can read all stats"
   on cafe_monthly_stats for select
   using (exists (select 1 from profiles where id = auth.uid() and is_moderator = true));
