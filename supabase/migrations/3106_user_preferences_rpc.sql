@@ -3,10 +3,14 @@ create or replace function get_user_preferences(p_user_id uuid)
 returns jsonb
 language plpgsql
 security definer
+set search_path = ''
 as $$
 declare
   result jsonb;
 begin
+  if auth.uid() is null or auth.uid() is distinct from p_user_id then
+    raise exception 'Unauthorized' using errcode = '42501';
+  end if;
   with
   rated_cafes as (
     select
@@ -14,25 +18,25 @@ begin
       r.drinks, r.service, r.price_value, r.quietness,
       r.seating, r.comfort, r.food, r.lighting, r.aesthetic,
       r.pet_friendly, r.has_wifi, r.has_power_outlets, r.is_laptop_friendly, r.has_parking
-    from ratings r
+    from public.cafe_ratings r
     where r.user_id = p_user_id and r.overall >= 4
   ),
   fav_cafes as (
     select
       c.id as cafe_id, 2 as weight,
-      (c.ratings->>'drinks')::numeric as drinks,
-      (c.ratings->>'service')::numeric as service,
-      (c.ratings->>'price_value')::numeric as price_value,
-      (c.ratings->>'quietness')::numeric as quietness,
-      (c.ratings->>'seating')::numeric as seating,
-      (c.ratings->>'comfort')::numeric as comfort,
-      (c.ratings->>'food')::numeric as food,
-      (c.ratings->>'lighting')::numeric as lighting,
-      (c.ratings->>'aesthetic')::numeric as aesthetic,
+      c.rating_drinks as drinks,
+      c.rating_service as service,
+      c.rating_price_value as price_value,
+      c.rating_quietness as quietness,
+      c.rating_seating as seating,
+      c.rating_comfort as comfort,
+      c.rating_food as food,
+      c.rating_lighting as lighting,
+      c.rating_aesthetic as aesthetic,
       c.is_pet_friendly as pet_friendly,
       c.has_wifi, c.has_power_outlets, c.is_laptop_friendly, c.has_parking
-    from favorites f
-    join cafes c on c.id = f.cafe_id
+    from public.user_favorites f
+    join public.cafes c on c.id = f.cafe_id
     where f.user_id = p_user_id
   ),
   viewed_cafes as (
@@ -40,7 +44,7 @@ begin
       (ae.event_data->>'cafe_id')::uuid as cafe_id,
       1 as weight,
       count(*) as view_count
-    from analytics_events ae
+    from public.analytics_events ae
     where ae.user_id = p_user_id and ae.event_type = 'cafe_view'
     group by ae.event_data->>'cafe_id'
     order by view_count desc
@@ -49,19 +53,19 @@ begin
   viewed_with_data as (
     select
       vc.cafe_id, vc.weight,
-      (c.ratings->>'drinks')::numeric as drinks,
-      (c.ratings->>'service')::numeric as service,
-      (c.ratings->>'price_value')::numeric as price_value,
-      (c.ratings->>'quietness')::numeric as quietness,
-      (c.ratings->>'seating')::numeric as seating,
-      (c.ratings->>'comfort')::numeric as comfort,
-      (c.ratings->>'food')::numeric as food,
-      (c.ratings->>'lighting')::numeric as lighting,
-      (c.ratings->>'aesthetic')::numeric as aesthetic,
+      c.rating_drinks as drinks,
+      c.rating_service as service,
+      c.rating_price_value as price_value,
+      c.rating_quietness as quietness,
+      c.rating_seating as seating,
+      c.rating_comfort as comfort,
+      c.rating_food as food,
+      c.rating_lighting as lighting,
+      c.rating_aesthetic as aesthetic,
       c.is_pet_friendly as pet_friendly,
       c.has_wifi, c.has_power_outlets, c.is_laptop_friendly, c.has_parking
     from viewed_cafes vc
-    join cafes c on c.id = vc.cafe_id
+    join public.cafes c on c.id = vc.cafe_id
   ),
   all_sources as (
     select * from rated_cafes

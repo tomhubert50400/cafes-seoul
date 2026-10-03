@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'Unsubscribe Error | Cafes Seoul',
 }
 
-export default function UnsubscribeErrorPage({
+export default async function UnsubscribeErrorPage({
   searchParams,
 }: {
-  searchParams: { reason?: string }
+  searchParams: Promise<{ reason?: string }>
 }) {
-  const reason = searchParams.reason
+  const { reason } = await searchParams
 
   let message = 'Something went wrong while processing your request.'
   if (reason === 'missing') {

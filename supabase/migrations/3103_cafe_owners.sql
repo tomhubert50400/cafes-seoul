@@ -21,3 +21,11 @@ create policy "Users can read own entries"
 create policy "Admin can manage"
   on cafe_owners for all
   using (exists (select 1 from profiles where id = auth.uid() and is_moderator = true));
+
+create policy "Cafe owners can read their stats"
+  on cafe_monthly_stats for select
+  using (exists (
+    select 1 from cafe_owners
+    where cafe_owners.cafe_id = cafe_monthly_stats.cafe_id
+    and cafe_owners.user_id = auth.uid()
+  ));
